@@ -4,14 +4,14 @@ description: Operation groups for the Policy REST API
 author: timwarner-msft
 ms.author: timwarner
 ms.manager: rayoflores
-ms.date: 05/20/2022
+ms.date: 10/10/2022
 ms.topic: reference
 ms.service: azure-policy
 ms.devlang: rest-api
 ---
 # Policy
 
-Policy REST API surfaces operations related to [Azure Policy](https://docs.microsoft.com/azure/governance/policy) results. These operations include querying policy evaluation events and compliance states and managing policy remediations.
+Policy REST API surfaces operations related to [Azure Policy](/azure/governance/policy) results. These operations include querying policy evaluation events and compliance states and managing policy remediations.
 
 ## Operation Groups
 
@@ -31,5 +31,5 @@ Policy REST API surfaces operations related to [Azure Policy](https://docs.micro
 
 ## See also
 
-- [Azure Policy documentation](https://docs.microsoft.com/azure/governance/policy/)
-- [Azure Governance documentation](https://docs.microsoft.com/azure/governance/)
+- [Azure Policy documentation](/azure/governance/policy/)
+- [Azure Governance documentation](/azure/governance/)

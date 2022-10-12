@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.ddosprotectionplans.listbyresourcegroup
 name: List By Resource Group
 service: Virtual Networks
 groupName: Ddos Protection Plans
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets all the DDoS protection plans in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -109,6 +109,12 @@ definitions:
     description: The provisioning state of the DDoS protection plan resource.
     types:
     - uid: ProvisioningState
+  - name: properties.publicIpAddresses
+    isReadyOnly: true
+    description: The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.virtualNetworks
     isReadyOnly: true
     description: The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
@@ -163,34 +169,13 @@ definitions:
 examples:
 - name: List DDoS protection plans in resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for DdosProtectionPlans ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosProtectionPlanList.json
-           */
-          /**
-           * Sample code: List DDoS protection plans in resource group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listDDoSProtectionPlansInResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.networks().manager().serviceClient().getDdosProtectionPlans().listByResourceGroup("rg1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -200,10 +185,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosProtectionPlanList.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosProtectionPlanList.json
       func ExampleDdosProtectionPlansClient_NewListByResourceGroupPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -228,7 +213,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -238,7 +223,7 @@ examples:
        * This sample demonstrates how to Gets all the DDoS protection plans in a resource group.
        *
        * @summary Gets all the DDoS protection plans in a resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosProtectionPlanList.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosProtectionPlanList.json
        */
       async function listDDoSProtectionPlansInResourceGroup() {
         const subscriptionId = "subid";
@@ -255,7 +240,7 @@ examples:
       listDDoSProtectionPlansInResourceGroup().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -269,6 +254,11 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "publicIpAddresses": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip"
+                }
+              ],
               "virtualNetworks": [
                 {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet"
@@ -284,6 +274,11 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "publicIpAddresses": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip"
+                }
+              ],
               "virtualNetworks": [
                 {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet"

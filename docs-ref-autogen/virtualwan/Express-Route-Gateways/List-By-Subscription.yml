@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.expressroutegateways.listbysubscription
 name: List By Subscription
 service: Virtual WAN
 groupName: Express Route Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Lists ExpressRoute gateways under a given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,10 @@ definitions:
     description: The Virtual Hub where the ExpressRoute gateway is or will be deployed.
     types:
     - uid: VirtualHubId
+  - name: properties.allowNonVirtualWanTraffic
+    description: Configures this gateway to accept traffic from non Virtual WAN networks.
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -167,6 +171,10 @@ definitions:
     description: Enable FastPath to vWan Firewall hub.
     types:
     - uid: boolean
+  - name: properties.enablePrivateLinkFastPath
+    description: Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled.
+    types:
+    - uid: boolean
   - name: properties.routingConfiguration
     description: The Routing Configuration indicating the associated and propagated route tables on this connection.
     types:
@@ -235,6 +243,14 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+  - name: inboundRouteMap
+    description: The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+    types:
+    - uid: SubResource
+  - name: outboundRouteMap
+    description: The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+    types:
+    - uid: SubResource
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -261,6 +277,10 @@ definitions:
   description: List of routes that control routing from VirtualHub into a virtual network connection.
   kind: object
   properties:
+  - name: staticRoutesConfig
+    description: Configuration for static routes on this HubVnetConnection.
+    types:
+    - uid: StaticRoutesConfig
   - name: staticRoutes
     description: List of all Static Routes.
     types:
@@ -272,6 +292,19 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+- name: StaticRoutesConfig
+  description: Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection.
+  kind: object
+  properties:
+  - name: propagateStaticRoutes
+    isReadyOnly: true
+    description: Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+    types:
+    - uid: boolean
+  - name: vnetLocalRouteOverrideCriteria
+    description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+    types:
+    - uid: VnetLocalRouteOverrideCriteria
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -289,42 +322,26 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VnetLocalRouteOverrideCriteria
+  description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet.
+  kind: enum
+  properties:
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
 examples:
 - name: ExpressRouteGatewayListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteGateways?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteGateways?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteGateways?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteGateways?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for ExpressRouteGateways ListBySubscription. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteGatewayListBySubscription.json
-           */
-          /**
-           * Sample code: ExpressRouteGatewayListBySubscription.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void expressRouteGatewayListBySubscription(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getExpressRouteGateways()
-                  .listBySubscriptionWithResponse(Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -334,10 +351,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteGatewayListBySubscription.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayListBySubscription.json
       func ExampleExpressRouteGatewaysClient_ListBySubscription() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -357,7 +374,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -367,7 +384,7 @@ examples:
        * This sample demonstrates how to Lists ExpressRoute gateways under a given subscription.
        *
        * @summary Lists ExpressRoute gateways under a given subscription.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteGatewayListBySubscription.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayListBySubscription.json
        */
       async function expressRouteGatewayListBySubscription() {
         const subscriptionId = "subid";
@@ -380,7 +397,7 @@ examples:
       expressRouteGatewayListBySubscription().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -402,6 +419,7 @@ examples:
                   "min": 2
                 }
               },
+              "allowNonVirtualWanTraffic": false,
               "expressRouteConnections": [
                 {
                   "name": "connectionName",

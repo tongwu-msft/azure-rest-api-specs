@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.ddoscustompolicies.get
 name: Get
 service: Virtual Networks
 groupName: Ddos Custom Policies
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets information about the specified DDoS custom policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,17 +66,6 @@ definitions:
     description: The provisioning state of the DDoS custom policy resource.
     types:
     - uid: ProvisioningState
-  - name: properties.publicIPAddresses
-    isReadyOnly: true
-    description: The list of public IPs associated with the DDoS custom policy resource. This list is read-only.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.protocolCustomSettings
-    description: The protocol-specific DDoS policy customization parameters.
-    types:
-    - uid: ProtocolCustomSettingsFormat
-      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -127,34 +116,6 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: ProtocolCustomSettingsFormat
-  description: DDoS custom policy properties.
-  kind: object
-  properties:
-  - name: protocol
-    description: The protocol for which the DDoS protection policy is being customized.
-    types:
-    - uid: DdosCustomPolicyProtocol
-  - name: triggerRateOverride
-    description: The customized DDoS protection trigger rate.
-    types:
-    - uid: string
-  - name: sourceRateOverride
-    description: The customized DDoS protection source rate.
-    types:
-    - uid: string
-  - name: triggerSensitivityOverride
-    description: 'The customized DDoS protection trigger rate sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t. normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t. normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal traffic.'
-    types:
-    - uid: DdosCustomPolicyTriggerSensitivityOverride
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -176,71 +137,16 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: DdosCustomPolicyProtocol
-  description: The protocol for which the DDoS protection policy is being customized.
-  kind: enum
-  properties:
-  - name: Tcp
-    types:
-    - uid: string
-  - name: Udp
-    types:
-    - uid: string
-  - name: Syn
-    types:
-    - uid: string
-- name: DdosCustomPolicyTriggerSensitivityOverride
-  description: 'The customized DDoS protection trigger rate sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t. normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t. normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal traffic.'
-  kind: enum
-  properties:
-  - name: Relaxed
-    types:
-    - uid: string
-  - name: Low
-    types:
-    - uid: string
-  - name: Default
-    types:
-    - uid: string
-  - name: High
-    types:
-    - uid: string
 examples:
 - name: Get DDoS custom policy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for DdosCustomPolicies GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyGet.json
-           */
-          /**
-           * Sample code: Get DDoS custom policy.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getDDoSCustomPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getDdosCustomPolicies()
-                  .getByResourceGroupWithResponse("rg1", "test-ddos-custom-policy", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -250,10 +156,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyGet.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyGet.json
       func ExampleDdosCustomPoliciesClient_Get() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -273,7 +179,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -283,7 +189,7 @@ examples:
        * This sample demonstrates how to Gets information about the specified DDoS custom policy.
        *
        * @summary Gets information about the specified DDoS custom policy.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyGet.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyGet.json
        */
       async function getDDoSCustomPolicy() {
         const subscriptionId = "subid";
@@ -298,7 +204,7 @@ examples:
       getDDoSCustomPolicy().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -309,12 +215,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
-          "resourceGuid": "00000000-0000-0000-0000-000000000000",
-          "publicIPAddresses": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
-            }
-          ]
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
         }
       }
 security:

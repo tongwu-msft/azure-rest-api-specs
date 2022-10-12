@@ -3,14 +3,16 @@ uid: management.azure.com.networkmanager.networkmanagerdeploymentstatus.list
 name: List
 service: Network Manager
 groupName: Network Manager Deployment Status
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Post to List of Network Manager Deployment Status.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus?api-version=2022-05-01&$top={$top}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +38,12 @@ uriParameters:
   description: Client API version.
   types:
   - uid: string
+- name: $top
+  in: query
+  description: An optional query parameter which specifies the maximum number of records to be returned by the server.
+  types:
+  - uid: integer
+  format: int32
 responses:
 - name: 200 OK
   description: OK - Returns a list of deployment status.
@@ -185,7 +193,7 @@ definitions:
 examples:
 - name: NetworkManagerDeploymentStatusList
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/listDeploymentStatus?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/listDeploymentStatus?api-version=2022-05-01
     body: >-
       {
         "regions": [
@@ -201,7 +209,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/listDeploymentStatus?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/listDeploymentStatus?api-version=2022-05-01
 
       {
         "regions": [
@@ -217,43 +225,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.ConfigurationType;
-      import com.azure.resourcemanager.network.models.NetworkManagerDeploymentStatusParameter;
-      import java.util.Arrays;
-
-      /** Samples for NetworkManagerDeploymentStatusOperation List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerDeploymentStatusList.json
-           */
-          /**
-           * Sample code: NetworkManagerDeploymentStatusList.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void networkManagerDeploymentStatusList(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNetworkManagerDeploymentStatusOperations()
-                  .listWithResponse(
-                      "resoureGroupSample",
-                      "testNetworkManager",
-                      new NetworkManagerDeploymentStatusParameter()
-                          .withRegions(Arrays.asList("eastus", "westus"))
-                          .withDeploymentTypes(
-                              Arrays.asList(ConfigurationType.CONNECTIVITY, ConfigurationType.fromString("AdminPolicy")))
-                          .withSkipToken("FakeSkipTokenCode"),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -264,17 +235,17 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerDeploymentStatusList.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDeploymentStatusList.json
       func ExampleManagerDeploymentStatusClient_List() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armnetwork.NewManagerDeploymentStatusClient("subscriptionC", cred, nil)
+      	client, err := armnetwork.NewManagerDeploymentStatusClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
@@ -286,7 +257,7 @@ examples:
       			to.Ptr("eastus"),
       			to.Ptr("westus")},
       		SkipToken: to.Ptr("FakeSkipTokenCode"),
-      	}, nil)
+      	}, &armnetwork.ManagerDeploymentStatusClientListOptions{Top: nil})
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -295,7 +266,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -305,10 +276,10 @@ examples:
        * This sample demonstrates how to Post to List of Network Manager Deployment Status.
        *
        * @summary Post to List of Network Manager Deployment Status.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerDeploymentStatusList.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDeploymentStatusList.json
        */
       async function networkManagerDeploymentStatusList() {
-        const subscriptionId = "subscriptionC";
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
         const resourceGroupName = "resoureGroupSample";
         const networkManagerName = "testNetworkManager";
         const parameters = {
@@ -329,7 +300,7 @@ examples:
       networkManagerDeploymentStatusList().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

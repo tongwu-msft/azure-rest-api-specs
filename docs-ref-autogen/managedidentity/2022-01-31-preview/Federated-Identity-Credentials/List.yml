@@ -1,0 +1,252 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.managedidentity.2022-01-31-preview.federatedidentitycredentials.list
+name: List
+service: Managed Identity
+groupName: Federated Identity Credentials
+apiVersion: 2022-01-31-preview
+summary: Lists all the federated identity credentials under the specified user assigned identity.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials?api-version=2022-01-31-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials?$top={$top}&$skiptoken={$skiptoken}&api-version=2022-01-31-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Id of the Subscription to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Resource Group to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the identity resource.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skiptoken
+  in: query
+  description: A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The list of federated identity credentials for the specified user assigned identity was retrieved and returned successfully.
+  types:
+  - uid: FederatedIdentityCredentialsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: FederatedIdentityCredentialsListResult
+  description: Values returned by the List operation for federated identity credentials.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of federated identity credentials returned by the listing operation.
+    types:
+    - uid: FederatedIdentityCredential
+      isArray: true
+  - name: nextLink
+    description: The url to get the next page of results, if any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: error
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+- name: FederatedIdentityCredential
+  description: Describes a federated identity credential.
+  kind: object
+  properties:
+  - name: properties.issuer
+    description: The URL of the issuer to be trusted.
+    types:
+    - uid: string
+  - name: properties.subject
+    description: The identifier of the external identity.
+    types:
+    - uid: string
+  - name: properties.audiences
+    description: The list of audiences that can appear in the issued token.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: FederatedIdentityCredentialList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName/federatedIdentityCredentials?api-version=2022-01-31-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName/federatedIdentityCredentials?api-version=2022-01-31-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmsi_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialList.json
+      func ExampleFederatedIdentityCredentialsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmsi.NewFederatedIdentityCredentialsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rgName",
+      		"resourceName",
+      		&armmsi.FederatedIdentityCredentialsClientListOptions{Top: nil,
+      			Skiptoken: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.7.0/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the federated identity credentials under the specified user assigned identity.
+       *
+       * @summary Lists all the federated identity credentials under the specified user assigned identity.
+       * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialList.json
+       */
+      async function federatedIdentityCredentialList() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rgName";
+        const resourceName = "resourceName";
+        const credential = new DefaultAzureCredential();
+        const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.federatedIdentityCredentials.list(
+          resourceGroupName,
+          resourceName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      federatedIdentityCredentialList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-msi_2.1.0-beta.2/sdk/msi/arm-msi/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName/federatedIdentityCredentials/ficResourceName",
+            "name": "ficResourceName",
+            "properties": {
+              "issuer": "https://oidc.prod-aks.azure.com/IssuerGUID",
+              "subject": "system:serviceaccount:ns:svcaccount",
+              "audiences": [
+                "api://AzureADTokenExchange"
+              ]
+            },
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
+          }
+        ],
+        "nextLink": "https://serviceRoot/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName/federatedIdentityCredentials?api-version=2020-11-30-preview&$skipToken=X'12345'"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Managed Identity service - Lists all the federated identity credentials under the specified user assigned identity.
+errorCodes: []

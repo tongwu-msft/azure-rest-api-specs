@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.createorupdate
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates or updates a load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -88,13 +88,13 @@ requestBody:
       isArray: true
   - name: properties.inboundNatRules
     in: body
-    description: collection of inbound NAT Rules used by a load balancer. An inbound NAT rule is used to forward traffic from a load balancer frontend to one or more instances in the backend pool. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are associated with VMSS, while inbound NAT rules are associated with individual VMs.
+    description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
     - uid: InboundNatRule
       isArray: true
   - name: properties.inboundNatPools
     in: body
-    description: Defines an port range to be used by inbound NAT Pools. Inbound NAT pools are used to define a range of NAT ports to be used by a VMSS cluster. After the creation of an inbound NAT pool, individual inbound NAT rules are automatically created for every VM in a VMSS cluster.  Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are associated with VMSS, while inbound NAT rules are associated with individual VMs.
+    description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
     - uid: InboundNatPool
       isArray: true
@@ -423,6 +423,10 @@ definitions:
     description: The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure.
     types:
     - uid: integer
+  - name: properties.probeThreshold
+    description: The number of consecutive successful or failed probes in order to allow or deny traffic from being delivered to this endpoint. After failing the number of consecutive probes equal to this value, the endpoint will be taken out of rotation and require the same number of successful consecutive probes to be placed back in rotation.
+    types:
+    - uid: integer
   - name: properties.requestPath
     description: The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value.
     types:
@@ -657,12 +661,12 @@ definitions:
     - uid: Probe
       isArray: true
   - name: properties.inboundNatRules
-    description: collection of inbound NAT Rules used by a load balancer. An inbound NAT rule is used to forward traffic from a load balancer frontend to one or more instances in the backend pool. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are associated with VMSS, while inbound NAT rules are associated with individual VMs.
+    description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
     - uid: InboundNatRule
       isArray: true
   - name: properties.inboundNatPools
-    description: Defines an port range to be used by inbound NAT Pools. Inbound NAT pools are used to define a range of NAT ports to be used by a VMSS cluster. After the creation of an inbound NAT pool, individual inbound NAT rules are automatically created for every VM in a VMSS cluster.  Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are associated with VMSS, while inbound NAT rules are associated with individual VMs.
+    description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
     - uid: InboundNatPool
       isArray: true
@@ -1816,18 +1820,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2320,6 +2320,10 @@ definitions:
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
+    types:
+    - uid: boolean
   - name: properties.enableIPForwarding
     description: Indicates whether IP forwarding is enabled on this network interface.
     types:
@@ -2648,14 +2652,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -3127,7 +3134,7 @@ definitions:
 examples:
 - name: Create load balancer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -3179,7 +3186,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -3205,7 +3213,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -3257,7 +3265,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -3283,109 +3292,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreate.json
-           */
-          /**
-           * Sample code: Create load balancer.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancer(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(Arrays.asList(new BackendAddressPoolInner().withName("be-lb")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)
-                                          .withEnableTcpReset(false)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatRules(
-                              Arrays
-                                  .asList(
-                                      new InboundNatRuleInner()
-                                          .withName("in-nat-rule")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPort(3389)
-                                          .withBackendPort(3389)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)
-                                          .withEnableTcpReset(false)))
-                          .withInboundNatPools(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -3396,11 +3302,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreate.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreate.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancer() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -3472,6 +3378,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -3490,7 +3397,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -3500,7 +3407,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreate.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreate.json
        */
       async function createLoadBalancer() {
         const subscriptionId = "subid";
@@ -3559,6 +3466,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -3577,7 +3485,7 @@ examples:
       createLoadBalancer().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3676,6 +3584,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -3804,6 +3713,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -3837,7 +3747,7 @@ examples:
       }
 - name: Create load balancer with Standard SKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -3891,7 +3801,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -3917,7 +3828,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -3971,7 +3882,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -3997,111 +3909,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateStandardSku.json
-           */
-          /**
-           * Sample code: Create load balancer with Standard SKU.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithStandardSKU(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.STANDARD))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(Arrays.asList(new BackendAddressPoolInner().withName("be-lb")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatRules(
-                              Arrays
-                                  .asList(
-                                      new InboundNatRuleInner()
-                                          .withName("in-nat-rule")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPort(3389)
-                                          .withBackendPort(3389)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -4112,11 +3919,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateStandardSku.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateStandardSku() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateStandardSku.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithStandardSku() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -4187,6 +3994,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -4208,7 +4016,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -4218,7 +4026,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateStandardSku.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateStandardSku.json
        */
       async function createLoadBalancerWithStandardSku() {
         const subscriptionId = "subid";
@@ -4276,6 +4084,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -4295,7 +4104,7 @@ examples:
       createLoadBalancerWithStandardSku().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4393,6 +4202,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -4520,6 +4330,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -4553,7 +4364,7 @@ examples:
       }
 - name: Create load balancer with Global Tier and one regional load balancer in its backend pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -4619,7 +4430,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ]
@@ -4628,7 +4440,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -4694,7 +4506,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ]
@@ -4703,113 +4516,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerBackendAddress;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuTier;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGlobalTier.json
-           */
-          /**
-           * Sample code: Create load balancer with Global Tier and one regional load balancer in its backend pool.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(
-                              new LoadBalancerSku()
-                                  .withName(LoadBalancerSkuName.STANDARD)
-                                  .withTier(LoadBalancerSkuTier.GLOBAL))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(
-                              Arrays
-                                  .asList(
-                                      new BackendAddressPoolInner()
-                                          .withName("be-lb")
-                                          .withLoadBalancerBackendAddresses(
-                                              Arrays
-                                                  .asList(
-                                                      new LoadBalancerBackendAddress()
-                                                          .withName("regional-lb1-address")
-                                                          .withLoadBalancerFrontendIpConfiguration(
-                                                              new SubResource()
-                                                                  .withId(
-                                                                      "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"))))))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(false)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx"))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -4820,11 +4526,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGlobalTier.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGlobalTier() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGlobalTier.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -4889,6 +4595,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -4911,7 +4618,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -4921,7 +4628,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGlobalTier.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGlobalTier.json
        */
       async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
         const subscriptionId = "subid";
@@ -4976,6 +4683,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -4995,7 +4703,7 @@ examples:
       createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5104,6 +4812,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -5221,6 +4930,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -5233,7 +4943,7 @@ examples:
       }
 - name: Create load balancer with Frontend IP in Zone 1
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -5290,7 +5000,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -5316,7 +5027,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -5373,7 +5084,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -5399,112 +5111,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithZones.json
-           */
-          /**
-           * Sample code: Create load balancer with Frontend IP in Zone 1.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithFrontendIPInZone1(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.STANDARD))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withZones(Arrays.asList("1"))
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(Arrays.asList(new BackendAddressPoolInner().withName("be-lb")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatRules(
-                              Arrays
-                                  .asList(
-                                      new InboundNatRuleInner()
-                                          .withName("in-nat-rule")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPort(3389)
-                                          .withBackendPort(3389)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -5515,11 +5121,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithZones.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithZones() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithZones.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithFrontendIpInZone1() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -5592,6 +5198,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -5613,7 +5220,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -5623,7 +5230,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithZones.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithZones.json
        */
       async function createLoadBalancerWithFrontendIPInZone1() {
         const subscriptionId = "subid";
@@ -5682,6 +5289,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -5701,7 +5309,7 @@ examples:
       createLoadBalancerWithFrontendIPInZone1().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5802,6 +5410,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -5932,6 +5541,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -5965,7 +5575,7 @@ examples:
       }
 - name: Create load balancer with inbound nat pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -6014,7 +5624,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -6063,84 +5673,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.InboundNatPool;
-      import com.azure.resourcemanager.network.models.IpAllocationMethod;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithInboundNatPool.json
-           */
-          /**
-           * Sample code: Create load balancer with inbound nat pool.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithInboundNatPool(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.STANDARD))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withId(
-                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test")
-                                          .withName("test")
-                                          .withZones(Arrays.asList())
-                                          .withPrivateIpAllocationMethod(IpAllocationMethod.DYNAMIC)
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"))))
-                          .withBackendAddressPools(Arrays.asList())
-                          .withLoadBalancingRules(Arrays.asList())
-                          .withProbes(Arrays.asList())
-                          .withInboundNatRules(Arrays.asList())
-                          .withInboundNatPools(
-                              Arrays
-                                  .asList(
-                                      new InboundNatPool()
-                                          .withId(
-                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test")
-                                          .withName("test")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPortRangeStart(8080)
-                                          .withFrontendPortRangeEnd(8085)
-                                          .withBackendPort(8888)
-                                          .withIdleTimeoutInMinutes(10)
-                                          .withEnableFloatingIp(true)
-                                          .withEnableTcpReset(true)))
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -6151,11 +5683,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithInboundNatPool.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithInboundNatPool() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithInboundNatPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithInboundNatPool() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -6219,7 +5751,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -6229,7 +5761,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithInboundNatPool.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithInboundNatPool.json
        */
       async function createLoadBalancerWithInboundNatPool() {
         const subscriptionId = "subid";
@@ -6284,7 +5816,7 @@ examples:
       createLoadBalancerWithInboundNatPool().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -6414,7 +5946,7 @@ examples:
       }
 - name: Create load balancer with outbound rules
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -6469,7 +6001,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -6510,7 +6043,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -6565,7 +6098,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -6606,129 +6140,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.OutboundRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerOutboundRuleProtocol;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithOutboundRules.json
-           */
-          /**
-           * Sample code: Create load balancer with outbound rules.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithOutboundRules(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.STANDARD))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withPublicIpAddress(
-                                              new PublicIpAddressInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"))))
-                          .withBackendAddressPools(Arrays.asList(new BackendAddressPoolInner().withName("be-lb")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)
-                                          .withDisableOutboundSnat(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatRules(
-                              Arrays
-                                  .asList(
-                                      new InboundNatRuleInner()
-                                          .withName("in-nat-rule")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPort(3389)
-                                          .withBackendPort(3389)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(
-                              Arrays
-                                  .asList(
-                                      new OutboundRuleInner()
-                                          .withName("rule1")
-                                          .withFrontendIpConfigurations(
-                                              Arrays
-                                                  .asList(
-                                                      new SubResource()
-                                                          .withId(
-                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb")))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProtocol(LoadBalancerOutboundRuleProtocol.ALL))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -6739,11 +6150,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithOutboundRules.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithOutboundRules() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithOutboundRules.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithOutboundRules() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -6828,6 +6239,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -6849,7 +6261,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -6859,7 +6271,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithOutboundRules.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithOutboundRules.json
        */
       async function createLoadBalancerWithOutboundRules() {
         const subscriptionId = "subid";
@@ -6931,6 +6343,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -6950,7 +6363,7 @@ examples:
       createLoadBalancerWithOutboundRules().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -7059,6 +6472,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -7220,6 +6634,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -7276,7 +6691,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Consumer configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -7333,7 +6748,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -7359,7 +6775,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -7416,7 +6832,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -7442,116 +6859,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
-           */
-          /**
-           * Sample code: Create load balancer with Gateway Load Balancer Consumer configured.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithGatewayLoadBalancerConsumerConfigured(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.STANDARD))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))
-                                          .withGatewayLoadBalancer(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"))))
-                          .withBackendAddressPools(Arrays.asList(new BackendAddressPoolInner().withName("be-lb")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(80)
-                                          .withBackendPort(80)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatRules(
-                              Arrays
-                                  .asList(
-                                      new InboundNatRuleInner()
-                                          .withName("in-nat-rule")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withProtocol(TransportProtocol.TCP)
-                                          .withFrontendPort(3389)
-                                          .withBackendPort(3389)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -7562,11 +6869,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerConsumer() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -7640,6 +6947,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -7661,7 +6969,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -7671,7 +6979,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
        */
       async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
         const subscriptionId = "subid";
@@ -7732,6 +7040,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -7751,7 +7060,7 @@ examples:
       createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -7852,6 +7161,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -7982,6 +7292,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -8015,7 +7326,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Provider configured with one Backend Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -8086,7 +7397,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -8097,7 +7409,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -8168,7 +7480,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -8179,119 +7492,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.GatewayLoadBalancerTunnelInterface;
-      import com.azure.resourcemanager.network.models.GatewayLoadBalancerTunnelInterfaceType;
-      import com.azure.resourcemanager.network.models.GatewayLoadBalancerTunnelProtocol;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
-           */
-          /**
-           * Sample code: Create load balancer with Gateway Load Balancer Provider configured with one Backend Pool.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.fromString("Premium")))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(
-                              Arrays
-                                  .asList(
-                                      new BackendAddressPoolInner()
-                                          .withName("be-lb")
-                                          .withTunnelInterfaces(
-                                              Arrays
-                                                  .asList(
-                                                      new GatewayLoadBalancerTunnelInterface()
-                                                          .withPort(15000)
-                                                          .withIdentifier(900)
-                                                          .withProtocol(GatewayLoadBalancerTunnelProtocol.VXLAN)
-                                                          .withType(GatewayLoadBalancerTunnelInterfaceType.INTERNAL),
-                                                      new GatewayLoadBalancerTunnelInterface()
-                                                          .withPort(15001)
-                                                          .withIdentifier(901)
-                                                          .withProtocol(GatewayLoadBalancerTunnelProtocol.VXLAN)
-                                                          .withType(GatewayLoadBalancerTunnelInterfaceType.INTERNAL)))))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPools(
-                                              Arrays
-                                                  .asList(
-                                                      new SubResource()
-                                                          .withId(
-                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb")))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.ALL)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(0)
-                                          .withBackendPort(0)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -8302,11 +7502,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -8378,6 +7578,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -8399,7 +7600,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -8409,7 +7610,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
        */
       async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
         const subscriptionId = "subid";
@@ -8464,6 +7665,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -8485,7 +7687,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -8599,6 +7801,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -8718,6 +7921,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -8732,7 +7936,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Provider configured with two Backend Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -8796,7 +8000,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -8807,7 +8012,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -8871,7 +8076,8 @@ examples:
                 "port": 80,
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
-                "numberOfProbes": 2
+                "numberOfProbes": 2,
+                "probeThreshold": 1
               }
             }
           ],
@@ -8882,107 +8088,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancerInner;
-      import com.azure.resourcemanager.network.fluent.models.LoadBalancingRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.ProbeInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.LoadBalancerSku;
-      import com.azure.resourcemanager.network.models.LoadBalancerSkuName;
-      import com.azure.resourcemanager.network.models.LoadDistribution;
-      import com.azure.resourcemanager.network.models.ProbeProtocol;
-      import com.azure.resourcemanager.network.models.TransportProtocol;
-      import java.util.Arrays;
-
-      /** Samples for LoadBalancers CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
-           */
-          /**
-           * Sample code: Create load balancer with Gateway Load Balancer Provider configured with two Backend Pool.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getLoadBalancers()
-                  .createOrUpdate(
-                      "rg1",
-                      "lb",
-                      new LoadBalancerInner()
-                          .withLocation("eastus")
-                          .withSku(new LoadBalancerSku().withName(LoadBalancerSkuName.fromString("Premium")))
-                          .withFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))))
-                          .withBackendAddressPools(
-                              Arrays
-                                  .asList(
-                                      new BackendAddressPoolInner().withName("be-lb1"),
-                                      new BackendAddressPoolInner().withName("be-lb2")))
-                          .withLoadBalancingRules(
-                              Arrays
-                                  .asList(
-                                      new LoadBalancingRuleInner()
-                                          .withName("rulelb")
-                                          .withFrontendIpConfiguration(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"))
-                                          .withBackendAddressPool(new SubResource())
-                                          .withBackendAddressPools(
-                                              Arrays
-                                                  .asList(
-                                                      new SubResource()
-                                                          .withId(
-                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1"),
-                                                      new SubResource()
-                                                          .withId(
-                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2")))
-                                          .withProbe(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"))
-                                          .withProtocol(TransportProtocol.ALL)
-                                          .withLoadDistribution(LoadDistribution.DEFAULT)
-                                          .withFrontendPort(0)
-                                          .withBackendPort(0)
-                                          .withIdleTimeoutInMinutes(15)
-                                          .withEnableFloatingIp(true)))
-                          .withProbes(
-                              Arrays
-                                  .asList(
-                                      new ProbeInner()
-                                          .withName("probe-lb")
-                                          .withProtocol(ProbeProtocol.HTTP)
-                                          .withPort(80)
-                                          .withIntervalInSeconds(15)
-                                          .withNumberOfProbes(2)
-                                          .withRequestPath("healthcheck.aspx")))
-                          .withInboundNatPools(Arrays.asList())
-                          .withOutboundRules(Arrays.asList()),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -8993,11 +8098,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
-      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -9063,6 +8168,7 @@ examples:
       						IntervalInSeconds: to.Ptr[int32](15),
       						NumberOfProbes:    to.Ptr[int32](2),
       						Port:              to.Ptr[int32](80),
+      						ProbeThreshold:    to.Ptr[int32](1),
       						RequestPath:       to.Ptr("healthcheck.aspx"),
       						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
       					},
@@ -9084,7 +8190,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -9094,7 +8200,7 @@ examples:
        * This sample demonstrates how to Creates or updates a load balancer.
        *
        * @summary Creates or updates a load balancer.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
        */
       async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
         const subscriptionId = "subid";
@@ -9145,6 +8251,7 @@ examples:
               intervalInSeconds: 15,
               numberOfProbes: 2,
               port: 80,
+              probeThreshold: 1,
               requestPath: "healthcheck.aspx",
               protocol: "Http",
             },
@@ -9166,7 +8273,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -9299,6 +8406,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
@@ -9437,6 +8545,7 @@ examples:
                 "requestPath": "healthcheck.aspx",
                 "intervalInSeconds": 15,
                 "numberOfProbes": 2,
+                "probeThreshold": 1,
                 "loadBalancingRules": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"

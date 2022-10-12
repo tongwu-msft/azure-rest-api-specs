@@ -3,14 +3,14 @@ uid: management.azure.com.avs.addons.get
 name: Get
 service: AVS
 groupName: Addons
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Get an addon by name in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}?api-version=2021-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -63,6 +63,7 @@ definitions:
     - uid: AddonSrmProperties
     - uid: AddonVrProperties
     - uid: AddonHcxProperties
+    - uid: AddonArcProperties
     typesTitle: AddonProperties
   - name: id
     isReadyOnly: true
@@ -172,6 +173,24 @@ definitions:
     description: The state of the addon provisioning
     types:
     - uid: AddonProvisioningState
+- name: AddonArcProperties
+  description: The properties of an Arc addon
+  kind: object
+  properties:
+  - name: vCenter
+    description: The VMware vCenter resource ID
+    types:
+    - uid: string
+  - name: addonType
+    description: The type of private cloud addon
+    types:
+    - uid: Arc
+    typesTitle: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the addon provisioning
+    types:
+    - uid: AddonProvisioningState
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -208,42 +227,24 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 examples:
 - name: Addons_Get_SRM
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2021-12-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2021-12-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Addons Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_Get_SRM.json
-           */
-          /**
-           * Sample code: Addons_Get_SRM.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsGetSRM(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.addons().getWithResponse("group1", "cloud1", "srm", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
         "name": "srm",
         "properties": {
           "addonType": "SRM",
@@ -254,39 +255,18 @@ examples:
       }
 - name: Addons_Get_VR
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2021-12-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2021-12-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Addons Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_Get_VR.json
-           */
-          /**
-           * Sample code: Addons_Get_VR.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsGetVR(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.addons().getWithResponse("group1", "cloud1", "vr", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
         "name": "vr",
         "properties": {
           "addonType": "VR",
@@ -297,80 +277,44 @@ examples:
       }
 - name: Addons_Get_HCX
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2021-12-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2021-12-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Addons Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_Get_HCX.json
-           */
-          /**
-           * Sample code: Addons_Get_HCX.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsGetHCX(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.addons().getWithResponse("group1", "cloud1", "hcx", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_Get_HCX.json
-      func ExampleAddonsClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewAddonsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx,
-      		"group1",
-      		"cloud1",
-      		"hcx",
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
         "name": "hcx",
         "properties": {
           "addonType": "HCX",
           "offer": "VMware MaaS Cloud Provider (Enterprise)",
+          "provisioningState": "Succeeded"
+        },
+        "type": "Microsoft.AVS/privateClouds/addons"
+      }
+- name: Addons_Get_ArcReg
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc?api-version=2022-05-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc",
+        "name": "arc",
+        "properties": {
+          "addonType": "Arc",
+          "vCenter": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter",
           "provisioningState": "Succeeded"
         },
         "type": "Microsoft.AVS/privateClouds/addons"

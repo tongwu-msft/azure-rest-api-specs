@@ -1,0 +1,296 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policy.attestations.getatsubscription
+name: Get At Subscription
+service: Policy
+groupName: Attestations
+apiVersion: 2022-09-01
+summary: Gets an existing attestation at subscription scope.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}?api-version=2022-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: attestationName
+  in: path
+  isRequired: true
+  description: The name of the attestation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The retrieved attestation.
+  types:
+  - uid: Attestation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Attestation
+  description: An attestation resource.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.policyAssignmentId
+    description: The resource ID of the policy assignment that the attestation is setting the state for.
+    types:
+    - uid: string
+  - name: properties.policyDefinitionReferenceId
+    description: The policy definition reference ID from a policy set definition that the attestation is setting the state for. If the policy assignment assigns a policy set definition the attestation can choose a definition within the set definition with this property or omit this and set the state for the entire set definition.
+    types:
+    - uid: string
+  - name: properties.complianceState
+    description: The compliance state that should be set on the resource.
+    types:
+    - uid: ComplianceState
+  - name: properties.expiresOn
+    description: The time the compliance state should expire.
+    types:
+    - uid: string
+  - name: properties.owner
+    description: The person responsible for setting the state of the resource. This value is typically an Azure Active Directory object ID.
+    types:
+    - uid: string
+  - name: properties.comments
+    description: Comments describing why this attestation was created.
+    types:
+    - uid: string
+  - name: properties.evidence
+    description: The evidence supporting the compliance state set in this attestation.
+    types:
+    - uid: AttestationEvidence
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The status of the attestation.
+    types:
+    - uid: string
+  - name: properties.lastComplianceStateChangeAt
+    isReadyOnly: true
+    description: The time the compliance state was last changed in this attestation.
+    types:
+    - uid: string
+  - name: properties.assessmentDate
+    description: The time the evidence was assessed
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: Additional metadata for this attestation
+    types:
+    - uid: object
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ComplianceState
+  description: The compliance state that should be set on the resource.
+  kind: enum
+  properties:
+  - name: Compliant
+    description: The resource is in compliance with the policy.
+    types:
+    - uid: string
+  - name: NonCompliant
+    description: The resource is not in compliance with the policy.
+    types:
+    - uid: string
+  - name: Unknown
+    description: The compliance state of the resource is not known.
+    types:
+    - uid: string
+- name: AttestationEvidence
+  description: A piece of evidence supporting the compliance state set in the attestation.
+  kind: object
+  properties:
+  - name: description
+    description: The description for this piece of evidence.
+    types:
+    - uid: string
+  - name: sourceUri
+    description: The URI location of the evidence.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: Additional scenario specific error details.
+    types:
+    - uid: TypedErrorInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: TypedErrorInfo
+  description: Scenario specific error details.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of included error details.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The scenario specific error details.
+    types:
+    - {}
+examples:
+- name: Get attestation at subscription scope
+  request:
+    uri: GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/Microsoft.PolicyInsights/attestations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e?api-version=2022-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/Microsoft.PolicyInsights/attestations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e?api-version=2022-09-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "policyAssignmentId": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
+          "policyDefinitionReferenceId": "0b158b46-ff42-4799-8e39-08a5c23b4551",
+          "complianceState": "Compliant",
+          "lastComplianceStateChangeAt": "2020-06-15T18:52:27Z",
+          "expiresOn": "2021-06-15T00:00:00Z",
+          "owner": "55a32e28-3aa5-4eea-9b5a-4cd85153b966",
+          "comments": "This subscription has passed a security audit.",
+          "evidence": [
+            {
+              "description": "The results of the security audit.",
+              "sourceUri": "https://gist.github.com/contoso/9573e238762c60166c090ae16b814011"
+            }
+          ],
+          "assessmentDate": "2021-06-10T00:00:00Z",
+          "metadata": {
+            "departmentId": "NYC-MARKETING-1"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "systemData": {
+          "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef6",
+          "createdByType": "User",
+          "createdAt": "2020-06-15T18:52:27Z",
+          "lastModifiedBy": "b69a9388-9488-4534-b470-7ec6d41beef6",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-15T18:52:27Z"
+        },
+        "id": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.policyinsights/attestations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
+        "name": "790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
+        "type": "Microsoft.PolicyInsights/attestations"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Policy service - Gets an existing attestation at subscription scope.
+errorCodes: []

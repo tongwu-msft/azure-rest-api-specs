@@ -1,7 +1,7 @@
 ---
 title: Custom Location Service REST API
 description: Operation groups for the Custom Location Service REST API
-author: Aditi Malladi
+author: aditimalladi
 ms.author: amalladi
 ms.date: 07/23/2021
 ms.topic: reference

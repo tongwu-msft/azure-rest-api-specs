@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -611,6 +611,14 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+  - name: inboundRouteMap
+    description: The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+    types:
+    - uid: SubResource
+  - name: outboundRouteMap
+    description: The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+    types:
+    - uid: SubResource
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -891,6 +899,10 @@ definitions:
   description: List of routes that control routing from VirtualHub into a virtual network connection.
   kind: object
   properties:
+  - name: staticRoutesConfig
+    description: Configuration for static routes on this HubVnetConnection.
+    types:
+    - uid: StaticRoutesConfig
   - name: staticRoutes
     description: List of all Static Routes.
     types:
@@ -902,6 +914,19 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+- name: StaticRoutesConfig
+  description: Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection.
+  kind: object
+  properties:
+  - name: propagateStaticRoutes
+    isReadyOnly: true
+    description: Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+    types:
+    - uid: boolean
+  - name: vnetLocalRouteOverrideCriteria
+    description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+    types:
+    - uid: VnetLocalRouteOverrideCriteria
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -919,10 +944,20 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VnetLocalRouteOverrideCriteria
+  description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet.
+  kind: enum
+  properties:
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
 examples:
 - name: VpnGatewayPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-05-01
     body: >-
       {
         "location": "westcentralus",
@@ -1006,7 +1041,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-05-01
 
       {
         "location": "westcentralus",
@@ -1090,122 +1125,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.VpnConnectionInner;
-      import com.azure.resourcemanager.network.fluent.models.VpnGatewayInner;
-      import com.azure.resourcemanager.network.fluent.models.VpnGatewayNatRuleInner;
-      import com.azure.resourcemanager.network.fluent.models.VpnSiteLinkConnectionInner;
-      import com.azure.resourcemanager.network.models.BgpSettings;
-      import com.azure.resourcemanager.network.models.IpConfigurationBgpPeeringAddress;
-      import com.azure.resourcemanager.network.models.VirtualNetworkGatewayConnectionProtocol;
-      import com.azure.resourcemanager.network.models.VpnNatRuleMapping;
-      import com.azure.resourcemanager.network.models.VpnNatRuleMode;
-      import com.azure.resourcemanager.network.models.VpnNatRuleType;
-      import java.util.Arrays;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for VpnGateways CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayPut.json
-           */
-          /**
-           * Sample code: VpnGatewayPut.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void vpnGatewayPut(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getVpnGateways()
-                  .createOrUpdate(
-                      "rg1",
-                      "gateway1",
-                      new VpnGatewayInner()
-                          .withLocation("westcentralus")
-                          .withTags(mapOf("key1", "value1"))
-                          .withVirtualHub(
-                              new SubResource()
-                                  .withId(
-                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"))
-                          .withConnections(
-                              Arrays
-                                  .asList(
-                                      new VpnConnectionInner()
-                                          .withName("vpnConnection1")
-                                          .withRemoteVpnSite(
-                                              new SubResource()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"))
-                                          .withVpnLinkConnections(
-                                              Arrays
-                                                  .asList(
-                                                      new VpnSiteLinkConnectionInner()
-                                                          .withName("Connection-Link1")
-                                                          .withVpnSiteLink(
-                                                              new SubResource()
-                                                                  .withId(
-                                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"))
-                                                          .withVpnConnectionProtocolType(
-                                                              VirtualNetworkGatewayConnectionProtocol.IKEV2)
-                                                          .withConnectionBandwidth(200)
-                                                          .withSharedKey("key")
-                                                          .withEgressNatRules(
-                                                              Arrays
-                                                                  .asList(
-                                                                      new SubResource()
-                                                                          .withId(
-                                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03")))))))
-                          .withBgpSettings(
-                              new BgpSettings()
-                                  .withAsn(65515L)
-                                  .withPeerWeight(0)
-                                  .withBgpPeeringAddresses(
-                                      Arrays
-                                          .asList(
-                                              new IpConfigurationBgpPeeringAddress()
-                                                  .withIpconfigurationId("Instance0")
-                                                  .withCustomBgpIpAddresses(Arrays.asList("169.254.21.5")),
-                                              new IpConfigurationBgpPeeringAddress()
-                                                  .withIpconfigurationId("Instance1")
-                                                  .withCustomBgpIpAddresses(Arrays.asList("169.254.21.10")))))
-                          .withEnableBgpRouteTranslationForNat(false)
-                          .withIsRoutingPreferenceInternet(false)
-                          .withNatRules(
-                              Arrays
-                                  .asList(
-                                      new VpnGatewayNatRuleInner()
-                                          .withName("nat03")
-                                          .withTypePropertiesType(VpnNatRuleType.STATIC)
-                                          .withMode(VpnNatRuleMode.EGRESS_SNAT)
-                                          .withInternalMappings(
-                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("0.0.0.0/26")))
-                                          .withExternalMappings(
-                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("192.168.0.0/26")))
-                                          .withIpConfigurationId(""))),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -1216,10 +1135,10 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayPut.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayPut.json
       func ExampleVPNGatewaysClient_BeginCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -1312,7 +1231,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -1322,7 +1241,7 @@ examples:
        * This sample demonstrates how to Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
        *
        * @summary Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayPut.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayPut.json
        */
       async function vpnGatewayPut() {
         const subscriptionId = "subid";
@@ -1398,7 +1317,7 @@ examples:
       vpnGatewayPut().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

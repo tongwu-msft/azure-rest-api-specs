@@ -45,11 +45,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: object
+  - uid: BigDataPoolResourceInfo
 - name: 202 Accepted
-  description: ''
+  description: Created
   types:
-  - uid: object
+  - uid: BigDataPoolResourceInfo
 - name: 204 No Content
   description: ''
 - name: Other Status Codes
@@ -58,6 +58,116 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: BigDataPoolResourceInfo
+  description: Big Data pool
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    description: The state of the Big Data pool.
+    types:
+    - uid: string
+  - name: properties.autoScale
+    description: "Spark pool auto-scaling properties  \nAuto-scaling properties"
+    types:
+    - uid: AutoScaleProperties
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The time when the Big Data pool was created.
+    types:
+    - uid: string
+  - name: properties.autoPause
+    description: "Spark pool auto-pausing properties  \nAuto-pausing properties"
+    types:
+    - uid: AutoPauseProperties
+  - name: properties.isComputeIsolationEnabled
+    description: Whether compute isolation is required or not.
+    types:
+    - uid: boolean
+  - name: properties.isAutotuneEnabled
+    description: "Enable Autotune  \nWhether autotune is required or not."
+    types:
+    - uid: boolean
+  - name: properties.sessionLevelPackagesEnabled
+    description: Whether session level packages enabled.
+    types:
+    - uid: boolean
+  - name: properties.cacheSize
+    description: The cache size
+    types:
+    - uid: integer
+  - name: properties.dynamicExecutorAllocation
+    description: Dynamic Executor Allocation
+    types:
+    - uid: DynamicExecutorAllocation
+  - name: properties.sparkEventsFolder
+    description: The Spark events folder
+    types:
+    - uid: string
+  - name: properties.nodeCount
+    description: The number of nodes in the Big Data pool.
+    types:
+    - uid: integer
+  - name: properties.libraryRequirements
+    description: "Spark pool library version requirements  \nLibrary version requirements"
+    types:
+    - uid: LibraryRequirements
+  - name: properties.customLibraries
+    description: List of custom libraries/packages associated with the spark pool.
+    types:
+    - uid: LibraryInfo
+      isArray: true
+  - name: properties.sparkConfigProperties
+    description: "Spark pool Config Properties  \nSpark configuration file to specify additional properties"
+    types:
+    - uid: SparkConfigProperties
+  - name: properties.sparkVersion
+    description: The Apache Spark version.
+    types:
+    - uid: string
+  - name: properties.defaultSparkLogFolder
+    description: The default folder where Spark logs will be written.
+    types:
+    - uid: string
+  - name: properties.nodeSize
+    description: The level of compute power that each node in the Big Data pool has.
+    types:
+    - uid: NodeSize
+  - name: properties.nodeSizeFamily
+    description: The kind of nodes that the Big Data pool provides.
+    types:
+    - uid: NodeSizeFamily
+  - name: properties.lastSucceededTimestamp
+    isReadyOnly: true
+    description: The time when the Big Data pool was updated successfully.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -66,6 +176,163 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: AutoScaleProperties
+  description: Spark pool auto-scaling properties
+  kind: object
+  properties:
+  - name: minNodeCount
+    description: The minimum number of nodes the Big Data pool can support.
+    types:
+    - uid: integer
+  - name: enabled
+    description: Whether automatic scaling is enabled for the Big Data pool.
+    types:
+    - uid: boolean
+  - name: maxNodeCount
+    description: The maximum number of nodes the Big Data pool can support.
+    types:
+    - uid: integer
+- name: AutoPauseProperties
+  description: Spark pool auto-pausing properties
+  kind: object
+  properties:
+  - name: delayInMinutes
+    description: Number of minutes of idle time before the Big Data pool is automatically paused.
+    types:
+    - uid: integer
+  - name: enabled
+    description: Whether auto-pausing is enabled for the Big Data pool.
+    types:
+    - uid: boolean
+- name: DynamicExecutorAllocation
+  description: Dynamic Executor Allocation Properties
+  kind: object
+  properties:
+  - name: enabled
+    description: Indicates whether Dynamic Executor Allocation is enabled or not.
+    types:
+    - uid: boolean
+  - name: minExecutors
+    description: The minimum number of executors alloted
+    types:
+    - uid: integer
+  - name: maxExecutors
+    description: The maximum number of executors alloted
+    types:
+    - uid: integer
+- name: LibraryRequirements
+  description: Spark pool library version requirements
+  kind: object
+  properties:
+  - name: time
+    isReadyOnly: true
+    description: The last update time of the library requirements file.
+    types:
+    - uid: string
+  - name: content
+    description: The library requirements.
+    types:
+    - uid: string
+  - name: filename
+    description: The filename of the library requirements file.
+    types:
+    - uid: string
+- name: LibraryInfo
+  description: Information about a library/package created at the workspace level.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the library.
+    types:
+    - uid: string
+  - name: path
+    description: Storage blob path of library.
+    types:
+    - uid: string
+  - name: containerName
+    description: Storage blob container name.
+    types:
+    - uid: string
+  - name: uploadedTimestamp
+    description: The last update time of the library.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the library.
+    types:
+    - uid: string
+  - name: provisioningStatus
+    isReadyOnly: true
+    description: Provisioning status of the library/package.
+    types:
+    - uid: string
+  - name: creatorId
+    isReadyOnly: true
+    description: Creator Id of the library/package.
+    types:
+    - uid: string
+- name: SparkConfigProperties
+  description: Spark pool Config Properties
+  kind: object
+  properties:
+  - name: time
+    isReadyOnly: true
+    description: The last update time of the spark config properties file.
+    types:
+    - uid: string
+  - name: content
+    description: The spark config properties.
+    types:
+    - uid: string
+  - name: filename
+    description: The filename of the spark config properties file.
+    types:
+    - uid: string
+  - name: configurationType
+    description: The type of the spark config properties file.
+    types:
+    - uid: ConfigurationType
+- name: NodeSize
+  description: The level of compute power that each node in the Big Data pool has.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Small
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: Large
+    types:
+    - uid: string
+  - name: XLarge
+    types:
+    - uid: string
+  - name: XXLarge
+    types:
+    - uid: string
+  - name: XXXLarge
+    types:
+    - uid: string
+- name: NodeSizeFamily
+  description: The kind of nodes that the Big Data pool provides.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MemoryOptimized
+    types:
+    - uid: string
+  - name: HardwareAcceleratedFPGA
+    types:
+    - uid: string
+  - name: HardwareAcceleratedGPU
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -97,6 +364,16 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ConfigurationType
+  description: The type of the spark config properties file.
+  kind: enum
+  properties:
+  - name: File
+    types:
+    - uid: string
+  - name: Artifact
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -216,6 +493,9 @@ examples:
   responses:
   - statusCode: "204"
   - statusCode: "200"
+    headers:
+    - name: azure-asyncoperation
+      value: https://ms.web.azuresynapse.net
     body: >-
       {
         "id": "/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/bigDataPools/ExamplePool",
@@ -250,6 +530,9 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://ms.web.azuresynapse.net
     body: >-
       {
         "id": "/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/bigDataPools/ExamplePool",

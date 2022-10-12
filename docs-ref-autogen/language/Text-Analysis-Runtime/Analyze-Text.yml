@@ -3,15 +3,15 @@ uid: language.textanalysisruntime.analyzetext
 name: Analyze Text
 service: Cognitive Services - Language
 groupName: Text Analysis Runtime
-apiVersion: 2022-05-01
+apiVersion: 2022-10-01-preview
 summary: "Request text analysis over a collection of documents.  \nSubmit a collection of text documents for analysis.  Specify a single unique task to be executed immediately."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-- content: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01&showStats={showStats}
+- content: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
+- content: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview&showStats={showStats}
   isOptional: true
 uriParameters:
 - name: Endpoint
@@ -42,6 +42,7 @@ responses:
   - uid: PiiTaskResult
   - uid: KeyPhraseTaskResult
   - uid: LanguageDetectionTaskResult
+  - uid: DynamicClassificationTaskResult
   typesTitle: AnalyzeTextTaskResult
 - name: Other Status Codes
   description: Unexpected error
@@ -162,13 +163,26 @@ requestBody:
     types:
     - uid: SentimentAnalysis
     typesTitle: string
-requestHeader:
-- name: Ocp-Apim-Subscription-Key
-  in: header
-  isRequired: true
-  description: A subscription key for a Language service resource.
-  types:
-  - uid: string
+- name: AnalyzeTextDynamicClassificationInput
+  parameters:
+  - name: analysisInput
+    in: body
+    description: ''
+    types:
+    - uid: MultiLanguageAnalysisInput
+  - name: parameters
+    in: body
+    description: Supported parameters for a Zero Shot Classification task.
+    types:
+    - uid: DynamicClassificationTaskParameters
+  - name: kind
+    in: body
+    isRequired: true
+    description: Enumeration of supported Text Analysis tasks.
+    types:
+    - uid: DynamicClassification
+    typesTitle: string
+requestHeader: []
 definitions:
 - name: AnalyzeTextEntityLinkingInput
   kind: object
@@ -266,6 +280,22 @@ definitions:
     types:
     - uid: SentimentAnalysis
     typesTitle: string
+- name: AnalyzeTextDynamicClassificationInput
+  kind: object
+  properties:
+  - name: analysisInput
+    description: ''
+    types:
+    - uid: MultiLanguageAnalysisInput
+  - name: parameters
+    description: Supported parameters for a Zero Shot Classification task.
+    types:
+    - uid: DynamicClassificationTaskParameters
+  - name: kind
+    description: Enumeration of supported Text Analysis tasks.
+    types:
+    - uid: DynamicClassification
+    typesTitle: string
 - name: ErrorResponse
   description: Error response.
   kind: object
@@ -321,6 +351,9 @@ definitions:
     types:
     - uid: string
   - name: EntityLinking
+    types:
+    - uid: string
+  - name: DynamicClassification
     types:
     - uid: string
 - name: EntitiesTaskParameters
@@ -431,6 +464,30 @@ definitions:
     types:
     - uid: boolean
     defaultValue: false
+- name: DynamicClassificationTaskParameters
+  description: Supported parameters for a Zero Shot Classification task.
+  kind: object
+  properties:
+  - name: classificationType
+    description: Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document.
+    types:
+    - uid: ClassificationType
+    defaultValue: Multi
+  - name: categories
+    description: a list of categories to which input is classified to.
+    types:
+    - uid: string
+      isArray: true
+  - name: modelVersion
+    description: ''
+    types:
+    - uid: string
+    defaultValue: latest
+  - name: loggingOptOut
+    description: ''
+    types:
+    - uid: boolean
+    defaultValue: false
 - name: SentimentTaskResult
   kind: object
   properties:
@@ -503,6 +560,18 @@ definitions:
     types:
     - uid: LanguageDetectionResults
     typesTitle: string
+- name: DynamicClassificationTaskResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: DynamicClassificationResult
+  - name: kind
+    description: Enumeration of supported Text Analysis task results.
+    types:
+    - uid: DynamicClassificationResults
+    typesTitle: string
 - name: Error
   description: The error object.
   kind: object
@@ -541,7 +610,7 @@ definitions:
     types:
     - uid: string
   - name: language
-    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. For Auto Language Detection, use "auto". If not set, use "en" for English as default.
     types:
     - uid: string
 - name: StringIndexType
@@ -587,6 +656,16 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: ClassificationType
+  description: Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document.
+  kind: enum
+  properties:
+  - name: Single
+    types:
+    - uid: string
+  - name: Multi
+    types:
+    - uid: string
 - name: SentimentResponse
   kind: object
   properties:
@@ -598,7 +677,7 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -630,6 +709,9 @@ definitions:
   - name: EntityLinkingResults
     types:
     - uid: string
+  - name: DynamicClassificationResults
+    types:
+    - uid: string
 - name: EntitiesResult
   kind: object
   properties:
@@ -641,7 +723,7 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -662,7 +744,7 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -683,7 +765,7 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -704,7 +786,7 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -725,7 +807,28 @@ definitions:
   - name: errors
     description: Errors by document id.
     types:
-    - uid: DocumentError
+    - uid: InputError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: DynamicClassificationResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: InputError
       isArray: true
   - name: statistics
     description: if showStats=true was specified in the request this field will contain information about the request payload.
@@ -828,7 +931,7 @@ definitions:
   - name: entities
     description: Recognized entities in the document.
     types:
-    - uid: Entity
+    - uid: EntityWithResolution
       isArray: true
   - name: id
     description: Unique, non-empty document identifier.
@@ -843,15 +946,20 @@ definitions:
     description: if showStats=true was specified in the request this field will contain information about the document payload.
     types:
     - uid: DocumentStatistics
-- name: DocumentError
+  - name: detectedLanguage
+    description: If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document.
+    types:
+    - uid: DetectedLanguage
+- name: InputError
+  description: Contains details of errors encountered during a job execution.
   kind: object
   properties:
   - name: id
-    description: Document Id.
+    description: The ID of the input.
     types:
     - uid: string
   - name: error
-    description: Document Error.
+    description: Error encountered.
     types:
     - uid: Error
 - name: RequestStatistics
@@ -940,9 +1048,43 @@ definitions:
   - name: InvalidCountryHint
     types:
     - uid: string
-- name: Entity
+- name: EntityWithResolution
   kind: object
   properties:
+  - name: resolutions
+    description: The collection of entity resolution objects.
+    types:
+    - uid: VolumeResolution
+      isArray: true
+    - uid: SpeedResolution
+      isArray: true
+    - uid: AreaResolution
+      isArray: true
+    - uid: LengthResolution
+      isArray: true
+    - uid: InformationResolution
+      isArray: true
+    - uid: TemperatureResolution
+      isArray: true
+    - uid: WeightResolution
+      isArray: true
+    - uid: CurrencyResolution
+      isArray: true
+    - uid: AgeResolution
+      isArray: true
+    - uid: BooleanResolution
+      isArray: true
+    - uid: DateTimeResolution
+      isArray: true
+    - uid: NumberResolution
+      isArray: true
+    - uid: OrdinalResolution
+      isArray: true
+    - uid: TemporalSpanResolution
+      isArray: true
+    - uid: NumericRangeResolution
+      isArray: true
+    typesTitle: BaseResolution[]
   - name: text
     description: Entity text as appears in the request.
     types:
@@ -1009,6 +1151,10 @@ definitions:
     description: A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true.
     types:
     - uid: number
+  - name: script
+    description: Identifies the script of the input document.
+    types:
+    - uid: ScriptKind
 - name: WarningCodeValue
   description: Error code.
   kind: enum
@@ -1019,10 +1165,807 @@ definitions:
   - name: DocumentTruncated
     types:
     - uid: string
+- name: ScriptKind
+  description: Identifies the script of the input document.
+  kind: enum
+  properties:
+  - name: Latin
+    types:
+    - uid: string
+- name: VolumeResolution
+  description: Represents the volume entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The Volume Unit of measurement
+    types:
+    - uid: VolumeUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: VolumeResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: SpeedResolution
+  description: Represents the speed entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The speed Unit of measurement
+    types:
+    - uid: SpeedUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: SpeedResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: AreaResolution
+  description: Represents the area entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The area Unit of measurement
+    types:
+    - uid: AreaUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: AreaResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: LengthResolution
+  description: Represents the length entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The length Unit of measurement
+    types:
+    - uid: LengthUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: LengthResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: InformationResolution
+  description: Represents the information (data) entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The information (data) Unit of measurement.
+    types:
+    - uid: InformationUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: InformationResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: TemperatureResolution
+  description: Represents the temperature entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The temperature Unit of measurement.
+    types:
+    - uid: TemperatureUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: TemperatureResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: WeightResolution
+  description: Represents the weight entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The weight Unit of measurement.
+    types:
+    - uid: WeightUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: WeightResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: CurrencyResolution
+  description: Represents the currency entity resolution model.
+  kind: object
+  properties:
+  - name: ISO4217
+    description: The alphabetic code based on another ISO standard, ISO 3166, which lists the codes for country names. The first two letters of the ISO 4217 three-letter code are the same as the code for the country name, and, where possible, the third letter corresponds to the first letter of the currency name.
+    types:
+    - uid: string
+  - name: value
+    description: The money amount captured in the extracted entity
+    types:
+    - uid: number
+  - name: unit
+    description: The unit of the amount captured in the extracted entity
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: CurrencyResolution
+    typesTitle: string
+- name: AgeResolution
+  description: Represents the Age entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The Age Unit of measurement
+    types:
+    - uid: AgeUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: AgeResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: BooleanResolution
+  description: A resolution for boolean expressions
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: boolean
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: BooleanResolution
+    typesTitle: string
+- name: DateTimeResolution
+  description: A resolution for datetime entity instances.
+  kind: object
+  properties:
+  - name: timex
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: dateTimeSubKind
+    description: The DateTime SubKind
+    types:
+    - uid: DateTimeSubKind
+  - name: value
+    description: The actual time that the extracted text denote.
+    types:
+    - uid: string
+  - name: modifier
+    description: An optional modifier of a date/time instance.
+    types:
+    - uid: TemporalModifier
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: DateTimeResolution
+    typesTitle: string
+- name: NumberResolution
+  description: A resolution for numeric entity instances.
+  kind: object
+  properties:
+  - name: numberKind
+    description: The type of the extracted number entity.
+    types:
+    - uid: NumberKind
+  - name: value
+    description: A numeric representation of what the extracted text denotes.
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: NumberResolution
+    typesTitle: string
+- name: OrdinalResolution
+  description: A resolution for ordinal numbers entity instances.
+  kind: object
+  properties:
+  - name: offset
+    description: The offset With respect to the reference (e.g., offset = -1 in "show me the second to last"
+    types:
+    - uid: string
+  - name: relativeTo
+    description: The reference point that the ordinal number denotes.
+    types:
+    - uid: RelativeTo
+  - name: value
+    description: A simple arithmetic expression that the ordinal denotes.
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: OrdinalResolution
+    typesTitle: string
+- name: TemporalSpanResolution
+  description: represents the resolution of a date and/or time span.
+  kind: object
+  properties:
+  - name: begin
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: end
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: duration
+    description: An optional duration value formatted based on the ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601#Durations)
+    types:
+    - uid: string
+  - name: modifier
+    description: An optional modifier of a date/time instance.
+    types:
+    - uid: TemporalModifier
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: TemporalSpanResolution
+    typesTitle: string
+- name: NumericRangeResolution
+  description: represents the resolution of numeric intervals.
+  kind: object
+  properties:
+  - name: rangeKind
+    description: The kind of range that the resolution object represents.
+    types:
+    - uid: RangeKind
+  - name: minimum
+    description: The beginning value of  the interval.
+    types:
+    - uid: number
+  - name: maximum
+    description: The ending value of the interval.
+    types:
+    - uid: number
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: NumericRangeResolution
+    typesTitle: string
+- name: VolumeUnit
+  description: The Volume Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: CubicMeter
+    types:
+    - uid: string
+  - name: CubicCentimeter
+    types:
+    - uid: string
+  - name: CubicMillimeter
+    types:
+    - uid: string
+  - name: Hectoliter
+    types:
+    - uid: string
+  - name: Decaliter
+    types:
+    - uid: string
+  - name: Liter
+    types:
+    - uid: string
+  - name: Centiliter
+    types:
+    - uid: string
+  - name: Milliliter
+    types:
+    - uid: string
+  - name: CubicYard
+    types:
+    - uid: string
+  - name: CubicInch
+    types:
+    - uid: string
+  - name: CubicFoot
+    types:
+    - uid: string
+  - name: CubicMile
+    types:
+    - uid: string
+  - name: FluidOunce
+    types:
+    - uid: string
+  - name: Teaspoon
+    types:
+    - uid: string
+  - name: Tablespoon
+    types:
+    - uid: string
+  - name: Pint
+    types:
+    - uid: string
+  - name: Quart
+    types:
+    - uid: string
+  - name: Cup
+    types:
+    - uid: string
+  - name: Gill
+    types:
+    - uid: string
+  - name: Pinch
+    types:
+    - uid: string
+  - name: FluidDram
+    types:
+    - uid: string
+  - name: Barrel
+    types:
+    - uid: string
+  - name: Minim
+    types:
+    - uid: string
+  - name: Cord
+    types:
+    - uid: string
+  - name: Peck
+    types:
+    - uid: string
+  - name: Bushel
+    types:
+    - uid: string
+  - name: Hogshead
+    types:
+    - uid: string
+- name: SpeedUnit
+  description: The speed Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: MetersPerSecond
+    types:
+    - uid: string
+  - name: KilometersPerHour
+    types:
+    - uid: string
+  - name: KilometersPerMinute
+    types:
+    - uid: string
+  - name: KilometersPerSecond
+    types:
+    - uid: string
+  - name: MilesPerHour
+    types:
+    - uid: string
+  - name: Knot
+    types:
+    - uid: string
+  - name: FootPerSecond
+    types:
+    - uid: string
+  - name: FootPerMinute
+    types:
+    - uid: string
+  - name: YardsPerMinute
+    types:
+    - uid: string
+  - name: YardsPerSecond
+    types:
+    - uid: string
+  - name: MetersPerMillisecond
+    types:
+    - uid: string
+  - name: CentimetersPerMillisecond
+    types:
+    - uid: string
+  - name: KilometersPerMillisecond
+    types:
+    - uid: string
+- name: AreaUnit
+  description: The area Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: SquareKilometer
+    types:
+    - uid: string
+  - name: SquareHectometer
+    types:
+    - uid: string
+  - name: SquareDecameter
+    types:
+    - uid: string
+  - name: SquareDecimeter
+    types:
+    - uid: string
+  - name: SquareMeter
+    types:
+    - uid: string
+  - name: SquareCentimeter
+    types:
+    - uid: string
+  - name: SquareMillimeter
+    types:
+    - uid: string
+  - name: SquareInch
+    types:
+    - uid: string
+  - name: SquareFoot
+    types:
+    - uid: string
+  - name: SquareMile
+    types:
+    - uid: string
+  - name: SquareYard
+    types:
+    - uid: string
+  - name: Acre
+    types:
+    - uid: string
+- name: LengthUnit
+  description: The length Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Kilometer
+    types:
+    - uid: string
+  - name: Hectometer
+    types:
+    - uid: string
+  - name: Decameter
+    types:
+    - uid: string
+  - name: Meter
+    types:
+    - uid: string
+  - name: Decimeter
+    types:
+    - uid: string
+  - name: Centimeter
+    types:
+    - uid: string
+  - name: Millimeter
+    types:
+    - uid: string
+  - name: Micrometer
+    types:
+    - uid: string
+  - name: Nanometer
+    types:
+    - uid: string
+  - name: Picometer
+    types:
+    - uid: string
+  - name: Mile
+    types:
+    - uid: string
+  - name: Yard
+    types:
+    - uid: string
+  - name: Inch
+    types:
+    - uid: string
+  - name: Foot
+    types:
+    - uid: string
+  - name: LightYear
+    types:
+    - uid: string
+  - name: Pt
+    types:
+    - uid: string
+- name: InformationUnit
+  description: The information (data) Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Bit
+    types:
+    - uid: string
+  - name: Kilobit
+    types:
+    - uid: string
+  - name: Megabit
+    types:
+    - uid: string
+  - name: Gigabit
+    types:
+    - uid: string
+  - name: Terabit
+    types:
+    - uid: string
+  - name: Petabit
+    types:
+    - uid: string
+  - name: Byte
+    types:
+    - uid: string
+  - name: Kilobyte
+    types:
+    - uid: string
+  - name: Megabyte
+    types:
+    - uid: string
+  - name: Gigabyte
+    types:
+    - uid: string
+  - name: Terabyte
+    types:
+    - uid: string
+  - name: Petabyte
+    types:
+    - uid: string
+- name: TemperatureUnit
+  description: The temperature Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Fahrenheit
+    types:
+    - uid: string
+  - name: Kelvin
+    types:
+    - uid: string
+  - name: Rankine
+    types:
+    - uid: string
+  - name: Celsius
+    types:
+    - uid: string
+- name: WeightUnit
+  description: The weight Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Kilogram
+    types:
+    - uid: string
+  - name: Gram
+    types:
+    - uid: string
+  - name: Milligram
+    types:
+    - uid: string
+  - name: Gallon
+    types:
+    - uid: string
+  - name: MetricTon
+    types:
+    - uid: string
+  - name: Ton
+    types:
+    - uid: string
+  - name: Pound
+    types:
+    - uid: string
+  - name: Ounce
+    types:
+    - uid: string
+  - name: Grain
+    types:
+    - uid: string
+  - name: PennyWeight
+    types:
+    - uid: string
+  - name: LongTonBritish
+    types:
+    - uid: string
+  - name: ShortTonUS
+    types:
+    - uid: string
+  - name: ShortHundredWeightUS
+    types:
+    - uid: string
+  - name: Stone
+    types:
+    - uid: string
+  - name: Dram
+    types:
+    - uid: string
+- name: AgeUnit
+  description: The Age Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Year
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Day
+    types:
+    - uid: string
+- name: DateTimeSubKind
+  description: The DateTime SubKind
+  kind: enum
+  properties:
+  - name: Time
+    types:
+    - uid: string
+  - name: Date
+    types:
+    - uid: string
+  - name: DateTime
+    types:
+    - uid: string
+  - name: Duration
+    types:
+    - uid: string
+  - name: Set
+    types:
+    - uid: string
+- name: TemporalModifier
+  description: An optional modifier of a date/time instance.
+  kind: enum
+  properties:
+  - name: AfterApprox
+    types:
+    - uid: string
+  - name: Before
+    types:
+    - uid: string
+  - name: BeforeStart
+    types:
+    - uid: string
+  - name: Approx
+    types:
+    - uid: string
+  - name: ReferenceUndefined
+    types:
+    - uid: string
+  - name: SinceEnd
+    types:
+    - uid: string
+  - name: AfterMid
+    types:
+    - uid: string
+  - name: Start
+    types:
+    - uid: string
+  - name: After
+    types:
+    - uid: string
+  - name: BeforeEnd
+    types:
+    - uid: string
+  - name: Until
+    types:
+    - uid: string
+  - name: End
+    types:
+    - uid: string
+  - name: Less
+    types:
+    - uid: string
+  - name: Since
+    types:
+    - uid: string
+  - name: AfterStart
+    types:
+    - uid: string
+  - name: BeforeApprox
+    types:
+    - uid: string
+  - name: Mid
+    types:
+    - uid: string
+  - name: More
+    types:
+    - uid: string
+- name: NumberKind
+  description: The type of the extracted number entity.
+  kind: enum
+  properties:
+  - name: Integer
+    types:
+    - uid: string
+  - name: Decimal
+    types:
+    - uid: string
+  - name: Power
+    types:
+    - uid: string
+  - name: Fraction
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+- name: RelativeTo
+  description: The reference point that the ordinal number denotes.
+  kind: enum
+  properties:
+  - name: Current
+    types:
+    - uid: string
+  - name: End
+    types:
+    - uid: string
+  - name: Start
+    types:
+    - uid: string
+- name: RangeKind
+  description: The kind of range that the resolution object represents.
+  kind: enum
+  properties:
+  - name: Number
+    types:
+    - uid: string
+  - name: Speed
+    types:
+    - uid: string
+  - name: Weight
+    types:
+    - uid: string
+  - name: Length
+    types:
+    - uid: string
+  - name: Volume
+    types:
+    - uid: string
+  - name: Area
+    types:
+    - uid: string
+  - name: Age
+    types:
+    - uid: string
+  - name: Information
+    types:
+    - uid: string
+  - name: Temperature
+    types:
+    - uid: string
+  - name: Currency
+    types:
+    - uid: string
 examples:
 - name: Successful Entity Linking Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "EntityLinking",
@@ -1047,8 +1990,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "EntityLinking",
@@ -1073,9 +2015,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1177,7 +2116,7 @@ examples:
       }
 - name: Successful Entity Recognition Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "EntityRecognition",
@@ -1189,7 +2128,7 @@ examples:
             {
               "id": "1",
               "language": "en",
-              "text": "Microsoft was founded by Bill Gates and Paul Allen."
+              "text": "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975."
             },
             {
               "id": "2",
@@ -1202,8 +2141,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "EntityRecognition",
@@ -1215,7 +2153,7 @@ examples:
             {
               "id": "1",
               "language": "en",
-              "text": "Microsoft was founded by Bill Gates and Paul Allen."
+              "text": "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975."
             },
             {
               "id": "2",
@@ -1228,9 +2166,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1260,6 +2195,22 @@ examples:
                   "length": 10,
                   "offset": 40,
                   "text": "Paul Allen"
+                },
+                {
+                  "text": "April 4, 1975",
+                  "category": "DateTime",
+                  "subcategory": "Date",
+                  "offset": 54,
+                  "length": 13,
+                  "confidenceScore": 0.99,
+                  "resolutions": [
+                    {
+                      "resolutionKind": "DateTimeResolution",
+                      "dateTimeSubKind": "Date",
+                      "timex": "1975-04-04",
+                      "value": "1975-04-04"
+                    }
+                  ]
                 }
               ],
               "id": "1",
@@ -1281,12 +2232,12 @@ examples:
             }
           ],
           "errors": [],
-          "modelVersion": "2020-04-01"
+          "modelVersion": "2021-06-01"
         }
       }
 - name: Successful Key Phrase Extraction Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "KeyPhraseExtraction",
@@ -1316,8 +2267,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "KeyPhraseExtraction",
@@ -1347,9 +2297,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1384,12 +2331,12 @@ examples:
             }
           ],
           "errors": [],
-          "modelVersion": "2019-10-01"
+          "modelVersion": "2021-06-01"
         }
       }
 - name: Successful PII Entity Recognition Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "PiiEntityRecognition",
@@ -1419,8 +2366,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "PiiEntityRecognition",
@@ -1450,9 +2396,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1504,12 +2447,12 @@ examples:
             }
           ],
           "errors": [],
-          "modelVersion": "2019-10-01"
+          "modelVersion": "2021-01-15"
         }
       }
 - name: Successful Language Detection Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "LanguageDetection",
@@ -1529,6 +2472,10 @@ examples:
             {
               "id": "3",
               "text": "Hola mundo"
+            },
+            {
+              "id": "4",
+              "text": "Tumhara naam kya hai?"
             }
           ]
         }
@@ -1536,8 +2483,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "LanguageDetection",
@@ -1557,6 +2503,10 @@ examples:
             {
               "id": "3",
               "text": "Hola mundo"
+            },
+            {
+              "id": "4",
+              "text": "Tumhara naam kya hai?"
             }
           ]
         }
@@ -1564,9 +2514,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1600,15 +2547,25 @@ examples:
               },
               "id": "3",
               "warnings": []
+            },
+            {
+              "detectedLanguage": {
+                "confidenceScore": 1,
+                "iso6391Name": "hi",
+                "name": "Hindi",
+                "script": "Latin"
+              },
+              "id": "4",
+              "warnings": []
             }
           ],
           "errors": [],
-          "modelVersion": "2020-04-01"
+          "modelVersion": "2021-01-05"
         }
       }
 - name: Successful Sentiment Analysis Request
   request:
-    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "SentimentAnalysis",
@@ -1628,8 +2585,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-text?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
 
       {
         "kind": "SentimentAnalysis",
@@ -1649,9 +2605,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1773,10 +2726,140 @@ examples:
             }
           ],
           "errors": [],
-          "modelVersion": "2020-04-01"
+          "modelVersion": "2021-10-01"
+        }
+      }
+- name: Successful Dynamic Classification Request
+  request:
+    uri: POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
+    body: >-
+      {
+        "kind": "DynamicClassification",
+        "parameters": {
+          "categories": [
+            "Health",
+            "Politics",
+            "Music",
+            "Sports"
+          ],
+          "classificationType": "Multi",
+          "modelVersion": "latest"
+        },
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "language": "en",
+              "text": "The WHO is issuing a warning about Monkey Pox."
+            },
+            {
+              "id": "2",
+              "language": "en",
+              "text": "Mo Salah plays in Liverpool FC in England."
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-text?api-version=2022-10-01-preview
+
+      {
+        "kind": "DynamicClassification",
+        "parameters": {
+          "categories": [
+            "Health",
+            "Politics",
+            "Music",
+            "Sports"
+          ],
+          "classificationType": "Multi",
+          "modelVersion": "latest"
+        },
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "language": "en",
+              "text": "The WHO is issuing a warning about Monkey Pox."
+            },
+            {
+              "id": "2",
+              "language": "en",
+              "text": "Mo Salah plays in Liverpool FC in England."
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "DynamicClassificationResults",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "class": [
+                {
+                  "category": "Health",
+                  "confidenceScore": 0.9
+                },
+                {
+                  "category": "Politics",
+                  "confidenceScore": 0.8
+                },
+                {
+                  "category": "Music",
+                  "confidenceScore": 0.7
+                },
+                {
+                  "category": "Sports",
+                  "confidenceScore": 0.6
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "class": [
+                {
+                  "category": "Health",
+                  "confidenceScore": 0.9
+                },
+                {
+                  "category": "Politics",
+                  "confidenceScore": 0.8
+                },
+                {
+                  "category": "Music",
+                  "confidenceScore": 0.7
+                },
+                {
+                  "category": "Sports",
+                  "confidenceScore": 0.6
+                }
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2022-10-01-preview"
         }
       }
 security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://cognitiveservices.azure.com/.default
+    description: https://cognitiveservices.azure.com/.default
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   description: A subscription key for a Language service resource.

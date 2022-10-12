@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.privateendpoints.get
 name: Get
 service: Virtual Networks
 groupName: Private Endpoints
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets the specified private endpoint by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2022-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2022-01-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2022-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -350,6 +350,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2318,18 +2322,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2580,14 +2580,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -2666,39 +2669,13 @@ definitions:
 examples:
 - name: Get private endpoint
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PrivateEndpoints GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGet.json
-           */
-          /**
-           * Sample code: Get private endpoint.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getPrivateEndpoint(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getPrivateEndpoints()
-                  .getByResourceGroupWithResponse("rg1", "testPe", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -2708,11 +2685,11 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGet.json
-      func ExamplePrivateEndpointsClient_Get_privateEndpointGet() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGet.json
+      func ExamplePrivateEndpointsClient_Get_getPrivateEndpoint() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -2731,7 +2708,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -2741,7 +2718,7 @@ examples:
        * This sample demonstrates how to Gets the specified private endpoint by resource group.
        *
        * @summary Gets the specified private endpoint by resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGet.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGet.json
        */
       async function getPrivateEndpoint() {
         const subscriptionId = "subId";
@@ -2756,7 +2733,7 @@ examples:
       getPrivateEndpoint().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2830,40 +2807,13 @@ examples:
       }
 - name: Get private endpoint with manual approval connection
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PrivateEndpoints GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetForManualApproval.json
-           */
-          /**
-           * Sample code: Get private endpoint with manual approval connection.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getPrivateEndpointWithManualApprovalConnection(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getPrivateEndpoints()
-                  .getByResourceGroupWithResponse("rg1", "testPe", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -2873,11 +2823,11 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetForManualApproval.json
-      func ExamplePrivateEndpointsClient_Get_privateEndpointGetForManualApproval() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetForManualApproval.json
+      func ExamplePrivateEndpointsClient_Get_getPrivateEndpointWithManualApprovalConnection() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -2896,7 +2846,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -2906,7 +2856,7 @@ examples:
        * This sample demonstrates how to Gets the specified private endpoint by resource group.
        *
        * @summary Gets the specified private endpoint by resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetForManualApproval.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetForManualApproval.json
        */
       async function getPrivateEndpointWithManualApprovalConnection() {
         const subscriptionId = "subId";
@@ -2921,7 +2871,7 @@ examples:
       getPrivateEndpointWithManualApprovalConnection().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2987,40 +2937,13 @@ examples:
       }
 - name: Get private endpoint with application security groups
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PrivateEndpoints GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetWithASG.json
-           */
-          /**
-           * Sample code: Get private endpoint with application security groups.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getPrivateEndpointWithApplicationSecurityGroups(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getPrivateEndpoints()
-                  .getByResourceGroupWithResponse("rg1", "testPe", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -3030,11 +2953,11 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetWithASG.json
-      func ExamplePrivateEndpointsClient_Get_privateEndpointGetWithASG() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetWithASG.json
+      func ExamplePrivateEndpointsClient_Get_getPrivateEndpointWithApplicationSecurityGroups() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -3053,7 +2976,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -3063,7 +2986,7 @@ examples:
        * This sample demonstrates how to Gets the specified private endpoint by resource group.
        *
        * @summary Gets the specified private endpoint by resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateEndpointGetWithASG.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetWithASG.json
        */
       async function getPrivateEndpointWithApplicationSecurityGroups() {
         const subscriptionId = "subId";
@@ -3078,7 +3001,7 @@ examples:
       getPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

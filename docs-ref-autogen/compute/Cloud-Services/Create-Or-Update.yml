@@ -705,7 +705,80 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRole.json
+      func ExampleCloudServicesClient_BeginCreateOrUpdate_createNewCloudServiceWithSingleRole() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "ConstosoRG", "{cs-name}", armcompute.CloudService{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.CloudServiceProperties{
+      			Configuration: to.Ptr("{ServiceConfiguration}"),
+      			NetworkProfile: &armcompute.CloudServiceNetworkProfile{
+      				LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
+      					{
+      						Name: to.Ptr("myLoadBalancer"),
+      						Properties: &armcompute.LoadBalancerConfigurationProperties{
+      							FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
+      								{
+      									Name: to.Ptr("myfe"),
+      									Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
+      										PublicIPAddress: &armcompute.SubResource{
+      											ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP"),
+      										},
+      									},
+      								}},
+      						},
+      					}},
+      			},
+      			PackageURL: to.Ptr("{PackageUrl}"),
+      			RoleProfile: &armcompute.CloudServiceRoleProfile{
+      				Roles: []*armcompute.CloudServiceRoleProfileProperties{
+      					{
+      						Name: to.Ptr("ContosoFrontend"),
+      						SKU: &armcompute.CloudServiceRoleSKU{
+      							Name:     to.Ptr("Standard_D1_v2"),
+      							Capacity: to.Ptr[int64](1),
+      							Tier:     to.Ptr("Standard"),
+      						},
+      					}},
+      			},
+      			UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -715,7 +788,7 @@ examples:
        * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
        *
        * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRole.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRole.json
        */
       async function createNewCloudServiceWithSingleRole() {
         const subscriptionId = "{subscription-id}";
@@ -770,7 +843,7 @@ examples:
       createNewCloudServiceWithSingleRole().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1100,7 +1173,94 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
+      func ExampleCloudServicesClient_BeginCreateOrUpdate_createNewCloudServiceWithSingleRoleAndRdpExtension() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "ConstosoRG", "{cs-name}", armcompute.CloudService{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.CloudServiceProperties{
+      			Configuration: to.Ptr("{ServiceConfiguration}"),
+      			ExtensionProfile: &armcompute.CloudServiceExtensionProfile{
+      				Extensions: []*armcompute.Extension{
+      					{
+      						Name: to.Ptr("RDPExtension"),
+      						Properties: &armcompute.CloudServiceExtensionProperties{
+      							Type:                    to.Ptr("RDP"),
+      							AutoUpgradeMinorVersion: to.Ptr(false),
+      							ProtectedSettings:       "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
+      							Publisher:               to.Ptr("Microsoft.Windows.Azure.Extensions"),
+      							Settings:                "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
+      							TypeHandlerVersion:      to.Ptr("1.2"),
+      						},
+      					}},
+      			},
+      			NetworkProfile: &armcompute.CloudServiceNetworkProfile{
+      				LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
+      					{
+      						Name: to.Ptr("contosolb"),
+      						Properties: &armcompute.LoadBalancerConfigurationProperties{
+      							FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
+      								{
+      									Name: to.Ptr("contosofe"),
+      									Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
+      										PublicIPAddress: &armcompute.SubResource{
+      											ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"),
+      										},
+      									},
+      								}},
+      						},
+      					}},
+      			},
+      			PackageURL: to.Ptr("{PackageUrl}"),
+      			RoleProfile: &armcompute.CloudServiceRoleProfile{
+      				Roles: []*armcompute.CloudServiceRoleProfileProperties{
+      					{
+      						Name: to.Ptr("ContosoFrontend"),
+      						SKU: &armcompute.CloudServiceRoleSKU{
+      							Name:     to.Ptr("Standard_D1_v2"),
+      							Capacity: to.Ptr[int64](1),
+      							Tier:     to.Ptr("Standard"),
+      						},
+      					}},
+      			},
+      			UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -1110,7 +1270,7 @@ examples:
        * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
        *
        * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndRDP.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
        */
       async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
         const subscriptionId = "{subscription-id}";
@@ -1181,7 +1341,7 @@ examples:
       createNewCloudServiceWithSingleRoleAndRdpExtension().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1518,7 +1678,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armcompute_test
@@ -1529,11 +1689,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
-      func ExampleCloudServicesClient_BeginCreateOrUpdate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithMultiRole.json
+      func ExampleCloudServicesClient_BeginCreateOrUpdate_createNewCloudServiceWithMultipleRoles() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -1543,54 +1703,50 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"ConstosoRG",
-      		"{cs-name}",
-      		armcompute.CloudService{
-      			Location: to.Ptr("westus"),
-      			Properties: &armcompute.CloudServiceProperties{
-      				Configuration: to.Ptr("{ServiceConfiguration}"),
-      				NetworkProfile: &armcompute.CloudServiceNetworkProfile{
-      					LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
-      						{
-      							Name: to.Ptr("contosolb"),
-      							Properties: &armcompute.LoadBalancerConfigurationProperties{
-      								FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
-      									{
-      										Name: to.Ptr("contosofe"),
-      										Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
-      											PublicIPAddress: &armcompute.SubResource{
-      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"),
-      											},
+      	poller, err := client.BeginCreateOrUpdate(ctx, "ConstosoRG", "{cs-name}", armcompute.CloudService{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.CloudServiceProperties{
+      			Configuration: to.Ptr("{ServiceConfiguration}"),
+      			NetworkProfile: &armcompute.CloudServiceNetworkProfile{
+      				LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
+      					{
+      						Name: to.Ptr("contosolb"),
+      						Properties: &armcompute.LoadBalancerConfigurationProperties{
+      							FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
+      								{
+      									Name: to.Ptr("contosofe"),
+      									Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
+      										PublicIPAddress: &armcompute.SubResource{
+      											ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"),
       										},
-      									}},
-      							},
-      						}},
-      				},
-      				PackageURL: to.Ptr("{PackageUrl}"),
-      				RoleProfile: &armcompute.CloudServiceRoleProfile{
-      					Roles: []*armcompute.CloudServiceRoleProfileProperties{
-      						{
-      							Name: to.Ptr("ContosoFrontend"),
-      							SKU: &armcompute.CloudServiceRoleSKU{
-      								Name:     to.Ptr("Standard_D1_v2"),
-      								Capacity: to.Ptr[int64](1),
-      								Tier:     to.Ptr("Standard"),
-      							},
+      									},
+      								}},
       						},
-      						{
-      							Name: to.Ptr("ContosoBackend"),
-      							SKU: &armcompute.CloudServiceRoleSKU{
-      								Name:     to.Ptr("Standard_D1_v2"),
-      								Capacity: to.Ptr[int64](1),
-      								Tier:     to.Ptr("Standard"),
-      							},
-      						}},
-      				},
-      				UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
+      					}},
       			},
+      			PackageURL: to.Ptr("{PackageUrl}"),
+      			RoleProfile: &armcompute.CloudServiceRoleProfile{
+      				Roles: []*armcompute.CloudServiceRoleProfileProperties{
+      					{
+      						Name: to.Ptr("ContosoFrontend"),
+      						SKU: &armcompute.CloudServiceRoleSKU{
+      							Name:     to.Ptr("Standard_D1_v2"),
+      							Capacity: to.Ptr[int64](1),
+      							Tier:     to.Ptr("Standard"),
+      						},
+      					},
+      					{
+      						Name: to.Ptr("ContosoBackend"),
+      						SKU: &armcompute.CloudServiceRoleSKU{
+      							Name:     to.Ptr("Standard_D1_v2"),
+      							Capacity: to.Ptr[int64](1),
+      							Tier:     to.Ptr("Standard"),
+      						},
+      					}},
+      			},
+      			UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
       		},
-      		nil)
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -1603,7 +1759,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -1613,7 +1769,7 @@ examples:
        * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
        *
        * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithMultiRole.json
        */
       async function createNewCloudServiceWithMultipleRoles() {
         const subscriptionId = "{subscription-id}";
@@ -1672,7 +1828,7 @@ examples:
       createNewCloudServiceWithMultipleRoles().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2014,7 +2170,92 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
+      func ExampleCloudServicesClient_BeginCreateOrUpdate_createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "ConstosoRG", "{cs-name}", armcompute.CloudService{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.CloudServiceProperties{
+      			Configuration: to.Ptr("{ServiceConfiguration}"),
+      			NetworkProfile: &armcompute.CloudServiceNetworkProfile{
+      				LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
+      					{
+      						Name: to.Ptr("contosolb"),
+      						Properties: &armcompute.LoadBalancerConfigurationProperties{
+      							FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
+      								{
+      									Name: to.Ptr("contosofe"),
+      									Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
+      										PublicIPAddress: &armcompute.SubResource{
+      											ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"),
+      										},
+      									},
+      								}},
+      						},
+      					}},
+      			},
+      			OSProfile: &armcompute.CloudServiceOsProfile{
+      				Secrets: []*armcompute.CloudServiceVaultSecretGroup{
+      					{
+      						SourceVault: &armcompute.SubResource{
+      							ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}"),
+      						},
+      						VaultCertificates: []*armcompute.CloudServiceVaultCertificate{
+      							{
+      								CertificateURL: to.Ptr("https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}"),
+      							}},
+      					}},
+      			},
+      			PackageURL: to.Ptr("{PackageUrl}"),
+      			RoleProfile: &armcompute.CloudServiceRoleProfile{
+      				Roles: []*armcompute.CloudServiceRoleProfileProperties{
+      					{
+      						Name: to.Ptr("ContosoFrontend"),
+      						SKU: &armcompute.CloudServiceRoleSKU{
+      							Name:     to.Ptr("Standard_D1_v2"),
+      							Capacity: to.Ptr[int64](1),
+      							Tier:     to.Ptr("Standard"),
+      						},
+      					}},
+      			},
+      			UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -2024,7 +2265,7 @@ examples:
        * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
        *
        * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndCertificate.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
        */
       async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
         const subscriptionId = "{subscription-id}";
@@ -2094,7 +2335,7 @@ examples:
       createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

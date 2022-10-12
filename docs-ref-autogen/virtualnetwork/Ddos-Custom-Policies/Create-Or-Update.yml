@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.ddoscustompolicies.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Ddos Custom Policies
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates or updates a DDoS custom policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,12 +52,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.protocolCustomSettings
-    in: body
-    description: The protocol-specific DDoS policy customization parameters.
-    types:
-    - uid: ProtocolCustomSettingsFormat
-      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -79,34 +73,6 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: ProtocolCustomSettingsFormat
-  description: DDoS custom policy properties.
-  kind: object
-  properties:
-  - name: protocol
-    description: The protocol for which the DDoS protection policy is being customized.
-    types:
-    - uid: DdosCustomPolicyProtocol
-  - name: triggerRateOverride
-    description: The customized DDoS protection trigger rate.
-    types:
-    - uid: string
-  - name: sourceRateOverride
-    description: The customized DDoS protection source rate.
-    types:
-    - uid: string
-  - name: triggerSensitivityOverride
-    description: 'The customized DDoS protection trigger rate sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t. normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t. normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal traffic.'
-    types:
-    - uid: DdosCustomPolicyTriggerSensitivityOverride
 - name: DdosCustomPolicy
   description: A DDoS custom policy in a resource group.
   kind: object
@@ -126,17 +92,6 @@ definitions:
     description: The provisioning state of the DDoS custom policy resource.
     types:
     - uid: ProvisioningState
-  - name: properties.publicIPAddresses
-    isReadyOnly: true
-    description: The list of public IPs associated with the DDoS custom policy resource. This list is read-only.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.protocolCustomSettings
-    description: The protocol-specific DDoS policy customization parameters.
-    types:
-    - uid: ProtocolCustomSettingsFormat
-      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -171,35 +126,6 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: DdosCustomPolicyProtocol
-  description: The protocol for which the DDoS protection policy is being customized.
-  kind: enum
-  properties:
-  - name: Tcp
-    types:
-    - uid: string
-  - name: Udp
-    types:
-    - uid: string
-  - name: Syn
-    types:
-    - uid: string
-- name: DdosCustomPolicyTriggerSensitivityOverride
-  description: 'The customized DDoS protection trigger rate sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t. normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t. normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal traffic.'
-  kind: enum
-  properties:
-  - name: Relaxed
-    types:
-    - uid: string
-  - name: Low
-    types:
-    - uid: string
-  - name: Default
-    types:
-    - uid: string
-  - name: High
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -240,73 +166,22 @@ definitions:
 examples:
 - name: Create DDoS custom policy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-05-01
     body: >-
       {
-        "location": "centraluseuap",
-        "properties": {
-          "protocolCustomSettings": [
-            {
-              "protocol": "Tcp"
-            }
-          ]
-        }
+        "location": "centraluseuap"
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosCustomPolicies/test-ddos-custom-policy?api-version=2022-05-01
 
       {
-        "location": "centraluseuap",
-        "properties": {
-          "protocolCustomSettings": [
-            {
-              "protocol": "Tcp"
-            }
-          ]
-        }
+        "location": "centraluseuap"
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.DdosCustomPolicyInner;
-      import com.azure.resourcemanager.network.models.DdosCustomPolicyProtocol;
-      import com.azure.resourcemanager.network.models.ProtocolCustomSettingsFormat;
-      import java.util.Arrays;
-
-      /** Samples for DdosCustomPolicies CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyCreate.json
-           */
-          /**
-           * Sample code: Create DDoS custom policy.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createDDoSCustomPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getDdosCustomPolicies()
-                  .createOrUpdate(
-                      "rg1",
-                      "test-ddos-custom-policy",
-                      new DdosCustomPolicyInner()
-                          .withLocation("centraluseuap")
-                          .withProtocolCustomSettings(
-                              Arrays.asList(new ProtocolCustomSettingsFormat().withProtocol(DdosCustomPolicyProtocol.TCP))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -317,10 +192,10 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyCreate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyCreate.json
       func ExampleDdosCustomPoliciesClient_BeginCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -333,12 +208,6 @@ examples:
       	}
       	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ddos-custom-policy", armnetwork.DdosCustomPolicy{
       		Location: to.Ptr("centraluseuap"),
-      		Properties: &armnetwork.DdosCustomPolicyPropertiesFormat{
-      			ProtocolCustomSettings: []*armnetwork.ProtocolCustomSettingsFormat{
-      				{
-      					Protocol: to.Ptr(armnetwork.DdosCustomPolicyProtocolTCP),
-      				}},
-      		},
       	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
@@ -352,7 +221,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -362,16 +231,13 @@ examples:
        * This sample demonstrates how to Creates or updates a DDoS custom policy.
        *
        * @summary Creates or updates a DDoS custom policy.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/DdosCustomPolicyCreate.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyCreate.json
        */
       async function createDDoSCustomPolicy() {
         const subscriptionId = "subid";
         const resourceGroupName = "rg1";
         const ddosCustomPolicyName = "test-ddos-custom-policy";
-        const parameters = {
-          location: "centraluseuap",
-          protocolCustomSettings: [{ protocol: "Tcp" }],
-        };
+        const parameters = { location: "centraluseuap" };
         const credential = new DefaultAzureCredential();
         const client = new NetworkManagementClient(credential, subscriptionId);
         const result = await client.ddosCustomPolicies.beginCreateOrUpdateAndWait(
@@ -385,7 +251,7 @@ examples:
       createDDoSCustomPolicy().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -396,14 +262,7 @@ examples:
         "location": "centraluseuap",
         "properties": {
           "provisioningState": "Succeeded",
-          "resourceGuid": "00000000-0000-0000-0000-000000000000",
-          "publicIPAddresses": [],
-          "protocolCustomSettings": [
-            {
-              "protocol": "Tcp",
-              "triggerRateOverride": "20000"
-            }
-          ]
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
         }
       }
   - statusCode: "201"
@@ -415,14 +274,7 @@ examples:
         "location": "centraluseuap",
         "properties": {
           "provisioningState": "Succeeded",
-          "resourceGuid": "00000000-0000-0000-0000-000000000000",
-          "publicIPAddresses": [],
-          "protocolCustomSettings": [
-            {
-              "protocol": "Tcp",
-              "triggerRateOverride": "20000"
-            }
-          ]
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
         }
       }
 security:

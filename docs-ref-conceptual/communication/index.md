@@ -21,11 +21,14 @@ You can perform various actions against several key areas of communication servi
 
 | Resource Groups                                                                       | Current API Version | Description                                                                                            |
 | ------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Call Automation](xref:communication.callautomation.servercalls)                                                  | 2021-08-30-preview          | Access voice and video calling capabilities from services.                                                                        |
 | [Chat](xref:communication.chat.chat)                                                  | 2021-09-07          | Create and delete chat threads.                                                                        |
 | [ChatThread](xref:communication.chat.chatthread)                                      | 2021-09-07          | Send messages, add participants and manage chat threads.                                               |
 | [Communication Service](xref:management.azure.com.communication.communicationservice) | 2020-08-20  | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
 | [Communication Identity](xref:communication.communicationidentity)                    | 2022-06-01          | Create, manage, and issue tokens for Communication Services Identities.                                |
+| [Email](xref:communication.email)                                                  | 2021-10-01-preview          | Send e-mails and get statuses.                                                                       |
 | [Phone Number Administration](xref:communication.phonenumbers)           | 2021-03-07          | Search, obtain, and manage Communication Services telephone numbers.                                   |
+| [Rooms](xref:communication.rooms)                                                  | 2022-02-01          | Manage rooms and participants.                                                                      |
 | [Sms](xref:communication.sms)                                                         | 2021-03-07          | Send SMS messages.                                                                                     |
 | [Communication Network Traversal](xref:communication.communicationnetworktraversal)   | 2022-03-11-preview  | Create, manage, and issue tokens for Communication Network Relays.
 

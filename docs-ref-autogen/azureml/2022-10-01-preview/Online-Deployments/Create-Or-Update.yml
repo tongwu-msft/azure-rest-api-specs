@@ -1,0 +1,1335 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.2022-10-01-preview.onlinedeployments.createorupdate
+name: Create Or Update
+service: Machine Learning
+groupName: Online Deployments
+apiVersion: 2022-10-01-preview
+summary: Create or update Inference Endpoint Deployment (asynchronous).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}?api-version=2022-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: endpointName
+  in: path
+  isRequired: true
+  description: Inference endpoint name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
+- name: deploymentName
+  in: path
+  isRequired: true
+  description: Inference Endpoint Deployment name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Success
+  types:
+  - uid: OnlineDeploymentTrackedResource
+- name: 201 Created
+  headers:
+  - name: x-ms-async-operation-timeout
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: Created
+  types:
+  - uid: OnlineDeploymentTrackedResource
+requestBody:
+- name: default
+  parameters:
+  - name: identity
+    in: body
+    description: Managed service identity (system assigned and/or user assigned identities)
+    types:
+    - uid: ManagedServiceIdentity
+  - name: kind
+    in: body
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    isRequired: true
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: KubernetesOnlineDeployment
+    - uid: ManagedOnlineDeployment
+    typesTitle: OnlineDeployment
+  - name: sku
+    in: body
+    description: Sku details required for ARM contract for Autoscaling.
+    types:
+    - uid: Sku
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: OnlineDeploymentTrackedResource
+  kind: object
+  properties:
+  - name: identity
+    description: Managed service identity (system assigned and/or user assigned identities)
+    types:
+    - uid: ManagedServiceIdentity
+  - name: kind
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
+    types:
+    - uid: string
+  - name: properties
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: KubernetesOnlineDeployment
+    - uid: ManagedOnlineDeployment
+    typesTitle: OnlineDeployment
+  - name: sku
+    description: Sku details required for ARM contract for Autoscaling.
+    types:
+    - uid: Sku
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: KubernetesOnlineDeployment
+  description: Properties specific to a KubernetesOnlineDeployment.
+  kind: object
+  properties:
+  - name: containerResourceRequirements
+    description: The resource requirements for the container (cpu and memory).
+    types:
+    - uid: ContainerResourceRequirements
+  - name: appInsightsEnabled
+    description: If true, enables Application Insights logging.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: egressPublicNetworkAccess
+    description: 'If Enabled, allow egress public network access. If Disabled, this will create secure egress. Default: Enabled.'
+    types:
+    - uid: EgressPublicNetworkAccessType
+    defaultValue: Enabled
+  - name: endpointComputeType
+    description: '[Required] The compute type of the endpoint.'
+    types:
+    - uid: Kubernetes
+    typesTitle: string
+  - name: instanceType
+    description: Compute instance type.
+    types:
+    - uid: string
+  - name: livenessProbe
+    description: Liveness probe monitors the health of the container regularly.
+    types:
+    - uid: ProbeSettings
+  - name: model
+    description: The URI path to the model.
+    types:
+    - uid: string
+  - name: modelMountPath
+    description: The path to mount the model in custom container.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the endpoint deployment.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: readinessProbe
+    description: Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe.
+    types:
+    - uid: ProbeSettings
+  - name: requestSettings
+    description: Request settings for the deployment.
+    types:
+    - uid: OnlineRequestSettings
+  - name: scaleSettings
+    description: >-
+      Scale settings for the deployment.
+
+      If it is null or not provided,
+
+      it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment
+
+      and to DefaultScaleSettings for ManagedOnlineDeployment.
+    types:
+    - uid: DefaultScaleSettings
+    - uid: TargetUtilizationScaleSettings
+    typesTitle: OnlineScaleSettings
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: Property dictionary. Properties can be added, but not removed or altered.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ManagedOnlineDeployment
+  description: Properties specific to a ManagedOnlineDeployment.
+  kind: object
+  properties:
+  - name: appInsightsEnabled
+    description: If true, enables Application Insights logging.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: egressPublicNetworkAccess
+    description: 'If Enabled, allow egress public network access. If Disabled, this will create secure egress. Default: Enabled.'
+    types:
+    - uid: EgressPublicNetworkAccessType
+    defaultValue: Enabled
+  - name: endpointComputeType
+    description: '[Required] The compute type of the endpoint.'
+    types:
+    - uid: Managed
+    typesTitle: string
+  - name: instanceType
+    description: Compute instance type.
+    types:
+    - uid: string
+  - name: livenessProbe
+    description: Liveness probe monitors the health of the container regularly.
+    types:
+    - uid: ProbeSettings
+  - name: model
+    description: The URI path to the model.
+    types:
+    - uid: string
+  - name: modelMountPath
+    description: The path to mount the model in custom container.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the endpoint deployment.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: readinessProbe
+    description: Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe.
+    types:
+    - uid: ProbeSettings
+  - name: requestSettings
+    description: Request settings for the deployment.
+    types:
+    - uid: OnlineRequestSettings
+  - name: scaleSettings
+    description: >-
+      Scale settings for the deployment.
+
+      If it is null or not provided,
+
+      it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment
+
+      and to DefaultScaleSettings for ManagedOnlineDeployment.
+    types:
+    - uid: DefaultScaleSettings
+    - uid: TargetUtilizationScaleSettings
+    typesTitle: OnlineScaleSettings
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: Property dictionary. Properties can be added, but not removed or altered.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ContainerResourceRequirements
+  description: Resource requirements for each container instance within an online deployment.
+  kind: object
+  properties:
+  - name: containerResourceLimits
+    description: 'Container resource limit info:'
+    types:
+    - uid: ContainerResourceSettings
+  - name: containerResourceRequests
+    description: 'Container resource request info:'
+    types:
+    - uid: ContainerResourceSettings
+- name: EgressPublicNetworkAccessType
+  description: Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EndpointComputeType
+  description: Enum to determine endpoint compute type.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: Kubernetes
+    types:
+    - uid: string
+  - name: AzureMLCompute
+    types:
+    - uid: string
+- name: ProbeSettings
+  description: Deployment container liveness/readiness probe configuration.
+  kind: object
+  properties:
+  - name: failureThreshold
+    description: The number of failures to allow before returning an unhealthy status.
+    types:
+    - uid: integer
+    defaultValue: 30
+  - name: initialDelay
+    description: The delay before the first probe in ISO 8601 format.
+    types:
+    - uid: string
+  - name: period
+    description: The length of time between probes in ISO 8601 format.
+    types:
+    - uid: string
+    defaultValue: PT10S
+  - name: successThreshold
+    description: The number of successful probes before returning a healthy status.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: timeout
+    description: The probe timeout in ISO 8601 format.
+    types:
+    - uid: string
+    defaultValue: PT2S
+- name: DeploymentProvisioningState
+  description: Possible values for DeploymentProvisioningState.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Scaling
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: OnlineRequestSettings
+  description: Online deployment scoring requests configuration.
+  kind: object
+  properties:
+  - name: maxConcurrentRequestsPerInstance
+    description: The number of maximum concurrent requests per node allowed per deployment. Defaults to 1.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: maxQueueWait
+    description: >-
+      The maximum amount of time a request will stay in the queue in ISO 8601 format.
+
+      Defaults to 500ms.
+    types:
+    - uid: string
+    defaultValue: PT0.5S
+  - name: requestTimeout
+    description: >-
+      The scoring timeout in ISO 8601 format.
+
+      Defaults to 5000ms.
+    types:
+    - uid: string
+    defaultValue: PT5S
+- name: CodeConfiguration
+  description: Configuration for a scoring code asset.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: scoringScript
+    description: '[Required] The script to execute on startup. eg. "score.py"'
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ContainerResourceSettings
+  kind: object
+  properties:
+  - name: cpu
+    description: >-
+      Number of vCPUs request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    types:
+    - uid: string
+  - name: gpu
+    description: >-
+      Number of Nvidia GPU cards request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    types:
+    - uid: string
+  - name: memory
+    description: >-
+      Memory size request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    types:
+    - uid: string
+- name: DefaultScaleSettings
+  kind: object
+  properties:
+  - name: scaleType
+    description: '[Required] Type of deployment scaling algorithm'
+    types:
+    - uid: Default
+    typesTitle: string
+- name: TargetUtilizationScaleSettings
+  kind: object
+  properties:
+  - name: maxInstances
+    description: The maximum number of instances that the deployment can scale to. The quota will be reserved for max_instances.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: minInstances
+    description: The minimum number of instances to always be present.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: pollingInterval
+    description: The polling interval in ISO 8691 format. Only supports duration with precision as low as Seconds.
+    types:
+    - uid: string
+    defaultValue: PT1S
+  - name: targetUtilizationPercentage
+    description: Target CPU usage for the autoscaler.
+    types:
+    - uid: integer
+    defaultValue: 70
+  - name: scaleType
+    description: '[Required] Type of deployment scaling algorithm'
+    types:
+    - uid: TargetUtilization
+    typesTitle: string
+- name: ScaleType
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: TargetUtilization
+    types:
+    - uid: string
+examples:
+- name: CreateOrUpdate Managed Online Deployment.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-10-01-preview
+    body: >-
+      {
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Managed",
+          "modelMountPath": "string",
+          "readinessProbe": {
+            "failureThreshold": 30,
+            "successThreshold": 1,
+            "timeout": "PT2S",
+            "period": "PT10S",
+            "initialDelay": "PT1S"
+          }
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "string": {}
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-10-01-preview
+
+      {
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Managed",
+          "modelMountPath": "string",
+          "readinessProbe": {
+            "failureThreshold": 30,
+            "successThreshold": 1,
+            "timeout": "PT2S",
+            "period": "PT10S",
+            "initialDelay": "PT1S"
+          }
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "string": {}
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "provisioningState": "Creating",
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Managed",
+          "modelMountPath": "string",
+          "readinessProbe": {
+            "failureThreshold": 30,
+            "successThreshold": 1,
+            "timeout": "PT2S",
+            "period": "PT10S",
+            "initialDelay": "PT1S"
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
+          "userAssignedIdentities": {
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
+            }
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "provisioningState": "Creating",
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Managed",
+          "modelMountPath": "string",
+          "readinessProbe": {
+            "failureThreshold": 30,
+            "successThreshold": 1,
+            "timeout": "PT2S",
+            "period": "PT10S",
+            "initialDelay": "PT1S"
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
+          "userAssignedIdentities": {
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
+            }
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+- name: CreateOrUpdate Kubernetes Online Deployment.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-10-01-preview
+    body: >-
+      {
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "modelMountPath": "string",
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Kubernetes",
+          "containerResourceRequirements": {
+            "containerResourceRequests": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            },
+            "containerResourceLimits": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            }
+          }
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "string": {}
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-10-01-preview
+
+      {
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "modelMountPath": "string",
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Kubernetes",
+          "containerResourceRequirements": {
+            "containerResourceRequests": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            },
+            "containerResourceLimits": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            }
+          }
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "string": {}
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "modelMountPath": "string",
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "provisioningState": "Creating",
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Kubernetes",
+          "containerResourceRequirements": {
+            "containerResourceRequests": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            },
+            "containerResourceLimits": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
+          "userAssignedIdentities": {
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
+            }
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "scaleSettings": {
+            "scaleType": "Default"
+          },
+          "requestSettings": {
+            "maxQueueWait": "PT5M",
+            "requestTimeout": "PT5M",
+            "maxConcurrentRequestsPerInstance": 1
+          },
+          "modelMountPath": "string",
+          "appInsightsEnabled": false,
+          "livenessProbe": {
+            "failureThreshold": 1,
+            "successThreshold": 1,
+            "timeout": "PT5M",
+            "period": "PT5M",
+            "initialDelay": "PT5M"
+          },
+          "provisioningState": "Creating",
+          "instanceType": "string",
+          "model": "string",
+          "endpointComputeType": "Kubernetes",
+          "containerResourceRequirements": {
+            "containerResourceRequests": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            },
+            "containerResourceLimits": {
+              "cpu": "\"1\"",
+              "memory": "\"2Gi\"",
+              "gpu": "\"1\""
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
+          "userAssignedIdentities": {
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
+            }
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Machine Learning service - Create or update Inference Endpoint Deployment (asynchronous).
+errorCodes: []

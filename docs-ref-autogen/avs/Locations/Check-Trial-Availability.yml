@@ -3,14 +3,14 @@ uid: management.azure.com.avs.locations.checktrialavailability
 name: Check Trial Availability
 service: AVS
 groupName: Locations
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Return trial status for subscription by region
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability?api-version=2021-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,6 +39,15 @@ responses:
   description: Error response describing why the operation failed
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name of the SKU.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: Trial
@@ -63,6 +72,14 @@ definitions:
     description: "Error Response  \nAn error returned by the API"
     types:
     - uid: ErrorResponse
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU.
+    types:
+    - uid: string
 - name: TrialStatus
   description: Trial status
   kind: enum
@@ -124,69 +141,38 @@ definitions:
 examples:
 - name: Locations_CheckTrialAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2021-12-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2021-12-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "TrialAvailable",
+        "availableHosts": 4
+      }
+- name: Locations_CheckTrialAvailabilityWithSku
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2022-05-01
+    body: >-
+      {
+        "name": "avs52t"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AVS/locations/eastus/checkTrialAvailability?api-version=2022-05-01
 
-      /** Samples for Locations CheckTrialAvailability. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Locations_CheckTrialAvailability.json
-           */
-          /**
-           * Sample code: Locations_CheckTrialAvailability.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void locationsCheckTrialAvailability(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.locations().checkTrialAvailabilityWithResponse("eastus", Context.NONE);
-          }
+      {
+        "name": "avs52t"
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
 
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Locations_CheckTrialAvailability.json
-      func ExampleLocationsClient_CheckTrialAvailability() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewLocationsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.CheckTrialAvailability(ctx,
-      		"eastus",
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

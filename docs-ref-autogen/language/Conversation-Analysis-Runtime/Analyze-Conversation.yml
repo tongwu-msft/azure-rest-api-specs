@@ -3,14 +3,14 @@ uid: language.conversationanalysisruntime.analyzeconversation
 name: Analyze Conversation
 service: Cognitive Services - Language
 groupName: Conversation Analysis Runtime
-apiVersion: 2022-05-01
+apiVersion: 2022-10-01-preview
 summary: Analyzes the input conversation utterance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+- content: POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
 uriParameters:
 - name: Endpoint
   in: path
@@ -61,13 +61,7 @@ requestBody:
     types:
     - uid: Conversation
     typesTitle: string
-requestHeader:
-- name: Ocp-Apim-Subscription-Key
-  in: header
-  isRequired: true
-  description: A subscription key for a Language service resource.
-  types:
-  - uid: string
+requestHeader: []
 definitions:
 - name: ConversationalTask
   description: The input for a custom conversation task.
@@ -204,6 +198,10 @@ definitions:
     description: Enumeration of supported conversational modalities.
     types:
     - uid: InputModality
+  - name: role
+    description: The role of the participant.
+    types:
+    - uid: role
 - name: StringIndexType
   description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
   kind: enum
@@ -339,6 +337,19 @@ definitions:
     types:
     - uid: string
   - name: text
+    types:
+    - uid: string
+- name: role
+  description: The role of the participant.
+  kind: enum
+  properties:
+  - name: agent
+    types:
+    - uid: string
+  - name: customer
+    types:
+    - uid: string
+  - name: generic
     types:
     - uid: string
 - name: LuisParameters
@@ -671,8 +682,6 @@ definitions:
   - name: resolutions
     description: The collection of entity resolution objects.
     types:
-    - uid: AgeResolution
-      isArray: true
     - uid: VolumeResolution
       isArray: true
     - uid: SpeedResolution
@@ -688,6 +697,8 @@ definitions:
     - uid: WeightResolution
       isArray: true
     - uid: CurrencyResolution
+      isArray: true
+    - uid: AgeResolution
       isArray: true
     - uid: BooleanResolution
       isArray: true
@@ -708,6 +719,8 @@ definitions:
     - uid: EntitySubtype
       isArray: true
     - uid: ListKey
+      isArray: true
+    - uid: RegexKey
       isArray: true
     typesTitle: BaseExtraInformation[]
 - name: MetadataFilter
@@ -837,23 +850,6 @@ definitions:
     description: Metadata Value from Metadata dictionary used in the QnA.
     types:
     - uid: string
-- name: AgeResolution
-  description: Represents the Age entity resolution model.
-  kind: object
-  properties:
-  - name: unit
-    description: The Age Unit of measurement
-    types:
-    - uid: AgeUnit
-  - name: resolutionKind
-    description: The entity resolution object kind.
-    types:
-    - uid: Age
-    typesTitle: string
-  - name: value
-    description: The numeric value that the extracted text denotes.
-    types:
-    - uid: number
 - name: VolumeResolution
   description: Represents the volume entity resolution model.
   kind: object
@@ -865,7 +861,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Volume
+    - uid: VolumeResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -882,7 +878,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Speed
+    - uid: SpeedResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -899,7 +895,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Area
+    - uid: AreaResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -916,7 +912,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Length
+    - uid: LengthResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -933,7 +929,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Information
+    - uid: InformationResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -950,7 +946,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Temperature
+    - uid: TemperatureResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -967,7 +963,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Weight
+    - uid: WeightResolution
     typesTitle: string
   - name: value
     description: The numeric value that the extracted text denotes.
@@ -992,8 +988,25 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Currency
+    - uid: CurrencyResolution
     typesTitle: string
+- name: AgeResolution
+  description: Represents the Age entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The Age Unit of measurement
+    types:
+    - uid: AgeUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: AgeResolution
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
 - name: BooleanResolution
   description: A resolution for boolean expressions
   kind: object
@@ -1005,7 +1018,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Boolean
+    - uid: BooleanResolution
     typesTitle: string
 - name: DateTimeResolution
   description: A resolution for datetime entity instances.
@@ -1030,7 +1043,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: DateTime
+    - uid: DateTimeResolution
     typesTitle: string
 - name: NumberResolution
   description: A resolution for numeric entity instances.
@@ -1047,7 +1060,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Number
+    - uid: NumberResolution
     typesTitle: string
 - name: OrdinalResolution
   description: A resolution for ordinal numbers entity instances.
@@ -1068,7 +1081,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: Ordinal
+    - uid: OrdinalResolution
     typesTitle: string
 - name: TemporalSpanResolution
   description: represents the resolution of a date and/or time span.
@@ -1093,7 +1106,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: TemporalSpan
+    - uid: TemporalSpanResolution
     typesTitle: string
 - name: NumericRangeResolution
   description: represents the resolution of numeric intervals.
@@ -1114,7 +1127,7 @@ definitions:
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
-    - uid: NumericRange
+    - uid: NumericRangeResolution
     typesTitle: string
 - name: EntitySubtype
   description: The concrete entity Subtype model of extra information.
@@ -1142,6 +1155,23 @@ definitions:
     types:
     - uid: ListKey
     typesTitle: string
+- name: RegexKey
+  description: The regex key extra data kind.
+  kind: object
+  properties:
+  - name: key
+    description: The key of the regex pattern used in extracting the entity.
+    types:
+    - uid: string
+  - name: regexPattern
+    description: The .NET regex pattern used in extracting the entity. Please visit https://docs.microsoft.com/dotnet/standard/base-types/regular-expressions for more information about .NET regular expressions.
+    types:
+    - uid: string
+  - name: extraInformationKind
+    description: The extra information object kind.
+    types:
+    - uid: RegexKey
+    typesTitle: string
 - name: ConversationResult
   description: The response returned by a Conversation project.
   kind: object
@@ -1167,25 +1197,6 @@ definitions:
     types:
     - uid: KnowledgeBaseAnswer
       isArray: true
-- name: AgeUnit
-  description: The Age Unit of measurement
-  kind: enum
-  properties:
-  - name: Unspecified
-    types:
-    - uid: string
-  - name: Year
-    types:
-    - uid: string
-  - name: Month
-    types:
-    - uid: string
-  - name: Week
-    types:
-    - uid: string
-  - name: Day
-    types:
-    - uid: string
 - name: VolumeUnit
   description: The Volume Unit of measurement
   kind: enum
@@ -1532,6 +1543,25 @@ definitions:
   - name: Dram
     types:
     - uid: string
+- name: AgeUnit
+  description: The Age Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Year
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Day
+    types:
+    - uid: string
 - name: DateTimeSubKind
   description: The DateTime SubKind
   kind: enum
@@ -1771,7 +1801,7 @@ definitions:
 examples:
 - name: Conversation project result
   request:
-    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "Conversation",
@@ -1791,8 +1821,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
 
       {
         "kind": "Conversation",
@@ -1812,9 +1841,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1851,9 +1877,9 @@ examples:
           }
         }
       }
-- name: Orchestration result
+- name: Arbitration result
   request:
-    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "Conversation",
@@ -1877,8 +1903,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
 
       {
         "kind": "Conversation",
@@ -1902,9 +1927,6 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
@@ -1950,9 +1972,9 @@ examples:
           }
         }
       }
-- name: Orchestration direct target result
+- name: Orchestrator direct target result
   request:
-    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
     body: >-
       {
         "kind": "Conversation",
@@ -1985,8 +2007,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
-
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-10-01-preview
 
       {
         "kind": "Conversation",
@@ -2019,16 +2040,13 @@ examples:
 
       ```
 
-    headers:
-    - name: Ocp-Apim-Subscription-Key
-      value: '{API key}'
   responses:
   - statusCode: "200"
     body: >-
       {
         "kind": "ConversationResult",
         "result": {
-          "query": "App Service overview",
+          "query": "Ports and connectors",
           "prediction": {
             "projectKind": "Orchestration",
             "topIntent": "qnaTargetApp",
@@ -2060,6 +2078,14 @@ examples:
         }
       }
 security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://cognitiveservices.azure.com/.default
+    description: https://cognitiveservices.azure.com/.default
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   description: A subscription key for a Language service resource.

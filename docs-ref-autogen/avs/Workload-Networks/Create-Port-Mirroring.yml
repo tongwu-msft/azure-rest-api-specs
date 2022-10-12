@@ -3,14 +3,14 @@ uid: management.azure.com.avs.workloadnetworks.createportmirroring
 name: Create Port Mirroring
 service: AVS
 groupName: Workload Networks
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create a port mirroring profile by id in a private cloud workload network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}?api-version=2021-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -184,6 +184,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -232,7 +235,7 @@ definitions:
 examples:
 - name: WorkloadNetworks_CreatePortMirroring
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -246,7 +249,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1?api-version=2022-05-01
 
       {
         "properties": {
@@ -260,92 +263,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.avs.models.PortMirroringDirectionEnum;
-
-      /** Samples for WorkloadNetworks CreatePortMirroring. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreatePortMirroringProfiles.json
-           */
-          /**
-           * Sample code: WorkloadNetworks_CreatePortMirroring.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void workloadNetworksCreatePortMirroring(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .workloadNetworks()
-                  .definePortMirroring("portMirroring1")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withDisplayName("portMirroring1")
-                  .withDirection(PortMirroringDirectionEnum.BIDIRECTIONAL)
-                  .withSource("vmGroup1")
-                  .withDestination("vmGroup2")
-                  .withRevision(1L)
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreatePortMirroringProfiles.json
-      func ExampleWorkloadNetworksClient_BeginCreatePortMirroring() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewWorkloadNetworksClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreatePortMirroring(ctx,
-      		"group1",
-      		"cloud1",
-      		"portMirroring1",
-      		armavs.WorkloadNetworkPortMirroring{
-      			Properties: &armavs.WorkloadNetworkPortMirroringProperties{
-      				Destination: to.Ptr("vmGroup2"),
-      				Direction:   to.Ptr(armavs.PortMirroringDirectionEnumBIDIRECTIONAL),
-      				DisplayName: to.Ptr("portMirroring1"),
-      				Revision:    to.Ptr[int64](1),
-      				Source:      to.Ptr("vmGroup1"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1",
         "name": "portMirroring1",
         "properties": {
           "displayName": "portMirroring1",
@@ -360,7 +282,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/portMirroringProfiles/portMirroring1",
         "name": "portMirroring1",
         "properties": {
           "displayName": "portMirroring1",

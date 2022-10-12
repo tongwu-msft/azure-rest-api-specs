@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.virtualhubs.getoutboundroutes
+name: Get Outbound Routes
+service: Virtual WAN
+groupName: Virtual Hubs
+apiVersion: 2022-05-01
+summary: Gets the outbound routes configured for the Virtual Hub on a particular connection.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Follow the location header for the outbound routes list.
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: resourceUri
+    in: body
+    description: The connection resource whose outbound routes are being requested.
+    types:
+    - uid: string
+  - name: connectionType
+    in: body
+    description: The type of the specified connection resource like ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: GetOutboundRoutesParameters
+  description: The parameters specifying the connection resource whose outbound routes are being requested.
+  kind: object
+  properties:
+  - name: resourceUri
+    description: The connection resource whose outbound routes are being requested.
+    types:
+    - uid: string
+  - name: connectionType
+    description: The type of the specified connection resource like ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Outbound Routes for the Virtual Hub on a Particular Connection
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/outboundRoutes?api-version=2022-05-01
+    body: >-
+      {
+        "resourceUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
+        "connectionType": "ExpressRouteConnection"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/outboundRoutes?api-version=2022-05-01
+
+      {
+        "resourceUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
+        "connectionType": "ExpressRouteConnection"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetOutboundRoutes.json
+      func ExampleVirtualHubsClient_BeginGetOutboundRoutes() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualHubsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGetOutboundRoutes(ctx, "rg1", "virtualHub1", armnetwork.GetOutboundRoutesParameters{
+      		ConnectionType: to.Ptr("ExpressRouteConnection"),
+      		ResourceURI:    to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the outbound routes configured for the Virtual Hub on a particular connection.
+       *
+       * @summary Gets the outbound routes configured for the Virtual Hub on a particular connection.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetOutboundRoutes.json
+       */
+      async function outboundRoutesForTheVirtualHubOnAParticularConnection() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub1";
+        const getOutboundRoutesParameters = {
+          connectionType: "ExpressRouteConnection",
+          resourceUri:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualHubs.beginGetOutboundRoutesAndWait(
+          resourceGroupName,
+          virtualHubName,
+          getOutboundRoutesParameters
+        );
+        console.log(result);
+      }
+
+      outboundRoutesForTheVirtualHubOnAParticularConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Virtual WAN service - Gets the outbound routes configured for the Virtual Hub on a particular connection.
+errorCodes: []

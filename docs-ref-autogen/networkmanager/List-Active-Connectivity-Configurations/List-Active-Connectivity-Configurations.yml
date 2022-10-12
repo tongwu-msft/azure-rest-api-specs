@@ -3,14 +3,16 @@ uid: management.azure.com.networkmanager.listactiveconnectivityconfigurations.li
 name: List Active Connectivity Configurations
 service: Network Manager
 groupName: List Active Connectivity Configurations
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Lists active connectivity configurations in a network manager.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations?api-version=2022-05-01&$top={$top}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +38,12 @@ uriParameters:
   description: Client API version.
   types:
   - uid: string
+- name: $top
+  in: query
+  description: An optional query parameter which specifies the maximum number of records to be returned by the server.
+  types:
+  - uid: integer
+  format: int32
 responses:
 - name: 200 OK
   description: Post successful. The operation returns the specified Managed Network active connectivity configuration resource.
@@ -286,7 +294,7 @@ definitions:
 examples:
 - name: List Active Connectivity Configurations
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveConnectivityConfigurations?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveConnectivityConfigurations?api-version=2022-05-01
     body: >-
       {
         "regions": [
@@ -297,7 +305,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveConnectivityConfigurations?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveConnectivityConfigurations?api-version=2022-05-01
 
       {
         "regions": [
@@ -318,17 +326,17 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
       func ExampleManagementClient_ListActiveConnectivityConfigurations() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armnetwork.NewManagementClient("subscriptionA", cred, nil)
+      	client, err := armnetwork.NewManagementClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
@@ -336,7 +344,7 @@ examples:
       		Regions: []*string{
       			to.Ptr("westus")},
       		SkipToken: to.Ptr("fakeSkipTokenCode"),
-      	}, nil)
+      	}, &armnetwork.ManagementClientListActiveConnectivityConfigurationsOptions{Top: nil})
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -345,7 +353,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -355,10 +363,10 @@ examples:
        * This sample demonstrates how to Lists active connectivity configurations in a network manager.
        *
        * @summary Lists active connectivity configurations in a network manager.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
        */
       async function listActiveConnectivityConfigurations() {
-        const subscriptionId = "subscriptionA";
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
         const resourceGroupName = "myResourceGroup";
         const networkManagerName = "testNetworkManager";
         const parameters = {
@@ -378,7 +386,7 @@ examples:
       listActiveConnectivityConfigurations().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -387,13 +395,13 @@ examples:
           {
             "region": "westus",
             "commitTime": "2020-07-10T18:03:22.2578238+05:30",
-            "id": "subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/connectivityConfigurations/myTestConnectivityConfig",
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/connectivityConfigurations/myTestConnectivityConfig",
             "properties": {
               "description": "Sample Configuration",
               "connectivityTopology": "HubAndSpoke",
               "hubs": [
                 {
-                  "resourceId": "subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myTestConnectivityConfig",
+                  "resourceId": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myTestConnectivityConfig",
                   "resourceType": "Microsoft.Network/virtualNetworks"
                 }
               ],
@@ -401,7 +409,7 @@ examples:
               "deleteExistingPeering": "True",
               "appliesToGroups": [
                 {
-                  "networkGroupId": "/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/groups/group1",
+                  "networkGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
                   "useHubGateway": "True",
                   "groupConnectivity": "None",
                   "isGlobal": "False"
@@ -411,7 +419,7 @@ examples:
             },
             "configurationGroups": [
               {
-                "id": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
                 "properties": {
                   "description": "A group for all test Virtual Networks",
                   "provisioningState": "Succeeded"

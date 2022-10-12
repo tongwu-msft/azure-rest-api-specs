@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networksecuritygroups.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Network Security Groups
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates or updates a network security group in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -235,6 +235,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2432,18 +2436,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2656,14 +2656,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -2684,7 +2687,7 @@ definitions:
 examples:
 - name: Create network security group
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-05-01
     body: >-
       {
         "location": "eastus"
@@ -2692,7 +2695,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-05-01
 
       {
         "location": "eastus"
@@ -2700,33 +2703,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.NetworkSecurityGroupInner;
-
-      /** Samples for NetworkSecurityGroups CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreate.json
-           */
-          /**
-           * Sample code: Create network security group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createNetworkSecurityGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNetworkSecurityGroups()
-                  .createOrUpdate("rg1", "testnsg", new NetworkSecurityGroupInner().withLocation("eastus"), Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -2737,11 +2713,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreate.json
-      func ExampleSecurityGroupsClient_BeginCreateOrUpdate_networkSecurityGroupCreate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreate.json
+      func ExampleSecurityGroupsClient_BeginCreateOrUpdate_createNetworkSecurityGroup() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -2766,7 +2742,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -2776,7 +2752,7 @@ examples:
        * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
        *
        * @summary Creates or updates a network security group in the specified resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreate.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreate.json
        */
       async function createNetworkSecurityGroup() {
         const subscriptionId = "subid";
@@ -2796,7 +2772,7 @@ examples:
       createNetworkSecurityGroup().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3022,7 +2998,7 @@ examples:
       }
 - name: Create network security group with rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -3047,7 +3023,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2022-05-01
 
       {
         "properties": {
@@ -3072,56 +3048,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.NetworkSecurityGroupInner;
-      import com.azure.resourcemanager.network.fluent.models.SecurityRuleInner;
-      import com.azure.resourcemanager.network.models.SecurityRuleAccess;
-      import com.azure.resourcemanager.network.models.SecurityRuleDirection;
-      import com.azure.resourcemanager.network.models.SecurityRuleProtocol;
-      import java.util.Arrays;
-
-      /** Samples for NetworkSecurityGroups CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreateWithRule.json
-           */
-          /**
-           * Sample code: Create network security group with rule.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createNetworkSecurityGroupWithRule(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNetworkSecurityGroups()
-                  .createOrUpdate(
-                      "rg1",
-                      "testnsg",
-                      new NetworkSecurityGroupInner()
-                          .withLocation("eastus")
-                          .withSecurityRules(
-                              Arrays
-                                  .asList(
-                                      new SecurityRuleInner()
-                                          .withName("rule1")
-                                          .withProtocol(SecurityRuleProtocol.ASTERISK)
-                                          .withSourcePortRange("*")
-                                          .withDestinationPortRange("80")
-                                          .withSourceAddressPrefix("*")
-                                          .withDestinationAddressPrefix("*")
-                                          .withAccess(SecurityRuleAccess.ALLOW)
-                                          .withPriority(130)
-                                          .withDirection(SecurityRuleDirection.INBOUND))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -3132,11 +3058,11 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreateWithRule.json
-      func ExampleSecurityGroupsClient_BeginCreateOrUpdate_networkSecurityGroupCreateWithRule() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreateWithRule.json
+      func ExampleSecurityGroupsClient_BeginCreateOrUpdate_createNetworkSecurityGroupWithRule() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -3177,7 +3103,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -3187,7 +3113,7 @@ examples:
        * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
        *
        * @summary Creates or updates a network security group in the specified resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkSecurityGroupCreateWithRule.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreateWithRule.json
        */
       async function createNetworkSecurityGroupWithRule() {
         const subscriptionId = "subid";
@@ -3222,7 +3148,7 @@ examples:
       createNetworkSecurityGroupWithRule().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

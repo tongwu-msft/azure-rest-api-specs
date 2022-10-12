@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.lis
 name: List
 service: Application Gateway
 groupName: Web Application Firewall Policies
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Lists all of the protection policies within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -2103,6 +2103,10 @@ definitions:
     description: Verify client certificate issuer name on the application gateway.
     types:
     - uid: boolean
+  - name: verifyClientRevocation
+    description: Verify client certificate revocation status.
+    types:
+    - uid: ApplicationGatewayClientRevocationOptions
 - name: ApplicationGatewayPathRule
   description: Path rule of URL path map of an application gateway.
   kind: object
@@ -3065,6 +3069,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ApplicationGatewayClientRevocationOptions
+  description: Verify client certificate revocation status.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: OCSP
+    types:
+    - uid: string
 - name: ApplicationGatewayRewriteRuleCondition
   description: Set of conditions in the Rewrite Rule in Application Gateway.
   kind: object
@@ -3174,6 +3188,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -3359,6 +3377,10 @@ definitions:
     description: The state of the managed rule. Defaults to Disabled if not specified.
     types:
     - uid: ManagedRuleEnabledState
+  - name: action
+    description: Describes the override action to be applied when rule matches.
+    types:
+    - uid: ActionType
 - name: NetworkInterfaceTapConfiguration
   description: Tap configuration in a Network Interface.
   kind: object
@@ -4010,18 +4032,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -4346,6 +4364,25 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: ActionType
+  description: Defines the action to take on rule match.
+  kind: enum
+  properties:
+  - name: AnomalyScoring
+    types:
+    - uid: string
+  - name: Allow
+    types:
+    - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
 - name: GatewayLoadBalancerTunnelProtocol
   description: Protocol of gateway load balancer tunnel interface.
   kind: enum
@@ -4666,14 +4703,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -4927,39 +4967,13 @@ definitions:
 examples:
 - name: Lists all WAF policies in a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for WebApplicationFirewallPolicies ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListPolicies.json
-           */
-          /**
-           * Sample code: Lists all WAF policies in a resource group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listsAllWAFPoliciesInAResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getWebApplicationFirewallPolicies()
-                  .listByResourceGroup("rg1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -4969,10 +4983,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListPolicies.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListPolicies.json
       func ExampleWebApplicationFirewallPoliciesClient_NewListPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -4997,7 +5011,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -5007,7 +5021,7 @@ examples:
        * This sample demonstrates how to Lists all of the protection policies within a resource group.
        *
        * @summary Lists all of the protection policies within a resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListPolicies.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListPolicies.json
        */
       async function listsAllWafPoliciesInAResourceGroup() {
         const subscriptionId = "subid";
@@ -5024,7 +5038,7 @@ examples:
       listsAllWafPoliciesInAResourceGroup().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

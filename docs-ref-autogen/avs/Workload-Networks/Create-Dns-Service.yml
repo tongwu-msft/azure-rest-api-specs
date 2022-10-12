@@ -3,14 +3,14 @@ uid: management.azure.com.avs.workloadnetworks.creatednsservice
 name: Create Dns Service
 service: AVS
 groupName: Workload Networks
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create a DNS service by id in a private cloud workload network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}?api-version=2021-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -201,6 +201,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -249,7 +252,7 @@ definitions:
 examples:
 - name: WorkloadNetworks_CreateDnsService
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -266,7 +269,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1?api-version=2022-05-01
 
       {
         "properties": {
@@ -283,94 +286,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.avs.models.DnsServiceLogLevelEnum;
-      import java.util.Arrays;
-
-      /** Samples for WorkloadNetworks CreateDnsService. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDnsServices.json
-           */
-          /**
-           * Sample code: WorkloadNetworks_CreateDnsService.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void workloadNetworksCreateDnsService(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .workloadNetworks()
-                  .defineDnsService("dnsService1")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withDisplayName("dnsService1")
-                  .withDnsServiceIp("5.5.5.5")
-                  .withDefaultDnsZone("defaultDnsZone1")
-                  .withFqdnZones(Arrays.asList("fqdnZone1"))
-                  .withLogLevel(DnsServiceLogLevelEnum.INFO)
-                  .withRevision(1L)
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDnsServices.json
-      func ExampleWorkloadNetworksClient_BeginCreateDNSService() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client := armavs.NewWorkloadNetworksClient("<subscription-id>", cred, nil)
-      	poller, err := client.BeginCreateDNSService(ctx,
-      		"<resource-group-name>",
-      		"<private-cloud-name>",
-      		"<dns-service-id>",
-      		armavs.WorkloadNetworkDNSService{
-      			Properties: &armavs.WorkloadNetworkDNSServiceProperties{
-      				DefaultDNSZone: to.StringPtr("<default-dnszone>"),
-      				DisplayName:    to.StringPtr("<display-name>"),
-      				DNSServiceIP:   to.StringPtr("<dnsservice-ip>"),
-      				FqdnZones: []*string{
-      					to.StringPtr("fqdnZone1")},
-      				LogLevel: armavs.DNSServiceLogLevelEnumINFO.ToPtr(),
-      				Revision: to.Int64Ptr(1),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	log.Printf("WorkloadNetworkDNSService.ID: %s\n", *res.ID)
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv0.1.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1",
         "name": "dnsService1",
         "properties": {
           "displayName": "dnsService1",
@@ -388,7 +308,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsServices/dnsService1",
         "name": "dnsService1",
         "properties": {
           "displayName": "dnsService1",

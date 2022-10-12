@@ -1,0 +1,418 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.routemaps.list
+name: List
+service: Virtual WAN
+groupName: Route Maps
+apiVersion: 2022-05-01
+summary: Retrieves the details of all RouteMaps.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the RouteMap's resource group'.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub containing the RouteMap.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the RouteMaps for the VirtualHub.
+  types:
+  - uid: ListRouteMapsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListRouteMapsResult
+  description: List of RouteMaps and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of RouteMaps.
+    types:
+    - uid: RouteMap
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: RouteMap
+  description: The RouteMap child resource of a Virtual hub.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource id.
+    types:
+    - uid: string
+  - name: properties.associatedInboundConnections
+    description: List of connections which have this RoutMap associated for inbound traffic.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.associatedOutboundConnections
+    description: List of connections which have this RoutMap associated for outbound traffic.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.rules
+    description: List of RouteMap rules to be applied.
+    types:
+    - uid: RouteMapRule
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the RouteMap resource.
+    types:
+    - uid: ProvisioningState
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: RouteMapRule
+  description: A RouteMap Rule.
+  kind: object
+  properties:
+  - name: name
+    description: The unique name for the rule.
+    types:
+    - uid: string
+  - name: matchCriteria
+    description: List of matching criterion which will be applied to traffic.
+    types:
+    - uid: Criterion
+      isArray: true
+  - name: actions
+    description: List of actions which will be applied on a match.
+    types:
+    - uid: Action
+      isArray: true
+  - name: nextStepIfMatched
+    description: Next step after rule is evaluated. Current supported behaviors are 'Continue'(to next rule) and 'Terminate'.
+    types:
+    - uid: NextStep
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: Criterion
+  description: A matching criteria which matches routes based on route prefix, community, and AS path.
+  kind: object
+  properties:
+  - name: routePrefix
+    description: List of route prefixes which this criteria matches.
+    types:
+    - uid: string
+      isArray: true
+  - name: community
+    description: List of BGP communities which this criteria matches.
+    types:
+    - uid: string
+      isArray: true
+  - name: asPath
+    description: List of AS paths which this criteria matches.
+    types:
+    - uid: string
+      isArray: true
+  - name: matchCondition
+    description: Match condition to apply RouteMap rules.
+    types:
+    - uid: RouteMapMatchCondition
+- name: Action
+  description: Action to be taken on a route matching a RouteMap criterion.
+  kind: object
+  properties:
+  - name: type
+    description: Type of action to be taken. Supported types are 'Remove', 'Add', 'Replace', and 'Drop.'
+    types:
+    - uid: RouteMapActionType
+  - name: parameters
+    description: List of parameters relevant to the action.For instance if type is drop then parameters has list of prefixes to be dropped.If type is add, parameters would have list of ASN numbers to be added
+    types:
+    - uid: Parameter
+      isArray: true
+- name: NextStep
+  description: Supported next step behaviors after a rule is applied to a matched route
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Continue
+    types:
+    - uid: string
+  - name: Terminate
+    types:
+    - uid: string
+- name: RouteMapMatchCondition
+  description: Match condition to apply RouteMap rules.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equals
+    types:
+    - uid: string
+  - name: NotContains
+    types:
+    - uid: string
+  - name: NotEquals
+    types:
+    - uid: string
+- name: RouteMapActionType
+  description: Kind of actions which can be taken on a matched route. Add, Replace, Remove refer to parameters on the route, like community or prefix
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Remove
+    types:
+    - uid: string
+  - name: Add
+    types:
+    - uid: string
+  - name: Replace
+    types:
+    - uid: string
+  - name: Drop
+    types:
+    - uid: string
+- name: Parameter
+  description: Parameters for an Action.
+  kind: object
+  properties:
+  - name: routePrefix
+    description: List of route prefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: community
+    description: List of BGP communities.
+    types:
+    - uid: string
+      isArray: true
+  - name: asPath
+    description: List of AS paths.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: RouteMapList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps?api-version=2022-05-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteMapList.json
+      func ExampleRouteMapsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRouteMapsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rg1", "virtualHub1", nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves the details of all RouteMaps.
+       *
+       * @summary Retrieves the details of all RouteMaps.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteMapList.json
+       */
+      async function routeMapList() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.routeMaps.list(resourceGroupName, virtualHubName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      routeMapList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "routeMap1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1",
+            "etag": "W/\\00000000-0000-0000-0000-000000000000\\",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "rules": [
+                {
+                  "name": "rule1",
+                  "matchCriteria": [
+                    {
+                      "matchCondition": "Contains",
+                      "routePrefix": [
+                        "10.0.0.0/8"
+                      ],
+                      "community": [],
+                      "asPath": []
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "Add",
+                      "parameters": [
+                        {
+                          "routePrefix": [],
+                          "community": [],
+                          "asPath": [
+                            "22334"
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "nextStepIfMatched": "Continue"
+                }
+              ],
+              "associatedInboundConnections": [
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1"
+              ],
+              "associatedOutboundConnections": []
+            },
+            "type": "Microsoft.Network/virtualHubs/routeMaps"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Virtual WAN service - Retrieves the details of all RouteMaps.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnserverconfigurations.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Vpn Server Configurations
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -818,6 +818,14 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+  - name: inboundRouteMap
+    description: The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+    types:
+    - uid: SubResource
+  - name: outboundRouteMap
+    description: The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+    types:
+    - uid: SubResource
 - name: VpnPolicyMemberAttributeType
   description: The Vpn Policy member attribute type.
   kind: enum
@@ -849,6 +857,10 @@ definitions:
   description: List of routes that control routing from VirtualHub into a virtual network connection.
   kind: object
   properties:
+  - name: staticRoutesConfig
+    description: Configuration for static routes on this HubVnetConnection.
+    types:
+    - uid: StaticRoutesConfig
   - name: staticRoutes
     description: List of all Static Routes.
     types:
@@ -860,6 +872,19 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+- name: StaticRoutesConfig
+  description: Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection.
+  kind: object
+  properties:
+  - name: propagateStaticRoutes
+    isReadyOnly: true
+    description: Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+    types:
+    - uid: boolean
+  - name: vnetLocalRouteOverrideCriteria
+    description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+    types:
+    - uid: VnetLocalRouteOverrideCriteria
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -877,10 +902,20 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VnetLocalRouteOverrideCriteria
+  description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet.
+  kind: enum
+  properties:
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
 examples:
 - name: VpnServerConfigurationCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -971,7 +1006,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2022-05-01
 
       {
         "tags": {
@@ -1062,146 +1097,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.VpnServerConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.VpnServerConfigurationPolicyGroupInner;
-      import com.azure.resourcemanager.network.models.DhGroup;
-      import com.azure.resourcemanager.network.models.IkeEncryption;
-      import com.azure.resourcemanager.network.models.IkeIntegrity;
-      import com.azure.resourcemanager.network.models.IpsecEncryption;
-      import com.azure.resourcemanager.network.models.IpsecIntegrity;
-      import com.azure.resourcemanager.network.models.IpsecPolicy;
-      import com.azure.resourcemanager.network.models.PfsGroup;
-      import com.azure.resourcemanager.network.models.RadiusServer;
-      import com.azure.resourcemanager.network.models.VpnGatewayTunnelingProtocol;
-      import com.azure.resourcemanager.network.models.VpnPolicyMemberAttributeType;
-      import com.azure.resourcemanager.network.models.VpnServerConfigRadiusClientRootCertificate;
-      import com.azure.resourcemanager.network.models.VpnServerConfigRadiusServerRootCertificate;
-      import com.azure.resourcemanager.network.models.VpnServerConfigVpnClientRevokedCertificate;
-      import com.azure.resourcemanager.network.models.VpnServerConfigVpnClientRootCertificate;
-      import com.azure.resourcemanager.network.models.VpnServerConfigurationPolicyGroupMember;
-      import java.util.Arrays;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for VpnServerConfigurations CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnServerConfigurationPut.json
-           */
-          /**
-           * Sample code: VpnServerConfigurationCreate.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void vpnServerConfigurationCreate(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getVpnServerConfigurations()
-                  .createOrUpdate(
-                      "rg1",
-                      "vpnServerConfiguration1",
-                      new VpnServerConfigurationInner()
-                          .withLocation("West US")
-                          .withTags(mapOf("key1", "value1"))
-                          .withVpnProtocols(Arrays.asList(VpnGatewayTunnelingProtocol.IKE_V2))
-                          .withVpnClientRootCertificates(
-                              Arrays
-                                  .asList(
-                                      new VpnServerConfigVpnClientRootCertificate()
-                                          .withName("vpnServerConfigVpnClientRootCert1")
-                                          .withPublicCertData(
-                                              "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuN")))
-                          .withVpnClientRevokedCertificates(
-                              Arrays
-                                  .asList(
-                                      new VpnServerConfigVpnClientRevokedCertificate()
-                                          .withName("vpnServerConfigVpnClientRevokedCert1")
-                                          .withThumbprint("83FFBFC8848B5A5836C94D0112367E16148A286F")))
-                          .withRadiusServerRootCertificates(
-                              Arrays
-                                  .asList(
-                                      new VpnServerConfigRadiusServerRootCertificate()
-                                          .withName("vpnServerConfigRadiusServerRootCer1")
-                                          .withPublicCertData(
-                                              "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuM")))
-                          .withRadiusClientRootCertificates(
-                              Arrays
-                                  .asList(
-                                      new VpnServerConfigRadiusClientRootCertificate()
-                                          .withName("vpnServerConfigRadiusClientRootCert1")
-                                          .withThumbprint("83FFBFC8848B5A5836C94D0112367E16148A286F")))
-                          .withVpnClientIpsecPolicies(
-                              Arrays
-                                  .asList(
-                                      new IpsecPolicy()
-                                          .withSaLifeTimeSeconds(86472)
-                                          .withSaDataSizeKilobytes(429497)
-                                          .withIpsecEncryption(IpsecEncryption.AES256)
-                                          .withIpsecIntegrity(IpsecIntegrity.SHA256)
-                                          .withIkeEncryption(IkeEncryption.AES256)
-                                          .withIkeIntegrity(IkeIntegrity.SHA384)
-                                          .withDhGroup(DhGroup.DHGROUP14)
-                                          .withPfsGroup(PfsGroup.PFS14)))
-                          .withRadiusServers(
-                              Arrays
-                                  .asList(
-                                      new RadiusServer()
-                                          .withRadiusServerAddress("10.0.0.0")
-                                          .withRadiusServerScore(25L)
-                                          .withRadiusServerSecret("radiusServerSecret")))
-                          .withConfigurationPolicyGroups(
-                              Arrays
-                                  .asList(
-                                      new VpnServerConfigurationPolicyGroupInner()
-                                          .withId(
-                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup1")
-                                          .withName("policyGroup1")
-                                          .withIsDefault(true)
-                                          .withPriority(0)
-                                          .withPolicyMembers(
-                                              Arrays
-                                                  .asList(
-                                                      new VpnServerConfigurationPolicyGroupMember()
-                                                          .withName("policy1")
-                                                          .withAttributeType(
-                                                              VpnPolicyMemberAttributeType.RADIUS_AZURE_GROUP_ID)
-                                                          .withAttributeValue("6ad1bd08"))),
-                                      new VpnServerConfigurationPolicyGroupInner()
-                                          .withId(
-                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup2")
-                                          .withName("policyGroup2")
-                                          .withIsDefault(true)
-                                          .withPriority(0)
-                                          .withPolicyMembers(
-                                              Arrays
-                                                  .asList(
-                                                      new VpnServerConfigurationPolicyGroupMember()
-                                                          .withName("policy2")
-                                                          .withAttributeType(
-                                                              VpnPolicyMemberAttributeType.CERTIFICATE_GROUP_ID)
-                                                          .withAttributeValue("red.com"))))),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -1212,10 +1107,10 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnServerConfigurationPut.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnServerConfigurationPut.json
       func ExampleVPNServerConfigurationsClient_BeginCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -1314,7 +1209,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -1324,7 +1219,7 @@ examples:
        * This sample demonstrates how to Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
        *
        * @summary Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnServerConfigurationPut.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnServerConfigurationPut.json
        */
       async function vpnServerConfigurationCreate() {
         const subscriptionId = "subid";
@@ -1421,7 +1316,7 @@ examples:
       vpnServerConfigurationCreate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

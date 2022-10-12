@@ -9,7 +9,7 @@ ms.service: cognitive-services
 ms.subservice: bing-custom-image-search
 ms.topic: reference
 ms.date: 04/15/2017
-ms.author: scottwhi
+ms.author: pafarley
 ---
 
 # Custom Image Search API v7 reference
@@ -19,7 +19,7 @@ ms.author: scottwhi
 > Bing Search APIs provisioned using Cognitive Services will be supported for the next three years or until the end of your Enterprise Agreement, whichever happens first.
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration).
 
-The Custom Image Search API lets you send a search query to Bing and get back a list of relevant images from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view).
+The Custom Image Search API lets you send a search query to Bing and get back a list of relevant images from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](/azure/cognitive-services/bing-custom-search/define-your-custom-view).
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -27,7 +27,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -77,7 +77,7 @@ The following are the query parameters that a request may include. See the Requi
 |<a name="offset" />offset|The zero-based offset that indicates the number of images to skip before returning images. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> To page results, use this parameter along with the `count` parameter. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#nextoffset).|Unsigned Short|No|  
 |<a name="query" />q|The user's search query term. The term cannot be empty.<br /><br />**NOTE:** The query string must not contain [Bing Advanced Operators](https://help.bing.microsoft.com/#apex/18/en-US/10001/-1). Including them may adversely affect the custom search experience.|String|Yes|  
 |<a name="safesearch" />safeSearch|Filter images for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return images with adult content.</li><li>Moderate&mdash;Don't include images with adult content.</li><li>Strict&mdash;Don't include images with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form \<language\>-<country/region> where \<language\> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
 
 ## Filter query parameters 
@@ -150,7 +150,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -165,7 +165,7 @@ Defines an image that is relevant to the query.
 |<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the id query parameter to this ID in your request.|String|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
 

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.customipprefixes.listall
 name: List All
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets all the custom IP prefixes in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,6 +74,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.asn
+    description: The ASN for CIDR advertising. Should be an integer as string.
+    types:
+    - uid: string
   - name: properties.cidr
     description: The prefix range in CIDR notation. Should include the start address and the prefix length.
     types:
@@ -100,10 +104,22 @@ definitions:
     description: The commissioned state of the Custom IP Prefix.
     types:
     - uid: CommissionedState
+  - name: properties.expressRouteAdvertise
+    description: Whether to do express route advertise.
+    types:
+    - uid: boolean
+  - name: properties.geo
+    description: The Geo for CIDR advertising. Should be an Geo code.
+    types:
+    - uid: Geo
   - name: properties.noInternetAdvertise
     description: Whether to Advertise the range to Internet.
     types:
     - uid: boolean
+  - name: properties.prefixType
+    description: Type of custom IP prefix. Should be Singular, Parent, or Child.
+    types:
+    - uid: CustomIpPrefixType
   - name: properties.publicIpPrefixes
     isReadyOnly: true
     description: The list of all referenced PublicIpPrefixes.
@@ -205,6 +221,9 @@ definitions:
   - name: Commissioning
     types:
     - uid: string
+  - name: CommissionedNoInternetAdvertise
+    types:
+    - uid: string
   - name: Commissioned
     types:
     - uid: string
@@ -214,7 +233,51 @@ definitions:
   - name: Deprovisioning
     types:
     - uid: string
-  - name: CommissionedNoInternetAdvertise
+  - name: Deprovisioned
+    types:
+    - uid: string
+- name: Geo
+  description: The Geo for CIDR advertising. Should be an Geo code.
+  kind: enum
+  properties:
+  - name: GLOBAL
+    types:
+    - uid: string
+  - name: AFRI
+    types:
+    - uid: string
+  - name: APAC
+    types:
+    - uid: string
+  - name: EURO
+    types:
+    - uid: string
+  - name: LATAM
+    types:
+    - uid: string
+  - name: NAM
+    types:
+    - uid: string
+  - name: ME
+    types:
+    - uid: string
+  - name: OCEANIA
+    types:
+    - uid: string
+  - name: AQ
+    types:
+    - uid: string
+- name: CustomIpPrefixType
+  description: Type of custom IP prefix. Should be Singular, Parent, or Child.
+  kind: enum
+  properties:
+  - name: Singular
+    types:
+    - uid: string
+  - name: Parent
+    types:
+    - uid: string
+  - name: Child
     types:
     - uid: string
 - name: ProvisioningState
@@ -243,34 +306,13 @@ definitions:
 examples:
 - name: List all custom IP prefixes
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/customIpPrefixes?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/customIpPrefixes?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/customIpPrefixes?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/customIpPrefixes?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for CustomIpPrefixes List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/CustomIpPrefixListAll.json
-           */
-          /**
-           * Sample code: List all custom IP prefixes.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listAllCustomIPPrefixes(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.networks().manager().serviceClient().getCustomIpPrefixes().list(Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armnetwork_test
@@ -280,10 +322,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/CustomIpPrefixListAll.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CustomIpPrefixListAll.json
       func ExampleCustomIPPrefixesClient_NewListAllPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -308,7 +350,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -318,7 +360,7 @@ examples:
        * This sample demonstrates how to Gets all the custom IP prefixes in a subscription.
        *
        * @summary Gets all the custom IP prefixes in a subscription.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/CustomIpPrefixListAll.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CustomIpPrefixListAll.json
        */
       async function listAllCustomIPPrefixes() {
         const subscriptionId = "subid";
@@ -334,7 +376,7 @@ examples:
       listAllCustomIPPrefixes().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -352,6 +394,8 @@ examples:
               "commissionedState": "Commissioned",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": []
@@ -370,6 +414,8 @@ examples:
               "commissionedState": "Commissioned",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": []
@@ -388,6 +434,8 @@ examples:
               "commissionedState": "Provisioning",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": []
@@ -406,6 +454,8 @@ examples:
               "commissionedState": "Commissioned",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": [],
@@ -427,6 +477,8 @@ examples:
               "commissionedState": "Provisioned",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": [
@@ -449,6 +501,8 @@ examples:
               "commissionedState": "ProvisionFailed",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "CustomerSignatureNotVerified",
               "publicIpPrefixes": [],
               "childCustomIpPrefixes": []
@@ -467,10 +521,11 @@ examples:
               "commissionedState": "Commissioning",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
-              "childCustomIpPrefixes": [],
-              "noInternetAdvertise": true
+              "childCustomIpPrefixes": []
             },
             "type": "Microsoft.Network/customIpPrefixes"
           },
@@ -486,10 +541,94 @@ examples:
               "commissionedState": "Commissioning",
               "signedMessage": "signedMessage",
               "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
               "failedReason": "",
               "publicIpPrefixes": [],
-              "childCustomIpPrefixes": [],
-              "noInternetAdvertise": false
+              "childCustomIpPrefixes": []
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix6",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix8",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "0.0.7.0/22",
+              "commissionedState": "Commissioning",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
+              "asn": "11",
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix6",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix8",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "0.0.7.0/22",
+              "commissionedState": "Commissioning",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "noInternetAdvertise": false,
+              "expressRouteAdvertise": false,
+              "failedReason": "",
+              "geo": "GLOBAL",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix6",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix8",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "0.0.7.0/22",
+              "commissionedState": "Commissioning",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "expressRouteAdvertise": true,
+              "noInternetAdvertise": false,
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix6",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix8",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "0.0.7.0/22",
+              "commissionedState": "Commissioning",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "expressRouteAdvertise": true,
+              "noInternetAdvertise": false,
+              "failedReason": "",
+              "prefixType": "Parent",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
             },
             "type": "Microsoft.Network/customIpPrefixes"
           }
