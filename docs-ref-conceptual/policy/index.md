@@ -19,6 +19,7 @@ Policy REST API surfaces operations related to [Azure Policy](/azure/governance/
 |-----------------|-------------|
 | [Operations](xref:management.azure.com.policy.operations) | Review all of the available REST API options for Policy. |
 | [Policy Assignments](xref:management.azure.com.policy.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
+| [Policy Attestations](xref:management.azure.com.policy.policyattestations) | Provides operations to self-attest to manual policies. |
 | [Policy Definitions](xref:management.azure.com.policy.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
 | [Policy Events](xref:management.azure.com.policy.policyevents) | Query policy evaluation events generated as resources are created or updated. |
 | [Policy Exemptions](xref:management.azure.com.policy.policyexemptions)         | Provides operations to create policy exemptions to exempt a scope from a policy assignment. |
@@ -27,7 +28,6 @@ Policy REST API surfaces operations related to [Azure Policy](/azure/governance/
 | [Policy Set Definitions](xref:management.azure.com.policy.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
 | [Policy States](xref:management.azure.com.policy.policystates) | Query policy compliance states for resources. |
 | [Policy Tracked Resources](xref:management.azure.com.policy.policytrackedresources) | Query resources deployed by policy. |
-| [Policy Attestations](xref:management.azure.com.policy.policyattestations) | Provides operations to self-attest to manual policies. |
 | [Remediations](xref:management.azure.com.policy.remediations) | Provides operations to remediate resources that are non-compliant with policy. |
 
 ## See also
