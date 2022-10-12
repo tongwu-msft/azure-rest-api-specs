@@ -4516,6 +4516,7 @@
 ## Generate
 ### [Overview](videoindexer/Generate.yml)
 ### [Access Token](videoindexer/Generate/Access-Token.yml)
+### [Restricted Viewer Access Token](videoindexer/Generate/Restricted-Viewer-Access-Token.yml)
 ## Operations
 ### [Overview](videoindexer/Operations.yml)
 ### [List](videoindexer/Operations/List.yml)
