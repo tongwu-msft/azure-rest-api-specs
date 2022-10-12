@@ -3,14 +3,14 @@ uid: management.azure.com.avs.addons.createorupdate
 name: Create Or Update
 service: AVS
 groupName: Addons
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create or update a addon in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}?api-version=2021-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,6 +65,7 @@ requestBody:
     - uid: AddonSrmProperties
     - uid: AddonVrProperties
     - uid: AddonHcxProperties
+    - uid: AddonArcProperties
     typesTitle: AddonProperties
 requestHeader: []
 definitions:
@@ -78,6 +79,7 @@ definitions:
     - uid: AddonSrmProperties
     - uid: AddonVrProperties
     - uid: AddonHcxProperties
+    - uid: AddonArcProperties
     typesTitle: AddonProperties
   - name: id
     isReadyOnly: true
@@ -156,6 +158,24 @@ definitions:
     description: The state of the addon provisioning
     types:
     - uid: AddonProvisioningState
+- name: AddonArcProperties
+  description: The properties of an Arc addon
+  kind: object
+  properties:
+  - name: vCenter
+    description: The VMware vCenter resource ID
+    types:
+    - uid: string
+  - name: addonType
+    description: The type of private cloud addon
+    types:
+    - uid: Arc
+    typesTitle: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the addon provisioning
+    types:
+    - uid: AddonProvisioningState
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -209,6 +229,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -226,7 +249,7 @@ definitions:
 examples:
 - name: Addons_CreateOrUpdate_SRM
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -237,7 +260,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm?api-version=2022-05-01
 
       {
         "properties": {
@@ -248,74 +271,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.avs.models.AddonSrmProperties;
-
-      /** Samples for Addons CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_SRM.json
-           */
-          /**
-           * Sample code: Addons_CreateOrUpdate_SRM.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsCreateOrUpdateSRM(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .addons()
-                  .define("srm")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withProperties(new AddonSrmProperties().withLicenseKey("41915178-A8FF-4A4D-B683-6D735AF5E3F5"))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a addon in a private cloud
-       *
-       * @summary Create or update a addon in a private cloud
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_SRM.json
-       */
-      async function addonsCreateOrUpdateSrm() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const addonName = "srm";
-        const addon = {
-          properties: {
-            addonType: "SRM",
-            licenseKey: "41915178-A8FF-4A4D-B683-6D735AF5E3F5",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.addons.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          privateCloudName,
-          addonName,
-          addon
-        );
-        console.log(result);
-      }
-
-      addonsCreateOrUpdateSrm().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
         "name": "srm",
         "properties": {
           "addonType": "SRM",
@@ -327,7 +287,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/srm",
         "name": "srm",
         "properties": {
           "addonType": "SRM",
@@ -338,7 +298,7 @@ examples:
       }
 - name: Addons_CreateOrUpdate_VR
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -349,7 +309,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr?api-version=2022-05-01
 
       {
         "properties": {
@@ -360,69 +320,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.avs.models.AddonVrProperties;
-
-      /** Samples for Addons CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_VR.json
-           */
-          /**
-           * Sample code: Addons_CreateOrUpdate_VR.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsCreateOrUpdateVR(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .addons()
-                  .define("vr")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withProperties(new AddonVrProperties().withVrsCount(1))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a addon in a private cloud
-       *
-       * @summary Create or update a addon in a private cloud
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_VR.json
-       */
-      async function addonsCreateOrUpdateVr() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const addonName = "vr";
-        const addon = { properties: { addonType: "VR", vrsCount: 1 } };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.addons.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          privateCloudName,
-          addonName,
-          addon
-        );
-        console.log(result);
-      }
-
-      addonsCreateOrUpdateVr().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
         "name": "vr",
         "properties": {
           "addonType": "VR",
@@ -434,7 +336,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/vr",
         "name": "vr",
         "properties": {
           "addonType": "VR",
@@ -445,7 +347,7 @@ examples:
       }
 - name: Addons_CreateOrUpdate_HCX
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -456,7 +358,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx?api-version=2022-05-01
 
       {
         "properties": {
@@ -467,122 +369,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.avs.models.AddonHcxProperties;
-
-      /** Samples for Addons CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_HCX.json
-           */
-          /**
-           * Sample code: Addons_CreateOrUpdate_HCX.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void addonsCreateOrUpdateHCX(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .addons()
-                  .define("hcx")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withProperties(new AddonHcxProperties().withOffer("VMware MaaS Cloud Provider (Enterprise)"))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_HCX.json
-      func ExampleAddonsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewAddonsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"group1",
-      		"cloud1",
-      		"hcx",
-      		armavs.Addon{
-      			Properties: &armavs.AddonHcxProperties{
-      				AddonType: to.Ptr(armavs.AddonTypeHCX),
-      				Offer:     to.Ptr("VMware MaaS Cloud Provider (Enterprise)"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a addon in a private cloud
-       *
-       * @summary Create or update a addon in a private cloud
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_HCX.json
-       */
-      async function addonsCreateOrUpdateHcx() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const addonName = "hcx";
-        const addon = {
-          properties: {
-            addonType: "HCX",
-            offer: "VMware MaaS Cloud Provider (Enterprise)",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.addons.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          privateCloudName,
-          addonName,
-          addon
-        );
-        console.log(result);
-      }
-
-      addonsCreateOrUpdateHcx().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
         "name": "hcx",
         "properties": {
           "addonType": "HCX",
@@ -594,12 +385,61 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/hcx",
         "name": "hcx",
         "properties": {
           "addonType": "HCX",
           "offer": "VMware MaaS Cloud Provider (Enterprise)",
           "provisioningState": "Updating"
+        },
+        "type": "Microsoft.AVS/privateClouds/addons"
+      }
+- name: Addons_CreateOrUpdate_Arc
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc?api-version=2022-05-01
+    body: >-
+      {
+        "properties": {
+          "addonType": "Arc",
+          "vCenter": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc?api-version=2022-05-01
+
+      {
+        "properties": {
+          "addonType": "Arc",
+          "vCenter": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc",
+        "name": "arc",
+        "properties": {
+          "addonType": "Arc",
+          "vCenter": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter",
+          "provisioningState": "Succeeded"
+        },
+        "type": "Microsoft.AVS/privateClouds/addons"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/addons/arc",
+        "name": "arc",
+        "properties": {
+          "addonType": "Arc",
+          "vCenter": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter",
+          "provisioningState": "Succeeded"
         },
         "type": "Microsoft.AVS/privateClouds/addons"
       }

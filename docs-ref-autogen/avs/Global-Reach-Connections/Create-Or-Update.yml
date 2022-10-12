@@ -3,14 +3,14 @@ uid: management.azure.com.avs.globalreachconnections.createorupdate
 name: Create Or Update
 service: AVS
 groupName: Global Reach Connections
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create or update a global reach connection in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}?api-version=2021-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -142,6 +142,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: GlobalReachConnectionStatus
   description: The connection status of the global reach connection
   kind: enum
@@ -203,7 +206,7 @@ definitions:
 examples:
 - name: GlobalReachConnections_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -214,7 +217,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1?api-version=2022-05-01
 
       {
         "properties": {
@@ -225,127 +228,17 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      /** Samples for GlobalReachConnections CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/GlobalReachConnections_CreateOrUpdate.json
-           */
-          /**
-           * Sample code: GlobalReachConnections_CreateOrUpdate.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void globalReachConnectionsCreateOrUpdate(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .globalReachConnections()
-                  .define("connection1")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withAuthorizationKey("01010101-0101-0101-0101-010101010101")
-                  .withPeerExpressRouteCircuit(
-                      "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.Network/expressRouteCircuits/mypeer")
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/GlobalReachConnections_CreateOrUpdate.json
-      func ExampleGlobalReachConnectionsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewGlobalReachConnectionsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"group1",
-      		"cloud1",
-      		"connection1",
-      		armavs.GlobalReachConnection{
-      			Properties: &armavs.GlobalReachConnectionProperties{
-      				AuthorizationKey:        to.Ptr("01010101-0101-0101-0101-010101010101"),
-      				PeerExpressRouteCircuit: to.Ptr("/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.Network/expressRouteCircuits/mypeer"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a global reach connection in a private cloud
-       *
-       * @summary Create or update a global reach connection in a private cloud
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/GlobalReachConnections_CreateOrUpdate.json
-       */
-      async function globalReachConnectionsCreateOrUpdate() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const globalReachConnectionName = "connection1";
-        const globalReachConnection = {
-          authorizationKey: "01010101-0101-0101-0101-010101010101",
-          peerExpressRouteCircuit:
-            "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.Network/expressRouteCircuits/mypeer",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.globalReachConnections.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          privateCloudName,
-          globalReachConnectionName,
-          globalReachConnection
-        );
-        console.log(result);
-      }
-
-      globalReachConnectionsCreateOrUpdate().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1",
         "name": "connection1",
         "properties": {
           "addressPrefix": "10.2.3.16/29",
           "authorizationKey": "01010101-0101-0101-0101-010101010101",
           "circuitConnectionStatus": "Connected",
-          "expressRouteId": "/subscriptions/{subscription-id}/resourceGroups/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2/providers/Microsoft.Network/expressroutecircuits/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2-xconnect",
+          "expressRouteId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2/providers/Microsoft.Network/expressroutecircuits/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2-xconnect",
           "peerExpressRouteCircuit": "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.Network/expressRouteCircuits/mypeer",
           "provisioningState": "Succeeded"
         },
@@ -354,7 +247,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/globalReachConnections/connection1",
         "name": "connection1",
         "properties": {
           "addressPrefix": "10.2.3.16/29",

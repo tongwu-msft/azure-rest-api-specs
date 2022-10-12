@@ -3,14 +3,14 @@ uid: management.azure.com.avs.placementpolicies.update
 name: Update
 service: AVS
 groupName: Placement Policies
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Update a placement policy in a private cloud cluster
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}?api-version=2021-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,6 +81,16 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.affinityStrength
+    in: body
+    description: vm-host placement policy affinity strength (should/must)
+    types:
+    - uid: AffinityStrength
+  - name: properties.azureHybridBenefitType
+    in: body
+    description: placement policy azure hybrid benefit opt-in type
+    types:
+    - uid: AzureHybridBenefitType
 requestHeader: []
 definitions:
 - name: PlacementPolicy
@@ -134,6 +144,14 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.affinityStrength
+    description: vm-host placement policy affinity strength (should/must)
+    types:
+    - uid: AffinityStrength
+  - name: properties.azureHybridBenefitType
+    description: placement policy azure hybrid benefit opt-in type
+    types:
+    - uid: AzureHybridBenefitType
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -173,6 +191,26 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+- name: AffinityStrength
+  description: VM-Host placement policy affinity strength (should/must)
+  kind: enum
+  properties:
+  - name: Should
+    types:
+    - uid: string
+  - name: Must
+    types:
+    - uid: string
+- name: AzureHybridBenefitType
+  description: Placement policy hosts opt-in Azure Hybrid Benefit type
+  kind: enum
+  properties:
+  - name: SqlHost
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: VmVmPlacementPolicyProperties
@@ -224,6 +262,14 @@ definitions:
     description: placement policy affinity type
     types:
     - uid: AffinityType
+  - name: affinityStrength
+    description: vm-host placement policy affinity strength (should/must)
+    types:
+    - uid: AffinityStrength
+  - name: azureHybridBenefitType
+    description: placement policy azure hybrid benefit opt-in type
+    types:
+    - uid: AzureHybridBenefitType
   - name: type
     description: placement policy type
     types:
@@ -285,195 +331,59 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 examples:
 - name: PlacementPolicies_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1?api-version=2021-12-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1?api-version=2022-05-01
     body: >-
       {
         "properties": {
           "state": "Disabled",
           "vmMembers": [
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
           ],
           "hostMembers": [
             "fakehost22.nyc1.kubernetes.center",
             "fakehost23.nyc1.kubernetes.center",
             "fakehost24.nyc1.kubernetes.center"
-          ]
+          ],
+          "affinityStrength": "Must",
+          "azureHybridBenefitType": "SqlHost"
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1?api-version=2021-12-01
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1?api-version=2022-05-01
 
       {
         "properties": {
           "state": "Disabled",
           "vmMembers": [
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
           ],
           "hostMembers": [
             "fakehost22.nyc1.kubernetes.center",
             "fakehost23.nyc1.kubernetes.center",
             "fakehost24.nyc1.kubernetes.center"
-          ]
+          ],
+          "affinityStrength": "Must",
+          "azureHybridBenefitType": "SqlHost"
         }
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.avs.models.PlacementPolicy;
-      import com.azure.resourcemanager.avs.models.PlacementPolicyState;
-      import java.util.Arrays;
-
-      /** Samples for PlacementPolicies Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_Update.json
-           */
-          /**
-           * Sample code: PlacementPolicies_Update.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void placementPoliciesUpdate(com.azure.resourcemanager.avs.AvsManager manager) {
-              PlacementPolicy resource =
-                  manager
-                      .placementPolicies()
-                      .getWithResponse("group1", "cloud1", "cluster1", "policy1", Context.NONE)
-                      .getValue();
-              resource
-                  .update()
-                  .withState(PlacementPolicyState.DISABLED)
-                  .withVmMembers(
-                      Arrays
-                          .asList(
-                              "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-                              "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"))
-                  .withHostMembers(
-                      Arrays
-                          .asList(
-                              "fakehost22.nyc1.kubernetes.center",
-                              "fakehost23.nyc1.kubernetes.center",
-                              "fakehost24.nyc1.kubernetes.center"))
-                  .apply();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_Update.json
-      func ExamplePlacementPoliciesClient_BeginUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewPlacementPoliciesClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginUpdate(ctx,
-      		"group1",
-      		"cloud1",
-      		"cluster1",
-      		"policy1",
-      		armavs.PlacementPolicyUpdate{
-      			Properties: &armavs.PlacementPolicyUpdateProperties{
-      				HostMembers: []*string{
-      					to.Ptr("fakehost22.nyc1.kubernetes.center"),
-      					to.Ptr("fakehost23.nyc1.kubernetes.center"),
-      					to.Ptr("fakehost24.nyc1.kubernetes.center")},
-      				State: to.Ptr(armavs.PlacementPolicyStateDisabled),
-      				VMMembers: []*string{
-      					to.Ptr("/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128"),
-      					to.Ptr("/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256")},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Update a placement policy in a private cloud cluster
-       *
-       * @summary Update a placement policy in a private cloud cluster
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_Update.json
-       */
-      async function placementPoliciesUpdate() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const clusterName = "cluster1";
-        const placementPolicyName = "policy1";
-        const placementPolicyUpdate = {
-          hostMembers: [
-            "fakehost22.nyc1.kubernetes.center",
-            "fakehost23.nyc1.kubernetes.center",
-            "fakehost24.nyc1.kubernetes.center",
-          ],
-          state: "Disabled",
-          vmMembers: [
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256",
-          ],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.placementPolicies.beginUpdateAndWait(
-          resourceGroupName,
-          privateCloudName,
-          clusterName,
-          placementPolicyName,
-          placementPolicyUpdate
-        );
-        console.log(result);
-      }
-
-      placementPoliciesUpdate().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
         "name": "policy1",
         "type": "Microsoft.AVS/privateClouds/clusters/placementPolicies",
         "properties": {
@@ -481,8 +391,8 @@ examples:
           "type": "VmHost",
           "state": "Disabled",
           "vmMembers": [
-            "/subs`c`riptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
           ],
           "hostMembers": [
             "fakehost22.nyc1.kubernetes.center",
@@ -490,13 +400,18 @@ examples:
             "fakehost24.nyc1.kubernetes.center"
           ],
           "affinityType": "AntiAffinity",
+          "affinityStrength": "Must",
+          "azureHybridBenefitType": "SqlHost",
           "provisioningState": "Succeeded"
         }
       }
   - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1/operationstatuses/00000000-0000-0000-0000-000000000000
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
         "name": "policy1",
         "type": "Microsoft.AVS/privateClouds/clusters/placementPolicies",
         "properties": {
@@ -504,8 +419,8 @@ examples:
           "type": "VmHost",
           "state": "Disabled",
           "vmMembers": [
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-            "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
           ],
           "hostMembers": [
             "fakehost22.nyc1.kubernetes.center",
@@ -513,6 +428,8 @@ examples:
             "fakehost24.nyc1.kubernetes.center"
           ],
           "affinityType": "AntiAffinity",
+          "affinityStrength": "Must",
+          "azureHybridBenefitType": "SqlHost",
           "provisioningState": "Updating"
         }
       }

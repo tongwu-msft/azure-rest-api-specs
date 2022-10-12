@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Policy
 
-Policy REST API surfaces operations related to [Azure Policy](https://docs.microsoft.com/azure/governance/policy) results. These operations include querying policy evaluation events and compliance states and managing policy remediations.
+Policy REST API surfaces operations related to [Azure Policy](/azure/governance/policy) results. These operations include querying policy evaluation events and compliance states and managing policy remediations.
 
 ## Operation Groups
 
@@ -32,5 +32,5 @@ Policy REST API surfaces operations related to [Azure Policy](https://docs.micro
 
 ## See also
 
-- [Azure Policy documentation](https://docs.microsoft.com/azure/governance/policy/)
-- [Azure Governance documentation](https://docs.microsoft.com/azure/governance/)
+- [Azure Policy documentation](/azure/governance/policy/)
+- [Azure Governance documentation](/azure/governance/)

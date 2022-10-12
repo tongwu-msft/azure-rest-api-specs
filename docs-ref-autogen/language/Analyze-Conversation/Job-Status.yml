@@ -1,0 +1,937 @@
+### YamlMime:RESTOperation
+uid: language.analyzeconversation.jobstatus
+name: Job Status
+service: Cognitive Services - Language
+groupName: Analyze Conversation
+apiVersion: 2022-10-01-preview
+summary: "Get analysis status and results  \nGet the status of an analysis job. A job may consist of one or more tasks. Once all tasks are succeeded, the job will transition to the succeeded state and results will be available for each task."
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/analyze-conversations/jobs/{jobId}?api-version=2022-10-01-preview
+- content: GET {Endpoint}/language/analyze-conversations/jobs/{jobId}?api-version=2022-10-01-preview&showStats={showStats}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Job ID
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain request and document level statistics.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: Analysis job status and metadata.
+  types:
+  - uid: AnalyzeConversationJobState
+- name: Other Status Codes
+  description: Error encountered.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AnalyzeConversationJobState
+  description: Contains the status of the analyze conversations job submitted along with related statistics.
+  kind: object
+  properties:
+  - name: displayName
+    description: ''
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: expirationDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: jobId
+    description: ''
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: errors
+    description: The error object.
+    types:
+    - uid: Error
+      isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+  - name: tasks
+    description: ''
+    types:
+    - uid: Tasks
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: ConversationRequestStatistics
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: State
+  description: The status of the task at the mentioned last update time.
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: Tasks
+  kind: object
+  properties:
+  - name: completed
+    description: Count of tasks completed successfully.
+    types:
+    - uid: integer
+  - name: failed
+    description: Count of tasks that failed.
+    types:
+    - uid: integer
+  - name: inProgress
+    description: Count of tasks in progress currently.
+    types:
+    - uid: integer
+  - name: total
+    description: Total count of tasks submitted as part of the job.
+    types:
+    - uid: integer
+  - name: items
+    description: List of results from tasks (if available).
+    types:
+    - uid: AnalyzeConversationConversationPIIResult
+      isArray: true
+    - uid: AnalyzeConversationSummarizationResult
+      isArray: true
+    - uid: AnalyzeConversationSentimentResult
+      isArray: true
+    typesTitle: AnalyzeConversationJobResult[]
+- name: ConversationRequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: conversationsCount
+    description: Number of conversations submitted in the request.
+    types:
+    - uid: integer
+  - name: validConversationsCount
+    description: Number of conversations documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousConversationsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: AnalyzeConversationConversationPIIResult
+  description: Result from the personally identifiable information detection and redaction operation performed on a list of conversations.
+  kind: object
+  properties:
+  - name: results
+    description: The result from PII detection and redaction operation for each conversation.
+    types:
+    - uid: ConversationPIIResults
+  - name: kind
+    description: Enumeration of supported Conversation Analysis task results.
+    types:
+    - uid: ConversationalPIIResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: The last updated time in UTC for the task.
+    types:
+    - uid: string
+  - name: status
+    description: The status of the task at the mentioned last update time.
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: AnalyzeConversationSummarizationResult
+  description: Result for the summarization task on the conversation.
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: SummaryResult
+  - name: kind
+    description: Enumeration of supported Conversation Analysis task results.
+    types:
+    - uid: ConversationalSummarizationResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: The last updated time in UTC for the task.
+    types:
+    - uid: string
+  - name: status
+    description: The status of the task at the mentioned last update time.
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: AnalyzeConversationSentimentResult
+  description: Result from the sentiment analysis operation performed on a list of conversations.
+  kind: object
+  properties:
+  - name: results
+    description: The result from sentiment analysis operation for each conversation.
+    types:
+    - uid: ConversationSentimentResults
+  - name: kind
+    description: Enumeration of supported Conversation Analysis task results.
+    types:
+    - uid: ConversationalSentimentResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: The last updated time in UTC for the task.
+    types:
+    - uid: string
+  - name: status
+    description: The status of the task at the mentioned last update time.
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: ConversationPIIResults
+  description: The result from PII detection and redaction operation for each conversation.
+  kind: object
+  properties:
+  - name: conversations
+    description: ''
+    types:
+    - uid: Conversations
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: InputError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: AnalyzeConversationResultsKind
+  description: Enumeration of supported Conversation Analysis task results.
+  kind: enum
+  properties:
+  - name: ConversationalPIIResults
+    types:
+    - uid: string
+  - name: ConversationalSummarizationResults
+    types:
+    - uid: string
+  - name: ConversationalSentimentResults
+    types:
+    - uid: string
+- name: SummaryResult
+  kind: object
+  properties:
+  - name: conversations
+    description: ''
+    types:
+    - uid: Conversations
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: InputError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: ConversationSentimentResults
+  description: The result from sentiment analysis operation for each conversation.
+  kind: object
+  properties:
+  - name: conversations
+    description: ''
+    types:
+    - uid: Conversations
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: InputError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: Conversations
+  kind: object
+  properties:
+  - name: conversationItems
+    description: Enumeration of PII detection and redaction operation results for all the conversation items in a conversation.
+    types:
+    - uid: ConversationPIIItemResult
+      isArray: true
+  - name: id
+    description: Unique, non-empty conversation identifier.
+    types:
+    - uid: string
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: InputWarning
+      isArray: true
+  - name: statistics
+    description: If showStats=true was specified in the request this field will contain information about the conversation payload.
+    types:
+    - uid: ConversationStatistics
+- name: InputError
+  description: Contains details of errors encountered during a job execution.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the input.
+    types:
+    - uid: string
+  - name: error
+    description: Error encountered.
+    types:
+    - uid: Error
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: ConversationPIIItemResult
+  kind: object
+  properties:
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: redactedContent
+    description: The transcript content response generated by the service with all necessary personally identifiable information redacted.
+    types:
+    - uid: RedactedTranscriptContent
+  - name: entities
+    description: ''
+    types:
+    - uid: Entity
+      isArray: true
+- name: InputWarning
+  description: Contains details of warnings encountered during a job execution.
+  kind: object
+  properties:
+  - name: code
+    description: Warning code.
+    types:
+    - uid: string
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: ConversationStatistics
+  description: If showStats=true was specified in the request this field will contain information about the conversation payload.
+  kind: object
+  properties:
+  - name: transactionsCount
+    description: Number of text units for the request.
+    types:
+    - uid: integer
+- name: RedactedTranscriptContent
+  description: The transcript content response generated by the service with all necessary personally identifiable information redacted.
+  kind: object
+  properties:
+  - name: itn
+    description: The redacted output for inverse text normalized format input.
+    types:
+    - uid: string
+  - name: maskedItn
+    description: The redacted output for masked inverse text normalized format input.
+    types:
+    - uid: string
+  - name: text
+    description: The redacted output for text (Microsoft's Speech to Text 'display') format input.
+    types:
+    - uid: string
+  - name: lexical
+    description: The redacted output for lexical format input.
+    types:
+    - uid: string
+  - name: audioTimings
+    description: The list of redacted audio segments.
+    types:
+    - uid: AudioTiming
+      isArray: true
+- name: Entity
+  kind: object
+  properties:
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: category
+    description: Entity type.
+    types:
+    - uid: string
+  - name: subcategory
+    description: (Optional) Entity sub type.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity text. Use of different 'stringIndexType' values can affect the length returned.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: Confidence score between 0 and 1 of the extracted entity.
+    types:
+    - uid: number
+- name: AudioTiming
+  description: The audio timing information.
+  kind: object
+  properties:
+  - name: offset
+    description: Offset from start of speech audio, in ticks. 1 tick = 100 ns.
+    types:
+    - uid: integer
+  - name: duration
+    description: Duration of word articulation, in ticks. 1 tick = 100 ns.
+    types:
+    - uid: integer
+examples:
+- name: Successful Get Conversation PII Analysis Job Status Request
+  request:
+    uri: GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "createdDateTime": "2020-10-01T15:00:45Z",
+        "displayName": "Redacting PII from transcribed audio",
+        "expirationDateTime": "2020-10-03T15:01:03Z",
+        "jobId": "c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18",
+        "lastUpdatedDateTime": "2022-01-25T15:01:03Z",
+        "status": "succeeded",
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "ConversationalPIIResults",
+              "taskName": "Conversation PII",
+              "lastUpdateDateTime": "2022-01-25T15:01:03Z",
+              "status": "succeeded",
+              "results": {
+                "conversations": [
+                  {
+                    "id": "1",
+                    "conversationItems": [
+                      {
+                        "id": "1",
+                        "redactedContent": {
+                          "text": "Good morning *************.",
+                          "itn": "good morning *************",
+                          "maskedItn": "good morning *************",
+                          "lexical": "good morning *************",
+                          "audioTimings": [
+                            {
+                              "offset": 590000,
+                              "duration": 920000
+                            }
+                          ]
+                        },
+                        "entities": [
+                          {
+                            "category": "Name",
+                            "confidenceScore": 0.91,
+                            "length": 8,
+                            "offset": 13,
+                            "text": "john doe"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": [],
+                    "statistics": {
+                      "transactionsCount": 1
+                    }
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-05-15-preview"
+              }
+            }
+          ]
+        }
+      }
+- name: Successful Get Text Conversation Analysis Job Status Request
+  request:
+    uri: GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "displayName": "Analyze chat",
+        "createdDateTime": "2022-04-01T15:00:45Z",
+        "expirationDateTime": "2022-04-02T15:00:45Z",
+        "jobId": "3e9e8518-492f-47f9-abd1-9a7468231086",
+        "lastUpdatedDateTime": "2022-04-01T15:00:49Z",
+        "status": "succeeded",
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "ConversationalSummarizationResults",
+              "lastUpdateDateTime": "2022-04-01T15:00:49Z",
+              "taskName": "analyze 1",
+              "status": "succeeded",
+              "results": {
+                "conversations": [
+                  {
+                    "id": "20220101meeting",
+                    "summaries": [
+                      {
+                        "aspect": "issue",
+                        "text": "Customer wants to cancel his subscription. Customer doesn't know how"
+                      },
+                      {
+                        "aspect": "resolution",
+                        "text": "pii Auto-Fortify. \npii Gamertag.\npii E-mail.\nCanceled customer's subscription"
+                      }
+                    ],
+                    "warnings": [],
+                    "statistics": {
+                      "transactionsCount": 1
+                    }
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-05-15-preview"
+              }
+            }
+          ]
+        },
+        "nextLink": "<resource-endpoint>/language/analyze-conversation/jobs/3e9e8518-492f-47f9-abd1-9a7468231086?$skip=10&$top=10"
+      }
+- name: Successful Get Conversation Sentiment Analysis Job Status Request
+  request:
+    uri: GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/analyze-conversations/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "createdDateTime": "2022-04-01T15:00:45Z",
+        "displayName": "Sentiment Analysis from a call center conversation",
+        "expirationDateTime": "2022-04-01T15:00:45Z",
+        "jobId": "c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18",
+        "lastUpdatedDateTime": "2022-04-01T15:00:45Z",
+        "status": "succeeded",
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "ConversationalSentimentResults",
+              "taskName": "Conversation Sentiment",
+              "lastUpdateDateTime": "2022-04-01T15:00:45Z",
+              "status": "succeeded",
+              "results": {
+                "conversations": [
+                  {
+                    "id": "1",
+                    "conversationItems": [
+                      {
+                        "id": "1",
+                        "participantId": "agent_1",
+                        "sentiment": "mixed",
+                        "confidenceScores": {
+                          "positive": 0.5,
+                          "neutral": 0.01,
+                          "negative": 0.49
+                        }
+                      }
+                    ],
+                    "warnings": [],
+                    "statistics": {
+                      "transactionsCount": 1
+                    }
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        }
+      }
+- name: Successful Get Conversation Summarization Result
+  request:
+    uri: GET {Endpoint}/language/analyze-conversations/jobs/3e9e8518-492f-47f9-abd1-9a7468231086?api-version=2022-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/analyze-conversations/jobs/3e9e8518-492f-47f9-abd1-9a7468231086?api-version=2022-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "displayName": "Conversation Summarization Example",
+        "createdDateTime": "2022-04-01T15:00:45Z",
+        "expirationDateTime": "2022-04-02T15:00:45Z",
+        "jobId": "3e9e8518-492f-47f9-abd1-9a7468231086",
+        "lastUpdatedDateTime": "2022-04-01T15:00:49Z",
+        "status": "succeeded",
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "ConversationalSummarizationResults",
+              "lastUpdateDateTime": "2022-04-01T15:00:49Z",
+              "taskName": "Conversation Summarization Task 1",
+              "status": "succeeded",
+              "results": {
+                "conversations": [
+                  {
+                    "id": "1",
+                    "summaries": [
+                      {
+                        "aspect": "chapterTitle",
+                        "text": "Bug Triage",
+                        "contexts": [
+                          {
+                            "conversationItemId": "2",
+                            "offset": 4,
+                            "length": 39
+                          }
+                        ]
+                      },
+                      {
+                        "aspect": "generic",
+                        "text": "Speaker 3 believes there are 3 remaining bugs.",
+                        "contexts": [
+                          {
+                            "conversationItemId": "2",
+                            "offset": 4,
+                            "length": 39
+                          },
+                          {
+                            "conversationItemId": "3",
+                            "offset": 0,
+                            "length": 7
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        },
+        "nextLink": "<resource-endpoint>/language/analyze-conversation/jobs/3e9e8518-492f-47f9-abd1-9a7468231086?$skip=10&$top=10"
+      }
+security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://cognitiveservices.azure.com/.default
+    description: https://cognitiveservices.azure.com/.default
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >-
+    Get analysis status and results
+
+    Get the status of an analysis job. A job may consist of one or more tasks.
+errorCodes: []

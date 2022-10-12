@@ -3,14 +3,14 @@ uid: management.azure.com.activedirectory.operations.list
 name: List
 service: Azure AD B2C
 groupName: Operations
-apiVersion: 2019-01-01-preview
+apiVersion: 2021-04-01
 summary: Lists the operations available from this provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2019-01-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2021-04-01
 uriParameters:
 - name: api-version
   in: query
@@ -22,23 +22,29 @@ responses:
 - name: 200 OK
   description: Describe the result of a successful operation.
   types:
-  - uid: OperationListResult
+  - uid: AvailableOperations
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: OperationListResult
-  description: Result of listing operations for the resourceProvider
+- name: AvailableOperations
+  description: Available operations of the service
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
-    description: List of cpim service operations supported by the Microsoft.AzureActiveDirectory resource provider.
+    description: Collection of available operation details
     types:
-    - uid: Operation
+    - uid: OperationDetail
       isArray: true
+  - name: nextLink
+    description: >-
+      URL client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
 - name: CloudError
   description: An error response for a resource management request.
   kind: object
@@ -47,19 +53,26 @@ definitions:
     description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
-- name: Operation
-  description: Microsoft.AzureActiveDirectory REST API operation.
+- name: OperationDetail
+  description: Operation detail payload
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
-    description: 'Operation name: {provider}/{resource}/{operation}.'
+    description: Name of the operation
     types:
     - uid: string
-  - name: display
-    description: The object that represents the operation.
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
     types:
-    - uid: Display
+    - uid: boolean
+  - name: display
+    description: Display of the operation
+    types:
+    - uid: OperationDisplay
+  - name: origin
+    description: Origin of the operation
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -91,27 +104,24 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Display
-  description: The object that represents the operation.
+- name: OperationDisplay
+  description: Operation display payload
   kind: object
   properties:
   - name: provider
-    isReadyOnly: true
-    description: 'Service provider: Microsoft.AzureActiveDirectory.'
+    description: Resource provider of the operation
     types:
     - uid: string
   - name: resource
-    isReadyOnly: true
-    description: 'Resource on which the operation is performed: GuestUsages, etc.'
+    description: Resource of the operation
     types:
     - uid: string
   - name: operation
-    isReadyOnly: true
-    description: 'Operation type: Read, write, delete, etc.'
+    description: Localized friendly name for the operation
     types:
     - uid: string
   - name: description
-    description: Friendly name of the operation
+    description: Localized friendly description for the operation
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -131,53 +141,133 @@ definitions:
 examples:
 - name: operations_list
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2019-01-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2021-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2019-01-01-preview
+      GET https://management.azure.com/providers/Microsoft.AzureActiveDirectory/operations?api-version=2021-04-01
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ExternalIdentitiesConfigurationClient } = require("@azure/arm-azureadexternalidentities");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the operations available from this provider.
+       *
+       * @summary Lists the operations available from this provider.
+       * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/OperationsList.json
+       */
+      async function operationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new ExternalIdentitiesConfigurationClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      operationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azureadexternalidentities_1.0.2/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "Microsoft.AzureActiveDirectory/b2cDirectories/read",
-            "display": {
-              "provider": "Microsoft.AzureActiveDirectory",
-              "resource": "B2cDirectoriesResource",
-              "operation": "read",
-              "description": "Read call for Azure AD B2C tenant resource"
-            }
-          },
-          {
             "name": "Microsoft.AzureActiveDirectory/b2cDirectories/write",
             "display": {
-              "provider": "Microsoft.AzureActiveDirectory",
-              "resource": "B2cDirectoriesResource",
-              "operation": "write",
-              "description": "Create or Update call for Azure AD B2C tenant resource"
-            }
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Directory",
+              "operation": "Create or update B2C Dictory resource",
+              "description": "Create or update B2C Dictory resource"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/b2cDirectories/read",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Directory",
+              "operation": "View B2C Directory resource",
+              "description": "View B2C Directory resource"
+            },
+            "origin": "user,system"
           },
           {
             "name": "Microsoft.AzureActiveDirectory/b2cDirectories/delete",
             "display": {
-              "provider": "Microsoft.AzureActiveDirectory",
-              "resource": "B2cDirectoriesResource",
-              "operation": "delete",
-              "description": "Delete call for Azure AD B2C tenant resource"
-            }
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Directory",
+              "operation": "Delete B2C Directory resource",
+              "description": "Delete B2C Directory resource"
+            },
+            "origin": "user,system"
           },
           {
-            "name": "Microsoft.AzureActiveDirectory/checkNameAvailability",
+            "name": "Microsoft.AzureActiveDirectory/operations/read",
             "display": {
-              "provider": "Microsoft.AzureActiveDirectory",
-              "resource": "Check Name Availability",
-              "operation": "Get Check Name Availability",
-              "description": "Check if resource name is available."
-            }
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Directory",
+              "operation": "Read all API operations",
+              "description": "Read all API operations available for Microsoft.AzureActiveDirectory resource provider"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/register/action",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Directory",
+              "operation": "Register Microsoft.AzureActiveDirectory resource provider",
+              "description": "Register subscription for Microsoft.AzureActiveDirectory resource provider"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/b2ctenants/read",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "B2C Tenants",
+              "operation": "List all B2C tenants of the user",
+              "description": "Lists all B2C tenants where the user is a member"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/guestUsages/write",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "Guest Usages",
+              "operation": "Create or update Guest Usages resource",
+              "description": "Create or update Guest Usages resource"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/guestUsages/read",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "Guest Usages",
+              "operation": "View Guest Usages resource",
+              "description": "View Guest Usages resource"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory/guestUsages/delete",
+            "display": {
+              "provider": "Microsoft Azure Active Directory",
+              "resource": "Guest Usages",
+              "operation": "Delete Guest Usages resource",
+              "description": "Delete Guest Usages resource"
+            },
+            "origin": "user,system"
           }
         ]
       }

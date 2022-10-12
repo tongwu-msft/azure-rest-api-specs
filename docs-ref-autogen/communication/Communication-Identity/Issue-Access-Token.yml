@@ -3,14 +3,14 @@ uid: communication.communicationidentity.issueaccesstoken
 name: Issue Access Token
 service: Communication
 groupName: Communication Identity
-apiVersion: 2022-06-01
+apiVersion: 2022-10-01
 summary: Issue a new token for an identity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/identities/{id}/:issueAccessToken?api-version=2022-06-01
+- content: POST {endpoint}/identities/{id}/:issueAccessToken?api-version=2022-10-01
 uriParameters:
 - name: endpoint
   in: path
@@ -50,6 +50,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: expiresInMinutes
+    in: body
+    description: Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+    types:
+    - uid: integer
 requestHeader: []
 definitions:
 - name: CommunicationErrorResponse
@@ -80,6 +85,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: expiresInMinutes
+    description: Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+    types:
+    - uid: integer
+    defaultValue: 1440
 - name: CommunicationError
   description: The Communication Services error.
   kind: object
@@ -109,24 +119,26 @@ definitions:
     types:
     - uid: CommunicationError
 examples:
-- name: Issue an access token
+- name: Issue an access token. Optionally specify a custom expiration time within the [60-1440] minutes range. In case an expiration time is not specified, the default value of 1440 minutes (24 hours) will be used.
   request:
-    uri: POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-06-01
+    uri: POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-10-01
     body: >-
       {
         "scopes": [
           "chat"
-        ]
+        ],
+        "expiresInMinutes": 60
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-06-01
+      POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-10-01
 
       {
         "scopes": [
           "chat"
-        ]
+        ],
+        "expiresInMinutes": 60
       }
 
       ```
