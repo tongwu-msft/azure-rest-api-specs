@@ -3,14 +3,14 @@ uid: management.azure.com.activedirectory.b2ctenants.delete
 name: Delete
 service: Azure AD B2C
 groupName: B2C Tenants
-apiVersion: 2019-01-01-preview
+apiVersion: 2021-04-01
 summary: 'Initiates an async operation to delete the Azure AD B2C tenant and Azure resource. The resource deletion can only happen as the last step in [the tenant deletion process](https://aka.ms/deleteB2Ctenant). '
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2019-01-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The initial domain name of the B2C tenant.
+  description: The initial domain name of the Azure AD B2C tenant.
   types:
   - uid: string
 - name: api-version
@@ -38,16 +38,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Resource deletion successful.
+  description: Response of the URL in Location header if the asynchronous operation is successful. Resource will no longer exist.
 - name: 202 Accepted
   headers:
   - name: Location
     value: string
   - name: Retry-After
     value: string
-  description: 'Resource deletion request accepted. The Location header indicates the URL/location in which to check to get the async status of the operation. '
+  description: 'Resource deletion request accepted. The Location header indicates the URL/location in which to poll for a result of the asynchronous operation. '
 - name: 204 No Content
-  description: 'Request successful. Resource does not exist. '
+  description: NoContent - Azure AD B2C tenant resource successfully deleted or didn't exist.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -110,19 +110,44 @@ definitions:
 examples:
 - name: Delete tenant
   request:
-    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg1/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab346/resourceGroups/rg1/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg1/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+      DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab346/resourceGroups/rg1/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ExternalIdentitiesConfigurationClient } = require("@azure/arm-azureadexternalidentities");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Initiates an async operation to delete the Azure AD B2C tenant and Azure resource. The resource deletion can only happen as the last step in [the tenant deletion process](https://aka.ms/deleteB2Ctenant).
+       *
+       * @summary Initiates an async operation to delete the Azure AD B2C tenant and Azure resource. The resource deletion can only happen as the last step in [the tenant deletion process](https://aka.ms/deleteB2Ctenant).
+       * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/deleteTenant.json
+       */
+      async function deleteTenant() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346";
+        const resourceGroupName = "rg1";
+        const resourceName = "contoso.onmicrosoft.com";
+        const credential = new DefaultAzureCredential();
+        const client = new ExternalIdentitiesConfigurationClient(credential, subscriptionId);
+        const result = await client.b2CTenants.beginDeleteAndWait(resourceGroupName, resourceName);
+        console.log(result);
+      }
+
+      deleteTenant().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azureadexternalidentities_1.0.2/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.AzureActiveDirectory/operations/99999999-9999-9999-9999-999999999999
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab346/providers/Microsoft.AzureActiveDirectory/operations/99999999-9999-9999-9999-999999999999
     - name: Retry-After
       value: "60"
   - statusCode: "204"

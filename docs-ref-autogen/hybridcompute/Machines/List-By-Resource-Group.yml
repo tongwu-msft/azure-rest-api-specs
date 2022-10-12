@@ -3,14 +3,14 @@ uid: management.azure.com.hybridcompute.machines.listbyresourcegroup
 name: List By Resource Group
 service: Hybrid Compute
 groupName: Machines
-apiVersion: 2022-05-10-preview
+apiVersion: 2022-08-11-preview
 summary: Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines?api-version=2022-05-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines?api-version=2022-08-11-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,10 +66,6 @@ definitions:
   description: Describes a hybrid machine.
   kind: object
   properties:
-  - name: properties
-    description: Hybrid Compute Machine properties
-    types:
-    - uid: MachineProperties
   - name: resources
     isReadyOnly: true
     description: The list of extensions affiliated to the machine
@@ -80,11 +76,131 @@ definitions:
     description: Identity for the resource.
     types:
     - uid: Identity
-  - name: systemData
-    isReadyOnly: true
-    description: The system meta data relating to this resource.
+  - name: properties.locationData
+    description: Metadata pertaining to the geographic location of the resource.
     types:
-    - uid: systemData
+    - uid: locationData
+  - name: properties.agentConfiguration
+    isReadyOnly: true
+    description: Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM.
+    types:
+    - uid: AgentConfiguration
+  - name: properties.serviceStatuses
+    description: Statuses of dependent services that are reported back to ARM.
+    types:
+    - uid: ServiceStatuses
+  - name: properties.cloudMetadata
+    description: The metadata of the cloud environment (Azure/GCP/AWS/OCI...).
+    types:
+    - uid: CloudMetadata
+  - name: properties.osProfile
+    description: Specifies the operating system settings for the hybrid machine.
+    types:
+    - uid: OSProfile
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the hybrid machine agent.
+    types:
+    - uid: StatusTypes
+  - name: properties.lastStatusChange
+    isReadyOnly: true
+    description: The time of the last status change.
+    types:
+    - uid: string
+  - name: properties.errorDetails
+    isReadyOnly: true
+    description: Details about the error state.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: properties.agentVersion
+    isReadyOnly: true
+    description: The hybrid machine agent full version.
+    types:
+    - uid: string
+  - name: properties.vmId
+    description: Specifies the hybrid machine unique ID.
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: Specifies the hybrid machine display name.
+    types:
+    - uid: string
+  - name: properties.machineFqdn
+    isReadyOnly: true
+    description: Specifies the hybrid machine FQDN.
+    types:
+    - uid: string
+  - name: properties.clientPublicKey
+    description: Public Key that the client provides to be used during initial resource onboarding
+    types:
+    - uid: string
+  - name: properties.osName
+    isReadyOnly: true
+    description: The Operating System running on the hybrid machine.
+    types:
+    - uid: string
+  - name: properties.osVersion
+    isReadyOnly: true
+    description: The version of Operating System running on the hybrid machine.
+    types:
+    - uid: string
+  - name: properties.osType
+    description: The type of Operating System (windows/linux).
+    types:
+    - uid: string
+  - name: properties.vmUuid
+    isReadyOnly: true
+    description: Specifies the Arc Machine's unique SMBIOS ID
+    types:
+    - uid: string
+  - name: properties.osSku
+    isReadyOnly: true
+    description: Specifies the Operating System product SKU.
+    types:
+    - uid: string
+  - name: properties.domainName
+    isReadyOnly: true
+    description: Specifies the Windows domain name.
+    types:
+    - uid: string
+  - name: properties.adFqdn
+    isReadyOnly: true
+    description: Specifies the AD fully qualified display name.
+    types:
+    - uid: string
+  - name: properties.dnsFqdn
+    isReadyOnly: true
+    description: Specifies the DNS fully qualified display name.
+    types:
+    - uid: string
+  - name: properties.privateLinkScopeResourceId
+    description: The resource id of the private link scope this machine is assigned to, if any.
+    types:
+    - uid: string
+  - name: properties.parentClusterResourceId
+    description: The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any.
+    types:
+    - uid: string
+  - name: properties.mssqlDiscovered
+    description: Specifies whether any MS SQL instance is discovered on the machine.
+    types:
+    - uid: string
+  - name: properties.detectedProperties
+    isReadyOnly: true
+    description: Detected properties from the machine.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -112,6 +228,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -143,148 +264,51 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: MachineProperties
-  description: Describes the properties of a hybrid machine.
-  kind: object
-  properties:
-  - name: locationData
-    description: Metadata pertaining to the geographic location of the resource.
-    types:
-    - uid: locationData
-  - name: agentConfiguration
-    isReadyOnly: true
-    description: Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM.
-    types:
-    - uid: AgentConfiguration
-  - name: serviceStatuses
-    description: Statuses of dependent services that are reported back to ARM.
-    types:
-    - uid: ServiceStatuses
-  - name: cloudMetadata
-    description: The metadata of the cloud environment (Azure/GCP/AWS/OCI...).
-    types:
-    - uid: CloudMetadata
-  - name: osProfile
-    description: Specifies the operating system settings for the hybrid machine.
-    types:
-    - uid: OSProfile
-  - name: provisioningState
-    isReadyOnly: true
-    description: The provisioning state, which only appears in the response.
-    types:
-    - uid: string
-  - name: status
-    isReadyOnly: true
-    description: The status of the hybrid machine agent.
-    types:
-    - uid: StatusTypes
-  - name: lastStatusChange
-    isReadyOnly: true
-    description: The time of the last status change.
-    types:
-    - uid: string
-  - name: errorDetails
-    isReadyOnly: true
-    description: Details about the error state.
-    types:
-    - uid: ErrorDetail
-      isArray: true
-  - name: agentVersion
-    isReadyOnly: true
-    description: The hybrid machine agent full version.
-    types:
-    - uid: string
-  - name: vmId
-    description: Specifies the hybrid machine unique ID.
-    types:
-    - uid: string
-  - name: displayName
-    isReadyOnly: true
-    description: Specifies the hybrid machine display name.
-    types:
-    - uid: string
-  - name: machineFqdn
-    isReadyOnly: true
-    description: Specifies the hybrid machine FQDN.
-    types:
-    - uid: string
-  - name: clientPublicKey
-    description: Public Key that the client provides to be used during initial resource onboarding
-    types:
-    - uid: string
-  - name: osName
-    isReadyOnly: true
-    description: The Operating System running on the hybrid machine.
-    types:
-    - uid: string
-  - name: osVersion
-    isReadyOnly: true
-    description: The version of Operating System running on the hybrid machine.
-    types:
-    - uid: string
-  - name: osType
-    description: The type of Operating System (windows/linux).
-    types:
-    - uid: string
-  - name: vmUuid
-    isReadyOnly: true
-    description: Specifies the Arc Machine's unique SMBIOS ID
-    types:
-    - uid: string
-  - name: osSku
-    isReadyOnly: true
-    description: Specifies the Operating System product SKU.
-    types:
-    - uid: string
-  - name: domainName
-    isReadyOnly: true
-    description: Specifies the Windows domain name.
-    types:
-    - uid: string
-  - name: adFqdn
-    isReadyOnly: true
-    description: Specifies the AD fully qualified display name.
-    types:
-    - uid: string
-  - name: dnsFqdn
-    isReadyOnly: true
-    description: Specifies the DNS fully qualified display name.
-    types:
-    - uid: string
-  - name: privateLinkScopeResourceId
-    description: The resource id of the private link scope this machine is assigned to, if any.
-    types:
-    - uid: string
-  - name: parentClusterResourceId
-    description: The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any.
-    types:
-    - uid: string
-  - name: mssqlDiscovered
-    description: Specifies whether any MS SQL instance is discovered on the machine.
-    types:
-    - uid: string
-  - name: detectedProperties
-    isReadyOnly: true
-    description: Detected properties from the machine.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: MachineExtension
   description: Describes a Machine Extension.
   kind: object
   properties:
-  - name: properties
-    description: Describes Machine Extension Properties.
+  - name: properties.forceUpdateTag
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
     types:
-    - uid: MachineExtensionProperties
-  - name: systemData
+    - uid: string
+  - name: properties.publisher
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: properties.type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: properties.typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: properties.enableAutomaticUpgrade
+    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
+    types:
+    - uid: boolean
+  - name: properties.autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: properties.settings
+    description: Json formatted public settings for the extension.
+    types:
+    - {}
+  - name: properties.protectedSettings
+    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+    types:
+    - {}
+  - name: properties.provisioningState
     isReadyOnly: true
-    description: The system meta data relating to this resource.
+    description: The provisioning state, which only appears in the response.
     types:
-    - uid: systemData
+    - uid: string
+  - name: properties.instanceView
+    description: The machine extension instance view.
+    types:
+    - uid: MachineExtensionInstanceView
   - name: tags
     description: Resource tags.
     types:
@@ -312,6 +336,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -330,48 +359,6 @@ definitions:
     description: The identity type.
     types:
     - uid: ResourceIdentityType
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: locationData
   description: Metadata pertaining to the geographic location of the resource.
   kind: object
@@ -491,16 +478,54 @@ definitions:
   - name: Error
     types:
     - uid: string
-- name: MachineExtensionProperties
-  description: Describes the properties of a Machine Extension.
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
-  - name: forceUpdateTag
-    description: How the extension handler should be forced to update even if the extension configuration has not changed.
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: publisher
-    description: The name of the extension handler publisher.
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: MachineExtensionInstanceView
+  description: Describes the Machine Extension Instance View.
+  kind: object
+  properties:
+  - name: name
+    description: The machine extension name.
     types:
     - uid: string
   - name: type
@@ -511,52 +536,15 @@ definitions:
     description: Specifies the version of the script handler.
     types:
     - uid: string
-  - name: enableAutomaticUpgrade
-    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
+  - name: status
+    description: Instance view status.
     types:
-    - uid: boolean
-  - name: autoUpgradeMinorVersion
-    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
-    types:
-    - uid: boolean
-  - name: settings
-    description: Json formatted public settings for the extension.
-    types:
-    - {}
-  - name: protectedSettings
-    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
-    types:
-    - {}
-  - name: provisioningState
-    isReadyOnly: true
-    description: The provisioning state, which only appears in the response.
-    types:
-    - uid: string
-  - name: instanceView
-    description: The machine extension instance view.
-    types:
-    - uid: MachineExtensionInstanceView
+    - uid: Status
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
   properties:
   - name: SystemAssigned
-    types:
-    - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
     types:
     - uid: string
 - name: ConfigurationExtension
@@ -619,50 +607,20 @@ definitions:
     description: Specifies the patch mode.
     types:
     - uid: PatchModeTypes
-- name: MachineExtensionInstanceView
-  description: Describes the Machine Extension Instance View.
-  kind: object
-  properties:
-  - name: name
-    description: The machine extension name.
-    types:
-    - uid: string
-  - name: type
-    description: Specifies the type of the extension; an example is "CustomScriptExtension".
-    types:
-    - uid: string
-  - name: typeHandlerVersion
-    description: Specifies the version of the script handler.
-    types:
-    - uid: string
-  - name: status
-    description: Instance view status.
-    types:
-    - uid: Status
-- name: AssessmentModeTypes
-  description: Specifies the assessment mode.
+- name: createdByType
+  description: The type of identity that created the resource.
   kind: enum
   properties:
-  - name: ImageDefault
+  - name: User
     types:
     - uid: string
-  - name: AutomaticByPlatform
+  - name: Application
     types:
     - uid: string
-- name: PatchModeTypes
-  description: Specifies the patch mode.
-  kind: enum
-  properties:
-  - name: ImageDefault
+  - name: ManagedIdentity
     types:
     - uid: string
-  - name: AutomaticByPlatform
-    types:
-    - uid: string
-  - name: AutomaticByOS
-    types:
-    - uid: string
-  - name: Manual
+  - name: Key
     types:
     - uid: string
 - name: Status
@@ -689,6 +647,32 @@ definitions:
     description: The time of the status.
     types:
     - uid: string
+- name: AssessmentModeTypes
+  description: Specifies the assessment mode.
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+- name: PatchModeTypes
+  description: Specifies the patch mode.
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+  - name: AutomaticByOS
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
 - name: StatusLevelTypes
   description: The level code.
   kind: enum
@@ -705,11 +689,11 @@ definitions:
 examples:
 - name: List Machines by resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines?api-version=2022-05-10-preview
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines?api-version=2022-08-11-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines?api-version=2022-05-10-preview
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines?api-version=2022-08-11-preview
       ```
 
   responses:
