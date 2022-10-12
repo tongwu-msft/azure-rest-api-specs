@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.publicipaddresses2.createorupdate
-name: Create Or Update
+uid: management.azure.com.virtualnetwork.publicipaddresses.get
+name: Get
 service: Virtual Networks
-groupName: PublicIPAddresses2
+groupName: Public IP Addresses
 apiVersion: 2022-05-01
-summary: Creates or updates a static or dynamic public IP address.
+summary: Gets the specified public IP address in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2022-05-01&$expand={$expand}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,310 +38,22 @@ uriParameters:
   description: Client API version.
   types:
   - uid: string
-responses:
-- name: 201 Created
-  description: Create successful. The operation returns the resulting PublicIPAddress resource.
+- name: $expand
+  in: query
+  description: Expands referenced resources.
   types:
-  - uid: PublicIPAddress
+  - uid: string
+responses:
 - name: 200 OK
-  description: Update successful. The operation returns the resulting PublicIPAddress resource.
+  description: Request successful. The operation returns the resulting PublicIPAddress resource.
   types:
   - uid: PublicIPAddress
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: extendedLocation
-    in: body
-    description: The extended location of the public ip address.
-    types:
-    - uid: ExtendedLocation
-  - name: sku
-    in: body
-    description: The public IP address SKU.
-    types:
-    - uid: PublicIPAddressSku
-  - name: zones
-    in: body
-    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.publicIPAllocationMethod
-    in: body
-    description: The public IP address allocation method.
-    types:
-    - uid: IPAllocationMethod
-  - name: properties.publicIPAddressVersion
-    in: body
-    description: The public IP address version.
-    types:
-    - uid: IPVersion
-  - name: properties.dnsSettings
-    in: body
-    description: The FQDN of the DNS record associated with the public IP address.
-    types:
-    - uid: PublicIPAddressDnsSettings
-  - name: properties.ddosSettings
-    in: body
-    description: The DDoS protection custom policy associated with the public IP address.
-    types:
-    - uid: DdosSettings
-  - name: properties.ipTags
-    in: body
-    description: The list of tags associated with the public IP address.
-    types:
-    - uid: IpTag
-      isArray: true
-  - name: properties.ipAddress
-    in: body
-    description: The IP address associated with the public IP address resource.
-    types:
-    - uid: string
-  - name: properties.publicIPPrefix
-    in: body
-    description: The Public IP Prefix this Public IP Address should be allocated from.
-    types:
-    - uid: SubResource
-  - name: properties.idleTimeoutInMinutes
-    in: body
-    description: The idle timeout of the public IP address.
-    types:
-    - uid: integer
-  - name: properties.servicePublicIPAddress
-    in: body
-    description: The service public IP address of the public IP address resource.
-    types:
-    - uid: PublicIPAddress
-  - name: properties.natGateway
-    in: body
-    description: The NatGateway for the Public IP address.
-    types:
-    - uid: NatGateway
-  - name: properties.migrationPhase
-    in: body
-    description: Migration phase of Public IP Address.
-    types:
-    - uid: PublicIPAddressMigrationPhase
-  - name: properties.linkedPublicIPAddress
-    in: body
-    description: The linked public IP address of the public IP address resource.
-    types:
-    - uid: PublicIPAddress
-  - name: properties.deleteOption
-    in: body
-    description: Specify what happens to the public IP address when the VM using it is deleted
-    types:
-    - uid: DeleteOptions
-  - name: id
-    in: body
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: location
-    in: body
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
-- name: ExtendedLocation
-  description: ExtendedLocation complex type.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the extended location.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the extended location.
-    types:
-    - uid: ExtendedLocationTypes
-- name: PublicIPAddressSku
-  description: SKU of a public IP address.
-  kind: object
-  properties:
-  - name: name
-    description: Name of a public IP address SKU.
-    types:
-    - uid: PublicIPAddressSkuName
-  - name: tier
-    description: Tier of a public IP address SKU.
-    types:
-    - uid: PublicIPAddressSkuTier
-- name: IPConfiguration
-  description: IP configuration.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.privateIPAddress
-    description: The private IP address of the IP configuration.
-    types:
-    - uid: string
-  - name: properties.privateIPAllocationMethod
-    description: The private IP address allocation method.
-    types:
-    - uid: IPAllocationMethod
-    defaultValue: Dynamic
-  - name: properties.subnet
-    description: The reference to the subnet resource.
-    types:
-    - uid: Subnet
-  - name: properties.publicIPAddress
-    description: The reference to the public IP resource.
-    types:
-    - uid: PublicIPAddress
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the IP configuration resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: PublicIPAddressDnsSettings
-  description: Contains FQDN of the DNS record associated with the public IP address.
-  kind: object
-  properties:
-  - name: domainNameLabel
-    description: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
-    types:
-    - uid: string
-  - name: fqdn
-    description: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
-    types:
-    - uid: string
-  - name: reverseFqdn
-    description: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
-    types:
-    - uid: string
-- name: DdosSettings
-  description: Contains the DDoS protection settings of the public IP.
-  kind: object
-  properties:
-  - name: protectionMode
-    description: The DDoS protection mode of the public IP
-    types:
-    - uid: DdosSettingsProtectionMode
-  - name: ddosProtectionPlan
-    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
-    types:
-    - uid: SubResource
-- name: IpTag
-  description: Contains the IpTag associated with the object.
-  kind: object
-  properties:
-  - name: ipTagType
-    description: 'The IP tag type. Example: FirstPartyUsage.'
-    types:
-    - uid: string
-  - name: tag
-    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
-    types:
-    - uid: string
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: NatGateway
-  description: Nat Gateway resource.
-  kind: object
-  properties:
-  - name: sku
-    description: The nat gateway SKU.
-    types:
-    - uid: NatGatewaySku
-  - name: zones
-    description: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
-    types:
-    - uid: string
-      isArray: true
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.idleTimeoutInMinutes
-    description: The idle timeout of the nat gateway.
-    types:
-    - uid: integer
-  - name: properties.publicIpAddresses
-    description: An array of public ip addresses associated with the nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.publicIpPrefixes
-    description: An array of public ip prefixes associated with the nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.subnets
-    isReadyOnly: true
-    description: An array of references to the subnets using this nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the NAT gateway resource.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the NAT gateway resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: PublicIPAddress
   description: Public IP address resource.
   kind: object
@@ -464,6 +178,277 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
+- name: PublicIPAddressSku
+  description: SKU of a public IP address.
+  kind: object
+  properties:
+  - name: name
+    description: Name of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
+- name: IPAllocationMethod
+  description: IP address allocation method.
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: IPVersion
+  description: IP address version.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
+- name: IPConfiguration
+  description: IP configuration.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: The private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: The private IP address allocation method.
+    types:
+    - uid: IPAllocationMethod
+    defaultValue: Dynamic
+  - name: properties.subnet
+    description: The reference to the subnet resource.
+    types:
+    - uid: Subnet
+  - name: properties.publicIPAddress
+    description: The reference to the public IP resource.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the IP configuration resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: PublicIPAddressDnsSettings
+  description: Contains FQDN of the DNS record associated with the public IP address.
+  kind: object
+  properties:
+  - name: domainNameLabel
+    description: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
+    types:
+    - uid: string
+  - name: fqdn
+    description: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
+    types:
+    - uid: string
+  - name: reverseFqdn
+    description: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
+    types:
+    - uid: string
+- name: DdosSettings
+  description: Contains the DDoS protection settings of the public IP.
+  kind: object
+  properties:
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
+    types:
+    - uid: SubResource
+- name: IpTag
+  description: Contains the IpTag associated with the object.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'The IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: NatGateway
+  description: Nat Gateway resource.
+  kind: object
+  properties:
+  - name: sku
+    description: The nat gateway SKU.
+    types:
+    - uid: NatGatewaySku
+  - name: zones
+    description: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the nat gateway.
+    types:
+    - uid: integer
+  - name: properties.publicIpAddresses
+    description: An array of public ip addresses associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.publicIpPrefixes
+    description: An array of public ip prefixes associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: An array of references to the subnets using this nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the NAT gateway resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT gateway resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PublicIPAddressMigrationPhase
+  description: Migration phase of Public IP Address.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Prepare
+    types:
+    - uid: string
+  - name: Commit
+    types:
+    - uid: string
+  - name: Abort
+    types:
+    - uid: string
+  - name: Committed
+    types:
+    - uid: string
+- name: DeleteOptions
+  description: Specify what happens to the public IP address when the VM using it is deleted
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: ExtendedLocationTypes
   description: The type of the extended location.
   kind: enum
@@ -489,16 +474,6 @@ definitions:
     types:
     - uid: string
   - name: Global
-    types:
-    - uid: string
-- name: IPAllocationMethod
-  description: IP address allocation method.
-  kind: enum
-  properties:
-  - name: Static
-    types:
-    - uid: string
-  - name: Dynamic
     types:
     - uid: string
 - name: Subnet
@@ -618,22 +593,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: ProvisioningState
-  description: The current provisioning state.
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
 - name: DdosSettingsProtectionMode
   description: The DDoS protection mode of the public IP
   kind: enum
@@ -655,66 +614,6 @@ definitions:
     description: Name of Nat Gateway SKU.
     types:
     - uid: NatGatewaySkuName
-- name: IPVersion
-  description: IP address version.
-  kind: enum
-  properties:
-  - name: IPv4
-    types:
-    - uid: string
-  - name: IPv6
-    types:
-    - uid: string
-- name: PublicIPAddressMigrationPhase
-  description: Migration phase of Public IP Address.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: Prepare
-    types:
-    - uid: string
-  - name: Commit
-    types:
-    - uid: string
-  - name: Abort
-    types:
-    - uid: string
-  - name: Committed
-    types:
-    - uid: string
-- name: DeleteOptions
-  description: Specify what happens to the public IP address when the VM using it is deleted
-  kind: enum
-  properties:
-  - name: Delete
-    types:
-    - uid: string
-  - name: Detach
-    types:
-    - uid: string
-- name: CloudErrorBody
-  description: An error response from the service.
-  kind: object
-  properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 - name: NetworkSecurityGroup
   description: NetworkSecurityGroup resource.
   kind: object
@@ -2756,22 +2655,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create public IP address defaults
+- name: Get public IP address
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-    body: >-
-      {
-        "location": "eastus"
-      }
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-
-      {
-        "location": "eastus"
-      }
-
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip?api-version=2022-05-01
       ```
 
       # [Go](#tab/Go)
@@ -2782,13 +2672,12 @@ examples:
       	"context"
       	"log"
 
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDefaults.json
-      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_createPublicIpAddressDefaults() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGet.json
+      func ExamplePublicIPAddressesClient_Get() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -2798,15 +2687,9 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
-      		Location: to.Ptr("eastus"),
-      	}, nil)
+      	res, err := client.Get(ctx, "rg1", "testDNS-ip", &armnetwork.PublicIPAddressesClientGetOptions{Expand: nil})
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
       	}
       	// TODO: use response item
       	_ = res
@@ -2820,27 +2703,22 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
+       * This sample demonstrates how to Gets the specified public IP address in a specified resource group.
        *
-       * @summary Creates or updates a static or dynamic public IP address.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDefaults.json
+       * @summary Gets the specified public IP address in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGet.json
        */
-      async function createPublicIPAddressDefaults() {
+      async function getPublicIPAddress() {
         const subscriptionId = "subid";
         const resourceGroupName = "rg1";
-        const publicIpAddressName = "test-ip";
-        const parameters = { location: "eastus" };
+        const publicIpAddressName = "testDNS-ip";
         const credential = new DefaultAzureCredential();
         const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          publicIpAddressName,
-          parameters
-        );
+        const result = await client.publicIPAddresses.get(resourceGroupName, publicIpAddressName);
         console.log(result);
       }
 
-      createPublicIPAddressDefaults().catch(console.error);
+      getPublicIPAddress().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
@@ -2849,367 +2727,32 @@ examples:
     body: >-
       {
         "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip",
+        "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
           "publicIPAddressVersion": "IPv4",
           "publicIPAllocationMethod": "Dynamic",
           "idleTimeoutInMinutes": 4,
-          "ipConfiguration": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-          }
-        },
-        "sku": {
-          "name": "Basic"
-        },
-        "type": "Microsoft.Network/publicIPAddresses"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Dynamic",
-          "idleTimeoutInMinutes": 4,
-          "ipConfiguration": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-          }
-        },
-        "sku": {
-          "name": "Basic"
-        },
-        "type": "Microsoft.Network/publicIPAddresses"
-      }
-- name: Create public IP address allocation method
-  request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-    body: >-
-      {
-        "properties": {
-          "publicIPAllocationMethod": "Static",
-          "idleTimeoutInMinutes": 10,
-          "publicIPAddressVersion": "IPv4"
-        },
-        "sku": {
-          "name": "Standard",
-          "tier": "Global"
-        },
-        "location": "eastus"
-      }
-    codeTab: |+
-      # [HTTP](#tab/HTTP)
-      ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-
-      {
-        "properties": {
-          "publicIPAllocationMethod": "Static",
-          "idleTimeoutInMinutes": 10,
-          "publicIPAddressVersion": "IPv4"
-        },
-        "sku": {
-          "name": "Standard",
-          "tier": "Global"
-        },
-        "location": "eastus"
-      }
-
-      ```
-
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateCustomizedValues.json
-      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_createPublicIpAddressAllocationMethod() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
-      		Location: to.Ptr("eastus"),
-      		Properties: &armnetwork.PublicIPAddressPropertiesFormat{
-      			IdleTimeoutInMinutes:     to.Ptr[int32](10),
-      			PublicIPAddressVersion:   to.Ptr(armnetwork.IPVersionIPv4),
-      			PublicIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodStatic),
-      		},
-      		SKU: &armnetwork.PublicIPAddressSKU{
-      			Name: to.Ptr(armnetwork.PublicIPAddressSKUNameStandard),
-      			Tier: to.Ptr(armnetwork.PublicIPAddressSKUTierGlobal),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
-       *
-       * @summary Creates or updates a static or dynamic public IP address.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateCustomizedValues.json
-       */
-      async function createPublicIPAddressAllocationMethod() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const publicIpAddressName = "test-ip";
-        const parameters = {
-          idleTimeoutInMinutes: 10,
-          location: "eastus",
-          publicIPAddressVersion: "IPv4",
-          publicIPAllocationMethod: "Static",
-          sku: { name: "Standard", tier: "Global" },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          publicIpAddressName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createPublicIPAddressAllocationMethod().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
-        "zones": [
-          "1"
-        ],
-        "properties": {
-          "provisioningState": "Succeeded",
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Static",
-          "idleTimeoutInMinutes": 10,
           "ipConfiguration": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
           },
           "ddosSettings": {
-            "protectionMode": "VirtualNetworkInherited"
-          }
-        },
-        "sku": {
-          "name": "Standard",
-          "tier": "Global"
-        },
-        "type": "Microsoft.Network/publicIPAddresses"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
-        "zones": [
-          "1"
-        ],
-        "properties": {
-          "provisioningState": "Succeeded",
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Static",
-          "idleTimeoutInMinutes": 10,
-          "ipConfiguration": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
+            "protectionMode": "Enabled",
+            "ddosProtectionPlan": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans/test-plan"
+            }
           },
-          "ddosSettings": {
-            "protectionMode": "VirtualNetworkInherited"
-          }
-        },
-        "sku": {
-          "name": "Standard",
-          "tier": "Global"
-        },
-        "type": "Microsoft.Network/publicIPAddresses"
-      }
-- name: Create public IP address DNS
-  request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-    body: >-
-      {
-        "properties": {
-          "dnsSettings": {
-            "domainNameLabel": "dnslbl"
-          }
-        },
-        "location": "eastus"
-      }
-    codeTab: |+
-      # [HTTP](#tab/HTTP)
-      ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
-
-      {
-        "properties": {
-          "dnsSettings": {
-            "domainNameLabel": "dnslbl"
-          }
-        },
-        "location": "eastus"
-      }
-
-      ```
-
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDns.json
-      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_createPublicIpAddressDns() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
-      		Location: to.Ptr("eastus"),
-      		Properties: &armnetwork.PublicIPAddressPropertiesFormat{
-      			DNSSettings: &armnetwork.PublicIPAddressDNSSettings{
-      				DomainNameLabel: to.Ptr("dnslbl"),
-      			},
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv2.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
-       *
-       * @summary Creates or updates a static or dynamic public IP address.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDns.json
-       */
-      async function createPublicIPAddressDns() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const publicIpAddressName = "test-ip";
-        const parameters = {
-          dnsSettings: { domainNameLabel: "dnslbl" },
-          location: "eastus",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          publicIpAddressName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createPublicIPAddressDns().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Dynamic",
-          "idleTimeoutInMinutes": 4,
-          "dnsSettings": {
-            "domainNameLabel": "dnslbl",
-            "fqdn": "dnslbl.westus.cloudapp.azure.com"
-          },
-          "ipConfiguration": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-          }
-        },
-        "type": "Microsoft.Network/publicIPAddresses"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
-        "location": "eastus",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Dynamic",
-          "idleTimeoutInMinutes": 4,
-          "dnsSettings": {
-            "domainNameLabel": "dnslbl",
-            "fqdn": "dnslbl.westus.cloudapp.azure.com"
-          },
-          "ipConfiguration": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-          },
-          "ddosSettings": {
-            "protectionMode": "VirtualNetworkInherited"
-          }
+          "ipTags": [
+            {
+              "ipTagType": "FirstPartyUsage",
+              "tag": "SQL"
+            },
+            {
+              "ipTagType": "FirstPartyUsage",
+              "tag": "Storage"
+            }
+          ]
         },
         "type": "Microsoft.Network/publicIPAddresses"
       }
@@ -3224,5 +2767,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Virtual Networks service - Creates or updates a static or dynamic public IP address.
+    Learn more about Virtual Networks service - Gets the specified public IP address in a specified resource group.
 errorCodes: []

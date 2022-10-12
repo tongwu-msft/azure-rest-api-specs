@@ -27758,6 +27758,15 @@
 ### [List By Subscription](virtualnetwork/Private-Link-Services/List-By-Subscription.yml)
 ### [List Private Endpoint Connections](virtualnetwork/Private-Link-Services/List-Private-Endpoint-Connections.yml)
 ### [Update Private Endpoint Connection](virtualnetwork/Private-Link-Services/Update-Private-Endpoint-Connection.yml)
+## Public IP Addresses
+### [Overview](virtualnetwork/Public-IP-Addresses.yml)
+### [Create Or Update](virtualnetwork/Public-IP-Addresses/Create-Or-Update.yml)
+### [Ddos Protection Status](virtualnetwork/Public-IP-Addresses/Ddos-Protection-Status.yml)
+### [Delete](virtualnetwork/Public-IP-Addresses/Delete.yml)
+### [Get](virtualnetwork/Public-IP-Addresses/Get.yml)
+### [List](virtualnetwork/Public-IP-Addresses/List.yml)
+### [List All](virtualnetwork/Public-IP-Addresses/List-All.yml)
+### [Update Tags](virtualnetwork/Public-IP-Addresses/Update-Tags.yml)
 ## Public IP Prefixes
 ### [Overview](virtualnetwork/Public-IP-Prefixes.yml)
 ### [Create Or Update](virtualnetwork/Public-IP-Prefixes/Create-Or-Update.yml)
@@ -27776,15 +27785,6 @@
 ### [Get Virtual Machine Scale Set Public IP Address](virtualnetwork/Public-IP-Address-In-VM-SS/Get-Virtual-Machine-Scale-Set-Public-IP-Address.yml)
 ### [List Virtual Machine Scale Set Public IP Addresses](virtualnetwork/Public-IP-Address-In-VM-SS/List-Virtual-Machine-Scale-Set-Public-IP-Addresses.yml)
 ### [List Virtual Machine Scale Set VM Public IP Addresses](virtualnetwork/Public-IP-Address-In-VM-SS/List-Virtual-Machine-Scale-Set-VM-Public-IP-Addresses.yml)
-## PublicIPAddresses2
-### [Overview](virtualnetwork/PublicIPAddresses2.yml)
-### [Create Or Update](virtualnetwork/PublicIPAddresses2/Create-Or-Update.yml)
-### [Ddos Protection Status](virtualnetwork/PublicIPAddresses2/Ddos-Protection-Status.yml)
-### [Delete](virtualnetwork/PublicIPAddresses2/Delete.yml)
-### [Get](virtualnetwork/PublicIPAddresses2/Get.yml)
-### [List](virtualnetwork/PublicIPAddresses2/List.yml)
-### [List All](virtualnetwork/PublicIPAddresses2/List-All.yml)
-### [Update Tags](virtualnetwork/PublicIPAddresses2/Update-Tags.yml)
 ## Put Bastion Shareable Link
 ### [Overview](virtualnetwork/Put-Bastion-Shareable-Link.yml)
 ### [Put Bastion Shareable Link](virtualnetwork/Put-Bastion-Shareable-Link/Put-Bastion-Shareable-Link.yml)

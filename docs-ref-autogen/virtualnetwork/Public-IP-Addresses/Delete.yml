@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.publicipaddresses2.ddosprotectionstatus
-name: Ddos Protection Status
+uid: management.azure.com.virtualnetwork.publicipaddresses.delete
+name: Delete
 service: Virtual Networks
-groupName: PublicIPAddresses2
+groupName: Public IP Addresses
 apiVersion: 2022-05-01
-summary: Gets the Ddos Protection Status of a Public IP Address
+summary: Deletes the specified public IP address.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus?api-version=2022-05-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,38 +37,18 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Request successful. The operation returns the Ddos Protection Status of this Public IP.
-  types:
-  - uid: PublicIpDdosProtectionStatusResult
+- name: 204 No Content
+  description: Request successful. Resource does not exist.
 - name: 202 Accepted
   description: Accepted and the operation will complete asynchronously.
+- name: 200 OK
+  description: Delete successful.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: PublicIpDdosProtectionStatusResult
-  description: Response for GetPublicIpAddressDdosProtectionStatusOperation API service call.
-  kind: object
-  properties:
-  - name: publicIpAddressId
-    description: Public IP ARM resource ID
-    types:
-    - uid: string
-  - name: publicIpAddress
-    description: IP Address of the Public IP Resource
-    types:
-    - uid: string
-  - name: isWorkloadProtected
-    description: Value indicating whether the IP address is DDoS workload protected or not.
-    types:
-    - uid: IsWorkloadProtected
-  - name: ddosProtectionPlanId
-    description: " DDoS protection plan Resource Id of a if IP address is protected through a plan."
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -77,16 +57,6 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: IsWorkloadProtected
-  description: Value indicating whether the IP address is DDoS workload protected or not.
-  kind: enum
-  properties:
-  - name: "False"
-    types:
-    - uid: string
-  - name: "True"
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -109,13 +79,13 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get Ddos Protection Status of a Public IP Address
+- name: Delete public IP address
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip/ddosProtectionStatus?api-version=2022-05-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip/ddosProtectionStatus?api-version=2022-05-01
+      DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-05-01
       ```
 
       # [Go](#tab/Go)
@@ -130,8 +100,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGetDdosProtectionStatus.json
-      func ExamplePublicIPAddressesClient_BeginDdosProtectionStatus() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressDelete.json
+      func ExamplePublicIPAddressesClient_BeginDelete() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -141,16 +111,14 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginDdosProtectionStatus(ctx, "rg1", "test-pip", nil)
+      	poller, err := client.BeginDelete(ctx, "rg1", "test-ip", nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	res, err := poller.PollUntilDone(ctx, nil)
+      	_, err = poller.PollUntilDone(ctx, nil)
       	if err != nil {
       		log.Fatalf("failed to pull the result: %v", err)
       	}
-      	// TODO: use response item
-      	_ = res
       }
 
       ```
@@ -161,38 +129,32 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Gets the Ddos Protection Status of a Public IP Address
+       * This sample demonstrates how to Deletes the specified public IP address.
        *
-       * @summary Gets the Ddos Protection Status of a Public IP Address
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGetDdosProtectionStatus.json
+       * @summary Deletes the specified public IP address.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressDelete.json
        */
-      async function getDdosProtectionStatusOfAPublicIPAddress() {
+      async function deletePublicIPAddress() {
         const subscriptionId = "subid";
         const resourceGroupName = "rg1";
-        const publicIpAddressName = "test-pip";
+        const publicIpAddressName = "test-ip";
         const credential = new DefaultAzureCredential();
         const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.publicIPAddresses.beginDdosProtectionStatusAndWait(
+        const result = await client.publicIPAddresses.beginDeleteAndWait(
           resourceGroupName,
           publicIpAddressName
         );
         console.log(result);
       }
 
-      getDdosProtectionStatusOfAPublicIPAddress().catch(console.error);
+      deletePublicIPAddress().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "publicIpAddressId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip",
-        "publicIpAddress": "10.0.1.5",
-        "isWorkloadProtected": "True",
-        "ddosProtectionPlanId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans/test-plan"
-      }
   - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -204,5 +166,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Virtual Networks service - Gets the Ddos Protection Status of a Public IP Address
+    Learn more about Virtual Networks service - Deletes the specified public IP address.
 errorCodes: []
