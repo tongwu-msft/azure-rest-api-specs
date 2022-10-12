@@ -1,0 +1,150 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.serverusages.listbyserver
+name: List By Server
+service: SQL Database
+groupName: Server Usages
+apiVersion: 2022-05-01-preview
+summary: Gets server usages.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the server usages.
+  types:
+  - uid: ServerUsageListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+requestHeader: []
+definitions:
+- name: ServerUsageListResult
+  description: A list of server usage metrics.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ServerUsage
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ServerUsage
+  description: Usage metric of a server.
+  kind: object
+  properties:
+  - name: properties.displayName
+    isReadyOnly: true
+    description: User-readable name of the metric.
+    types:
+    - uid: string
+  - name: properties.currentValue
+    isReadyOnly: true
+    description: Current value of the metric.
+    types:
+    - uid: number
+  - name: properties.limit
+    isReadyOnly: true
+    description: Boundary value of the metric.
+    types:
+    - uid: number
+  - name: properties.unit
+    isReadyOnly: true
+    description: Unit of the metric.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: List servers usages.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/usages?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/usages?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "displayName": "Database Throughput Unit Quota",
+              "currentValue": 0,
+              "limit": 45000,
+              "unit": "DTUs"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/sqlcrudtest-9007/usages/server_dtu_quota",
+            "name": "server_dtu_quota",
+            "type": "Microsoft.Sql/servers/usages"
+          },
+          {
+            "properties": {
+              "displayName": "Database Throughput Unit Quota",
+              "currentValue": 0,
+              "limit": 45000,
+              "unit": "DTUs"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/sqlcrudtest-9007/usages/server_dtu_quota_current",
+            "name": "server_dtu_quota_current",
+            "type": "Microsoft.Sql/servers/usages"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets server usages.
+errorCodes: []

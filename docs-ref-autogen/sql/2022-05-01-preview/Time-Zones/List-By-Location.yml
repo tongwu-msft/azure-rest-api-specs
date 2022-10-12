@@ -1,0 +1,1357 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.timezones.listbylocation
+name: List By Location
+service: SQL Database
+groupName: Time Zones
+apiVersion: 2022-05-01-preview
+summary: Gets a list of managed instance time zones by location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/timeZones?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of time zones.
+  types:
+  - uid: TimeZoneListResult
+- name: Other Status Codes
+  description: "*** Error Responses: ***\n\n * 400 InvalidDnsZone - The operation has failed because you are attempting to deploy managed instance as a geo-replication secondary to the subnet {0} in which there already exists a managed instance. Deploying managed instance as a geo-replication secondary is supported only in cases when managed instance is the first instance deployed in a subnet. Consider deploying managed instance as a geo-replication secondary to a different subnet in which there are no existing managed instances, or if deploying to a subnet with existing managed instance disable the geo-replication option.\n\n * 400 HkCannotSwitchToInactive - The database cannot proceed with pricing-tier update as it has memory-optimized objects. Please drop such objects and try again.\n\n * 400 ManagedInstanceInvalidStorageSizeLessThenCurrentSizeUsed - Invalid storage size: Storage size limit ({0} GB) is less that current storage used ({1} GB). Please specify higher storage size limit.\n\n * 400 InstanceTimezoneUpdateNotSupported - Instance timezone update not supported.\n\n * 400 CreateManagedInstanceWithNonDefaultTimezoneNotSupported - Create Managed Instance with non-default timezone not supported.\n\n * 400 ManagedInstanceIpAddressRangeLimit - Cannot perform creation/scaling of the managed instance as there are not enough available IP addresses in the subnet for performing the operation.\n\n * 400 VnetDelegationNotAllowed - User tried to inject Managed Server to subnet which is delegated.\n\n * 400 SubnetHasResourcesOfDifferentType - User tried to create MI in subnet that has resources of different type.\n\n * 400 UpdateManagedServerWithMaintenanceWindowNotAllowed - Update of Managed Instance with maintenance window settings is not allowed.\n\n * 400 VnetPrepareNIPFailed - User tried to prepare subnet that has a conflict with NetworkIntentPolicy.\n\n * 400 InvalidUsername - Supplied user name contains invalid characters.\n\n * 400 ManagedInstanceDeprecatedHardwareFamily - Changing the hardware generation to deprecated {0} generation is not possible.\n\n * 400 ManagedInstanceBackupStorageTypeNotSupported - Backup storage type parameter is not allowed in the instance update operation.\n\n * 400 InvalidParameterValue - An invalid value was given to a parameter.\n\n * 400 EmptyPDCInvalidDnsZone - This managed instance cannot be deployed because its DNS-zone does not match the DNS-prefix of its intended virtual cluster for subnet {0}. Although this virtual cluster is empty, its DNS-prefix cannot be changed. Empty virtual clusters will be automatically removed after several hours. Consider waiting for this virtual cluster to expire or manually deleting this virtual cluster and then creating the managed instance.\n\n * 400 InstancePoolNotEnoughCapacity - An instance pool does not have enough capacity\n\n * 400 ServerNotFound - The requested server was not found.\n\n * 400 MissingIdentityId - No user assigned identity is provided when the identity type is set to UserAssigned\n\n * 400 InvalidPrimaryIdentityId - User provides a value for PrimaryUserIdentityId but the same is not listed in the IdentityId parameter\n\n * 400 ManagedInstanceZoneRedudantFeatureNotSupported - ZoneRedundant feature is not supported for the selected service tier. For more details visit aka.ms/sqlmi-service-tier-characteristics.\n\n * 400 ManagedInstanceZoneRedudantFeatureCantBeEnabled - Enabling zoneRedundant feature is not possible once managed instance is created. For more details visit aka.ms/sqlmi-high-availability.\n\n * 400 ManagedInstanceZoneRedudantFeatureCantBeDisabled - Disabling zoneRedundant feature is not possible once managed instance is created. For more details visit aka.ms/sqlmi-high-availability.\n\n * 400 TokenTooLong - The provided token is too long.\n\n * 400 UmiMissingAkvPermissions - PrimaryUserAssignedIdentityId provided by user does not have access to KeyId provided\n\n * 400 MissingPrimaryIdentity - PrimaryUserAssignedIdentityId provided by user does not have access to KeyId provided\n\n * 400 SubnetIdCantBeUpdated - Changing managed instance subnet is not supported operation. Please remove this parameter from the request.\n\n * 400 MigrationToAnotherVNetNotSupported - Selected subnet is in another Virtual Network. Moving managed instance to another Virtual Network is not possible. Please provide subnet from Virtual Network {0}.\n\n * 400 MigrationToSubnetWithDifferentDnsZoneNotSupported - Provided subnet is having different DNS zone from the current. Changing instance DNS zone is not supported. Please provide subnet with same DNS zone, create a new subnet or provide empty one.\n\n * 400 MigrationToGen4SubnetNotSupported - It is not possible to update subnet while running on Gen4 hardware as it is being deprecated. Please upgrade your hardware from Gen4 to Gen5 as part of the changing managed instance subnet operation by specifying both parameters at the same time: destination subnet and hardware generation.\n\n * 400 PrimaryIdentityMissingPermissionForKeyId - KeyId is provided by user during create but PrimaryUserAssignedIdentityId is not provided in the API call\n\n * 400 InvalidIdentityTypeForKeyId - KeyId is provided by user during create but identity type is not set to 'UserAssigned'\n\n * 400 ManagedInstanceFileExceededMaxAzureStorageFileSizeLimit - The operation could not be completed because some of the database files are exceeding maximum General Purpose file size limit of {0} GB.\n\n * 400 CloudLifterUnsupportedFeature - The functionality is not available on the Managed Instance at this time.\n\n * 400 ManagedInstanceStoppingOrStopped - Conflicting operation submitted while instance is in stopping/stopped state\n\n * 400 ManagedInstanceStarting - Conflicting operation submitted while instance is in starting state\n\n * 400 OperationCanNotStartDueToMiLink - The '{0}' operation cannot be completed as there exists a database in a process of creation through Managed Instance link. Please wait for the link creation to complete, or delete the link, and retry the operation again.\n\n * 400 ManagedInstanceSloUpdateFailed - SLO '{0}' operation cannot succeed as the memory usage of '{1}' exceeds the quota.\n\n * 400 SourceAndTargetSubnetsMustBeVnetPeered - Subnet currently used by managed instance and provided destination subnet are part of the virtual networks that are not connected with virtual network peering, or have peering established but don't have allowed traffic. In order to move managed instance from one subnet to another, virtual network peering needs to be established from both source and target virtual network. Please configure virtual network requirements and then try the operation again. Learn more https://docs.microsoft.com/en-us/azure/virtual-network/tutorial-connect-virtual-networks-portal#peer-virtual-networks. \n\n * 400 ManagedInstanceAndSubnetAreNotOnTheSameSubscription - Subnet provided for managed instance deployment is located on subscription different than the one submitted for managed instance. Managed instance and subnet used for deploying the instance must be on the same subscription. Please provide another subnet or switch to the subnet subscription and then try the operation again.\n\n * 400 CreateManagedInstanceInvalidSubnetSize - User attempted to create managed instance in a subnet that is smaller than the allowed minimal subnet size.\n\n * 400 AddressRangeOfTargetSubnetAndSubnetOfGeoDRReplicaCantOverlap - Subnet selected for managed instance migration has address range that overlaps with address range of subnet that holds geo replicated secondary instance. Please verify that your subnet is configured according to guidelines in https://aka.ms/move-managed-instance. \n\n * 400 TargetSubnetMustBeConfiguredToAllowGeoDRReplication - Subnet selected for managed instance migration is not configured to enable communication with a geo replicated secondary instance. Please check if all of the required ports are open. To properly configure your subnet read the guidelines in https://aka.ms/move-managed-instance. \n\n * 400 ManagedInstanceLocalStorageUpdateSloDisabled - Update SLO for managed instances with local storage is not supported yet.\n\n * 400 InvalidLoginName - The provided login name is invalid.\n\n * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.\n\n * 400 PasswordTooShort - The provided password is too short\n\n * 400 PasswordTooLong - The provided password is too long.\n\n * 400 PasswordNotComplex - The provided password is not complex enough.\n\n * 400 GatewayInvalidEdition - '{0}' is not a valid database edition in this version of SQL Server.\n\n * 400 InvalidSubnetResourceId - The provided subnet resource ID for the managed instance create or update is invalid.\n\n * 400 InstanceFailoverGroupDoesNotExist - Failover group does not exist on a server.\n\n * 400 InvalidLocation - An invalid location was specified.\n\n * 400 VnetInWrongRegion - Virtual network is in wrong region.\n\n * 400 InvalidServerName - Invalid server name specified.\n\n * 400 VnetAddressRangeError - Virtual network address range is invalid.\n\n * 400 VnetConfigIsNotAllowed - Virtual network configuration is not allowed.\n\n * 400 InvalidCollation - Invalid collation.\n\n * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.\n\n * 400 ManagedInstanceClassicVnetNotSupported - Managed Instance cannot be joined to a classic virtual network.\n\n * 400 AlterDbDeactivatedNotSupported - Database Operation failed for Server '{0}', Database '{1}' due to unexpected delay. Please try again.\n\n * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.\n\n * 400 VnetConfigHasNsg - User tried to inject Managed Server subnet with Network Security Groups.\n\n * 400 VnetConfigHasNoUdr - User tried to inject Managed Server subnet without default User Defined Route Table.\n\n * 400 VnetConfigHasInvalidUdr - User tried to inject Managed Server subnet with invalid User Defined Route Table.\n\n * 400 VnetConfigHasInvalidDns - User tried to inject Managed Server subnet with invalid custom DNS.\n\n * 400 VnetConfigHasServiceEndpoints - User tried to inject Managed Server subnet with service endpoints.\n\n * 400 VnetSubnetIsInUse - User tried to inject Managed Server subnet that is not empty.\n\n * 400 VnetSubnetIsLocked - User tried to inject Managed Server subnet that is in locked scope.\n\n * 400 VnetSubnetIsGateway - User tried to inject Managed Server subnet that is Gateway subnet.\n\n * 400 VnetSubnetIsUnknown - User tried to inject Managed Server subnet that does not exist.\n\n * 400 VnetSubnetConflictWithIntendedPolicy - User tried to inject Managed Server subnet that has a conflict with IntendedPolicy.\n\n * 400 NameAlreadyExists - The provided name already exists.\n\n * 400 ManagedInstanceInvalidEditionForSku - The specified edition {0} is not consistent with the specified SKU {1}.\n\n * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes\n\n * 400 ManagedInstanceInvalidLicenseType - The specified license type {0} is not valid.\n\n * 400 ManagedInstanceUpdateSloInProgress - \"The operation could not be completed because a service tier change is in progress for managed instance '{0}.' Please wait for the operation in progress to complete and try again.\"\n\n * 400 VnetResourceNotFound - Resource not found: '{0}'.\n\n * 400 InvalidTimezone - Invalid timezone.\n\n * 400 UnableToResolveRemoteServer - The remote partner server name could not be resolved due to an invalid server name or DNS connectivity issues.\n\n * 400 InstanceCollationUpdateNotSupported - User cannot change instance collation on Managed Instance.\n\n * 400 CreateManagedInstanceWithNonDefaultCollationNotSupported - User can create a Managed Instance only with collation 'SQL_Latin1_General_CP1_CI_AS'.\n\n * 400 ManagedInstanceOperationInProgress - The operation could not be completed because {0} operation is in progress. Please wait for the operation in progress to complete and try again.\n\n * 400 ManagedInstanceExceedMaxAzureStorage - The operation could not be completed because total allocated storage size for General Purpose instance would exceed {0}. Please reduce the number of database files and retry operation.\n\n * 400 ManagedInstanceHasGeoReplica - The operation could not be completed because instance has configured geo replicated secondary instance.\n\n * 404 ResourceNotFound - The requested resource was not found.\n\n * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.\n\n * 404 InstancePoolNotFound - An instance pool cannot be found\n\n * 404 SubscriptionNotFound - The requested subscription was not found.\n\n * 405 InvalidVcoreValue - vCore value {0} is not valid. Please specify a valid vCore value.\n\n * 405 InvalidHardwareGenerationValue - HardwareGeneration {0} is not valid. Please specify a valid HardwareGeneration value.\n\n * 405 InvalidStorageSizeValue - \"Invalid storage size: {0} GB. Storage size must be specified between {1} and {2} gigabytes, in increments of {3} GB.\n\n * 409 ConflictingServerOperation - An operation is currently in progress for the server.\n\n * 409 SubscriptionDisabled - Subscription is disabled.\n\n * 409 ServerAlreadyExists - Duplicate server name.\n\n * 409 ServerOverridePreconditionFailed - Failed to apply server override on category '{0}', because physical db or instance '{1}' in server '{2}' is currently not in 'Ready' or 'Deactivated' state.\n\n * 409 ServerDisabled - Server is disabled.\n\n * 409 ManagedInstanceIsBusy - The server '{0}' is currently busy.  Please wait a few minutes before trying again.\n\n * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.\n\n * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.\n\n * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.\n\n * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.\n\n * 500 GatewayInternalServerError - The server encountered an unexpected exception.\n\n * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.\n\n * 504 RequestTimeout - Service request exceeded the allowed timeout."
+requestHeader: []
+definitions:
+- name: TimeZoneListResult
+  description: A list of time zones.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: TimeZone
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: TimeZone
+  description: Time Zone property.
+  kind: object
+  properties:
+  - name: properties.timeZoneId
+    isReadyOnly: true
+    description: The time zone id
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: The time zone display name
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: List managed instance time zones by location
+  request:
+    uri: GET https://management.azure.com/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/canadaeast/timeZones?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/canadaeast/timeZones?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "timeZoneId": "Afghanistan Standard Time",
+              "displayName": "(UTC+04:30) Kabul"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Afghanistan Standard Time",
+            "name": "Afghanistan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Alaskan Standard Time",
+              "displayName": "(UTC-09:00) Alaska"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Alaskan Standard Time",
+            "name": "Alaskan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Aleutian Standard Time",
+              "displayName": "(UTC-10:00) Aleutian Islands"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Aleutian Standard Time",
+            "name": "Aleutian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Altai Standard Time",
+              "displayName": "(UTC+07:00) Barnaul, Gorno-Altaysk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Altai Standard Time",
+            "name": "Altai Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Arab Standard Time",
+              "displayName": "(UTC+03:00) Kuwait, Riyadh"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Arab Standard Time",
+            "name": "Arab Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Arabian Standard Time",
+              "displayName": "(UTC+04:00) Abu Dhabi, Muscat"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Arabian Standard Time",
+            "name": "Arabian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Arabic Standard Time",
+              "displayName": "(UTC+03:00) Baghdad"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Arabic Standard Time",
+            "name": "Arabic Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Argentina Standard Time",
+              "displayName": "(UTC-03:00) City of Buenos Aires"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Argentina Standard Time",
+            "name": "Argentina Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Astrakhan Standard Time",
+              "displayName": "(UTC+04:00) Astrakhan, Ulyanovsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Astrakhan Standard Time",
+            "name": "Astrakhan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Atlantic Standard Time",
+              "displayName": "(UTC-04:00) Atlantic Time (Canada)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Atlantic Standard Time",
+            "name": "Atlantic Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "AUS Central Standard Time",
+              "displayName": "(UTC+09:30) Darwin"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/AUS Central Standard Time",
+            "name": "AUS Central Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Aus Central W. Standard Time",
+              "displayName": "(UTC+08:45) Eucla"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Aus Central W. Standard Time",
+            "name": "Aus Central W. Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "AUS Eastern Standard Time",
+              "displayName": "(UTC+10:00) Canberra, Melbourne, Sydney"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/AUS Eastern Standard Time",
+            "name": "AUS Eastern Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Azerbaijan Standard Time",
+              "displayName": "(UTC+04:00) Baku"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Azerbaijan Standard Time",
+            "name": "Azerbaijan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Azores Standard Time",
+              "displayName": "(UTC-01:00) Azores"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Azores Standard Time",
+            "name": "Azores Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Bahia Standard Time",
+              "displayName": "(UTC-03:00) Salvador"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Bahia Standard Time",
+            "name": "Bahia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Bangladesh Standard Time",
+              "displayName": "(UTC+06:00) Dhaka"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Bangladesh Standard Time",
+            "name": "Bangladesh Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Belarus Standard Time",
+              "displayName": "(UTC+03:00) Minsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Belarus Standard Time",
+            "name": "Belarus Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Bougainville Standard Time",
+              "displayName": "(UTC+11:00) Bougainville Island"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Bougainville Standard Time",
+            "name": "Bougainville Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Canada Central Standard Time",
+              "displayName": "(UTC-06:00) Saskatchewan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Canada Central Standard Time",
+            "name": "Canada Central Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Cape Verde Standard Time",
+              "displayName": "(UTC-01:00) Cabo Verde Is."
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Cape Verde Standard Time",
+            "name": "Cape Verde Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Caucasus Standard Time",
+              "displayName": "(UTC+04:00) Yerevan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Caucasus Standard Time",
+            "name": "Caucasus Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Cen. Australia Standard Time",
+              "displayName": "(UTC+09:30) Adelaide"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Cen. Australia Standard Time",
+            "name": "Cen. Australia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central America Standard Time",
+              "displayName": "(UTC-06:00) Central America"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central America Standard Time",
+            "name": "Central America Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Asia Standard Time",
+              "displayName": "(UTC+06:00) Nur-Sultan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Asia Standard Time",
+            "name": "Central Asia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Brazilian Standard Time",
+              "displayName": "(UTC-04:00) Cuiaba"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Brazilian Standard Time",
+            "name": "Central Brazilian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Europe Standard Time",
+              "displayName": "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Europe Standard Time",
+            "name": "Central Europe Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central European Standard Time",
+              "displayName": "(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central European Standard Time",
+            "name": "Central European Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Pacific Standard Time",
+              "displayName": "(UTC+11:00) Solomon Is., New Caledonia"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Pacific Standard Time",
+            "name": "Central Pacific Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Standard Time",
+              "displayName": "(UTC-06:00) Central Time (US & Canada)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Standard Time",
+            "name": "Central Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Central Standard Time (Mexico)",
+              "displayName": "(UTC-06:00) Guadalajara, Mexico City, Monterrey"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Standard Time (Mexico)",
+            "name": "Central Standard Time (Mexico)",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Chatham Islands Standard Time",
+              "displayName": "(UTC+12:45) Chatham Islands"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Chatham Islands Standard Time",
+            "name": "Chatham Islands Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "China Standard Time",
+              "displayName": "(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/China Standard Time",
+            "name": "China Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Cuba Standard Time",
+              "displayName": "(UTC-05:00) Havana"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Cuba Standard Time",
+            "name": "Cuba Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Dateline Standard Time",
+              "displayName": "(UTC-12:00) International Date Line West"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Dateline Standard Time",
+            "name": "Dateline Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "E. Africa Standard Time",
+              "displayName": "(UTC+03:00) Nairobi"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/E. Africa Standard Time",
+            "name": "E. Africa Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "E. Australia Standard Time",
+              "displayName": "(UTC+10:00) Brisbane"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/E. Australia Standard Time",
+            "name": "E. Australia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "E. Europe Standard Time",
+              "displayName": "(UTC+02:00) Chisinau"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/E. Europe Standard Time",
+            "name": "E. Europe Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "E. South America Standard Time",
+              "displayName": "(UTC-03:00) Brasilia"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/E. South America Standard Time",
+            "name": "E. South America Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Easter Island Standard Time",
+              "displayName": "(UTC-06:00) Easter Island"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Easter Island Standard Time",
+            "name": "Easter Island Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Eastern Standard Time",
+              "displayName": "(UTC-05:00) Eastern Time (US & Canada)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Eastern Standard Time",
+            "name": "Eastern Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Eastern Standard Time (Mexico)",
+              "displayName": "(UTC-05:00) Chetumal"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Eastern Standard Time (Mexico)",
+            "name": "Eastern Standard Time (Mexico)",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Egypt Standard Time",
+              "displayName": "(UTC+02:00) Cairo"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Egypt Standard Time",
+            "name": "Egypt Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Ekaterinburg Standard Time",
+              "displayName": "(UTC+05:00) Ekaterinburg"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Ekaterinburg Standard Time",
+            "name": "Ekaterinburg Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Fiji Standard Time",
+              "displayName": "(UTC+12:00) Fiji"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Fiji Standard Time",
+            "name": "Fiji Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "FLE Standard Time",
+              "displayName": "(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/FLE Standard Time",
+            "name": "FLE Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Georgian Standard Time",
+              "displayName": "(UTC+04:00) Tbilisi"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Georgian Standard Time",
+            "name": "Georgian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "GMT Standard Time",
+              "displayName": "(UTC+00:00) Dublin, Edinburgh, Lisbon, London"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/GMT Standard Time",
+            "name": "GMT Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Greenland Standard Time",
+              "displayName": "(UTC-03:00) Greenland"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Greenland Standard Time",
+            "name": "Greenland Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Greenwich Standard Time",
+              "displayName": "(UTC+00:00) Monrovia, Reykjavik"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Greenwich Standard Time",
+            "name": "Greenwich Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "GTB Standard Time",
+              "displayName": "(UTC+02:00) Athens, Bucharest"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/GTB Standard Time",
+            "name": "GTB Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Haiti Standard Time",
+              "displayName": "(UTC-05:00) Haiti"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Haiti Standard Time",
+            "name": "Haiti Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Hawaiian Standard Time",
+              "displayName": "(UTC-10:00) Hawaii"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Hawaiian Standard Time",
+            "name": "Hawaiian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "India Standard Time",
+              "displayName": "(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/India Standard Time",
+            "name": "India Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Iran Standard Time",
+              "displayName": "(UTC+03:30) Tehran"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Iran Standard Time",
+            "name": "Iran Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Israel Standard Time",
+              "displayName": "(UTC+02:00) Jerusalem"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Israel Standard Time",
+            "name": "Israel Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Jordan Standard Time",
+              "displayName": "(UTC+02:00) Amman"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Jordan Standard Time",
+            "name": "Jordan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Kaliningrad Standard Time",
+              "displayName": "(UTC+02:00) Kaliningrad"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Kaliningrad Standard Time",
+            "name": "Kaliningrad Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Kamchatka Standard Time",
+              "displayName": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Kamchatka Standard Time",
+            "name": "Kamchatka Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Korea Standard Time",
+              "displayName": "(UTC+09:00) Seoul"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Korea Standard Time",
+            "name": "Korea Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Libya Standard Time",
+              "displayName": "(UTC+02:00) Tripoli"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Libya Standard Time",
+            "name": "Libya Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Line Islands Standard Time",
+              "displayName": "(UTC+14:00) Kiritimati Island"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Line Islands Standard Time",
+            "name": "Line Islands Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Lord Howe Standard Time",
+              "displayName": "(UTC+10:30) Lord Howe Island"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Lord Howe Standard Time",
+            "name": "Lord Howe Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Magadan Standard Time",
+              "displayName": "(UTC+11:00) Magadan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Magadan Standard Time",
+            "name": "Magadan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Magallanes Standard Time",
+              "displayName": "(UTC-03:00) Punta Arenas"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Magallanes Standard Time",
+            "name": "Magallanes Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Marquesas Standard Time",
+              "displayName": "(UTC-09:30) Marquesas Islands"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Marquesas Standard Time",
+            "name": "Marquesas Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Mauritius Standard Time",
+              "displayName": "(UTC+04:00) Port Louis"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Mauritius Standard Time",
+            "name": "Mauritius Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Mid-Atlantic Standard Time",
+              "displayName": "(UTC-02:00) Mid-Atlantic - Old"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Mid-Atlantic Standard Time",
+            "name": "Mid-Atlantic Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Middle East Standard Time",
+              "displayName": "(UTC+02:00) Beirut"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Middle East Standard Time",
+            "name": "Middle East Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Montevideo Standard Time",
+              "displayName": "(UTC-03:00) Montevideo"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Montevideo Standard Time",
+            "name": "Montevideo Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Morocco Standard Time",
+              "displayName": "(UTC+01:00) Casablanca"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Morocco Standard Time",
+            "name": "Morocco Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Mountain Standard Time",
+              "displayName": "(UTC-07:00) Mountain Time (US & Canada)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Mountain Standard Time",
+            "name": "Mountain Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Mountain Standard Time (Mexico)",
+              "displayName": "(UTC-07:00) Chihuahua, La Paz, Mazatlan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Mountain Standard Time (Mexico)",
+            "name": "Mountain Standard Time (Mexico)",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Myanmar Standard Time",
+              "displayName": "(UTC+06:30) Yangon (Rangoon)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Myanmar Standard Time",
+            "name": "Myanmar Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "N. Central Asia Standard Time",
+              "displayName": "(UTC+07:00) Novosibirsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/N. Central Asia Standard Time",
+            "name": "N. Central Asia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Namibia Standard Time",
+              "displayName": "(UTC+02:00) Windhoek"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Namibia Standard Time",
+            "name": "Namibia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Nepal Standard Time",
+              "displayName": "(UTC+05:45) Kathmandu"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Nepal Standard Time",
+            "name": "Nepal Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "New Zealand Standard Time",
+              "displayName": "(UTC+12:00) Auckland, Wellington"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/New Zealand Standard Time",
+            "name": "New Zealand Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Newfoundland Standard Time",
+              "displayName": "(UTC-03:30) Newfoundland"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Newfoundland Standard Time",
+            "name": "Newfoundland Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Norfolk Standard Time",
+              "displayName": "(UTC+11:00) Norfolk Island"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Norfolk Standard Time",
+            "name": "Norfolk Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "North Asia East Standard Time",
+              "displayName": "(UTC+08:00) Irkutsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/North Asia East Standard Time",
+            "name": "North Asia East Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "North Asia Standard Time",
+              "displayName": "(UTC+07:00) Krasnoyarsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/North Asia Standard Time",
+            "name": "North Asia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "North Korea Standard Time",
+              "displayName": "(UTC+09:00) Pyongyang"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/North Korea Standard Time",
+            "name": "North Korea Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Omsk Standard Time",
+              "displayName": "(UTC+06:00) Omsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Omsk Standard Time",
+            "name": "Omsk Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Pacific SA Standard Time",
+              "displayName": "(UTC-04:00) Santiago"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Pacific SA Standard Time",
+            "name": "Pacific SA Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Pacific Standard Time",
+              "displayName": "(UTC-08:00) Pacific Time (US & Canada)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Pacific Standard Time",
+            "name": "Pacific Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Pacific Standard Time (Mexico)",
+              "displayName": "(UTC-08:00) Baja California"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Pacific Standard Time (Mexico)",
+            "name": "Pacific Standard Time (Mexico)",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Pakistan Standard Time",
+              "displayName": "(UTC+05:00) Islamabad, Karachi"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Pakistan Standard Time",
+            "name": "Pakistan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Paraguay Standard Time",
+              "displayName": "(UTC-04:00) Asuncion"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Paraguay Standard Time",
+            "name": "Paraguay Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Qyzylorda Standard Time",
+              "displayName": "(UTC+05:00) Qyzylorda"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Qyzylorda Standard Time",
+            "name": "Qyzylorda Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Romance Standard Time",
+              "displayName": "(UTC+01:00) Brussels, Copenhagen, Madrid, Paris"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Romance Standard Time",
+            "name": "Romance Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Russia Time Zone 10",
+              "displayName": "(UTC+11:00) Chokurdakh"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Russia Time Zone 10",
+            "name": "Russia Time Zone 10",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Russia Time Zone 11",
+              "displayName": "(UTC+12:00) Anadyr, Petropavlovsk-Kamchatsky"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Russia Time Zone 11",
+            "name": "Russia Time Zone 11",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Russia Time Zone 3",
+              "displayName": "(UTC+04:00) Izhevsk, Samara"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Russia Time Zone 3",
+            "name": "Russia Time Zone 3",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Russian Standard Time",
+              "displayName": "(UTC+03:00) Moscow, St. Petersburg"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Russian Standard Time",
+            "name": "Russian Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "SA Eastern Standard Time",
+              "displayName": "(UTC-03:00) Cayenne, Fortaleza"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/SA Eastern Standard Time",
+            "name": "SA Eastern Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "SA Pacific Standard Time",
+              "displayName": "(UTC-05:00) Bogota, Lima, Quito, Rio Branco"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/SA Pacific Standard Time",
+            "name": "SA Pacific Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "SA Western Standard Time",
+              "displayName": "(UTC-04:00) Georgetown, La Paz, Manaus, San Juan"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/SA Western Standard Time",
+            "name": "SA Western Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Saint Pierre Standard Time",
+              "displayName": "(UTC-03:00) Saint Pierre and Miquelon"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Saint Pierre Standard Time",
+            "name": "Saint Pierre Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Sakhalin Standard Time",
+              "displayName": "(UTC+11:00) Sakhalin"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Sakhalin Standard Time",
+            "name": "Sakhalin Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Samoa Standard Time",
+              "displayName": "(UTC+13:00) Samoa"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Samoa Standard Time",
+            "name": "Samoa Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Sao Tome Standard Time",
+              "displayName": "(UTC+00:00) Sao Tome"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Sao Tome Standard Time",
+            "name": "Sao Tome Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Saratov Standard Time",
+              "displayName": "(UTC+04:00) Saratov"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Saratov Standard Time",
+            "name": "Saratov Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "SE Asia Standard Time",
+              "displayName": "(UTC+07:00) Bangkok, Hanoi, Jakarta"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/SE Asia Standard Time",
+            "name": "SE Asia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Singapore Standard Time",
+              "displayName": "(UTC+08:00) Kuala Lumpur, Singapore"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Singapore Standard Time",
+            "name": "Singapore Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "South Africa Standard Time",
+              "displayName": "(UTC+02:00) Harare, Pretoria"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/South Africa Standard Time",
+            "name": "South Africa Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Sri Lanka Standard Time",
+              "displayName": "(UTC+05:30) Sri Jayawardenepura"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Sri Lanka Standard Time",
+            "name": "Sri Lanka Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Sudan Standard Time",
+              "displayName": "(UTC+02:00) Khartoum"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Sudan Standard Time",
+            "name": "Sudan Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Syria Standard Time",
+              "displayName": "(UTC+02:00) Damascus"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Syria Standard Time",
+            "name": "Syria Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Taipei Standard Time",
+              "displayName": "(UTC+08:00) Taipei"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Taipei Standard Time",
+            "name": "Taipei Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Tasmania Standard Time",
+              "displayName": "(UTC+10:00) Hobart"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Tasmania Standard Time",
+            "name": "Tasmania Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Tocantins Standard Time",
+              "displayName": "(UTC-03:00) Araguaina"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Tocantins Standard Time",
+            "name": "Tocantins Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Tokyo Standard Time",
+              "displayName": "(UTC+09:00) Osaka, Sapporo, Tokyo"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Tokyo Standard Time",
+            "name": "Tokyo Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Tomsk Standard Time",
+              "displayName": "(UTC+07:00) Tomsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Tomsk Standard Time",
+            "name": "Tomsk Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Tonga Standard Time",
+              "displayName": "(UTC+13:00) Nuku'alofa"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Tonga Standard Time",
+            "name": "Tonga Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Transbaikal Standard Time",
+              "displayName": "(UTC+09:00) Chita"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Transbaikal Standard Time",
+            "name": "Transbaikal Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Turkey Standard Time",
+              "displayName": "(UTC+03:00) Istanbul"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Turkey Standard Time",
+            "name": "Turkey Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Turks And Caicos Standard Time",
+              "displayName": "(UTC-05:00) Turks and Caicos"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Turks And Caicos Standard Time",
+            "name": "Turks And Caicos Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Ulaanbaatar Standard Time",
+              "displayName": "(UTC+08:00) Ulaanbaatar"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Ulaanbaatar Standard Time",
+            "name": "Ulaanbaatar Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "US Eastern Standard Time",
+              "displayName": "(UTC-05:00) Indiana (East)"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/US Eastern Standard Time",
+            "name": "US Eastern Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "US Mountain Standard Time",
+              "displayName": "(UTC-07:00) Arizona"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/US Mountain Standard Time",
+            "name": "US Mountain Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC",
+              "displayName": "(UTC) Coordinated Universal Time"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC",
+            "name": "UTC",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC+12",
+              "displayName": "(UTC+12:00) Coordinated Universal Time+12"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC+12",
+            "name": "UTC+12",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC+13",
+              "displayName": "(UTC+13:00) Coordinated Universal Time+13"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC+13",
+            "name": "UTC+13",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC-02",
+              "displayName": "(UTC-02:00) Coordinated Universal Time-02"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC-02",
+            "name": "UTC-02",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC-08",
+              "displayName": "(UTC-08:00) Coordinated Universal Time-08"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC-08",
+            "name": "UTC-08",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC-09",
+              "displayName": "(UTC-09:00) Coordinated Universal Time-09"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC-09",
+            "name": "UTC-09",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "UTC-11",
+              "displayName": "(UTC-11:00) Coordinated Universal Time-11"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/UTC-11",
+            "name": "UTC-11",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Venezuela Standard Time",
+              "displayName": "(UTC-04:00) Caracas"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Venezuela Standard Time",
+            "name": "Venezuela Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Vladivostok Standard Time",
+              "displayName": "(UTC+10:00) Vladivostok"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Vladivostok Standard Time",
+            "name": "Vladivostok Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Volgograd Standard Time",
+              "displayName": "(UTC+04:00) Volgograd"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Volgograd Standard Time",
+            "name": "Volgograd Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "W. Australia Standard Time",
+              "displayName": "(UTC+08:00) Perth"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/W. Australia Standard Time",
+            "name": "W. Australia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "W. Central Africa Standard Time",
+              "displayName": "(UTC+01:00) West Central Africa"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/W. Central Africa Standard Time",
+            "name": "W. Central Africa Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "W. Europe Standard Time",
+              "displayName": "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/W. Europe Standard Time",
+            "name": "W. Europe Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "W. Mongolia Standard Time",
+              "displayName": "(UTC+07:00) Hovd"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/W. Mongolia Standard Time",
+            "name": "W. Mongolia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "West Asia Standard Time",
+              "displayName": "(UTC+05:00) Ashgabat, Tashkent"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/West Asia Standard Time",
+            "name": "West Asia Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "West Bank Standard Time",
+              "displayName": "(UTC+02:00) Gaza, Hebron"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/West Bank Standard Time",
+            "name": "West Bank Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "West Pacific Standard Time",
+              "displayName": "(UTC+10:00) Guam, Port Moresby"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/West Pacific Standard Time",
+            "name": "West Pacific Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          },
+          {
+            "properties": {
+              "timeZoneId": "Yakutsk Standard Time",
+              "displayName": "(UTC+09:00) Yakutsk"
+            },
+            "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Yakutsk Standard Time",
+            "name": "Yakutsk Standard Time",
+            "type": "Microsoft.Sql/locations/timeZones"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a list of managed instance time zones by location.
+errorCodes: []
