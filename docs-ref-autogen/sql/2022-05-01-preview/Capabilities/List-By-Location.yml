@@ -1,0 +1,4134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.capabilities.listbylocation
+name: List By Location
+service: SQL Database
+groupName: Capabilities
+apiVersion: 2022-05-01-preview
+summary: Gets the subscription capabilities available for the specified location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities?api-version=2022-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities?include={include}&api-version=2022-05-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The location name whose capabilities are retrieved.
+  types:
+  - uid: string
+- name: include
+  in: query
+  description: If specified, restricts the response to only include the selected item.
+  types:
+  - uid: CapabilityGroup
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the subscription location capabilities.
+  types:
+  - uid: LocationCapabilities
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidLocation - An invalid location was specified.
+
+     * 404 SubscriptionNotFound - The requested subscription was not found.
+requestHeader: []
+definitions:
+- name: CapabilityGroup
+  description: If specified, restricts the response to only include the selected item.
+  kind: enum
+  properties:
+  - name: supportedEditions
+    types:
+    - uid: string
+  - name: supportedElasticPoolEditions
+    types:
+    - uid: string
+  - name: supportedManagedInstanceVersions
+    types:
+    - uid: string
+  - name: supportedInstancePoolEditions
+    types:
+    - uid: string
+  - name: supportedManagedInstanceEditions
+    types:
+    - uid: string
+- name: LocationCapabilities
+  description: The location capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The location name.
+    types:
+    - uid: string
+  - name: supportedServerVersions
+    isReadyOnly: true
+    description: The list of supported server versions.
+    types:
+    - uid: ServerVersionCapability
+      isArray: true
+  - name: supportedManagedInstanceVersions
+    isReadyOnly: true
+    description: The list of supported managed instance versions.
+    types:
+    - uid: ManagedInstanceVersionCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ServerVersionCapability
+  description: The server capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The server version name.
+    types:
+    - uid: string
+  - name: supportedEditions
+    isReadyOnly: true
+    description: The list of supported database editions.
+    types:
+    - uid: EditionCapability
+      isArray: true
+  - name: supportedElasticPoolEditions
+    isReadyOnly: true
+    description: The list of supported elastic pool editions.
+    types:
+    - uid: ElasticPoolEditionCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ManagedInstanceVersionCapability
+  description: The managed instance capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The server version name.
+    types:
+    - uid: string
+  - name: supportedEditions
+    isReadyOnly: true
+    description: The list of supported managed instance editions.
+    types:
+    - uid: ManagedInstanceEditionCapability
+      isArray: true
+  - name: supportedInstancePoolEditions
+    isReadyOnly: true
+    description: The list of supported instance pool editions.
+    types:
+    - uid: InstancePoolEditionCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: CapabilityStatus
+  description: The status of the capability.
+  kind: enum
+  properties:
+  - name: Visible
+    types:
+    - uid: string
+  - name: Available
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EditionCapability
+  description: The edition capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The database edition name.
+    types:
+    - uid: string
+  - name: supportedServiceLevelObjectives
+    isReadyOnly: true
+    description: The list of supported service objectives for the edition.
+    types:
+    - uid: ServiceObjectiveCapability
+      isArray: true
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the edition.
+    types:
+    - uid: boolean
+  - name: readScale
+    isReadyOnly: true
+    description: The read scale capability for the edition.
+    types:
+    - uid: ReadScaleCapability
+  - name: supportedStorageCapabilities
+    isReadyOnly: true
+    description: The list of supported storage capabilities for this edition
+    types:
+    - uid: StorageCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ElasticPoolEditionCapability
+  description: The elastic pool edition capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The elastic pool edition name.
+    types:
+    - uid: string
+  - name: supportedElasticPoolPerformanceLevels
+    isReadyOnly: true
+    description: The list of supported elastic pool DTU levels for the edition.
+    types:
+    - uid: ElasticPoolPerformanceLevelCapability
+      isArray: true
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the edition.
+    types:
+    - uid: boolean
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ManagedInstanceEditionCapability
+  description: The managed server capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The managed server version name.
+    types:
+    - uid: string
+  - name: supportedFamilies
+    isReadyOnly: true
+    description: The supported families.
+    types:
+    - uid: ManagedInstanceFamilyCapability
+      isArray: true
+  - name: supportedStorageCapabilities
+    isReadyOnly: true
+    description: The list of supported storage capabilities for this edition
+    types:
+    - uid: StorageCapability
+      isArray: true
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the edition.
+    types:
+    - uid: boolean
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: InstancePoolEditionCapability
+  description: The instance pool capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The instance pool version name.
+    types:
+    - uid: string
+  - name: supportedFamilies
+    isReadyOnly: true
+    description: The supported families.
+    types:
+    - uid: InstancePoolFamilyCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ServiceObjectiveCapability
+  description: The service objectives capability.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The unique ID of the service objective.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The service objective name.
+    types:
+    - uid: string
+  - name: supportedMaxSizes
+    isReadyOnly: true
+    description: The list of supported maximum database sizes.
+    types:
+    - uid: MaxSizeRangeCapability
+      isArray: true
+  - name: performanceLevel
+    isReadyOnly: true
+    description: The performance level.
+    types:
+    - uid: PerformanceLevelCapability
+  - name: sku
+    isReadyOnly: true
+    description: The sku.
+    types:
+    - uid: Sku
+  - name: supportedLicenseTypes
+    isReadyOnly: true
+    description: List of supported license types.
+    types:
+    - uid: LicenseTypeCapability
+      isArray: true
+  - name: includedMaxSize
+    isReadyOnly: true
+    description: The included (free) max size.
+    types:
+    - uid: MaxSizeCapability
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the service objective.
+    types:
+    - uid: boolean
+  - name: supportedAutoPauseDelay
+    isReadyOnly: true
+    description: Supported time range for auto pause delay
+    types:
+    - uid: AutoPauseDelayTimeRange
+  - name: supportedMinCapacities
+    isReadyOnly: true
+    description: List of supported min capacities
+    types:
+    - uid: MinCapacityCapability
+      isArray: true
+  - name: computeModel
+    isReadyOnly: true
+    description: The compute model
+    types:
+    - uid: string
+  - name: supportedMaintenanceConfigurations
+    isReadyOnly: true
+    description: List of supported maintenance configurations
+    types:
+    - uid: MaintenanceConfigurationCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ReadScaleCapability
+  description: The read scale capability.
+  kind: object
+  properties:
+  - name: maxNumberOfReplicas
+    isReadyOnly: true
+    description: The maximum number of read scale replicas.
+    types:
+    - uid: integer
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: StorageCapability
+  description: The storage account type capability.
+  kind: object
+  properties:
+  - name: storageAccountType
+    isReadyOnly: true
+    description: The storage account type for the database's backups.
+    types:
+    - uid: GRS
+    - uid: LRS
+    - uid: ZRS
+    - uid: GZRS
+    typesTitle: enum
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ElasticPoolPerformanceLevelCapability
+  description: The Elastic Pool performance level capability.
+  kind: object
+  properties:
+  - name: performanceLevel
+    isReadyOnly: true
+    description: The performance level for the pool.
+    types:
+    - uid: PerformanceLevelCapability
+  - name: sku
+    isReadyOnly: true
+    description: The sku.
+    types:
+    - uid: Sku
+  - name: supportedLicenseTypes
+    isReadyOnly: true
+    description: List of supported license types.
+    types:
+    - uid: LicenseTypeCapability
+      isArray: true
+  - name: maxDatabaseCount
+    isReadyOnly: true
+    description: The maximum number of databases supported.
+    types:
+    - uid: integer
+  - name: includedMaxSize
+    isReadyOnly: true
+    description: The included (free) max size for this performance level.
+    types:
+    - uid: MaxSizeCapability
+  - name: supportedMaxSizes
+    isReadyOnly: true
+    description: The list of supported max sizes.
+    types:
+    - uid: MaxSizeRangeCapability
+      isArray: true
+  - name: supportedPerDatabaseMaxSizes
+    isReadyOnly: true
+    description: The list of supported per database max sizes.
+    types:
+    - uid: MaxSizeRangeCapability
+      isArray: true
+  - name: supportedPerDatabaseMaxPerformanceLevels
+    isReadyOnly: true
+    description: The list of supported per database max performance levels.
+    types:
+    - uid: ElasticPoolPerDatabaseMaxPerformanceLevelCapability
+      isArray: true
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the performance level.
+    types:
+    - uid: boolean
+  - name: supportedMaintenanceConfigurations
+    isReadyOnly: true
+    description: List of supported maintenance configurations
+    types:
+    - uid: MaintenanceConfigurationCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ManagedInstanceFamilyCapability
+  description: The managed server family capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Family name.
+    types:
+    - uid: string
+  - name: sku
+    isReadyOnly: true
+    description: SKU name.
+    types:
+    - uid: string
+  - name: supportedLicenseTypes
+    isReadyOnly: true
+    description: List of supported license types.
+    types:
+    - uid: LicenseTypeCapability
+      isArray: true
+  - name: supportedVcoresValues
+    isReadyOnly: true
+    description: List of supported virtual cores values.
+    types:
+    - uid: ManagedInstanceVcoresCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: InstancePoolFamilyCapability
+  description: The instance pool family capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Family name.
+    types:
+    - uid: string
+  - name: supportedLicenseTypes
+    isReadyOnly: true
+    description: List of supported license types.
+    types:
+    - uid: LicenseTypeCapability
+      isArray: true
+  - name: supportedVcoresValues
+    isReadyOnly: true
+    description: List of supported virtual cores values.
+    types:
+    - uid: InstancePoolVcoresCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: MaxSizeRangeCapability
+  description: The maximum size range capability.
+  kind: object
+  properties:
+  - name: minValue
+    isReadyOnly: true
+    description: Minimum value.
+    types:
+    - uid: MaxSizeCapability
+  - name: maxValue
+    isReadyOnly: true
+    description: Maximum value.
+    types:
+    - uid: MaxSizeCapability
+  - name: scaleSize
+    isReadyOnly: true
+    description: Scale/step size for discrete values between the minimum value and the maximum value.
+    types:
+    - uid: MaxSizeCapability
+  - name: logSize
+    isReadyOnly: true
+    description: Size of transaction log.
+    types:
+    - uid: LogSizeCapability
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: PerformanceLevelCapability
+  description: The performance level capability.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Performance level value.
+    types:
+    - uid: number
+  - name: unit
+    isReadyOnly: true
+    description: Unit type used to measure performance level.
+    types:
+    - uid: PerformanceLevelUnit
+- name: Sku
+  description: An ARM Resource SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier or edition of the particular SKU, e.g. Basic, Premium.
+    types:
+    - uid: string
+  - name: size
+    description: Size of the particular SKU
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: Capacity of the particular SKU.
+    types:
+    - uid: integer
+- name: LicenseTypeCapability
+  description: The license type capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: License type identifier.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: MaxSizeCapability
+  description: The maximum size capability.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: The maximum size limit (see 'unit' for the units).
+    types:
+    - uid: integer
+  - name: unit
+    isReadyOnly: true
+    description: The units that the limit is expressed in.
+    types:
+    - uid: MaxSizeUnit
+- name: AutoPauseDelayTimeRange
+  description: Supported auto pause delay time range
+  kind: object
+  properties:
+  - name: minValue
+    isReadyOnly: true
+    description: Minimum value
+    types:
+    - uid: integer
+  - name: maxValue
+    isReadyOnly: true
+    description: Maximum value
+    types:
+    - uid: integer
+  - name: stepSize
+    isReadyOnly: true
+    description: Step value for discrete values between the minimum value and the maximum value.
+    types:
+    - uid: integer
+  - name: default
+    isReadyOnly: true
+    description: Default value is no value is provided
+    types:
+    - uid: integer
+  - name: unit
+    isReadyOnly: true
+    description: Unit of time that delay is expressed in
+    types:
+    - uid: PauseDelayTimeUnit
+  - name: doNotPauseValue
+    isReadyOnly: true
+    description: Value that is used to not pause (infinite delay before pause)
+    types:
+    - uid: integer
+- name: MinCapacityCapability
+  description: The min capacity capability
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Min capacity value
+    types:
+    - uid: number
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: MaintenanceConfigurationCapability
+  description: The maintenance configuration capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Maintenance configuration name
+    types:
+    - uid: string
+  - name: zoneRedundant
+    isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the maintenance configuration.
+    types:
+    - uid: boolean
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ElasticPoolPerDatabaseMaxPerformanceLevelCapability
+  description: The max per-database performance level capability.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: The maximum performance level per database.
+    types:
+    - uid: number
+  - name: unit
+    isReadyOnly: true
+    description: Unit type used to measure performance level.
+    types:
+    - uid: PerformanceLevelUnit
+  - name: supportedPerDatabaseMinPerformanceLevels
+    isReadyOnly: true
+    description: The list of supported min database performance levels.
+    types:
+    - uid: ElasticPoolPerDatabaseMinPerformanceLevelCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ManagedInstanceVcoresCapability
+  description: The managed instance virtual cores capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The virtual cores identifier.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The virtual cores value.
+    types:
+    - uid: integer
+  - name: includedMaxSize
+    isReadyOnly: true
+    description: Included size.
+    types:
+    - uid: MaxSizeCapability
+  - name: supportedStorageSizes
+    isReadyOnly: true
+    description: Storage size ranges.
+    types:
+    - uid: MaxSizeRangeCapability
+      isArray: true
+  - name: instancePoolSupported
+    isReadyOnly: true
+    description: True if this service objective is supported for managed instances in an instance pool.
+    types:
+    - uid: boolean
+  - name: standaloneSupported
+    isReadyOnly: true
+    description: True if this service objective is supported for standalone managed instances.
+    types:
+    - uid: boolean
+  - name: supportedMaintenanceConfigurations
+    isReadyOnly: true
+    description: List of supported maintenance configurations
+    types:
+    - uid: ManagedInstanceMaintenanceConfigurationCapability
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: InstancePoolVcoresCapability
+  description: The managed instance virtual cores capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The virtual cores identifier.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The virtual cores value.
+    types:
+    - uid: integer
+  - name: storageLimit
+    isReadyOnly: true
+    description: Storage limit.
+    types:
+    - uid: MaxSizeCapability
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: LogSizeCapability
+  description: The log size capability.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: The log size limit (see 'unit' for the units).
+    types:
+    - uid: integer
+  - name: unit
+    isReadyOnly: true
+    description: The units that the limit is expressed in.
+    types:
+    - uid: LogSizeUnit
+- name: PerformanceLevelUnit
+  description: Unit type used to measure performance level.
+  kind: enum
+  properties:
+  - name: DTU
+    types:
+    - uid: string
+  - name: VCores
+    types:
+    - uid: string
+- name: MaxSizeUnit
+  description: The units that the limit is expressed in.
+  kind: enum
+  properties:
+  - name: Megabytes
+    types:
+    - uid: string
+  - name: Gigabytes
+    types:
+    - uid: string
+  - name: Terabytes
+    types:
+    - uid: string
+  - name: Petabytes
+    types:
+    - uid: string
+- name: PauseDelayTimeUnit
+  description: Unit of time that delay is expressed in
+  kind: enum
+  properties:
+  - name: Minutes
+    types:
+    - uid: string
+- name: ElasticPoolPerDatabaseMinPerformanceLevelCapability
+  description: The minimum per-database performance level capability.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: The minimum performance level per database.
+    types:
+    - uid: number
+  - name: unit
+    isReadyOnly: true
+    description: Unit type used to measure performance level.
+    types:
+    - uid: PerformanceLevelUnit
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: ManagedInstanceMaintenanceConfigurationCapability
+  description: The maintenance configuration capability
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Maintenance configuration name
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the capability.
+    types:
+    - uid: CapabilityStatus
+  - name: reason
+    description: The reason for the capability not being available.
+    types:
+    - uid: string
+- name: LogSizeUnit
+  description: The units that the limit is expressed in.
+  kind: enum
+  properties:
+  - name: Megabytes
+    types:
+    - uid: string
+  - name: Gigabytes
+    types:
+    - uid: string
+  - name: Terabytes
+    types:
+    - uid: string
+  - name: Petabytes
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+examples:
+- name: List subscription capabilities in the given location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/eastus/capabilities?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/eastus/capabilities?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "East US",
+        "supportedServerVersions": [
+          {
+            "name": "12.0",
+            "supportedEditions": [
+              {
+                "name": "Hyperscale",
+                "supportedServiceLevelObjectives": [
+                  {
+                    "id": "9380cd0e-b025-4e9d-829c-c1918c1614bb",
+                    "name": "HS_Gen4_1",
+                    "performanceLevel": {
+                      "value": 1,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 1
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "34497c3f-24b9-4cee-968d-6e5e854670fe",
+                    "name": "HS_Gen4_2",
+                    "performanceLevel": {
+                      "value": 2,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 2
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "a420d2b2-ca32-4152-b1c6-dd8d4d9fd734",
+                    "name": "HS_Gen5_2",
+                    "performanceLevel": {
+                      "value": 2,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 2
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Default"
+                  },
+                  {
+                    "id": "5de845d2-2055-428c-b507-94131358cdd7",
+                    "name": "HS_Gen4_3",
+                    "performanceLevel": {
+                      "value": 3,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 3
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "d060b874-21f3-47b0-a9bd-a1a737cfcc6e",
+                    "name": "HS_Gen4_4",
+                    "performanceLevel": {
+                      "value": 4,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 4
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "60dba88b-2dfa-4123-be57-bd0dbfd92a72",
+                    "name": "HS_Gen5_4",
+                    "performanceLevel": {
+                      "value": 4,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 4
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "925a0916-15fb-4764-aa76-533d97f2d782",
+                    "name": "HS_Gen4_5",
+                    "performanceLevel": {
+                      "value": 5,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 5
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "d7aa11c2-e4c7-442a-962e-308b371f5ec1",
+                    "name": "HS_Gen4_6",
+                    "performanceLevel": {
+                      "value": 6,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 6
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "b9c594ec-a3fe-4bfe-808d-a595410d0a07",
+                    "name": "HS_Gen5_6",
+                    "performanceLevel": {
+                      "value": 6,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 6
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "d77eef57-6c00-4003-b140-822509b8736a",
+                    "name": "HS_Gen4_7",
+                    "performanceLevel": {
+                      "value": 7,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 7
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "694bf389-7cb2-4461-8fa2-0b06d8438315",
+                    "name": "HS_Gen4_8",
+                    "performanceLevel": {
+                      "value": 8,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 8
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "efdfac5f-3f8e-4500-95b1-684c07349860",
+                    "name": "HS_Gen5_8",
+                    "performanceLevel": {
+                      "value": 8,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 8
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "554ea52a-9ecc-4d87-bbc7-1e257705da3f",
+                    "name": "HS_Gen4_9",
+                    "performanceLevel": {
+                      "value": 9,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 9
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "576f3f38-b950-4eaa-b74e-33d831193441",
+                    "name": "HS_Gen4_10",
+                    "performanceLevel": {
+                      "value": 10,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 10
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "69697c3a-1946-4eb8-a5a4-a269168dde27",
+                    "name": "HS_Gen5_10",
+                    "performanceLevel": {
+                      "value": 10,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 10
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "1bee9dc8-68b4-44df-b870-8ab0e4d71e94",
+                    "name": "HS_Gen5_12",
+                    "performanceLevel": {
+                      "value": 12,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 12
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "07a8341d-c0b2-4000-bc7a-5b4dae2ad210",
+                    "name": "HS_Gen5_14",
+                    "performanceLevel": {
+                      "value": 14,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 14
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "7fc1f700-a45d-499e-901f-2a00645c54db",
+                    "name": "HS_Gen4_16",
+                    "performanceLevel": {
+                      "value": 16,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 16
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "6b56f70b-52e5-44ba-8cd5-4f63d224b206",
+                    "name": "HS_Gen5_16",
+                    "performanceLevel": {
+                      "value": 16,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 16
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "ba0029f2-3ff4-4ef6-9e65-e8f77b5dd1e2",
+                    "name": "HS_Gen5_18",
+                    "performanceLevel": {
+                      "value": 18,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 18
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "f1b2a082-f622-4fb8-bbef-e74deac3ec89",
+                    "name": "HS_Gen5_20",
+                    "performanceLevel": {
+                      "value": 20,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 20
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "f016d419-a031-4b93-ab62-7f3d2a789376",
+                    "name": "HS_Gen4_24",
+                    "performanceLevel": {
+                      "value": 24,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen4",
+                      "tier": "Hyperscale",
+                      "family": "Gen4",
+                      "capacity": 24
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "222bc0ee-e195-4bbc-be05-3b849c3a8195",
+                    "name": "HS_Gen5_24",
+                    "performanceLevel": {
+                      "value": 24,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 24
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "05366cca-cc70-486e-a697-bb3fab877f75",
+                    "name": "HS_Gen5_32",
+                    "performanceLevel": {
+                      "value": 32,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 32
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "32542ef7-124d-4e66-8b41-9c6c0ab963c2",
+                    "name": "HS_Gen5_40",
+                    "performanceLevel": {
+                      "value": 40,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 40
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "id": "6509db45-febe-44dd-a079-35f11d477984",
+                    "name": "HS_Gen5_80",
+                    "performanceLevel": {
+                      "value": 80,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "HS_Gen5",
+                      "tier": "Hyperscale",
+                      "family": "Gen5",
+                      "capacity": 80
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "computeModel": "Provisioned",
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  }
+                ],
+                "zoneRedundant": false,
+                "readScale": {
+                  "maxNumberOfReplicas": 4
+                },
+                "supportedStorageCapabilities": [
+                  {
+                    "storageAccountType": "GRS",
+                    "status": "Default"
+                  },
+                  {
+                    "storageAccountType": "LRS",
+                    "status": "Available"
+                  },
+                  {
+                    "storageAccountType": "ZRS",
+                    "status": "Available",
+                    "reason": "ZRS is available in multi-az regions"
+                  },
+                  {
+                    "storageAccountType": "GZRS",
+                    "status": "Available",
+                    "reason": "GZRS is available in multi-az regions"
+                  }
+                ],
+                "status": "Available"
+              }
+            ],
+            "supportedElasticPoolEditions": [
+              {
+                "name": "BusinessCritical",
+                "supportedElasticPoolPerformanceLevels": [
+                  {
+                    "performanceLevel": {
+                      "value": 3,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "BC_Gen4",
+                      "tier": "BusinessCritical",
+                      "family": "Gen4",
+                      "capacity": 3
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "maxDatabaseCount": 100,
+                    "supportedMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 1048576,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 1048576,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxPerformanceLevels": [
+                      {
+                        "limit": 0.25,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 0.5,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 1,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 2,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 3,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 3,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Default"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_1",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_2",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "performanceLevel": {
+                      "value": 12,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "BC_Gen5",
+                      "tier": "BusinessCritical",
+                      "family": "Gen5",
+                      "capacity": 12
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "maxDatabaseCount": 100,
+                    "supportedMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3144704,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 1048576,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3144704,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxPerformanceLevels": [
+                      {
+                        "limit": 0.25,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 0.5,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 1,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 2,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 4,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 4,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 6,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 4,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 6,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 8,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 4,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 6,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 10,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 4,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 6,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 12,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 0.25,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 0.5,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 1,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 2,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 4,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 6,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Default"
+                      }
+                    ],
+                    "zoneRedundant": true,
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_1",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_2",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "performanceLevel": {
+                      "value": 128,
+                      "unit": "VCores"
+                    },
+                    "sku": {
+                      "name": "BC_M",
+                      "tier": "BusinessCritical",
+                      "family": "M",
+                      "capacity": 128
+                    },
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "maxDatabaseCount": 100,
+                    "supportedMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3144704,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 30,
+                          "unit": "Percent"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 4194304,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "logSize": {
+                          "limit": 1048576,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxSizes": [
+                      {
+                        "minValue": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 31744,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 32768,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 0,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 33792,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 3144704,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "minValue": {
+                          "limit": 3145728,
+                          "unit": "Megabytes"
+                        },
+                        "maxValue": {
+                          "limit": 4194304,
+                          "unit": "Megabytes"
+                        },
+                        "scaleSize": {
+                          "limit": 1024,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedPerDatabaseMaxPerformanceLevels": [
+                      {
+                        "limit": 8,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 10,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 12,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 14,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 16,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 18,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 20,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 24,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 32,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 32,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 40,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 32,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 40,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 64,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 32,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 40,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 64,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 80,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 32,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 40,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 64,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 80,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "limit": 128,
+                        "unit": "VCores",
+                        "supportedPerDatabaseMinPerformanceLevels": [
+                          {
+                            "limit": 0,
+                            "unit": "VCores",
+                            "status": "Default"
+                          },
+                          {
+                            "limit": 8,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 10,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 12,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 14,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 16,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 18,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 20,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 24,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 32,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 40,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 64,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 80,
+                            "unit": "VCores",
+                            "status": "Available"
+                          },
+                          {
+                            "limit": 128,
+                            "unit": "VCores",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Default"
+                      }
+                    ],
+                    "zoneRedundant": false,
+                    "supportedMaintenanceConfigurations": [
+                      {
+                        "name": "SQL_Default",
+                        "status": "Default",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_1",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      },
+                      {
+                        "name": "SQL_EastUS_DB_2",
+                        "status": "Available",
+                        "zoneRedundant": false
+                      }
+                    ],
+                    "status": "Available"
+                  }
+                ],
+                "zoneRedundant": false,
+                "status": "Available"
+              }
+            ],
+            "status": "Default"
+          }
+        ],
+        "supportedManagedInstanceVersions": [
+          {
+            "name": "12.0",
+            "supportedEditions": [
+              {
+                "name": "GeneralPurpose",
+                "supportedFamilies": [
+                  {
+                    "name": "Gen4",
+                    "sku": "GP_Gen4",
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedVcoresValues": [
+                      {
+                        "name": "8",
+                        "value": 8,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Default"
+                      },
+                      {
+                        "name": "16",
+                        "value": 16,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "24",
+                        "value": 24,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      }
+                    ],
+                    "status": "Available"
+                  },
+                  {
+                    "name": "Gen5",
+                    "sku": "GP_Gen5",
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedVcoresValues": [
+                      {
+                        "name": "8",
+                        "value": 8,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Default"
+                      },
+                      {
+                        "name": "16",
+                        "value": 16,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "24",
+                        "value": 24,
+                        "includedMaxSize": {
+                          "limit": 262144,
+                          "unit": "Megabytes"
+                        },
+                        "supportedStorageSizes": [
+                          {
+                            "minValue": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "maxValue": {
+                              "limit": 8,
+                              "unit": "Terabytes"
+                            },
+                            "scaleSize": {
+                              "limit": 32,
+                              "unit": "Gigabytes"
+                            },
+                            "status": "Available"
+                          }
+                        ],
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_1",
+                            "status": "Available"
+                          },
+                          {
+                            "name": "SQL_EastUS_MI_2",
+                            "status": "Available"
+                          }
+                        ],
+                        "status": "Available"
+                      }
+                    ],
+                    "status": "Default"
+                  }
+                ],
+                "supportedStorageCapabilities": [
+                  {
+                    "storageAccountType": "GRS",
+                    "status": "Default"
+                  },
+                  {
+                    "storageAccountType": "LRS",
+                    "status": "Available"
+                  },
+                  {
+                    "storageAccountType": "ZRS",
+                    "status": "Visible",
+                    "reason": "ZRS is available in multi-az regions"
+                  },
+                  {
+                    "storageAccountType": "GZRS",
+                    "status": "Available",
+                    "reason": "GZRS is available in multi-az regions"
+                  }
+                ],
+                "status": "Default"
+              },
+              {
+                "name": "Hyperscale",
+                "supportedFamilies": [
+                  {
+                    "name": "Gen4",
+                    "sku": "HS_Gen4",
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedVcoresValues": [
+                      {
+                        "name": "4",
+                        "value": 4,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "8",
+                        "value": 8,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Default"
+                      },
+                      {
+                        "name": "16",
+                        "value": 16,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "24",
+                        "value": 24,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      }
+                    ],
+                    "status": "Default"
+                  },
+                  {
+                    "name": "Gen5",
+                    "sku": "HS_Gen5",
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedVcoresValues": [
+                      {
+                        "name": "4",
+                        "value": 4,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "8",
+                        "value": 8,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Default"
+                      },
+                      {
+                        "name": "16",
+                        "value": 16,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "24",
+                        "value": 24,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "32",
+                        "value": 32,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "40",
+                        "value": 40,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "48",
+                        "value": 48,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "64",
+                        "value": 64,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      },
+                      {
+                        "name": "80",
+                        "value": 80,
+                        "instancePoolSupported": true,
+                        "standaloneSupported": true,
+                        "supportedMaintenanceConfigurations": [
+                          {
+                            "name": "SQL_Default",
+                            "status": "Default"
+                          }
+                        ],
+                        "status": "Available"
+                      }
+                    ],
+                    "status": "Available"
+                  }
+                ],
+                "supportedStorageCapabilities": [
+                  {
+                    "storageAccountType": "GRS",
+                    "status": "Default"
+                  },
+                  {
+                    "storageAccountType": "LRS",
+                    "status": "Available"
+                  },
+                  {
+                    "storageAccountType": "ZRS",
+                    "status": "Available",
+                    "reason": "ZRS is available in multi-az regions"
+                  },
+                  {
+                    "storageAccountType": "GZRS",
+                    "status": "Available",
+                    "reason": "GZRS is available in multi-az regions"
+                  }
+                ],
+                "status": "Available"
+              }
+            ],
+            "supportedInstancePoolEditions": [
+              {
+                "name": "GeneralPurpose",
+                "supportedFamilies": [
+                  {
+                    "name": "Gen5",
+                    "supportedLicenseTypes": [
+                      {
+                        "name": "LicenseIncluded",
+                        "status": "Default"
+                      },
+                      {
+                        "name": "BasePrice",
+                        "status": "Available"
+                      }
+                    ],
+                    "supportedVcoresValues": [
+                      {
+                        "name": "GP_Gen5_8",
+                        "value": 8,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Default"
+                      },
+                      {
+                        "name": "GP_Gen5_16",
+                        "value": 16,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "name": "GP_Gen5_24",
+                        "value": 24,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "name": "GP_Gen5_32",
+                        "value": 32,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "name": "GP_Gen5_40",
+                        "value": 40,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "name": "GP_Gen5_64",
+                        "value": 64,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      },
+                      {
+                        "name": "GP_Gen5_80",
+                        "value": 80,
+                        "storageLimit": {
+                          "limit": 8388608,
+                          "unit": "Megabytes"
+                        },
+                        "status": "Available"
+                      }
+                    ],
+                    "status": "Default"
+                  }
+                ],
+                "status": "Default"
+              }
+            ],
+            "status": "Default"
+          }
+        ],
+        "status": "Available"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets the subscription capabilities available for the specified location.
+errorCodes: []

@@ -1,0 +1,406 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.databases.export
+name: Export
+service: SQL Database
+groupName: Databases
+apiVersion: 2022-05-01-preview
+summary: Exports a database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully exported the database.
+  types:
+  - uid: ImportExportOperationResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 MissingImportExportInputParameters - Missing ImportExport input parameters.
+
+     * 400 InvalidImportExportInputParameter - The import/export request failed due to an invalid input parameter.
+
+     * 400 PolybaseImportAuthenticationTypeNotSupported - Authentication type parameter is not support for PolybaseImport operation.
+
+     * 400 DatabaseExtensionsInvalidOperationMode - Invalid operationMode parameter for database extension.
+
+     * 400 DatabaseExtensionsInvalidStorageKeyType - The storage key type must by 'StorageAccessKey'.
+
+     * 400 DatabaseExtensionsMissingStorageUri - Storage URI cannot be empty.
+
+     * 400 InvalidSku - The user specified an invalid sku.
+
+     * 400 InvalidTierSkuCombination - The specified tier does not support the specified sku.
+
+     * 400 DatabaseInvalidSkuPropertyCombination - The properties of the requested sku are inconsistent. Please check that a valid combination is specified. See https://docs.microsoft.com/en-us/rest/api/sql/capabilities/listbylocation#serviceobjectivecapability for more details.
+
+     * 400 InvalidMaxSizeTierCombination - The specified tier does not support the specified database max size.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 400 InvalidImportExportParameter - The Import/Export request failed due to an invalid input parameter.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 ImportExportJobError - The ImportExport operation has failed.
+
+     * 400 InvalidOperationType - Provide a valid operation type.
+
+     * 400 BlockedByOutboundFirewall - The outbound firewall rules blocked the request.
+
+     * 404 ResourceNotFound - Invalid request specifying a non-existent resource.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ImportExportOperationIdNotFound - The operation Id for import or export cannot be found.
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 ImportExportOperationInProgress - There is an import or export operation in progress on the database.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+- name: 202 Accepted
+  description: Exporting the database is in progress.
+requestBody:
+- name: default
+  parameters:
+  - name: storageKeyType
+    in: body
+    isRequired: true
+    description: Storage key type.
+    types:
+    - uid: StorageKeyType
+  - name: storageKey
+    in: body
+    isRequired: true
+    description: Storage key.
+    types:
+    - uid: string
+  - name: storageUri
+    in: body
+    isRequired: true
+    description: Storage Uri.
+    types:
+    - uid: string
+  - name: administratorLogin
+    in: body
+    isRequired: true
+    description: Administrator login name.
+    types:
+    - uid: string
+  - name: administratorLoginPassword
+    in: body
+    isRequired: true
+    description: Administrator login password.
+    types:
+    - uid: string
+  - name: authenticationType
+    in: body
+    description: Authentication type.
+    types:
+    - uid: string
+  - name: networkIsolation
+    in: body
+    description: Optional resource information to enable network isolation for request.
+    types:
+    - uid: NetworkIsolationSettings
+requestHeader: []
+definitions:
+- name: NetworkIsolationSettings
+  description: Contains the ARM resources for which to create private endpoint connection.
+  kind: object
+  properties:
+  - name: storageAccountResourceId
+    description: The resource id for the storage account used to store BACPAC file. If set, private endpoint connection will be created for the storage account. Must match storage account used for StorageUri parameter.
+    types:
+    - uid: string
+  - name: sqlServerResourceId
+    description: The resource id for the SQL server which is the target of this request. If set, private endpoint connection will be created for the SQL server. Must match server which is target of the operation.
+    types:
+    - uid: string
+- name: ImportExportOperationResult
+  description: An ImportExport operation result resource.
+  kind: object
+  properties:
+  - name: properties.requestId
+    isReadyOnly: true
+    description: Request Id.
+    types:
+    - uid: string
+  - name: properties.requestType
+    isReadyOnly: true
+    description: Request type.
+    types:
+    - uid: string
+  - name: properties.queuedTime
+    isReadyOnly: true
+    description: Queued time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Last modified time.
+    types:
+    - uid: string
+  - name: properties.blobUri
+    isReadyOnly: true
+    description: Blob Uri.
+    types:
+    - uid: string
+  - name: properties.serverName
+    isReadyOnly: true
+    description: Server name.
+    types:
+    - uid: string
+  - name: properties.databaseName
+    isReadyOnly: true
+    description: Database name.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Operation status.
+    types:
+    - uid: string
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Gets the status of private endpoints associated with this request.
+    types:
+    - uid: PrivateEndpointConnectionRequestStatus
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ExportDatabaseDefinition
+  description: Contains the information necessary to perform export database operation.
+  kind: object
+  properties:
+  - name: storageKeyType
+    description: Storage key type.
+    types:
+    - uid: StorageKeyType
+  - name: storageKey
+    description: Storage key.
+    types:
+    - uid: string
+  - name: storageUri
+    description: Storage Uri.
+    types:
+    - uid: string
+  - name: administratorLogin
+    description: Administrator login name.
+    types:
+    - uid: string
+  - name: administratorLoginPassword
+    description: Administrator login password.
+    types:
+    - uid: string
+  - name: authenticationType
+    description: Authentication type.
+    types:
+    - uid: string
+  - name: networkIsolation
+    description: Optional resource information to enable network isolation for request.
+    types:
+    - uid: NetworkIsolationSettings
+- name: PrivateEndpointConnectionRequestStatus
+  description: Contains the private endpoint connection requests status.
+  kind: object
+  properties:
+  - name: privateLinkServiceId
+    isReadyOnly: true
+    description: Resource id for which the private endpoint is created.
+    types:
+    - uid: string
+  - name: privateEndpointConnectionName
+    isReadyOnly: true
+    description: The connection name for the private endpoint.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of this private endpoint connection.
+    types:
+    - uid: string
+- name: StorageKeyType
+  description: Storage key type.
+  kind: enum
+  properties:
+  - name: SharedAccessKey
+    types:
+    - uid: string
+  - name: StorageAccessKey
+    types:
+    - uid: string
+examples:
+- name: Exports a database.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/export?api-version=2022-05-01-preview
+    body: >-
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/export?api-version=2022-05-01-preview
+
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "requestId": "9d9a794a-5cec-4f23-af70-d29511b522a4",
+          "requestType": "Export",
+          "queuedTime": "2/2/2020 8:33:27 PM",
+          "lastModifiedTime": "2/2/2020 8:34:47 PM",
+          "blobUri": "https://test.blob.core.windows.net/test.bacpac",
+          "serverName": "testsvr.database.windows.net",
+          "databaseName": "testdb",
+          "status": "Completed"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/importExportOperationResults/9d9a794a-5cec-4f23-af70-d29511b522a4",
+        "name": "9d9a794a-5cec-4f23-af70-d29511b522a4",
+        "type": "Microsoft.Sql/servers/databases/importExportOperationResults"
+      }
+  - statusCode: "202"
+- name: Exports a database, using private link to communicate with SQL server and storage account.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/export?api-version=2022-05-01-preview
+    body: >-
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql",
+        "networkIsolation": {
+          "sqlServerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr",
+          "storageAccountResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/export?api-version=2022-05-01-preview
+
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql",
+        "networkIsolation": {
+          "sqlServerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr",
+          "storageAccountResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "requestId": "9d9a794a-5cec-4f23-af70-d29511b522a4",
+          "requestType": "Export",
+          "queuedTime": "2/2/2020 8:33:27 PM",
+          "lastModifiedTime": "2/2/2020 8:34:47 PM",
+          "blobUri": "https://test.blob.core.windows.net/test.bacpac",
+          "serverName": "testsvr.database.windows.net",
+          "databaseName": "testdb",
+          "status": "Completed"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/importExportOperationResults/9d9a794a-5cec-4f23-af70-d29511b522a4",
+        "name": "9d9a794a-5cec-4f23-af70-d29511b522a4",
+        "type": "Microsoft.Sql/servers/databases/importExportOperationResults"
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Exports a database.
+errorCodes: []

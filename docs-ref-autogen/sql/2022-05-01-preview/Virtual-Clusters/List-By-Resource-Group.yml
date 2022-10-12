@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.virtualclusters.listbyresourcegroup
+name: List By Resource Group
+service: SQL Database
+groupName: Virtual Clusters
+apiVersion: 2022-05-01-preview
+summary: Gets a list of virtual clusters in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of virtual clusters.
+  types:
+  - uid: VirtualClusterListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 SubscriptionNotEnabledForFeature - User subscription not enabled for feature user attempted to use.
+
+     * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
+
+     * 404 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 VirtualClusterDoesNotExist - The virtual cluster does not exist.
+
+     * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.
+
+     * 404 VirtualClusterNotInSubscriptionResourceGroup - Specified virtual cluster does not exist in the specified resource group and subscription.
+
+     * 404 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 SubscriptionDoesNotHaveVirtualCluster - The requested virtual cluster was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 409 VirtualClusterRemovalAlreadyInProgress - Removal of virtual cluster is already in progress. Virtual cluster is automatically created with first instance creation, and automatically removed with last instance deletion. Learn more here: https://aka.ms/sqlmi-virtual-cluster-removal.
+
+     * 409 VirtualClusterIsNotEmpty - Virtual cluster is not empty and cannot be deleted.
+
+     * 409 VirtualClusterIsBusy - Virtual cluster is currently busy. Please retry operation later.
+
+     * 409 VirtualClusterRemovalFailed - Request to drop virtual cluster failed. Check if there are active dependent resources.
+
+     * 409 ConflictingVirtualClusterOperation - An operation is currently in progress for the virtual cluster.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+requestHeader: []
+definitions:
+- name: VirtualClusterListResult
+  description: A list of virtual clusters.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: VirtualCluster
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: VirtualCluster
+  description: An Azure SQL virtual cluster.
+  kind: object
+  properties:
+  - name: properties.subnetId
+    isReadyOnly: true
+    description: Subnet resource ID for the virtual cluster.
+    types:
+    - uid: string
+  - name: properties.version
+    description: Virtual cluster version.
+    types:
+    - uid: string
+  - name: properties.childResources
+    isReadyOnly: true
+    description: List of resources in this virtual cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: List virtual clusters by resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/virtualClusters?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/virtualClusters?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "subnetId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/cltest",
+              "version": "1.0",
+              "childResources": [
+                "/subscriptions/65dc2520-d3b9-4d11-b638-f3c41f962550/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl"
+              ]
+            },
+            "location": "japaneast",
+            "id": "/subscriptions/65dc2520-d3b9-4d11-b638-f3c41f962550/resourceGroups/testrg/providers/Microsoft.Sql/virtualClusters/VirtualClustercltest",
+            "name": "VirtualClustercltest",
+            "type": "Microsoft.Sql/virtualClusters"
+          },
+          {
+            "properties": {
+              "subnetId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/cltest2",
+              "version": "2.0",
+              "childResources": []
+            },
+            "location": "japaneast",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/virtualClusters/vc2",
+            "name": "vc2",
+            "type": "Microsoft.Sql/virtualClusters"
+          },
+          {
+            "properties": {
+              "subnetId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/cltest",
+              "version": "2.0",
+              "childResources": [
+                "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl",
+                "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/mi"
+              ]
+            },
+            "location": "japaneast",
+            "tags": {
+              "tkey": "tvalue3"
+            },
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/virtualClusters/vc1",
+            "name": "vc1",
+            "type": "Microsoft.Sql/virtualClusters"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a list of virtual clusters in a resource group.
+errorCodes: []
