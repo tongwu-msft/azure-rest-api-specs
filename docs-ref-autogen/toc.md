@@ -15436,6 +15436,20 @@
 ### [List By Peering](peering/Registered-Prefixes/List-By-Peering.yml)
 # Policy
 ## [Overview](../docs-ref-conceptual/policy/index.md)
+## Attestations
+### [Overview](policy/Attestations.yml)
+### [Create Or Update At Resource](policy/Attestations/Create-Or-Update-At-Resource.yml)
+### [Create Or Update At Resource Group](policy/Attestations/Create-Or-Update-At-Resource-Group.yml)
+### [Create Or Update At Subscription](policy/Attestations/Create-Or-Update-At-Subscription.yml)
+### [Delete At Resource](policy/Attestations/Delete-At-Resource.yml)
+### [Delete At Resource Group](policy/Attestations/Delete-At-Resource-Group.yml)
+### [Delete At Subscription](policy/Attestations/Delete-At-Subscription.yml)
+### [Get At Resource](policy/Attestations/Get-At-Resource.yml)
+### [Get At Resource Group](policy/Attestations/Get-At-Resource-Group.yml)
+### [Get At Subscription](policy/Attestations/Get-At-Subscription.yml)
+### [List For Resource](policy/Attestations/List-For-Resource.yml)
+### [List For Resource Group](policy/Attestations/List-For-Resource-Group.yml)
+### [List For Subscription](policy/Attestations/List-For-Subscription.yml)
 ## Operations
 ### [Overview](policy/Operations.yml)
 ### [List](policy/Operations/List.yml)
