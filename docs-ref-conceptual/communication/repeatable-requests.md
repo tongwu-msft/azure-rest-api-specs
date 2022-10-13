@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Repeatability of Requests
 
-Applies to: ACS Email (Email Send API)
+Applies to: ACS Email (Email Send API), ACS Rooms
 
 POST APIs are not idempotent by definition. In order to make them behave in an idempotent manner, we support repeatable requests according to the [OASIS Repeatable Requests Version 1.0](https://docs.oasis-open.org/odata/repeatable-requests/v1.0/repeatable-requests-v1.0.html) specification. To support this, customers need to specify two mandatory headers in their POST request:
 
@@ -24,7 +24,7 @@ The value of this header identifies the request uniquely with a GUID.
 
 ## Repeatability-First-Sent header
 
-The value of this header represents the time stamp when the original request was first sent. The value should be specified in UTC in [IMF-fixdate format](https://www.rfc-editor.org/rfc/rfc7231.html). We only track requests for a specified duration (for Email Send, the tracked duration is 5 minutes). Any requests with a first-sent value prior to that are considered potentially unsafe to re-execute and will return a 412 (Pre-condition failed) error.
+The value of this header represents the time stamp when the original request was first sent. The value should be specified in UTC in [IMF-fixdate format](https://www.rfc-editor.org/rfc/rfc7231.html). We only track requests for a specified duration (currently, the tracked duration is 5 minutes). Any requests with a first-sent value prior to that are considered potentially unsafe to re-execute and will return a 412 (Pre-condition failed) error.
 
 ## Repeatability in ACS SDKs
 Repeatability headers are automatically generated, added and sent to the API when using any of our ACS SDK libraries.
