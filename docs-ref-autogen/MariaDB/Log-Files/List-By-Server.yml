@@ -3,25 +3,25 @@ uid: management.azure.com.mariadb.logfiles.listbyserver
 name: List By Server
 service: MariaDB
 groupName: Log Files
-apiVersion: 2018-06-01-preview
+apiVersion: 2018-06-01
 summary: List all the log files in a given server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/logFiles?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/logFiles?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: serverName
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: LogFileListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: LogFileListResult
@@ -52,6 +56,14 @@ definitions:
     types:
     - uid: LogFile
       isArray: true
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
 - name: LogFile
   description: Represents a log file.
   kind: object
@@ -93,16 +105,123 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: LogFileList
   request:
-    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/testserver/logFiles?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/testserver/logFiles?api-version=2018-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/testserver/logFiles?api-version=2018-06-01-preview
+      GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/testserver/logFiles?api-version=2018-06-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/LogFileListByServer.json
+      func ExampleLogFilesClient_NewListByServerPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewLogFilesClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByServerPager("TestGroup",
+      		"testserver",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      async function logFileList() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TestGroup";
+        const serverName = "testserver";
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.logFiles.listByServer(resourceGroupName, serverName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      logFileList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -3,25 +3,25 @@ uid: management.azure.com.mariadb.serversecurityalertpolicies.createorupdate
 name: Create Or Update
 service: MariaDB
 groupName: Server Security Alert Policies
-apiVersion: 2018-06-01-preview
+apiVersion: 2018-06-01
 summary: Creates or updates a threat detection policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/securityAlertPolicies/Default?api-version=2018-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/securityAlertPolicies/Default?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: serverName
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -163,7 +163,7 @@ definitions:
 examples:
 - name: Update a server's threat detection policy with all parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
     body: >-
       {
         "properties": {
@@ -184,7 +184,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
 
       {
         "properties": {
@@ -205,6 +205,97 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsCreateMax.json
+      func ExampleServerSecurityAlertPoliciesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewServerSecurityAlertPoliciesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"securityalert-4799",
+      		"securityalert-6440",
+      		armmariadb.SecurityAlertPolicyNameDefault,
+      		armmariadb.ServerSecurityAlertPolicy{
+      			Properties: &armmariadb.SecurityAlertPolicyProperties{
+      				DisabledAlerts: []*string{
+      					to.Ptr("Access_Anomaly"),
+      					to.Ptr("Usage_Anomaly")},
+      				EmailAccountAdmins: to.Ptr(true),
+      				EmailAddresses: []*string{
+      					to.Ptr("testSecurityAlert@microsoft.com")},
+      				RetentionDays:           to.Ptr[int32](5),
+      				State:                   to.Ptr(armmariadb.ServerSecurityAlertPolicyStateEnabled),
+      				StorageAccountAccessKey: to.Ptr("sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD=="),
+      				StorageEndpoint:         to.Ptr("https://mystorage.blob.core.windows.net"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      async function updateAServerThreatDetectionPolicyWithAllParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "securityalert-4799";
+        const serverName = "securityalert-6440";
+        const securityAlertPolicyName = "Default";
+        const parameters = {
+          disabledAlerts: ["Access_Anomaly", "Usage_Anomaly"],
+          emailAccountAdmins: true,
+          emailAddresses: ["testSecurityAlert@microsoft.com"],
+          retentionDays: 5,
+          state: "Enabled",
+          storageAccountAccessKey:
+            "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          storageEndpoint: "https://mystorage.blob.core.windows.net",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          securityAlertPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAServerThreatDetectionPolicyWithAllParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -229,7 +320,7 @@ examples:
   - statusCode: "202"
 - name: Update a server's threat detection policy with minimal parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
     body: >-
       {
         "properties": {
@@ -240,7 +331,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
 
       {
         "properties": {
@@ -251,6 +342,35 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "securityalert-4799";
+        const serverName = "securityalert-6440";
+        const securityAlertPolicyName = "Default";
+        const parameters = {
+          emailAccountAdmins: true,
+          state: "Disabled",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          securityAlertPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAServerThreatDetectionPolicyWithMinimalParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -268,15 +388,7 @@ examples:
         }
       }
   - statusCode: "202"
-security:
-- name: azure_auth
-  type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
 metadata:
   description: >
     Learn more about MariaDB service - Creates or updates a threat detection policy.
