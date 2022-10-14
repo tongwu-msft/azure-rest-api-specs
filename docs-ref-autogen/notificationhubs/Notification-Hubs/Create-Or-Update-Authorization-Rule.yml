@@ -3,16 +3,14 @@ uid: management.azure.com.notificationhubs.notificationhubs.createorupdateauthor
 name: Create Or Update Authorization Rule
 service: Notification Hubs
 groupName: Notification Hubs
-apiVersion: 2016-03-01
+apiVersion: 2017-04-01
 summary: Creates/Updates an authorization rule for a NotificationHub
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}?api-version=2016-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -64,26 +62,6 @@ requestBody:
     description: Properties of the Namespace AuthorizationRules.
     types:
     - uid: SharedAccessAuthorizationRuleProperties
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: sku
-    in: body
-    description: The sku of the created namespace
-    types:
-    - uid: Sku
 requestHeader: []
 definitions:
 - name: SharedAccessAuthorizationRuleProperties
@@ -95,28 +73,44 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: Sku
-  description: The Sku description for a namespace
-  kind: object
-  properties:
-  - name: name
-    description: Name of the notification hub sku
-    types:
-    - uid: SkuName
-  - name: tier
-    description: The tier of particular sku
+  - name: primaryKey
+    isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
     types:
     - uid: string
-  - name: size
-    description: The Sku size
+  - name: secondaryKey
+    isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
     types:
     - uid: string
-  - name: family
-    description: The Sku Family
+  - name: keyName
+    isReadyOnly: true
+    description: A string that describes the authorization rule.
     types:
     - uid: string
-  - name: capacity
-    description: The capacity of the resource
+  - name: claimType
+    isReadyOnly: true
+    description: A string that describes the claim type
+    types:
+    - uid: string
+  - name: claimValue
+    isReadyOnly: true
+    description: A string that describes the claim value
+    types:
+    - uid: string
+  - name: modifiedTime
+    isReadyOnly: true
+    description: The last modified time for this rule
+    types:
+    - uid: string
+  - name: createdTime
+    isReadyOnly: true
+    description: The created time for this rule
+    types:
+    - uid: string
+  - name: revision
+    isReadyOnly: true
+    description: The revision number for the rule
     types:
     - uid: integer
 - name: SharedAccessAuthorizationRuleResource
@@ -128,6 +122,46 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.primaryKey
+    isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
+    types:
+    - uid: string
+  - name: properties.secondaryKey
+    isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
+    types:
+    - uid: string
+  - name: properties.keyName
+    isReadyOnly: true
+    description: A string that describes the authorization rule.
+    types:
+    - uid: string
+  - name: properties.claimType
+    isReadyOnly: true
+    description: A string that describes the claim type
+    types:
+    - uid: string
+  - name: properties.claimValue
+    isReadyOnly: true
+    description: A string that describes the claim value
+    types:
+    - uid: string
+  - name: properties.modifiedTime
+    isReadyOnly: true
+    description: The last modified time for this rule
+    types:
+    - uid: string
+  - name: properties.createdTime
+    isReadyOnly: true
+    description: The created time for this rule
+    types:
+    - uid: string
+  - name: properties.revision
+    isReadyOnly: true
+    description: The revision number for the rule
+    types:
+    - uid: integer
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -167,37 +201,30 @@ definitions:
     description: Properties of the Namespace AuthorizationRules.
     types:
     - uid: SharedAccessAuthorizationRuleProperties
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
+- name: Sku
+  description: The Sku description for a namespace
+  kind: object
+  properties:
   - name: name
-    isReadyOnly: true
-    description: Resource name
+    description: Name of the notification hub sku
+    types:
+    - uid: SkuName
+  - name: tier
+    description: The tier of particular sku
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
+  - name: size
+    description: The Sku size
     types:
     - uid: string
-  - name: location
-    description: Resource location
+  - name: family
+    description: The Sku Family
     types:
     - uid: string
-  - name: tags
-    description: Resource tags
+  - name: capacity
+    description: The capacity of the resource
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: sku
-    description: The sku of the created namespace
-    types:
-    - uid: Sku
+    - uid: integer
 - name: SkuName
   description: Name of the notification hub sku
   kind: enum
@@ -211,7 +238,176 @@ definitions:
   - name: Standard
     types:
     - uid: string
-examples: []
+examples:
+- name: NotificationHubAuthorizationRuleCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns/notificationHubs/nh-sdk-hub/AuthorizationRules/DefaultListenSharedAccessSignature?api-version=2017-04-01
+    body: >-
+      {
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns/notificationHubs/nh-sdk-hub/AuthorizationRules/DefaultListenSharedAccessSignature?api-version=2017-04-01
+
+      {
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.notificationhubs.fluent.models.SharedAccessAuthorizationRuleProperties;
+      import com.azure.resourcemanager.notificationhubs.models.AccessRights;
+      import com.azure.resourcemanager.notificationhubs.models.SharedAccessAuthorizationRuleCreateOrUpdateParameters;
+      import java.util.Arrays;
+
+      /** Samples for NotificationHubs CreateOrUpdateAuthorizationRule. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubAuthorizationRuleCreate.json
+           */
+          /**
+           * Sample code: NotificationHubAuthorizationRuleCreate.
+           *
+           * @param manager Entry point to NotificationHubsManager.
+           */
+          public static void notificationHubAuthorizationRuleCreate(
+              com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
+              manager
+                  .notificationHubs()
+                  .createOrUpdateAuthorizationRuleWithResponse(
+                      "5ktrial",
+                      "nh-sdk-ns",
+                      "nh-sdk-hub",
+                      "DefaultListenSharedAccessSignature",
+                      new SharedAccessAuthorizationRuleCreateOrUpdateParameters()
+                          .withProperties(
+                              new SharedAccessAuthorizationRuleProperties()
+                                  .withRights(Arrays.asList(AccessRights.LISTEN, AccessRights.SEND))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-notificationhubs_1.0.0-beta.3/sdk/notificationhubs/azure-resourcemanager-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnotificationhubs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubAuthorizationRuleCreate.json
+      func ExampleClient_CreateOrUpdateAuthorizationRule() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnotificationhubs.NewClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdateAuthorizationRule(ctx,
+      		"5ktrial",
+      		"nh-sdk-ns",
+      		"nh-sdk-hub",
+      		"DefaultListenSharedAccessSignature",
+      		armnotificationhubs.SharedAccessAuthorizationRuleCreateOrUpdateParameters{
+      			Properties: &armnotificationhubs.SharedAccessAuthorizationRuleProperties{
+      				Rights: []*armnotificationhubs.AccessRights{
+      					to.Ptr(armnotificationhubs.AccessRightsListen),
+      					to.Ptr(armnotificationhubs.AccessRightsSend)},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnotificationhubs%2Farmnotificationhubs%2Fv1.0.0/sdk/resourcemanager/notificationhubs/armnotificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates/Updates an authorization rule for a NotificationHub
+       *
+       * @summary Creates/Updates an authorization rule for a NotificationHub
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubAuthorizationRuleCreate.json
+       */
+      async function notificationHubAuthorizationRuleCreate() {
+        const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+        const resourceGroupName = "5ktrial";
+        const namespaceName = "nh-sdk-ns";
+        const notificationHubName = "nh-sdk-hub";
+        const authorizationRuleName = "DefaultListenSharedAccessSignature";
+        const parameters = {
+          properties: { rights: ["Listen", "Send"] },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NotificationHubsManagementClient(credential, subscriptionId);
+        const result = await client.notificationHubs.createOrUpdateAuthorizationRule(
+          resourceGroupName,
+          namespaceName,
+          notificationHubName,
+          authorizationRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      notificationHubAuthorizationRuleCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns/NotificationHubs/nh-sdk-hub/AuthorizationRules/DefaultListenSharedAccessSignature",
+        "name": "DefaultListenSharedAccessSignature",
+        "type": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules",
+        "location": "West Europe",
+        "tags": null,
+        "properties": {
+          "keyName": "DefaultListenSharedAccessSignature",
+          "primaryKey": "#################################",
+          "secondaryKey": "#################################",
+          "claimType": "SharedAccessKey",
+          "claimValue": "None",
+          "rights": [
+            "Listen"
+          ],
+          "createdTime": "2018-05-02T00:45:22.0150024Z",
+          "modifiedTime": "2018-05-02T00:45:22.0150024Z"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

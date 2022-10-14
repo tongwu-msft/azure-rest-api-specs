@@ -1,0 +1,666 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.guestconfiguration.guestconfigurationassignmentsvmss.list
+name: List
+service: Guest Configuration
+groupName: Guest Configuration Assignments VM SS
+apiVersion: 2022-01-25
+summary: List all guest configuration assignments for VMSS.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: vmssName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine scale set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: GuestConfigurationAssignmentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: GuestConfigurationAssignmentList
+  description: The response of the list guest configuration assignment operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the list guest configuration assignment operation.
+    types:
+    - uid: GuestConfigurationAssignment
+      isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+- name: GuestConfigurationAssignment
+  description: Guest configuration assignment is an association between a machine and guest configuration.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the Guest configuration assignment.
+    types:
+    - uid: GuestConfigurationAssignmentProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: location
+    description: Region where the VM is located.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Detail error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: GuestConfigurationAssignmentProperties
+  description: Guest configuration assignment properties.
+  kind: object
+  properties:
+  - name: targetResourceId
+    isReadyOnly: true
+    description: VM resource Id.
+    types:
+    - uid: string
+  - name: guestConfiguration
+    description: The guest configuration to assign.
+    types:
+    - uid: GuestConfigurationNavigation
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: lastComplianceStatusChecked
+    isReadyOnly: true
+    description: Date and time when last compliance status was checked.
+    types:
+    - uid: string
+  - name: latestReportId
+    isReadyOnly: true
+    description: 'Id of the latest report for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: parameterHash
+    isReadyOnly: true
+    description: 'parameter hash for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: latestAssignmentReport
+    description: Last reported guest configuration assignment report.
+    types:
+    - uid: AssignmentReport
+  - name: context
+    description: 'The source which initiated the guest configuration assignment. Ex: Azure Policy'
+    types:
+    - uid: string
+  - name: assignmentHash
+    isReadyOnly: true
+    description: Combined hash of the configuration package and parameters.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: provisioningState
+  - name: resourceType
+    isReadyOnly: true
+    description: Type of the resource - VMSS / VM
+    types:
+    - uid: string
+  - name: vmssVMList
+    description: The list of VM Compliance data for VMSS
+    types:
+    - uid: VMSSVMInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: GuestConfigurationNavigation
+  description: Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
+  kind: object
+  properties:
+  - name: kind
+    description: Kind of the guest configuration. For example:DSC
+    types:
+    - uid: kind
+  - name: name
+    description: Name of the guest configuration.
+    types:
+    - uid: string
+  - name: version
+    description: Version of the guest configuration.
+    types:
+    - uid: string
+  - name: contentUri
+    description: Uri of the storage where guest configuration package is uploaded.
+    types:
+    - uid: string
+  - name: contentHash
+    description: Combined hash of the guest configuration package and configuration parameters.
+    types:
+    - uid: string
+  - name: assignmentType
+    description: Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
+    types:
+    - uid: assignmentType
+  - name: assignmentSource
+    isReadyOnly: true
+    description: Specifies the origin of the configuration.
+    types:
+    - uid: string
+  - name: contentType
+    isReadyOnly: true
+    description: Specifies the content type of the configuration. Possible values could be Builtin or Custom.
+    types:
+    - uid: string
+  - name: configurationParameter
+    description: The configuration parameters for the guest configuration.
+    types:
+    - uid: ConfigurationParameter
+      isArray: true
+  - name: configurationProtectedParameter
+    description: The protected configuration parameters for the guest configuration.
+    types:
+    - uid: ConfigurationParameter
+      isArray: true
+  - name: configurationSetting
+    isReadyOnly: true
+    description: The configuration setting for the guest configuration.
+    types:
+    - uid: ConfigurationSetting
+- name: complianceStatus
+  description: A value indicating compliance status of the machine for the assigned guest configuration.
+  kind: enum
+  properties:
+  - name: Compliant
+    types:
+    - uid: string
+  - name: NonCompliant
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+- name: AssignmentReport
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of the report for the guest configuration assignment.
+    types:
+    - uid: string
+  - name: reportId
+    isReadyOnly: true
+    description: GUID that identifies the guest configuration assignment report under a subscription, resource group.
+    types:
+    - uid: string
+  - name: assignment
+    description: Configuration details of the guest configuration assignment.
+    types:
+    - uid: AssignmentInfo
+  - name: vm
+    description: Information about the VM.
+    types:
+    - uid: VMInfo
+  - name: startTime
+    isReadyOnly: true
+    description: Start date and time of the guest configuration assignment compliance status check.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: End date and time of the guest configuration assignment compliance status check.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: operationType
+    isReadyOnly: true
+    description: Type of report, Consistency or Initial
+    types:
+    - uid: type
+  - name: resources
+    description: The list of resources for which guest configuration assignment compliance is checked.
+    types:
+    - uid: AssignmentReportResource
+      isArray: true
+- name: provisioningState
+  description: The provisioning state, which only appears in the response.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+- name: VMSSVMInfo
+  description: Information about VMSS VM
+  kind: object
+  properties:
+  - name: vmId
+    isReadyOnly: true
+    description: UUID of the VM.
+    types:
+    - uid: string
+  - name: vmResourceId
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: latestReportId
+    isReadyOnly: true
+    description: 'Id of the latest report for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: lastComplianceChecked
+    isReadyOnly: true
+    description: Date and time when last compliance status was checked.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: kind
+  description: Kind of the guest configuration. For example:DSC
+  kind: enum
+  properties:
+  - name: DSC
+    types:
+    - uid: string
+- name: assignmentType
+  description: Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
+  kind: enum
+  properties:
+  - name: Audit
+    types:
+    - uid: string
+  - name: DeployAndAutoCorrect
+    types:
+    - uid: string
+  - name: ApplyAndAutoCorrect
+    types:
+    - uid: string
+  - name: ApplyAndMonitor
+    types:
+    - uid: string
+- name: ConfigurationParameter
+  description: Represents a configuration parameter.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the configuration parameter.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the configuration parameter.
+    types:
+    - uid: string
+- name: ConfigurationSetting
+  description: Configuration setting of LCM (Local Configuration Manager).
+  kind: object
+  properties:
+  - name: configurationMode
+    isReadyOnly: true
+    description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
+    types:
+    - uid: configurationMode
+  - name: allowModuleOverwrite
+    isReadyOnly: true
+    description: If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false
+    types:
+    - uid: boolean
+  - name: actionAfterReboot
+    isReadyOnly: true
+    description: Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration
+    types:
+    - uid: actionAfterReboot
+  - name: refreshFrequencyMins
+    isReadyOnly: true
+    description: The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30.
+    types:
+    - uid: number
+    defaultValue: 30
+  - name: rebootIfNeeded
+    isReadyOnly: true
+    description: Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module.
+    types:
+    - uid: boolean
+  - name: configurationModeFrequencyMins
+    isReadyOnly: true
+    description: How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15.
+    types:
+    - uid: number
+    defaultValue: 15
+- name: AssignmentInfo
+  description: Information about the guest configuration assignment.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: configuration
+    description: Information about the configuration.
+    types:
+    - uid: ConfigurationInfo
+- name: VMInfo
+  description: Information about the VM.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: uuid
+    isReadyOnly: true
+    description: UUID(Universally Unique Identifier) of the VM.
+    types:
+    - uid: string
+- name: type
+  description: Type of report, Consistency or Initial
+  kind: enum
+  properties:
+  - name: Consistency
+    types:
+    - uid: string
+  - name: Initial
+    types:
+    - uid: string
+- name: AssignmentReportResource
+  description: The guest configuration assignment resource.
+  kind: object
+  properties:
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: resourceId
+    isReadyOnly: true
+    description: Name of the guest configuration assignment resource setting.
+    types:
+    - uid: string
+  - name: reasons
+    description: Compliance reason and reason code for a resource.
+    types:
+    - uid: AssignmentReportResourceComplianceReason
+      isArray: true
+  - name: properties
+    isReadyOnly: true
+    description: Properties of a guest configuration assignment resource.
+    types:
+    - uid: object
+- name: configurationMode
+  description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
+  kind: enum
+  properties:
+  - name: ApplyOnly
+    types:
+    - uid: string
+  - name: ApplyAndMonitor
+    types:
+    - uid: string
+  - name: ApplyAndAutoCorrect
+    types:
+    - uid: string
+- name: actionAfterReboot
+  description: Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration
+  kind: enum
+  properties:
+  - name: ContinueConfiguration
+    types:
+    - uid: string
+  - name: StopConfiguration
+    types:
+    - uid: string
+- name: ConfigurationInfo
+  description: Information about the configuration.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the configuration.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the configuration.
+    types:
+    - uid: string
+- name: AssignmentReportResourceComplianceReason
+  description: Reason and code for the compliance of the guest configuration assignment resource.
+  kind: object
+  properties:
+  - name: phrase
+    isReadyOnly: true
+    description: Reason for the compliance of the guest configuration assignment resource.
+    types:
+    - uid: string
+  - name: code
+    isReadyOnly: true
+    description: Code for the compliance of the guest configuration assignment resource.
+    types:
+    - uid: string
+examples:
+- name: List all guest configuration assignments for VMSS
+  request:
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armguestconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listVMSSGuestConfigurationAssignments.json
+      func ExampleAssignmentsVMSSClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armguestconfiguration.NewAssignmentsVMSSClient("mySubscriptionId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroupName",
+      		"myVMSSName",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv1.0.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "location": "centraluseuap",
+          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2",
+          "name": "AuditSecureProtocol2",
+          "properties": {
+            "complianceStatus": "Compliant",
+            "assignmentHash": "content hash",
+            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+            "context": null,
+            "guestConfiguration": {
+              "kind": null,
+              "name": "AuditSecureProtocol2",
+              "version": "1.0.0.3",
+              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol2/AuditSecureProtocol2_1.0.0.3.zip",
+              "contentHash": "content hash",
+              "configurationParameter": [],
+              "configurationSetting": null
+            },
+            "provisioningState": null
+          }
+        },
+        {
+          "location": "centraluseuap",
+          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment",
+          "name": "myAssignment",
+          "properties": {
+            "complianceStatus": "Compliant",
+            "assignmentHash": "content hash",
+            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+            "context": null,
+            "guestConfiguration": {
+              "kind": null,
+              "name": "myAssignment",
+              "version": "1.0.0.3",
+              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/myAssignment/myAssignment.0.0.3.zip",
+              "contentHash": "content hash",
+              "configurationParameter": [],
+              "configurationSetting": null
+            },
+            "provisioningState": null
+          }
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Guest Configuration service - List all guest configuration assignments for VMSS.
+errorCodes: []

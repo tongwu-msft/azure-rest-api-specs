@@ -1,0 +1,270 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mariadb.querytexts.listbyserver
+name: List By Server
+service: MariaDB
+groupName: Query Texts
+apiVersion: 2018-06-01
+summary: Retrieve the Query-Store query texts for specified queryIds.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/queryTexts?api-version=2018-06-01&queryIds={queryIds}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: queryIds
+  in: query
+  isRequired: true
+  description: The query identifiers
+  types:
+  - uid: array
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: QueryTextsResultList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: QueryTextsResultList
+  description: A list of query texts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of query texts.
+    types:
+    - uid: QueryText
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
+- name: QueryText
+  description: Represents a Query Text.
+  kind: object
+  properties:
+  - name: properties.queryId
+    description: Query identifier unique to the server.
+    types:
+    - uid: string
+  - name: properties.queryText
+    description: Query text.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: QueryTextsListByServer
+  request:
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testResourceGroupName/providers/Microsoft.DBforMariaDB/servers/testServerName/queryTexts?api-version=2018-06-01&queryIds=1&queryIds=2
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testResourceGroupName/providers/Microsoft.DBforMariaDB/servers/testServerName/queryTexts?api-version=2018-06-01&queryIds=1&queryIds=2
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/QueryTextsListByServer.json
+      func ExampleQueryTextsClient_NewListByServerPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewQueryTextsClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByServerPager("testResourceGroupName",
+      		"testServerName",
+      		[]string{
+      			"1",
+      			"2"},
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieve the Query-Store query texts for specified queryIds.
+       *
+       * @summary Retrieve the Query-Store query texts for specified queryIds.
+       * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/QueryTextsListByServer.json
+       */
+      async function queryTextsListByServer() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testResourceGroupName";
+        const serverName = "testServerName";
+        const queryIds = ["1", "2"];
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.queryTexts.listByServer(resourceGroupName, serverName, queryIds)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      queryTextsListByServer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testResourceGroupName/providers/Microsoft.DBforMariaDB/servers/testServerName/queryTexts/1",
+            "name": "1",
+            "type": "Microsoft.DBforMariaDB/servers/queryTexts",
+            "properties": {
+              "queryId": "1",
+              "queryText": "UPDATE `performance_schema`.`setup_instruments` SET `ENABLED` = ? , `TIMED` = ? WHERE NAME = ?"
+            }
+          },
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testResourceGroupName/providers/Microsoft.DBforMariaDB/servers/testServerName/queryTexts/2",
+            "name": "2",
+            "type": "Microsoft.DBforMariaDB/servers/queryTexts",
+            "properties": {
+              "queryId": "2",
+              "queryText": "UPDATE `performance_schema`.`setup_instruments` SET `ENABLED` = ? , `TIMED` = ? WHERE NAME LIKE ?"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about MariaDB service - Retrieve the Query-Store query texts for specified queryIds.
+errorCodes: []

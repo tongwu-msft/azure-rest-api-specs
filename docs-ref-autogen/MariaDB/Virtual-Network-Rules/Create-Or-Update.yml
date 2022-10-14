@@ -3,25 +3,25 @@ uid: management.azure.com.mariadb.virtualnetworkrules.createorupdate
 name: Create Or Update
 service: MariaDB
 groupName: Virtual Network Rules
-apiVersion: 2018-06-01-preview
+apiVersion: 2018-06-01
 summary: Creates or updates an existing virtual network rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}?api-version=2018-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: serverName
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -152,7 +152,7 @@ definitions:
 examples:
 - name: Create or update a virtual network rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2018-06-01
     body: >-
       {
         "properties": {
@@ -163,7 +163,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2018-06-01-preview
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMariaDB/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2018-06-01
 
       {
         "properties": {
@@ -174,6 +174,90 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesCreateOrUpdate.json
+      func ExampleVirtualNetworkRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewVirtualNetworkRulesClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"TestGroup",
+      		"vnet-test-svr",
+      		"vnet-firewall-rule",
+      		armmariadb.VirtualNetworkRule{
+      			Properties: &armmariadb.VirtualNetworkRuleProperties{
+      				IgnoreMissingVnetServiceEndpoint: to.Ptr(false),
+      				VirtualNetworkSubnetID:           to.Ptr("/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an existing virtual network rule.
+       *
+       * @summary Creates or updates an existing virtual network rule.
+       * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesCreateOrUpdate.json
+       */
+      async function createOrUpdateAVirtualNetworkRule() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TestGroup";
+        const serverName = "vnet-test-svr";
+        const virtualNetworkRuleName = "vnet-firewall-rule";
+        const parameters = {
+          ignoreMissingVnetServiceEndpoint: false,
+          virtualNetworkSubnetId:
+            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworkRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          virtualNetworkRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAVirtualNetworkRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

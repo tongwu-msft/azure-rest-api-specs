@@ -11535,6 +11535,10 @@
 ### [Overview](guestconfiguration/Guest-Configuration-Assignment-Reports.yml)
 ### [Get](guestconfiguration/Guest-Configuration-Assignment-Reports/Get.yml)
 ### [List](guestconfiguration/Guest-Configuration-Assignment-Reports/List.yml)
+## Guest Configuration Assignment Reports VM SS
+### [Overview](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS.yml)
+### [Get](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS/Get.yml)
+### [List](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS/List.yml)
 ## Guest Configuration Assignments
 ### [Overview](guestconfiguration/Guest-Configuration-Assignments.yml)
 ### [Create Or Update](guestconfiguration/Guest-Configuration-Assignments/Create-Or-Update.yml)
@@ -11543,6 +11547,11 @@
 ### [List](guestconfiguration/Guest-Configuration-Assignments/List.yml)
 ### [RG List](guestconfiguration/Guest-Configuration-Assignments/RG-List.yml)
 ### [Subscription List](guestconfiguration/Guest-Configuration-Assignments/Subscription-List.yml)
+## Guest Configuration Assignments VM SS
+### [Overview](guestconfiguration/Guest-Configuration-Assignments-VM-SS.yml)
+### [Delete](guestconfiguration/Guest-Configuration-Assignments-VM-SS/Delete.yml)
+### [Get](guestconfiguration/Guest-Configuration-Assignments-VM-SS/Get.yml)
+### [List](guestconfiguration/Guest-Configuration-Assignments-VM-SS/List.yml)
 ## Guest Configuration HCRP Assignment Reports
 ### [Overview](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports.yml)
 ### [Get](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports/Get.yml)
@@ -12343,6 +12352,16 @@
 #### [Get](iothub/Certificates/Get.yml)
 #### [List By Iot Hub](iothub/Certificates/List-By-Iot-Hub.yml)
 #### [Verify](iothub/Certificates/Verify.yml)
+### Device
+#### [Overview](iothub/Device.yml)
+#### [Abandon Device Bound Notification](iothub/Device/Abandon-Device-Bound-Notification.yml)
+#### [Complete Device Bound Notification](iothub/Device/Complete-Device-Bound-Notification.yml)
+#### [Create File Upload Sas Uri](iothub/Device/Create-File-Upload-Sas-Uri.yml)
+#### [Get Device And Module In Scope](iothub/Device/Get-Device-And-Module-In-Scope.yml)
+#### [Get Devices And Modules In Scope](iothub/Device/Get-Devices-And-Modules-In-Scope.yml)
+#### [Receive Device Bound Notification](iothub/Device/Receive-Device-Bound-Notification.yml)
+#### [Send Device Event](iothub/Device/Send-Device-Event.yml)
+#### [Update File Upload Status](iothub/Device/Update-File-Upload-Status.yml)
 ### Iot Hub Resource
 #### [Overview](iothub/Iot-Hub-Resource.yml)
 #### [Check Name Availability](iothub/Iot-Hub-Resource/Check-Name-Availability.yml)
@@ -12374,6 +12393,67 @@
 ### Resource Provider Common
 #### [Overview](iothub/Resource-Provider-Common.yml)
 #### [Get Subscription Quota](iothub/Resource-Provider-Common/Get-Subscription-Quota.yml)
+### Service
+#### Bulk Registry
+##### [Overview](iothub/service/Bulk-Registry.yml)
+##### [Update Registry](iothub/service/Bulk-Registry/Update-Registry.yml)
+#### Cloud To Device Messages
+##### [Overview](iothub/service/Cloud-To-Device-Messages.yml)
+##### [Abandon Feedback Notification](iothub/service/Cloud-To-Device-Messages/Abandon-Feedback-Notification.yml)
+##### [Complete Feedback Notification](iothub/service/Cloud-To-Device-Messages/Complete-Feedback-Notification.yml)
+##### [Purge Cloud To Device Message Queue](iothub/service/Cloud-To-Device-Messages/Purge-Cloud-To-Device-Message-Queue.yml)
+##### [Receive Feedback Notification](iothub/service/Cloud-To-Device-Messages/Receive-Feedback-Notification.yml)
+#### Configuration
+##### [Overview](iothub/service/Configuration.yml)
+##### [Apply On Edge Device](iothub/service/Configuration/Apply-On-Edge-Device.yml)
+##### [Create Or Update](iothub/service/Configuration/Create-Or-Update.yml)
+##### [Delete](iothub/service/Configuration/Delete.yml)
+##### [Get](iothub/service/Configuration/Get.yml)
+##### [Get Configurations](iothub/service/Configuration/Get-Configurations.yml)
+##### [Test Queries](iothub/service/Configuration/Test-Queries.yml)
+#### Devices
+##### [Overview](iothub/service/Devices.yml)
+##### [Create Or Update Identity](iothub/service/Devices/Create-Or-Update-Identity.yml)
+##### [Delete Identity](iothub/service/Devices/Delete-Identity.yml)
+##### [Get Devices](iothub/service/Devices/Get-Devices.yml)
+##### [Get Identity](iothub/service/Devices/Get-Identity.yml)
+##### [Get Twin](iothub/service/Devices/Get-Twin.yml)
+##### [Invoke Method](iothub/service/Devices/Invoke-Method.yml)
+##### [Replace Twin](iothub/service/Devices/Replace-Twin.yml)
+##### [Update Twin](iothub/service/Devices/Update-Twin.yml)
+#### Digital Twin
+##### [Overview](iothub/service/Digital-Twin.yml)
+##### [Get Digital Twin](iothub/service/Digital-Twin/Get-Digital-Twin.yml)
+##### [Invoke Component Command](iothub/service/Digital-Twin/Invoke-Component-Command.yml)
+##### [Invoke Root Level Command](iothub/service/Digital-Twin/Invoke-Root-Level-Command.yml)
+##### [Update Digital Twin](iothub/service/Digital-Twin/Update-Digital-Twin.yml)
+#### Jobs
+##### [Overview](iothub/service/Jobs.yml)
+##### [Cancel Import Export Job](iothub/service/Jobs/Cancel-Import-Export-Job.yml)
+##### [Cancel Scheduled Job](iothub/service/Jobs/Cancel-Scheduled-Job.yml)
+##### [Create Import Export Job](iothub/service/Jobs/Create-Import-Export-Job.yml)
+##### [Create Scheduled Job](iothub/service/Jobs/Create-Scheduled-Job.yml)
+##### [Get Import Export Job](iothub/service/Jobs/Get-Import-Export-Job.yml)
+##### [Get Import Export Jobs](iothub/service/Jobs/Get-Import-Export-Jobs.yml)
+##### [Get Scheduled Job](iothub/service/Jobs/Get-Scheduled-Job.yml)
+##### [Query Scheduled Jobs](iothub/service/Jobs/Query-Scheduled-Jobs.yml)
+#### Modules
+##### [Overview](iothub/service/Modules.yml)
+##### [Create Or Update Identity](iothub/service/Modules/Create-Or-Update-Identity.yml)
+##### [Delete Identity](iothub/service/Modules/Delete-Identity.yml)
+##### [Get Identity](iothub/service/Modules/Get-Identity.yml)
+##### [Get Modules On Device](iothub/service/Modules/Get-Modules-On-Device.yml)
+##### [Get Twin](iothub/service/Modules/Get-Twin.yml)
+##### [Invoke Method](iothub/service/Modules/Invoke-Method.yml)
+##### [Replace Twin](iothub/service/Modules/Replace-Twin.yml)
+##### [Update Twin](iothub/service/Modules/Update-Twin.yml)
+#### Query
+##### [Overview](iothub/service/Query.yml)
+##### [Get Twins](iothub/service/Query/Get-Twins.yml)
+#### Statistics
+##### [Overview](iothub/service/Statistics.yml)
+##### [Get Device Statistics](iothub/service/Statistics/Get-Device-Statistics.yml)
+##### [Get Service Statistics](iothub/service/Statistics/Get-Service-Statistics.yml)
 # IoT Hub Device Provisioning Service
 ## [Overview](../docs-ref-conceptual/iot-dps/index.md)
 ## Dps Certificate
@@ -12400,6 +12480,34 @@
 ## Operations
 ### [Overview](iot-dps/Operations.yml)
 ### [List](iot-dps/Operations/List.yml)
+## Device
+### Runtime Registration
+#### [Overview](iot-dps/device/Runtime-Registration.yml)
+#### [Device Registration Status Lookup](iot-dps/device/Runtime-Registration/Device-Registration-Status-Lookup.yml)
+#### [Operation Status Lookup](iot-dps/device/Runtime-Registration/Operation-Status-Lookup.yml)
+#### [Register Device](iot-dps/device/Runtime-Registration/Register-Device.yml)
+## Service
+### Device Registration State
+#### [Overview](iot-dps/service/Device-Registration-State.yml)
+#### [Delete](iot-dps/service/Device-Registration-State/Delete.yml)
+#### [Get](iot-dps/service/Device-Registration-State/Get.yml)
+#### [Query](iot-dps/service/Device-Registration-State/Query.yml)
+### Enrollment Group
+#### [Overview](iot-dps/service/Enrollment-Group.yml)
+#### [Create Or Update](iot-dps/service/Enrollment-Group/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Enrollment-Group/Delete.yml)
+#### [Get](iot-dps/service/Enrollment-Group/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Enrollment-Group/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Enrollment-Group/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Enrollment-Group/Run-Bulk-Operation.yml)
+### Individual Enrollment
+#### [Overview](iot-dps/service/Individual-Enrollment.yml)
+#### [Create Or Update](iot-dps/service/Individual-Enrollment/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Individual-Enrollment/Delete.yml)
+#### [Get](iot-dps/service/Individual-Enrollment/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Individual-Enrollment/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Individual-Enrollment/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
 ## Certificates
@@ -14045,6 +14153,10 @@
 ### [Update](maps-management/Private-Atlases/Update.yml)
 # MariaDB
 ## [Overview](../docs-ref-conceptual/mariadb/index.md)
+## Advisors
+### [Overview](MariaDB/Advisors.yml)
+### [Get](MariaDB/Advisors/Get.yml)
+### [List By Server](MariaDB/Advisors/List-By-Server.yml)
 ## Check Name Availability
 ### [Overview](MariaDB/Check-Name-Availability.yml)
 ### [Execute](MariaDB/Check-Name-Availability/Execute.yml)
@@ -14053,6 +14165,9 @@
 ### [Create Or Update](MariaDB/Configurations/Create-Or-Update.yml)
 ### [Get](MariaDB/Configurations/Get.yml)
 ### [List By Server](MariaDB/Configurations/List-By-Server.yml)
+## Create Recommended Action Session
+### [Overview](MariaDB/Create-Recommended-Action-Session.yml)
+### [Create Recommended Action Session](MariaDB/Create-Recommended-Action-Session/Create-Recommended-Action-Session.yml)
 ## Databases
 ### [Overview](MariaDB/Databases.yml)
 ### [Create Or Update](MariaDB/Databases/Create-Or-Update.yml)
@@ -14068,18 +14183,46 @@
 ## Location Based Performance Tier
 ### [Overview](MariaDB/Location-Based-Performance-Tier.yml)
 ### [List](MariaDB/Location-Based-Performance-Tier/List.yml)
+## Location Based Recommended Action Sessions Operation Status
+### [Overview](MariaDB/Location-Based-Recommended-Action-Sessions-Operation-Status.yml)
+### [Get](MariaDB/Location-Based-Recommended-Action-Sessions-Operation-Status/Get.yml)
+## Location Based Recommended Action Sessions Result
+### [Overview](MariaDB/Location-Based-Recommended-Action-Sessions-Result.yml)
+### [List](MariaDB/Location-Based-Recommended-Action-Sessions-Result/List.yml)
 ## Log Files
 ### [Overview](MariaDB/Log-Files.yml)
 ### [List By Server](MariaDB/Log-Files/List-By-Server.yml)
 ## Operations
 ### [Overview](MariaDB/Operations.yml)
 ### [List](MariaDB/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](MariaDB/Private-Endpoint-Connections.yml)
+### [Create Or Update](MariaDB/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](MariaDB/Private-Endpoint-Connections/Delete.yml)
+### [Get](MariaDB/Private-Endpoint-Connections/Get.yml)
+### [List By Server](MariaDB/Private-Endpoint-Connections/List-By-Server.yml)
+### [Update Tags](MariaDB/Private-Endpoint-Connections/Update-Tags.yml)
+## Private Link Resources
+### [Overview](MariaDB/Private-Link-Resources.yml)
+### [Get](MariaDB/Private-Link-Resources/Get.yml)
+### [List By Server](MariaDB/Private-Link-Resources/List-By-Server.yml)
+## Query Texts
+### [Overview](MariaDB/Query-Texts.yml)
+### [Get](MariaDB/Query-Texts/Get.yml)
+### [List By Server](MariaDB/Query-Texts/List-By-Server.yml)
+## Recommended Actions
+### [Overview](MariaDB/Recommended-Actions.yml)
+### [Get](MariaDB/Recommended-Actions/Get.yml)
+### [List By Server](MariaDB/Recommended-Actions/List-By-Server.yml)
 ## Recoverable Servers
 ### [Overview](MariaDB/Recoverable-Servers.yml)
 ### [Get](MariaDB/Recoverable-Servers/Get.yml)
 ## Replicas
 ### [Overview](MariaDB/Replicas.yml)
 ### [List By Server](MariaDB/Replicas/List-By-Server.yml)
+## Reset Query Performance Insight Data
+### [Overview](MariaDB/Reset-Query-Performance-Insight-Data.yml)
+### [Reset Query Performance Insight Data](MariaDB/Reset-Query-Performance-Insight-Data/Reset-Query-Performance-Insight-Data.yml)
 ## Server Based Performance Tier
 ### [Overview](MariaDB/Server-Based-Performance-Tier.yml)
 ### [List](MariaDB/Server-Based-Performance-Tier/List.yml)
@@ -14100,12 +14243,22 @@
 ### [List By Resource Group](MariaDB/Servers/List-By-Resource-Group.yml)
 ### [Restart](MariaDB/Servers/Restart.yml)
 ### [Update](MariaDB/Servers/Update.yml)
+### [Start](MariaDB/Servers/Start.yml)
+### [Stop](MariaDB/Servers/Stop.yml)
+## Top Query Statistics
+### [Overview](MariaDB/Top-Query-Statistics.yml)
+### [Get](MariaDB/Top-Query-Statistics/Get.yml)
+### [List By Server](MariaDB/Top-Query-Statistics/List-By-Server.yml)
 ## Virtual Network Rules
 ### [Overview](MariaDB/Virtual-Network-Rules.yml)
 ### [Create Or Update](MariaDB/Virtual-Network-Rules/Create-Or-Update.yml)
 ### [Delete](MariaDB/Virtual-Network-Rules/Delete.yml)
 ### [Get](MariaDB/Virtual-Network-Rules/Get.yml)
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
+## Wait Statistics
+### [Overview](MariaDB/Wait-Statistics.yml)
+### [Get](MariaDB/Wait-Statistics/Get.yml)
+### [List By Server](MariaDB/Wait-Statistics/List-By-Server.yml)
 # Marketplace Catalog
 ## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
 ## 2022-02-02
@@ -15322,9 +15475,10 @@
 #### [Regenerate Keys](notificationhubs/Namespaces/Regenerate-Keys.yml)
 ### Notification Hubs
 #### [Overview](notificationhubs/Notification-Hubs.yml)
-#### [Check Availability](notificationhubs/Notification-Hubs/Check-Availability.yml)
+#### [Check Notification Hub Availability](notificationhubs/Notification-Hubs/Check-Notification-Hub-Availability.yml)
 #### [Create Or Update](notificationhubs/Notification-Hubs/Create-Or-Update.yml)
 #### [Create Or Update Authorization Rule](notificationhubs/Notification-Hubs/Create-Or-Update-Authorization-Rule.yml)
+#### [Debug Send](notificationhubs/Notification-Hubs/Debug-Send.yml)
 #### [Delete](notificationhubs/Notification-Hubs/Delete.yml)
 #### [Delete Authorization Rule](notificationhubs/Notification-Hubs/Delete-Authorization-Rule.yml)
 #### [Get](notificationhubs/Notification-Hubs/Get.yml)
@@ -15333,7 +15487,11 @@
 #### [List](notificationhubs/Notification-Hubs/List.yml)
 #### [List Authorization Rules](notificationhubs/Notification-Hubs/List-Authorization-Rules.yml)
 #### [List Keys](notificationhubs/Notification-Hubs/List-Keys.yml)
+#### [Patch](notificationhubs/Notification-Hubs/Patch.yml)
 #### [Regenerate Keys](notificationhubs/Notification-Hubs/Regenerate-Keys.yml)
+### Operations
+#### [Overview](notificationhubs/Operations.yml)
+#### [List](notificationhubs/Operations/List.yml)
 # Orbital
 ## [Overview](../docs-ref-conceptual/orbital/index.md)
 ## Earth Observation
@@ -28870,6 +29028,109 @@
 ### [Create](visualstudio/Projects/Create.yml)
 ### [Get](visualstudio/Projects/Get.yml)
 ### [Update](visualstudio/Projects/Update.yml)
+# Windows Virtual Desktop
+## [Overview](../docs-ref-conceptual/virtual-desktop/index.md)
+## App Group
+### [Overview](virtual-desktop/App-Group.yml)
+### [Add User](virtual-desktop/App-Group/Add-User.yml)
+### [Assign AAD Group Role](virtual-desktop/App-Group/Assign-AAD-Group-Role.yml)
+### [Assign Application Role](virtual-desktop/App-Group/Assign-Application-Role.yml)
+### [Assign User Role](virtual-desktop/App-Group/Assign-User-Role.yml)
+### [Create](virtual-desktop/App-Group/Create.yml)
+### [Get](virtual-desktop/App-Group/Get.yml)
+### [Get List](virtual-desktop/App-Group/Get-List.yml)
+### [Get Role Assignment](virtual-desktop/App-Group/Get-Role-Assignment.yml)
+### [Get Role Definition](virtual-desktop/App-Group/Get-Role-Definition.yml)
+### [Get User](virtual-desktop/App-Group/Get-User.yml)
+### [Get User List](virtual-desktop/App-Group/Get-User-List.yml)
+### [Remove](virtual-desktop/App-Group/Remove.yml)
+### [Remove User](virtual-desktop/App-Group/Remove-User.yml)
+### [Revoke AAD Group Role](virtual-desktop/App-Group/Revoke-AAD-Group-Role.yml)
+### [Revoke Application Role](virtual-desktop/App-Group/Revoke-Application-Role.yml)
+### [Revoke User Role](virtual-desktop/App-Group/Revoke-User-Role.yml)
+### [Update](virtual-desktop/App-Group/Update.yml)
+## Deployment
+### [Overview](virtual-desktop/Deployment.yml)
+### [Assign AAD Group Role](virtual-desktop/Deployment/Assign-AAD-Group-Role.yml)
+### [Assign Application Role](virtual-desktop/Deployment/Assign-Application-Role.yml)
+### [Assign User Role](virtual-desktop/Deployment/Assign-User-Role.yml)
+### [Get Role Assignment](virtual-desktop/Deployment/Get-Role-Assignment.yml)
+### [Revoke AAD Group Role](virtual-desktop/Deployment/Revoke-AAD-Group-Role.yml)
+### [Revoke Application Role](virtual-desktop/Deployment/Revoke-Application-Role.yml)
+### [Revoke User Role](virtual-desktop/Deployment/Revoke-User-Role.yml)
+## Host Pool
+### [Overview](virtual-desktop/Host-Pool.yml)
+### [Assign AAD Group Role](virtual-desktop/Host-Pool/Assign-AAD-Group-Role.yml)
+### [Assign Application Role](virtual-desktop/Host-Pool/Assign-Application-Role.yml)
+### [Assign User Role](virtual-desktop/Host-Pool/Assign-User-Role.yml)
+### [Create](virtual-desktop/Host-Pool/Create.yml)
+### [Get](virtual-desktop/Host-Pool/Get.yml)
+### [Get Role Assignment](virtual-desktop/Host-Pool/Get-Role-Assignment.yml)
+### [Get Role Definition](virtual-desktop/Host-Pool/Get-Role-Definition.yml)
+### [Remove](virtual-desktop/Host-Pool/Remove.yml)
+### [Revoke AAD Group Role](virtual-desktop/Host-Pool/Revoke-AAD-Group-Role.yml)
+### [Revoke Application Role](virtual-desktop/Host-Pool/Revoke-Application-Role.yml)
+### [Revoke User Role](virtual-desktop/Host-Pool/Revoke-User-Role.yml)
+### [Update](virtual-desktop/Host-Pool/Update.yml)
+## Published Desktop
+### [Overview](virtual-desktop/Published-Desktop.yml)
+### [Get](virtual-desktop/Published-Desktop/Get.yml)
+## Registration Info
+### [Overview](virtual-desktop/Registration-Info.yml)
+### [Export](virtual-desktop/Registration-Info/Export.yml)
+### [Remove](virtual-desktop/Registration-Info/Remove.yml)
+## Remote App
+### [Overview](virtual-desktop/Remote-App.yml)
+### [Create](virtual-desktop/Remote-App/Create.yml)
+### [Get](virtual-desktop/Remote-App/Get.yml)
+### [Get List](virtual-desktop/Remote-App/Get-List.yml)
+### [Remove](virtual-desktop/Remote-App/Remove.yml)
+### [Update](virtual-desktop/Remote-App/Update.yml)
+## Role Definition
+### [Overview](virtual-desktop/Role-Definition.yml)
+### [Get](virtual-desktop/Role-Definition/Get.yml)
+## Role Definiton
+### [Overview](virtual-desktop/Role-Definiton.yml)
+### [Get By ID](virtual-desktop/Role-Definiton/Get-By-ID.yml)
+### [Get List](virtual-desktop/Role-Definiton/Get-List.yml)
+## Session Host
+### [Overview](virtual-desktop/Session-Host.yml)
+### [Get](virtual-desktop/Session-Host/Get.yml)
+### [Get List](virtual-desktop/Session-Host/Get-List.yml)
+### [Remove](virtual-desktop/Session-Host/Remove.yml)
+## Start Menu Apps
+### [Overview](virtual-desktop/Start-Menu-Apps.yml)
+### [Get List](virtual-desktop/Start-Menu-Apps/Get-List.yml)
+## Tenant
+### [Overview](virtual-desktop/Tenant.yml)
+### [Assign AAD Group Role](virtual-desktop/Tenant/Assign-AAD-Group-Role.yml)
+### [Assign Application Role](virtual-desktop/Tenant/Assign-Application-Role.yml)
+### [Assign User Role](virtual-desktop/Tenant/Assign-User-Role.yml)
+### [Get](virtual-desktop/Tenant/Get.yml)
+### [Get Role Assignment](virtual-desktop/Tenant/Get-Role-Assignment.yml)
+### [Get Role Definition](virtual-desktop/Tenant/Get-Role-Definition.yml)
+### [Remove](virtual-desktop/Tenant/Remove.yml)
+### [Revoke AAD Group Role](virtual-desktop/Tenant/Revoke-AAD-Group-Role.yml)
+### [Revoke Application Role](virtual-desktop/Tenant/Revoke-Application-Role.yml)
+### [Revoke User Role](virtual-desktop/Tenant/Revoke-User-Role.yml)
+## Tenant Group
+### [Overview](virtual-desktop/Tenant-Group.yml)
+### [Assign AAD Group Role](virtual-desktop/Tenant-Group/Assign-AAD-Group-Role.yml)
+### [Assign Application Role](virtual-desktop/Tenant-Group/Assign-Application-Role.yml)
+### [Create](virtual-desktop/Tenant-Group/Create.yml)
+### [Get](virtual-desktop/Tenant-Group/Get.yml)
+### [Get Role Assignment](virtual-desktop/Tenant-Group/Get-Role-Assignment.yml)
+### [Get Role Definiton](virtual-desktop/Tenant-Group/Get-Role-Definiton.yml)
+### [Remove](virtual-desktop/Tenant-Group/Remove.yml)
+### [Revoke AAD Group Role](virtual-desktop/Tenant-Group/Revoke-AAD-Group-Role.yml)
+### [Revoke Application Role](virtual-desktop/Tenant-Group/Revoke-Application-Role.yml)
+### [Revoke User Role](virtual-desktop/Tenant-Group/Revoke-User-Role.yml)
+### [Update](virtual-desktop/Tenant-Group/Update.yml)
+## User
+### [Overview](virtual-desktop/User.yml)
+### [Disconnect Session](virtual-desktop/User/Disconnect-Session.yml)
+### [Logoff Session](virtual-desktop/User/Logoff-Session.yml)
+### [Send Message](virtual-desktop/User/Send-Message.yml)
 # Workloads
 ## [Overview](../docs-ref-conceptual/workloads/index.md)
 ## Provider Instances
