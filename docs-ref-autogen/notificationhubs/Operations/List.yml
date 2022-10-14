@@ -1,0 +1,413 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.notificationhubs.operations.list
+name: List
+service: Notification Hubs
+groupName: Operations
+apiVersion: 2017-04-01
+summary: Lists all of the available NotificationHubs REST API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.NotificationHubs/operations?api-version=2017-04-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: NotificationHubs error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list NotificationHubs operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of NotificationHubs operations supported by the Microsoft.NotificationHubs resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates NotificationHubs service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Operation
+  description: A NotificationHubs REST API operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: 'Service provider: Microsoft.NotificationHubs'
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: 'Resource on which the operation is performed: Invoice, etc.'
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+examples:
+- name: OperationsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.NotificationHubs/operations?api-version=2017-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.NotificationHubs/operations?api-version=2017-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NHOperationsList.json
+           */
+          /**
+           * Sample code: OperationsList.
+           *
+           * @param manager Entry point to NotificationHubsManager.
+           */
+          public static void operationsList(com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
+              manager.operations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-notificationhubs_1.0.0-beta.3/sdk/notificationhubs/azure-resourcemanager-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnotificationhubs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NHOperationsList.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnotificationhubs.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnotificationhubs%2Farmnotificationhubs%2Fv1.0.0/sdk/resourcemanager/notificationhubs/armnotificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available NotificationHubs REST API operations.
+       *
+       * @summary Lists all of the available NotificationHubs REST API operations.
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NHOperationsList.json
+       */
+      async function operationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new NotificationHubsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      operationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.NotificationHubs/register/action",
+            "display": {
+              "provider": "Microsoft Azure Notification Hub",
+              "resource": "Microsoft Azure Notification Hub",
+              "operation": "Registers the NotificationHubs Provider"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/unregister/action",
+            "display": {
+              "provider": "Microsoft Azure Notification Hub",
+              "resource": "Microsoft Azure Notification Hub",
+              "operation": "Unregisters the NotificationHubs Provider"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/operationResults/read",
+            "display": {
+              "provider": "Microsoft Azure Notification Hub",
+              "resource": "Microsoft Azure Notification Hub",
+              "operation": "Operation results for Notification Hubs provider"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/CheckNamespaceAvailability/action",
+            "display": {
+              "provider": "Microsoft Azure Notification Hub",
+              "resource": "Microsoft Azure Notification Hub",
+              "operation": "Get namespace availability."
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/write",
+            "display": {
+              "provider": "Microsoft Azure Notification Hub",
+              "resource": "Namespace",
+              "operation": "Create Or Update Namespace "
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/read",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "Namespace",
+              "operation": "Get Namespace Resource"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/Delete",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "Namespace",
+              "operation": "Delete Namespace"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/write",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Create or Update Namespace Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Get Namespace Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/read",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Get Namespace Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/delete",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Delete Namespace Authorization Rule"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/listkeys/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Get Namespace Listkeys"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/authorizationRules/regenerateKeys/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "Resource Regeneratekeys"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/Namespaces/CheckNotificationHubAvailability/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "AuthorizationRules",
+              "operation": "CheckNotificationHubAvailability"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/write",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub",
+              "operation": "Create or Update notification hub"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/read",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub",
+              "operation": "Get notification hub"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/Delete",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub",
+              "operation": "Delete notification hub"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/write",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub Authorization Rule",
+              "operation": "Create or Update NotificationHub Authorization Rule"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub AuthorizationRules",
+              "operation": " Get NotificationHub Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/read",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub AuthorizationRules",
+              "operation": " Get NotificationHub Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/delete",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub AuthorizationRules",
+              "operation": "Delete NotificationHub Authorization Rules"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/listkeys/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub AuthorizationRules",
+              "operation": "List NotificationHub keys"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules/regenerateKeys/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub AuthorizationRules",
+              "operation": "Resource Regeneratekeys"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/Namespaces/NotificationHubs/pnsCredentials/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub PnsCredential",
+              "operation": "Resource Get Notification Hub PNS Credentials"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/Namespaces/NotificationHubs/debugSend/action",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub resource",
+              "operation": "Send a test push notification"
+            }
+          },
+          {
+            "name": "Microsoft.NotificationHubs/Namespaces/NotificationHubs/metricDefinitions/read",
+            "display": {
+              "provider": "Microsoft Azure NotificationHubs",
+              "resource": "NotificationHub metrics",
+              "operation": "Get NotificationHub metrics"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Notification Hubs service - Lists all of the available NotificationHubs REST API operations.
+errorCodes: []

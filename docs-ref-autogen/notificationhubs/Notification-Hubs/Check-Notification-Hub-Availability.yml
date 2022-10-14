@@ -1,21 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.notificationhubs.namespaces.checkavailability
-name: Check Availability
+uid: management.azure.com.notificationhubs.notificationhubs.checknotificationhubavailability
+name: Check Notification Hub Availability
 service: Notification Hubs
-groupName: Namespaces
+groupName: Notification Hubs
 apiVersion: 2017-04-01
-summary: Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
+summary: Checks the availability of the given notificationHub in a namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/checkNamespaceAvailability?api-version=2017-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/checkNotificationHubAvailability?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name.
   types:
   - uid: string
 - name: api-version
@@ -26,7 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Checks if the Namespace name is a valid available name
+  description: Checks if the NotificationHub name is a valid available name
   types:
   - uid: CheckAvailabilityResult
 requestBody:
@@ -179,20 +191,22 @@ definitions:
     types:
     - uid: string
 examples:
-- name: NameSpaceCheckNameAvailability
+- name: notificationHubCheckNameAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/providers/Microsoft.NotificationHubs/checkNamespaceAvailability?api-version=2017-04-01
+    uri: POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/locp-newns/checkNotificationHubAvailability?api-version=2017-04-01
     body: >-
       {
-        "name": "sdk-Namespace-2924"
+        "name": "sdktest",
+        "location": "West Europe"
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/providers/Microsoft.NotificationHubs/checkNamespaceAvailability?api-version=2017-04-01
+      POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/locp-newns/checkNotificationHubAvailability?api-version=2017-04-01
 
       {
-        "name": "sdk-Namespace-2924"
+        "name": "sdktest",
+        "location": "West Europe"
       }
 
       ```
@@ -202,22 +216,25 @@ examples:
       import com.azure.core.util.Context;
       import com.azure.resourcemanager.notificationhubs.models.CheckAvailabilityParameters;
 
-      /** Samples for Namespaces CheckAvailability. */
+      /** Samples for NotificationHubs CheckNotificationHubAvailability. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCheckNameAvailability.json
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubCheckNameAvailability.json
            */
           /**
-           * Sample code: NameSpaceCheckNameAvailability.
+           * Sample code: notificationHubCheckNameAvailability.
            *
            * @param manager Entry point to NotificationHubsManager.
            */
-          public static void nameSpaceCheckNameAvailability(
+          public static void notificationHubCheckNameAvailability(
               com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
               manager
-                  .namespaces()
-                  .checkAvailabilityWithResponse(
-                      new CheckAvailabilityParameters().withName("sdk-Namespace-2924"), Context.NONE);
+                  .notificationHubs()
+                  .checkNotificationHubAvailabilityWithResponse(
+                      "5ktrial",
+                      "locp-newns",
+                      new CheckAvailabilityParameters().withName("sdktest").withLocation("West Europe"),
+                      Context.NONE);
           }
       }
 
@@ -236,20 +253,23 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCheckNameAvailability.json
-      func ExampleNamespacesClient_CheckAvailability() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubCheckNameAvailability.json
+      func ExampleClient_CheckNotificationHubAvailability() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armnotificationhubs.NewNamespacesClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
+      	client, err := armnotificationhubs.NewClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.CheckAvailability(ctx,
+      	res, err := client.CheckNotificationHubAvailability(ctx,
+      		"5ktrial",
+      		"locp-newns",
       		armnotificationhubs.CheckAvailabilityParameters{
-      			Name: to.Ptr("sdk-Namespace-2924"),
+      			Name:     to.Ptr("sdktest"),
+      			Location: to.Ptr("West Europe"),
       		},
       		nil)
       	if err != nil {
@@ -267,23 +287,30 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
+       * This sample demonstrates how to Checks the availability of the given notificationHub in a namespace.
        *
-       * @summary Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
-       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCheckNameAvailability.json
+       * @summary Checks the availability of the given notificationHub in a namespace.
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubCheckNameAvailability.json
        */
-      async function nameSpaceCheckNameAvailability() {
+      async function notificationHubCheckNameAvailability() {
         const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+        const resourceGroupName = "5ktrial";
+        const namespaceName = "locp-newns";
         const parameters = {
-          name: "sdk-Namespace-2924",
+          name: "sdktest",
+          location: "West Europe",
         };
         const credential = new DefaultAzureCredential();
         const client = new NotificationHubsManagementClient(credential, subscriptionId);
-        const result = await client.namespaces.checkAvailability(parameters);
+        const result = await client.notificationHubs.checkNotificationHubAvailability(
+          resourceGroupName,
+          namespaceName,
+          parameters
+        );
         console.log(result);
       }
 
-      nameSpaceCheckNameAvailability().catch(console.error);
+      notificationHubCheckNameAvailability().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
@@ -291,10 +318,10 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "isAvailiable": false,
-        "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/providers/Microsoft.NotificationHubs/CheckNamespaceAvailability",
-        "name": "mytestnamespace",
-        "type": "Microsoft.NotificationHubs/namespaces/checkNamespaceAvailability",
+        "isAvailiable": true,
+        "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourcegroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/locp-newns/CheckNotificationHubAvailability",
+        "name": "sdktest",
+        "type": "Microsoft.NotificationHubs/namespaces/notificationHubs/checkNotificationHubAvailability",
         "location": "West Europe",
         "tags": null
       }
@@ -308,5 +335,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service na
+  description: >
+    Learn more about Notification Hubs service - Checks the availability of the given notificationHub in a namespace.
 errorCodes: []

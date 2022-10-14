@@ -15472,9 +15472,10 @@
 #### [Regenerate Keys](notificationhubs/Namespaces/Regenerate-Keys.yml)
 ### Notification Hubs
 #### [Overview](notificationhubs/Notification-Hubs.yml)
-#### [Check Availability](notificationhubs/Notification-Hubs/Check-Availability.yml)
+#### [Check Notification Hub Availability](notificationhubs/Notification-Hubs/Check-Notification-Hub-Availability.yml)
 #### [Create Or Update](notificationhubs/Notification-Hubs/Create-Or-Update.yml)
 #### [Create Or Update Authorization Rule](notificationhubs/Notification-Hubs/Create-Or-Update-Authorization-Rule.yml)
+#### [Debug Send](notificationhubs/Notification-Hubs/Debug-Send.yml)
 #### [Delete](notificationhubs/Notification-Hubs/Delete.yml)
 #### [Delete Authorization Rule](notificationhubs/Notification-Hubs/Delete-Authorization-Rule.yml)
 #### [Get](notificationhubs/Notification-Hubs/Get.yml)
@@ -15483,7 +15484,11 @@
 #### [List](notificationhubs/Notification-Hubs/List.yml)
 #### [List Authorization Rules](notificationhubs/Notification-Hubs/List-Authorization-Rules.yml)
 #### [List Keys](notificationhubs/Notification-Hubs/List-Keys.yml)
+#### [Patch](notificationhubs/Notification-Hubs/Patch.yml)
 #### [Regenerate Keys](notificationhubs/Notification-Hubs/Regenerate-Keys.yml)
+### Operations
+#### [Overview](notificationhubs/Operations.yml)
+#### [List](notificationhubs/Operations/List.yml)
 # Orbital
 ## [Overview](../docs-ref-conceptual/orbital/index.md)
 ## Earth Observation
