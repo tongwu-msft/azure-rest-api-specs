@@ -4,7 +4,7 @@ description: Operation groups for the Policy REST API
 author: timwarner-msft
 ms.author: timwarner
 ms.manager: rayoflores
-ms.date: 10/12/2022
+ms.date: 10/14/2022
 ms.topic: reference
 ms.service: azure-policy
 ms.devlang: rest-api
@@ -19,7 +19,7 @@ Policy REST API surfaces operations related to [Azure Policy](/azure/governance/
 |-----------------|-------------|
 | [Operations](xref:management.azure.com.policy.operations) | Review all of the available REST API options for Policy. |
 | [Policy Assignments](xref:management.azure.com.policy.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
-| [Policy Attestations](/rest/api/policy/policy-attestations) | Provides operations to self-attest to manual policies. |
+| [Policy Attestations](/rest/api/policy/attestations) | Provides operations to self-attest to manual policies. |
 | [Policy Definitions](xref:management.azure.com.policy.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
 | [Policy Events](xref:management.azure.com.policy.policyevents) | Query policy evaluation events generated as resources are created or updated. |
 | [Policy Exemptions](xref:management.azure.com.policy.policyexemptions)         | Provides operations to create policy exemptions to exempt a scope from a policy assignment. |
