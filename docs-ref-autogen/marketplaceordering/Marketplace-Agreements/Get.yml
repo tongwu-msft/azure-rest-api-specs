@@ -3,14 +3,14 @@ uid: management.azure.com.marketplaceordering.marketplaceagreements.get
 name: Get
 service: Marketplace Ordering
 groupName: Marketplace Agreements
-apiVersion: 2015-06-01
+apiVersion: 2021-01-01
 summary: Get marketplace terms.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current?api-version=2015-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,10 +54,6 @@ responses:
   types:
   - uid: AgreementTerms
 - name: Other Status Codes
-  description: Unsupported Media Type
-  types:
-  - uid: UnsupportedMediaTypeErrorResponse
-- name: Other Status Codes
   description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
   types:
   - uid: ErrorResponse
@@ -74,6 +70,11 @@ definitions:
   description: Terms properties for provided Publisher/Offer/Plan tuple
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.publisher
     description: Publisher identifier string of image being deployed.
     types:
@@ -92,6 +93,10 @@ definitions:
     - uid: string
   - name: properties.privacyPolicyLink
     description: Link to the privacy policy of the publisher.
+    types:
+    - uid: string
+  - name: properties.marketplaceTermsLink
+    description: Link to HTML with Azure Marketplace terms.
     types:
     - uid: string
   - name: properties.retrieveDatetime
@@ -121,14 +126,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: UnsupportedMediaTypeErrorResponse
-  description: Error response that indicates the media type in the request is unsupported.
-  kind: object
-  properties:
-  - name: Message
-    description: The details of the error.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -137,6 +134,34 @@ definitions:
     description: The details of the error.
     types:
     - uid: Error
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: Error
   description: The details of the error.
   kind: object
@@ -151,16 +176,122 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: GetMarketplaceTerms
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/pubid/offers/offid/plans/planid/agreements/current?api-version=2015-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/pubid/offers/offid/plans/planid/agreements/current?api-version=2021-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/pubid/offers/offid/plans/planid/agreements/current?api-version=2015-06-01
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/pubid/offers/offid/plans/planid/agreements/current?api-version=2021-01-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.marketplaceordering.models.OfferType;
+
+      /** Samples for MarketplaceAgreements Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json
+           */
+          /**
+           * Sample code: GetMarketplaceTerms.
+           *
+           * @param manager Entry point to MarketplaceOrderingManager.
+           */
+          public static void getMarketplaceTerms(
+              com.azure.resourcemanager.marketplaceordering.MarketplaceOrderingManager manager) {
+              manager
+                  .marketplaceAgreements()
+                  .getWithResponse(OfferType.VIRTUALMACHINE, "pubid", "offid", "planid", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-marketplaceordering_1.0.0-beta.2/sdk/marketplaceordering/azure-resourcemanager-marketplaceordering/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmarketplaceordering_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/marketplaceordering/armmarketplaceordering"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json
+      func ExampleMarketplaceAgreementsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmarketplaceordering.NewMarketplaceAgreementsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		armmarketplaceordering.OfferTypeVirtualmachine,
+      		"pubid",
+      		"offid",
+      		"planid",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmarketplaceordering%2Farmmarketplaceordering%2Fv1.0.0/sdk/resourcemanager/marketplaceordering/armmarketplaceordering/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MarketplaceOrderingAgreements } = require("@azure/arm-marketplaceordering");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get marketplace terms.
+       *
+       * @summary Get marketplace terms.
+       * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json
+       */
+      async function getMarketplaceTerms() {
+        const subscriptionId = "subid";
+        const offerType = "virtualmachine";
+        const publisherId = "pubid";
+        const offerId = "offid";
+        const planId = "planid";
+        const credential = new DefaultAzureCredential();
+        const client = new MarketplaceOrderingAgreements(credential, subscriptionId);
+        const result = await client.marketplaceAgreements.get(offerType, publisherId, offerId, planId);
+        console.log(result);
+      }
+
+      getMarketplaceTerms().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-marketplaceordering_3.1.0/sdk/marketplaceordering/arm-marketplaceordering/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -174,15 +305,11 @@ examples:
           "plan": "planid",
           "licenseTextLink": "test.licenseLink",
           "privacyPolicyLink": "test.privacyPolicyLink",
+          "marketplaceTermsLink": "test.marketplaceTermsLink",
           "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
           "signature": "ASDFSDAFWEFASDGWERLWER",
           "accepted": true
         }
-      }
-  - statusCode: "415"
-    body: >-
-      {
-        "Message": "media type unsupported"
       }
 security:
 - name: azure_auth

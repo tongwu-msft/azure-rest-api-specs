@@ -1,0 +1,1795 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hybridcontainer.provisionedclusters.createorupdate
+name: Create Or Update
+service: Hybrid Container Service
+groupName: Provisioned Clusters
+apiVersion: 2022-05-01-preview
+summary: "Creates the provisioned cluster  \nCreates the Hybrid AKS provisioned cluster"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{provisionedClustersName}?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: provisionedClustersName
+  in: path
+  isRequired: true
+  description: Parameter for the name of the provisioned cluster
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Updates the provisionedClusters resource.
+  types:
+  - uid: provisionedClustersResponse
+- name: 201 Created
+  description: Creates the provisionedClusters resource.
+  types:
+  - uid: provisionedClustersResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: identity
+    in: body
+    description: Identity for the Provisioned cluster.
+    types:
+    - uid: provisionedClusterIdentity
+  - name: extendedLocation
+    in: body
+    description: ''
+    types:
+    - uid: ExtendedLocation
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: properties.aadProfile
+    in: body
+    description: AAD profile for the provisioned cluster.
+    types:
+    - uid: AADProfile
+  - name: properties.windowsProfile
+    in: body
+    description: WindowsProfile - Profile for Windows VMs in the Provisioned Cluster.
+    types:
+    - uid: WindowsProfile
+  - name: properties.httpProxyConfig
+    in: body
+    description: HttpProxyConfig - Configurations for provisioning the cluster with HTTP proxy servers.
+    types:
+    - uid: httpProxyConfig
+  - name: properties.enableRbac
+    in: body
+    description: EnableRBAC - Whether to enable Kubernetes Role-Based Access Control.
+    types:
+    - uid: boolean
+  - name: properties.linuxProfile
+    in: body
+    description: LinuxProfile - The profile for Linux VMs in the Provisioned Cluster.
+    types:
+    - uid: LinuxProfileProperties
+  - name: properties.features
+    in: body
+    description: Additional features specs like Arc Agent Onboarding.
+    types:
+    - uid: Features
+  - name: properties.addonProfiles
+    in: body
+    description: AddonProfiles - Profile of managed cluster add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AddonProfiles
+  - name: properties.controlPlane
+    in: body
+    description: ControlPlane - ControlPlane Configuration
+    types:
+    - uid: ControlPlaneProfile
+  - name: properties.kubernetesVersion
+    in: body
+    description: KubernetesVersion - Version of Kubernetes specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: properties.networkProfile
+    in: body
+    description: NetworkProfile - Profile of network configuration.
+    types:
+    - uid: NetworkProfile
+  - name: properties.nodeResourceGroup
+    in: body
+    description: NodeResourceGroup - Name of the resource group containing agent pool nodes.
+    types:
+    - uid: string
+  - name: properties.agentPoolProfiles
+    in: body
+    description: The agent pools of the cluster.
+    types:
+    - uid: NamedAgentPoolProfile
+      isArray: true
+  - name: properties.cloudProviderProfile
+    in: body
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+requestHeader: []
+definitions:
+- name: provisionedClusterIdentity
+  description: Identity for the Provisioned cluster.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of provisioned cluster identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the provisioned cluster. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the provisioned cluster. The type SystemAssigned, includes a system created identity. The type None means no identity is assigned to the provisioned cluster.
+    types:
+    - uid: ResourceIdentityType
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ExtendedLocation
+  kind: object
+  properties:
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: name
+    description: The extended location name.
+    types:
+    - uid: string
+- name: AADProfile
+  description: AAD Profile specifies attributes for Azure Active Directory integration.
+  kind: object
+  properties:
+  - name: serverAppSecret
+    description: The server AAD application secret.
+    types:
+    - uid: string
+  - name: adminGroupObjectIDs
+    description: The list of AAD group object IDs that will have admin role of the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: clientAppID
+    description: The client AAD application ID.
+    types:
+    - uid: string
+  - name: enableAzureRbac
+    description: Whether to enable Azure RBAC for Kubernetes authorization.
+    types:
+    - uid: boolean
+  - name: managed
+    description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: serverAppID
+    description: The server AAD application ID.
+    types:
+    - uid: string
+  - name: tenantID
+    description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
+    types:
+    - uid: string
+- name: WindowsProfile
+  description: WindowsProfile - Profile for Windows VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: AdminUsername - Specifies the name of the administrator account. <br><br> **restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
+    types:
+    - uid: string
+  - name: enableCsiProxy
+    description: EnableCSIProxy - Whether to enable CSI proxy.
+    types:
+    - uid: boolean
+  - name: licenseType
+    description: "LicenseType - The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'"
+    types:
+    - uid: licenseType
+  - name: adminPassword
+    description: AdminPassword - Specifies the password of the administrator account. <br><br> **Minimum-length:** 8 characters <br><br> **Max-length:** 123 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!"
+    types:
+    - uid: string
+- name: httpProxyConfig
+  description: Configurations for provisioning the cluster with HTTP proxy servers.
+  kind: object
+  properties:
+  - name: httpProxy
+    description: The HTTP proxy server endpoint to use.
+    types:
+    - uid: string
+  - name: httpsProxy
+    description: The HTTPS proxy server endpoint to use.
+    types:
+    - uid: string
+  - name: noProxy
+    description: The endpoints that should not go through proxy.
+    types:
+    - uid: string
+      isArray: true
+  - name: trustedCa
+    description: Alternative CA cert to use for connecting to proxy servers.
+    types:
+    - uid: string
+  - name: username
+    description: Username to use for connecting to proxy server
+    types:
+    - uid: string
+  - name: password
+    description: Password to use for connecting to proxy server
+    types:
+    - uid: string
+- name: LinuxProfileProperties
+  description: LinuxProfile - Profile for Linux VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: AdminUsername - The administrator username to use for Linux VMs.
+    types:
+    - uid: string
+  - name: ssh
+    description: SSH - SSH configuration for Linux-based VMs running on Azure.
+    types:
+    - uid: Ssh
+- name: Features
+  description: Additional features specs like Arc Agent Onboarding.
+  kind: object
+  properties:
+  - name: arcAgentProfile
+    description: Arc agentry configuration for the provisioned cluster.
+    types:
+    - uid: ArcAgentProfile
+- name: AddonProfiles
+  description: Addon configurations
+  kind: object
+  properties:
+  - name: config
+    description: Config - Key-value pairs for configuring an add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: enabled
+    description: Enabled - Whether the add-on is enabled or not.
+    types:
+    - uid: boolean
+- name: ControlPlaneProfile
+  description: ControlPlaneProfile - The control plane properties for the provisioned cluster.
+  kind: object
+  properties:
+  - name: count
+    description: Count - Number of agents to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: availabilityZones
+    description: AvailabilityZones - The list of Availability zones to use for nodes. Datacenter racks modelled as zones
+    types:
+    - uid: string
+      isArray: true
+  - name: maxCount
+    description: The maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: maxPods
+    description: The maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: minCount
+    description: The minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: mode
+    description: "Mode - AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'LB', 'User'. Default is 'User'"
+    types:
+    - uid: mode
+    defaultValue: User
+  - name: nodeLabels
+    description: NodeLabels - Agent pool node labels to be persisted across all nodes in agent pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: nodeTaints
+    description: NodeTaints - Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    types:
+    - uid: string
+      isArray: true
+  - name: osType
+    description: "OsType - OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'"
+    types:
+    - uid: osType
+    defaultValue: Linux
+  - name: nodeImageVersion
+    description: The version of node image
+    types:
+    - uid: string
+  - name: vmSize
+    description: VmSize - The size of the agent pool VMs.
+    types:
+    - uid: string
+  - name: cloudProviderProfile
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+  - name: name
+    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    types:
+    - uid: string
+  - name: controlPlaneEndpoint
+    description: API server endpoint for the control plane
+    types:
+    - uid: ControlPlaneEndpoint
+  - name: linuxProfile
+    description: Profile for Linux VMs in the container service cluster.
+    types:
+    - uid: LinuxProfileProperties
+- name: NetworkProfile
+  description: NetworkProfile - Profile of network configuration.
+  kind: object
+  properties:
+  - name: loadBalancerProfile
+    description: LoadBalancerProfile - Profile of the cluster load balancer.
+    types:
+    - uid: LoadBalancerProfile
+  - name: loadBalancerSku
+    description: "LoadBalancerSku - The load balancer sku for the provisioned cluster. Possible values: 'unstacked-haproxy', 'stacked-kube-vip', 'stacked-metallb', 'unmanaged'. The default is 'unmanaged'."
+    types:
+    - uid: loadBalancerSku
+    defaultValue: unmanaged
+  - name: dnsServiceIP
+    description: DNSServiceIP - An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
+    types:
+    - uid: string
+  - name: networkPolicy
+    description: "NetworkPolicy - Network policy used for building Kubernetes network. Possible values include: 'calico', 'flannel'. Default is 'calico'"
+    types:
+    - uid: networkPolicy
+    defaultValue: calico
+  - name: podCidr
+    description: PodCidr - A CIDR notation IP range from which to assign pod IPs when kubenet is used.
+    types:
+    - uid: string
+  - name: podCidrs
+    description: The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+    types:
+    - uid: string
+      isArray: true
+  - name: serviceCidr
+    description: ServiceCidr - A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
+    types:
+    - uid: string
+  - name: serviceCidrs
+    description: The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+    types:
+    - uid: string
+      isArray: true
+- name: NamedAgentPoolProfile
+  description: Agent pool profile along with a name parameter
+  kind: object
+  properties:
+  - name: count
+    description: Count - Number of agents to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: availabilityZones
+    description: AvailabilityZones - The list of Availability zones to use for nodes. Datacenter racks modelled as zones
+    types:
+    - uid: string
+      isArray: true
+  - name: maxCount
+    description: The maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: maxPods
+    description: The maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: minCount
+    description: The minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: mode
+    description: "Mode - AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'LB', 'User'. Default is 'User'"
+    types:
+    - uid: mode
+    defaultValue: User
+  - name: nodeLabels
+    description: NodeLabels - Agent pool node labels to be persisted across all nodes in agent pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: nodeTaints
+    description: NodeTaints - Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    types:
+    - uid: string
+      isArray: true
+  - name: osType
+    description: "OsType - OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'"
+    types:
+    - uid: osType
+    defaultValue: Linux
+  - name: nodeImageVersion
+    description: The version of node image
+    types:
+    - uid: string
+  - name: vmSize
+    description: VmSize - The size of the agent pool VMs.
+    types:
+    - uid: string
+  - name: cloudProviderProfile
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+  - name: name
+    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    types:
+    - uid: string
+- name: CloudProviderProfile
+  description: CloudProviderProfile - The underlying cloud infra provider properties.
+  kind: object
+  properties:
+  - name: infraNetworkProfile
+    description: InfraNetworkProfile - List of infra network profiles for the provisioned cluster
+    types:
+    - uid: InfraNetworkProfile
+  - name: infraStorageProfile
+    description: InfraStorageProfile - List of infra storage profiles for the provisioned cluster
+    types:
+    - uid: InfraStorageProfile
+- name: Status
+  description: HybridAKSClusterStatus defines the observed state of HybridAKSCluster
+  kind: object
+  properties:
+  - name: featuresStatus
+    description: Additional features status like Arc Agent Onboarding.
+    types:
+    - uid: FeaturesStatus
+  - name: addonStatus
+    description: AddonStatus - Status of Addons
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AddonStatus
+  - name: errorMessage
+    description: ErrorMessage - Error messages during creation of cluster
+    types:
+    - uid: string
+  - name: provisioningStatus
+    description: Contains Provisioning errors
+    types:
+    - uid: ProvisioningStatus
+- name: provisionedClustersResponse
+  description: The provisionedClusters resource definition.
+  kind: object
+  properties:
+  - name: identity
+    description: Identity for the Provisioned cluster.
+    types:
+    - uid: provisionedClusterIdentity
+  - name: properties
+    description: ''
+    types:
+    - uid: provisionedClustersResponseProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: extendedLocation
+    description: ''
+    types:
+    - uid: ExtendedLocation
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: provisionedClusters
+  description: The provisionedClusters resource definition.
+  kind: object
+  properties:
+  - name: identity
+    description: Identity for the Provisioned cluster.
+    types:
+    - uid: provisionedClusterIdentity
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: extendedLocation
+    description: ''
+    types:
+    - uid: ExtendedLocation
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: properties.aadProfile
+    description: AAD profile for the provisioned cluster.
+    types:
+    - uid: AADProfile
+  - name: properties.windowsProfile
+    description: WindowsProfile - Profile for Windows VMs in the Provisioned Cluster.
+    types:
+    - uid: WindowsProfile
+  - name: properties.httpProxyConfig
+    description: HttpProxyConfig - Configurations for provisioning the cluster with HTTP proxy servers.
+    types:
+    - uid: httpProxyConfig
+  - name: properties.enableRbac
+    description: EnableRBAC - Whether to enable Kubernetes Role-Based Access Control.
+    types:
+    - uid: boolean
+  - name: properties.linuxProfile
+    description: LinuxProfile - The profile for Linux VMs in the Provisioned Cluster.
+    types:
+    - uid: LinuxProfileProperties
+  - name: properties.features
+    description: Additional features specs like Arc Agent Onboarding.
+    types:
+    - uid: Features
+  - name: properties.addonProfiles
+    description: AddonProfiles - Profile of managed cluster add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AddonProfiles
+  - name: properties.controlPlane
+    description: ControlPlane - ControlPlane Configuration
+    types:
+    - uid: ControlPlaneProfile
+  - name: properties.kubernetesVersion
+    description: KubernetesVersion - Version of Kubernetes specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: properties.networkProfile
+    description: NetworkProfile - Profile of network configuration.
+    types:
+    - uid: NetworkProfile
+  - name: properties.nodeResourceGroup
+    description: NodeResourceGroup - Name of the resource group containing agent pool nodes.
+    types:
+    - uid: string
+  - name: properties.agentPoolProfiles
+    description: The agent pools of the cluster.
+    types:
+    - uid: NamedAgentPoolProfile
+      isArray: true
+  - name: properties.cloudProviderProfile
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: provisioningState
+  - name: properties.status
+    isReadyOnly: true
+    description: HybridAKSClusterStatus defines the observed state of HybridAKSCluster
+    types:
+    - uid: Status
+- name: ResourceIdentityType
+  description: The type of identity used for the provisioned cluster. The type SystemAssigned, includes a system created identity. The type None means no identity is assigned to the provisioned cluster.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: licenseType
+  description: "LicenseType - The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'"
+  kind: enum
+  properties:
+  - name: Windows_Server
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: Ssh
+  description: SSH - SSH configuration for Linux-based VMs running on Azure.
+  kind: object
+  properties:
+  - name: publicKeys
+    description: PublicKeys - The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
+    types:
+    - uid: PublicKeys
+      isArray: true
+- name: ArcAgentProfile
+  description: Defines the Arc Agent properties for the Provisioned clusters.
+  kind: object
+  properties:
+  - name: agentVersion
+    description: Version of the Arc agents to be installed on the provisioned Provisioned cluster resource
+    types:
+    - uid: string
+  - name: agentAutoUpgrade
+    description: Indicates whether the Arc agents on the provisioned clusters be upgraded automatically to the latest version. Defaults to Enabled.
+    types:
+    - uid: AutoUpgradeOptions
+    defaultValue: Enabled
+- name: mode
+  description: "Mode - AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'LB', 'User'. Default is 'User'"
+  kind: enum
+  properties:
+  - name: System
+    types:
+    - uid: string
+  - name: LB
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+- name: osType
+  description: "OsType - OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'"
+  kind: enum
+  properties:
+  - name: Linux
+    types:
+    - uid: string
+  - name: Windows
+    types:
+    - uid: string
+- name: ControlPlaneEndpoint
+  description: API server endpoint for the control plane
+  kind: object
+  properties:
+  - name: hostIP
+    description: Host IP address for API server
+    types:
+    - uid: string
+  - name: port
+    description: Port for the API server
+    types:
+    - uid: string
+- name: LoadBalancerProfile
+  description: LoadBalancerProfile - Profile of the cluster load balancer.
+  kind: object
+  properties:
+  - name: count
+    description: Count - Number of agents to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: availabilityZones
+    description: AvailabilityZones - The list of Availability zones to use for nodes. Datacenter racks modelled as zones
+    types:
+    - uid: string
+      isArray: true
+  - name: maxCount
+    description: The maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: maxPods
+    description: The maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: minCount
+    description: The minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: mode
+    description: "Mode - AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'LB', 'User'. Default is 'User'"
+    types:
+    - uid: mode
+    defaultValue: User
+  - name: nodeLabels
+    description: NodeLabels - Agent pool node labels to be persisted across all nodes in agent pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: nodeTaints
+    description: NodeTaints - Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    types:
+    - uid: string
+      isArray: true
+  - name: osType
+    description: "OsType - OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'"
+    types:
+    - uid: osType
+    defaultValue: Linux
+  - name: nodeImageVersion
+    description: The version of node image
+    types:
+    - uid: string
+  - name: vmSize
+    description: VmSize - The size of the agent pool VMs.
+    types:
+    - uid: string
+  - name: cloudProviderProfile
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+  - name: name
+    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    types:
+    - uid: string
+  - name: linuxProfile
+    description: Profile for Linux VMs in the container service cluster.
+    types:
+    - uid: LinuxProfileProperties
+- name: loadBalancerSku
+  description: "LoadBalancerSku - The load balancer sku for the provisioned cluster. Possible values: 'unstacked-haproxy', 'stacked-kube-vip', 'stacked-metallb', 'unmanaged'. The default is 'unmanaged'."
+  kind: enum
+  properties:
+  - name: unstacked-haproxy
+    types:
+    - uid: string
+  - name: stacked-kube-vip
+    types:
+    - uid: string
+  - name: stacked-metallb
+    types:
+    - uid: string
+  - name: unmanaged
+    types:
+    - uid: string
+- name: networkPolicy
+  description: "NetworkPolicy - Network policy used for building Kubernetes network. Possible values include: 'calico', 'flannel'. Default is 'calico'"
+  kind: enum
+  properties:
+  - name: calico
+    types:
+    - uid: string
+  - name: flannel
+    types:
+    - uid: string
+- name: InfraNetworkProfile
+  description: InfraNetworkProfile - List of infra network profiles for the provisioned cluster
+  kind: object
+  properties:
+  - name: vnetSubnetIds
+    description: Array of references to azure resource corresponding to the new HybridAKSNetwork object e.g. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}
+    types:
+    - uid: string
+      isArray: true
+- name: InfraStorageProfile
+  description: InfraStorageProfile - List of infra storage profiles for the provisioned cluster
+  kind: object
+  properties:
+  - name: storageSpaceIds
+    description: Reference to azure resource corresponding to the new HybridAKSStorage object e.g. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces/{storageSpaceName}
+    types:
+    - uid: string
+      isArray: true
+- name: FeaturesStatus
+  description: Additional features status like Arc Agent Onboarding.
+  kind: object
+  properties:
+  - name: arcAgentStatus
+    description: Defines the observed Arc Agent status that is resourceSynced back to the ARM resource.
+    types:
+    - uid: ArcAgentStatus
+- name: AddonStatus
+  description: Status of the addon
+  kind: object
+  properties:
+  - name: errorMessage
+    description: ErrorMessage will be set in the event that there is a terminal problem reconciling the AddOn and will contain a more verbose string suitable for logging and human consumption.
+    types:
+    - uid: string
+  - name: phase
+    description: Phase represents the current phase of cluster actuation. E.g. Pending, Running, Terminating, Failed etc.
+    types:
+    - uid: string
+  - name: ready
+    description: ''
+    types:
+    - uid: boolean
+- name: ProvisioningStatus
+  description: Contains Provisioning errors
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+  - name: operationId
+    description: ''
+    types:
+    - uid: string
+  - name: phase
+    description: Phase represents the current phase of cluster actuation. E.g. Pending, Running, Terminating, Failed etc.
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: string
+- name: provisionedClustersResponseProperties
+  kind: object
+  properties:
+  - name: aadProfile
+    description: AAD profile for the provisioned cluster.
+    types:
+    - uid: AADProfileResponse
+  - name: windowsProfile
+    description: WindowsProfile - Profile for Windows VMs in the Provisioned Cluster.
+    types:
+    - uid: WindowsProfileResponse
+  - name: httpProxyConfig
+    description: HttpProxyConfig - Configurations for provisioning the cluster with HTTP proxy servers.
+    types:
+    - uid: httpProxyConfigResponse
+  - name: enableRbac
+    description: EnableRBAC - Whether to enable Kubernetes Role-Based Access Control.
+    types:
+    - uid: boolean
+  - name: linuxProfile
+    description: LinuxProfile - The profile for Linux VMs in the Provisioned Cluster.
+    types:
+    - uid: LinuxProfileProperties
+  - name: features
+    description: Additional features specs like Arc Agent Onboarding.
+    types:
+    - uid: Features
+  - name: addonProfiles
+    description: AddonProfiles - Profile of managed cluster add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AddonProfiles
+  - name: controlPlane
+    description: ControlPlane - ControlPlane Configuration
+    types:
+    - uid: ControlPlaneProfile
+  - name: kubernetesVersion
+    description: KubernetesVersion - Version of Kubernetes specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: networkProfile
+    description: NetworkProfile - Profile of network configuration.
+    types:
+    - uid: NetworkProfile
+  - name: nodeResourceGroup
+    description: NodeResourceGroup - Name of the resource group containing agent pool nodes.
+    types:
+    - uid: string
+  - name: agentPoolProfiles
+    description: The agent pools of the cluster.
+    types:
+    - uid: NamedAgentPoolProfile
+      isArray: true
+  - name: cloudProviderProfile
+    description: The underlying cloud infra provider properties.
+    types:
+    - uid: CloudProviderProfile
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: provisioningState
+  - name: status
+    isReadyOnly: true
+    description: HybridAKSClusterStatus defines the observed state of HybridAKSCluster
+    types:
+    - uid: Status
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: provisioningState
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+- name: PublicKeys
+  description: PublicKeys - The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
+  kind: object
+  properties:
+  - name: keyData
+    description: KeyData - Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
+    types:
+    - uid: string
+- name: AutoUpgradeOptions
+  description: Indicates whether the Arc agents on the provisioned clusters be upgraded automatically to the latest version. Defaults to Enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ArcAgentStatus
+  description: Defines the observed Arc Agent status that is resourceSynced back to the ARM resource.
+  kind: object
+  properties:
+  - name: deploymentState
+    description: "Observed deployment state of the Arc Agents on the target cluster. Possible values include: 'pending', 'provisioning', 'provisioned', 'deleting', 'failed', 'upgrading'"
+    types:
+    - uid: deploymentState
+  - name: errorMessage
+    description: Error messages while onboarding/upgrading/uninstalling the Arc agents
+    types:
+    - uid: string
+  - name: onboardingPublicKey
+    description: Onboarding public key for provisioning the Managed identity for the HybridAKS cluster. Will be used to create the hybridIdentityMetadata proxy resource and will not be persisted.
+    types:
+    - uid: string
+  - name: agentVersion
+    description: Version of the Arc agents currently running on the Provisioned cluster resource.
+    types:
+    - uid: string
+  - name: coreCount
+    description: Number of CPU cores present in the Provisioned cluster resource
+    types:
+    - uid: integer
+  - name: managedIdentityCertificateExpirationTime
+    description: ManagedIdentity certificate expiration time (ValidUntil).
+    types:
+    - uid: string
+  - name: lastConnectivityTime
+    description: Last connected timestamp of the Provisioned cluster resource.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: AADProfileResponse
+  description: AAD Profile specifies attributes for Azure Active Directory integration.
+  kind: object
+  properties:
+  - name: adminGroupObjectIDs
+    description: The list of AAD group object IDs that will have admin role of the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: clientAppID
+    description: The client AAD application ID.
+    types:
+    - uid: string
+  - name: enableAzureRbac
+    description: Whether to enable Azure RBAC for Kubernetes authorization.
+    types:
+    - uid: boolean
+  - name: managed
+    description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: serverAppID
+    description: The server AAD application ID.
+    types:
+    - uid: string
+  - name: tenantID
+    description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
+    types:
+    - uid: string
+- name: WindowsProfileResponse
+  description: Profile for Windows VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: AdminUsername - Specifies the name of the administrator account. <br><br> **restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
+    types:
+    - uid: string
+  - name: enableCsiProxy
+    description: EnableCSIProxy - Whether to enable CSI proxy.
+    types:
+    - uid: boolean
+  - name: licenseType
+    description: "LicenseType - The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'"
+    types:
+    - uid: licenseType
+- name: httpProxyConfigResponse
+  description: Configurations for provisioning the cluster with HTTP proxy servers.
+  kind: object
+  properties:
+  - name: httpProxy
+    description: The HTTP proxy server endpoint to use.
+    types:
+    - uid: string
+  - name: httpsProxy
+    description: The HTTPS proxy server endpoint to use.
+    types:
+    - uid: string
+  - name: noProxy
+    description: The endpoints that should not go through proxy.
+    types:
+    - uid: string
+      isArray: true
+  - name: trustedCa
+    description: Alternative CA cert to use for connecting to proxy servers.
+    types:
+    - uid: string
+  - name: username
+    description: Username to use for connecting to proxy server
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: deploymentState
+  description: "Observed deployment state of the Arc Agents on the target cluster. Possible values include: 'pending', 'provisioning', 'provisioned', 'deleting', 'failed', 'upgrading'"
+  kind: enum
+  properties:
+  - name: pending
+    types:
+    - uid: string
+  - name: provisioning
+    types:
+    - uid: string
+  - name: provisioned
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: upgrading
+    types:
+    - uid: string
+examples:
+- name: PutProvisionedCluster
+  request:
+    uri: PUT https://management.azure.com/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/provisionedClusters/test-hybridakscluster?api-version=2022-05-01-preview
+    body: >-
+      {
+        "location": "westus",
+        "extendedLocation": {
+          "type": "CustomLocation",
+          "name": "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
+        },
+        "properties": {
+          "controlPlane": {
+            "count": 1,
+            "vmSize": "Standard_A4_v2",
+            "osType": "Linux",
+            "linuxProfile": {
+              "ssh": {
+                "publicKeys": [
+                  {
+                    "keyData": "ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"
+                  }
+                ]
+              }
+            }
+          },
+          "kubernetesVersion": "v1.20.5",
+          "networkProfile": {
+            "loadBalancerSku": "unstacked-haproxy",
+            "loadBalancerProfile": {
+              "count": 1,
+              "vmSize": "Standard_K8S3_v1",
+              "osType": "Linux",
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"
+                    }
+                  ]
+                }
+              }
+            },
+            "networkPolicy": "calico",
+            "podCidr": "10.244.0.0/16"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "default-nodepool-1",
+              "count": 1,
+              "vmSize": "Standard_A4_v2",
+              "osType": "Linux"
+            }
+          ],
+          "linuxProfile": {
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY......."
+                }
+              ]
+            }
+          },
+          "cloudProviderProfile": {
+            "infraNetworkProfile": {
+              "vnetSubnetIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static"
+              ]
+            },
+            "infraStorageProfile": {
+              "storageSpaceIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage"
+              ]
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/provisionedClusters/test-hybridakscluster?api-version=2022-05-01-preview
+
+      {
+        "location": "westus",
+        "extendedLocation": {
+          "type": "CustomLocation",
+          "name": "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
+        },
+        "properties": {
+          "controlPlane": {
+            "count": 1,
+            "vmSize": "Standard_A4_v2",
+            "osType": "Linux",
+            "linuxProfile": {
+              "ssh": {
+                "publicKeys": [
+                  {
+                    "keyData": "ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"
+                  }
+                ]
+              }
+            }
+          },
+          "kubernetesVersion": "v1.20.5",
+          "networkProfile": {
+            "loadBalancerSku": "unstacked-haproxy",
+            "loadBalancerProfile": {
+              "count": 1,
+              "vmSize": "Standard_K8S3_v1",
+              "osType": "Linux",
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"
+                    }
+                  ]
+                }
+              }
+            },
+            "networkPolicy": "calico",
+            "podCidr": "10.244.0.0/16"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "default-nodepool-1",
+              "count": 1,
+              "vmSize": "Standard_A4_v2",
+              "osType": "Linux"
+            }
+          ],
+          "linuxProfile": {
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY......."
+                }
+              ]
+            }
+          },
+          "cloudProviderProfile": {
+            "infraNetworkProfile": {
+              "vnetSubnetIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static"
+              ]
+            },
+            "infraStorageProfile": {
+              "storageSpaceIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage"
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.hybridcontainerservice.models.CloudProviderProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.CloudProviderProfileInfraNetworkProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.CloudProviderProfileInfraStorageProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.ControlPlaneProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.LinuxProfileProperties;
+      import com.azure.resourcemanager.hybridcontainerservice.models.LinuxProfilePropertiesSsh;
+      import com.azure.resourcemanager.hybridcontainerservice.models.LinuxProfilePropertiesSshPublicKeysItem;
+      import com.azure.resourcemanager.hybridcontainerservice.models.LoadBalancerProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.LoadBalancerSku;
+      import com.azure.resourcemanager.hybridcontainerservice.models.NamedAgentPoolProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.NetworkPolicy;
+      import com.azure.resourcemanager.hybridcontainerservice.models.NetworkProfile;
+      import com.azure.resourcemanager.hybridcontainerservice.models.OsType;
+      import com.azure.resourcemanager.hybridcontainerservice.models.ProvisionedClustersAllProperties;
+      import com.azure.resourcemanager.hybridcontainerservice.models.ProvisionedClustersExtendedLocation;
+      import java.util.Arrays;
+
+      /** Samples for ProvisionedClustersOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/PutProvisionedCluster.json
+           */
+          /**
+           * Sample code: PutProvisionedCluster.
+           *
+           * @param manager Entry point to HybridContainerServiceManager.
+           */
+          public static void putProvisionedCluster(
+              com.azure.resourcemanager.hybridcontainerservice.HybridContainerServiceManager manager) {
+              manager
+                  .provisionedClustersOperations()
+                  .define("test-hybridakscluster")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("test-arcappliance-resgrp")
+                  .withProperties(
+                      new ProvisionedClustersAllProperties()
+                          .withLinuxProfile(
+                              new LinuxProfileProperties()
+                                  .withSsh(
+                                      new LinuxProfilePropertiesSsh()
+                                          .withPublicKeys(
+                                              Arrays
+                                                  .asList(
+                                                      new LinuxProfilePropertiesSshPublicKeysItem()
+                                                          .withKeyData("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY.......")))))
+                          .withControlPlane(
+                              new ControlPlaneProfile()
+                                  .withCount(1)
+                                  .withOsType(OsType.LINUX)
+                                  .withVmSize("Standard_A4_v2")
+                                  .withLinuxProfile(
+                                      new LinuxProfileProperties()
+                                          .withSsh(
+                                              new LinuxProfilePropertiesSsh()
+                                                  .withPublicKeys(
+                                                      Arrays
+                                                          .asList(
+                                                              new LinuxProfilePropertiesSshPublicKeysItem()
+                                                                  .withKeyData(
+                                                                      "ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"))))))
+                          .withKubernetesVersion("v1.20.5")
+                          .withNetworkProfile(
+                              new NetworkProfile()
+                                  .withLoadBalancerProfile(
+                                      new LoadBalancerProfile()
+                                          .withCount(1)
+                                          .withOsType(OsType.LINUX)
+                                          .withVmSize("Standard_K8S3_v1")
+                                          .withLinuxProfile(
+                                              new LinuxProfileProperties()
+                                                  .withSsh(
+                                                      new LinuxProfilePropertiesSsh()
+                                                          .withPublicKeys(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new LinuxProfilePropertiesSshPublicKeysItem()
+                                                                          .withKeyData(
+                                                                              "ssh-rsa"
+                                                                                  + " AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"))))))
+                                  .withLoadBalancerSku(LoadBalancerSku.UNSTACKED_HAPROXY)
+                                  .withNetworkPolicy(NetworkPolicy.CALICO)
+                                  .withPodCidr("10.244.0.0/16"))
+                          .withAgentPoolProfiles(
+                              Arrays
+                                  .asList(
+                                      new NamedAgentPoolProfile()
+                                          .withCount(1)
+                                          .withOsType(OsType.LINUX)
+                                          .withVmSize("Standard_A4_v2")
+                                          .withName("default-nodepool-1")))
+                          .withCloudProviderProfile(
+                              new CloudProviderProfile()
+                                  .withInfraNetworkProfile(
+                                      new CloudProviderProfileInfraNetworkProfile()
+                                          .withVnetSubnetIds(
+                                              Arrays
+                                                  .asList(
+                                                      "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static")))
+                                  .withInfraStorageProfile(
+                                      new CloudProviderProfileInfraStorageProfile()
+                                          .withStorageSpaceIds(
+                                              Arrays
+                                                  .asList(
+                                                      "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage")))))
+                  .withExtendedLocation(
+                      new ProvisionedClustersExtendedLocation()
+                          .withType("CustomLocation")
+                          .withName(
+                              "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hybridcontainerservice_1.0.0-beta.1/sdk/hybridcontainerservice/azure-resourcemanager-hybridcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhybridcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/PutProvisionedCluster.json
+      func ExampleProvisionedClustersClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhybridcontainerservice.NewProvisionedClustersClient("a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "test-arcappliance-resgrp", "test-hybridakscluster", armhybridcontainerservice.ProvisionedClusters{
+      		Location: to.Ptr("westus"),
+      		ExtendedLocation: &armhybridcontainerservice.ProvisionedClustersExtendedLocation{
+      			Name: to.Ptr("/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"),
+      			Type: to.Ptr("CustomLocation"),
+      		},
+      		Properties: &armhybridcontainerservice.ProvisionedClustersAllProperties{
+      			AgentPoolProfiles: []*armhybridcontainerservice.NamedAgentPoolProfile{
+      				{
+      					Name:   to.Ptr("default-nodepool-1"),
+      					Count:  to.Ptr[int32](1),
+      					OSType: to.Ptr(armhybridcontainerservice.OsTypeLinux),
+      					VMSize: to.Ptr("Standard_A4_v2"),
+      				}},
+      			CloudProviderProfile: &armhybridcontainerservice.CloudProviderProfile{
+      				InfraNetworkProfile: &armhybridcontainerservice.CloudProviderProfileInfraNetworkProfile{
+      					VnetSubnetIDs: []*string{
+      						to.Ptr("/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static")},
+      				},
+      				InfraStorageProfile: &armhybridcontainerservice.CloudProviderProfileInfraStorageProfile{
+      					StorageSpaceIDs: []*string{
+      						to.Ptr("/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage")},
+      				},
+      			},
+      			ControlPlane: &armhybridcontainerservice.ControlPlaneProfile{
+      				LinuxProfile: &armhybridcontainerservice.LinuxProfileProperties{
+      					SSH: &armhybridcontainerservice.LinuxProfilePropertiesSSH{
+      						PublicKeys: []*armhybridcontainerservice.LinuxProfilePropertiesSSHPublicKeysItem{
+      							{
+      								KeyData: to.Ptr("ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"),
+      							}},
+      					},
+      				},
+      				Count:  to.Ptr[int32](1),
+      				OSType: to.Ptr(armhybridcontainerservice.OsTypeLinux),
+      				VMSize: to.Ptr("Standard_A4_v2"),
+      			},
+      			KubernetesVersion: to.Ptr("v1.20.5"),
+      			LinuxProfile: &armhybridcontainerservice.LinuxProfileProperties{
+      				SSH: &armhybridcontainerservice.LinuxProfilePropertiesSSH{
+      					PublicKeys: []*armhybridcontainerservice.LinuxProfilePropertiesSSHPublicKeysItem{
+      						{
+      							KeyData: to.Ptr("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY......."),
+      						}},
+      				},
+      			},
+      			NetworkProfile: &armhybridcontainerservice.NetworkProfile{
+      				LoadBalancerProfile: &armhybridcontainerservice.LoadBalancerProfile{
+      					LinuxProfile: &armhybridcontainerservice.LinuxProfileProperties{
+      						SSH: &armhybridcontainerservice.LinuxProfilePropertiesSSH{
+      							PublicKeys: []*armhybridcontainerservice.LinuxProfilePropertiesSSHPublicKeysItem{
+      								{
+      									KeyData: to.Ptr("ssh-rsa AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"),
+      								}},
+      						},
+      					},
+      					Count:  to.Ptr[int32](1),
+      					OSType: to.Ptr(armhybridcontainerservice.OsTypeLinux),
+      					VMSize: to.Ptr("Standard_K8S3_v1"),
+      				},
+      				LoadBalancerSKU: to.Ptr(armhybridcontainerservice.LoadBalancerSKUUnstackedHaproxy),
+      				NetworkPolicy:   to.Ptr(armhybridcontainerservice.NetworkPolicyCalico),
+      				PodCidr:         to.Ptr("10.244.0.0/16"),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhybridcontainerservice%2Farmhybridcontainerservice%2Fv0.1.1/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "extendedLocation": {
+          "type": "CustomLocation",
+          "name": "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "controlPlane": {
+            "count": 1,
+            "vmSize": "Standard_A4_v2",
+            "osType": "Linux",
+            "linuxProfile": {
+              "ssh": {
+                "publicKeys": [
+                  {
+                    "keyData": "ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"
+                  }
+                ]
+              }
+            }
+          },
+          "kubernetesVersion": "v1.20.5",
+          "networkProfile": {
+            "loadBalancerSku": "unstacked-haproxy",
+            "loadBalancerProfile": {
+              "count": 1,
+              "vmSize": "Standard_K8S3_v1",
+              "osType": "Linux",
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"
+                    }
+                  ]
+                }
+              }
+            },
+            "networkPolicy": "calico",
+            "podCidr": "10.244.0.0/16"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "default-nodepool-1",
+              "count": 1,
+              "vmSize": "Standard_A4_v2",
+              "osType": "Linux"
+            }
+          ],
+          "linuxProfile": {
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY......."
+                }
+              ]
+            }
+          },
+          "cloudProviderProfile": {
+            "infraNetworkProfile": {
+              "vnetSubnetIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static"
+              ]
+            },
+            "infraStorageProfile": {
+              "storageSpaceIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage"
+              ]
+            }
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "location": "westus",
+        "extendedLocation": {
+          "type": "CustomLocation",
+          "name": "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "controlPlane": {
+            "count": 1,
+            "vmSize": "Standard_A4_v2",
+            "osType": "Linux",
+            "linuxProfile": {
+              "ssh": {
+                "publicKeys": [
+                  {
+                    "keyData": "ssh-rsa AAAAB1NzaC1yc2EAAAADAQABAAACAQCY......"
+                  }
+                ]
+              }
+            }
+          },
+          "kubernetesVersion": "v1.20.5",
+          "networkProfile": {
+            "loadBalancerSku": "unstacked-haproxy",
+            "loadBalancerProfile": {
+              "count": 1,
+              "vmSize": "Standard_K8S3_v1",
+              "osType": "Linux",
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB2NzaC1yc2EAAAADAQABAAACAQCY......"
+                    }
+                  ]
+                }
+              }
+            },
+            "networkPolicy": "calico",
+            "podCidr": "10.244.0.0/16"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "default-nodepool-1",
+              "count": 1,
+              "vmSize": "Standard_A4_v2",
+              "osType": "Linux"
+            }
+          ],
+          "linuxProfile": {
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCY......."
+                }
+              ]
+            }
+          },
+          "cloudProviderProfile": {
+            "infraNetworkProfile": {
+              "vnetSubnetIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/virtualNetworks/test-vnet-static"
+              ]
+            },
+            "infraStorageProfile": {
+              "storageSpaceIds": [
+                "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.HybridContainerService/storageSpaces/test-storage"
+              ]
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Hybrid Container Service service - Creates the provisioned cluster
+
+    Creates the Hybrid AKS provisioned cluster
+errorCodes: []
