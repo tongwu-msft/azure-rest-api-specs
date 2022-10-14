@@ -11532,6 +11532,10 @@
 ### [Overview](guestconfiguration/Guest-Configuration-Assignment-Reports.yml)
 ### [Get](guestconfiguration/Guest-Configuration-Assignment-Reports/Get.yml)
 ### [List](guestconfiguration/Guest-Configuration-Assignment-Reports/List.yml)
+## Guest Configuration Assignment Reports VM SS
+### [Overview](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS.yml)
+### [Get](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS/Get.yml)
+### [List](guestconfiguration/Guest-Configuration-Assignment-Reports-VM-SS/List.yml)
 ## Guest Configuration Assignments
 ### [Overview](guestconfiguration/Guest-Configuration-Assignments.yml)
 ### [Create Or Update](guestconfiguration/Guest-Configuration-Assignments/Create-Or-Update.yml)
@@ -11540,6 +11544,11 @@
 ### [List](guestconfiguration/Guest-Configuration-Assignments/List.yml)
 ### [RG List](guestconfiguration/Guest-Configuration-Assignments/RG-List.yml)
 ### [Subscription List](guestconfiguration/Guest-Configuration-Assignments/Subscription-List.yml)
+## Guest Configuration Assignments VM SS
+### [Overview](guestconfiguration/Guest-Configuration-Assignments-VM-SS.yml)
+### [Delete](guestconfiguration/Guest-Configuration-Assignments-VM-SS/Delete.yml)
+### [Get](guestconfiguration/Guest-Configuration-Assignments-VM-SS/Get.yml)
+### [List](guestconfiguration/Guest-Configuration-Assignments-VM-SS/List.yml)
 ## Guest Configuration HCRP Assignment Reports
 ### [Overview](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports.yml)
 ### [Get](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports/Get.yml)

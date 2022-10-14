@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.guestconfiguration.guestconfigurationhcrpassignments.createorupdate
-name: Create Or Update
+uid: management.azure.com.guestconfiguration.guestconfigurationassignmentsvmss.get
+name: Get
 service: Guest Configuration
-groupName: Guest Configuration HCRP Assignments
+groupName: Guest Configuration Assignments VM SS
 apiVersion: 2022-01-25
-summary: Creates an association between a ARC machine and guest configuration
+summary: Get information about a guest configuration assignment for VMSS
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2022-01-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}?api-version=2022-01-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,16 +25,16 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-- name: machineName
+- name: vmssName
   in: path
   isRequired: true
-  description: The name of the ARC machine.
+  description: The name of the virtual machine scale set.
   types:
   - uid: string
-- name: guestConfigurationAssignmentName
+- name: name
   in: path
   isRequired: true
-  description: Name of the guest configuration assignment.
+  description: The guest configuration assignment name.
   types:
   - uid: string
 - name: api-version
@@ -44,38 +44,55 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: Created. The guest configuration assignment for the ARC machine was created successfully.
-  types:
-  - uid: GuestConfigurationAssignment
 - name: 200 OK
-  description: OK. The guest configuration assignment for the ARC machine was updated successfully.
+  description: OK. The guest configuration assignment was returned successfully.
   types:
   - uid: GuestConfigurationAssignment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
+requestHeader: []
+definitions:
+- name: GuestConfigurationAssignment
+  description: Guest configuration assignment is an association between a machine and guest configuration.
+  kind: object
+  properties:
   - name: properties
-    in: body
     description: Properties of the Guest configuration assignment.
     types:
     - uid: GuestConfigurationAssignmentProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of the guest configuration assignment.
+    types:
+    - uid: string
   - name: name
-    in: body
     description: Name of the guest configuration assignment.
     types:
     - uid: string
   - name: location
-    in: body
     description: Region where the VM is located.
     types:
     - uid: string
-requestHeader: []
-definitions:
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
 - name: GuestConfigurationAssignmentProperties
   description: Guest configuration assignment properties.
   kind: object
@@ -165,45 +182,17 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: GuestConfigurationAssignment
-  description: Guest configuration assignment is an association between a machine and guest configuration.
+- name: Error
   kind: object
   properties:
-  - name: properties
-    description: Properties of the Guest configuration assignment.
-    types:
-    - uid: GuestConfigurationAssignmentProperties
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: id
-    isReadyOnly: true
-    description: ARM resource id of the guest configuration assignment.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-  - name: name
-    description: Name of the guest configuration assignment.
+  - name: message
+    description: Detail error message indicating why the operation failed.
     types:
     - uid: string
-  - name: location
-    description: Region where the VM is located.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - name: error
-    description: ''
-    types:
-    - uid: Error
 - name: GuestConfigurationNavigation
   description: Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
   kind: object
@@ -375,17 +364,6 @@ definitions:
     types:
     - uid: string
   - name: Key
-    types:
-    - uid: string
-- name: Error
-  kind: object
-  properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: Detail error message indicating why the operation failed.
     types:
     - uid: string
 - name: kind
@@ -572,56 +550,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create or update guest configuration assignment
+- name: Get a VMSS guest configuration assignment
   request:
-    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows?api-version=2022-01-25
-    body: >-
-      {
-        "location": "westcentralus",
-        "name": "NotInstalledApplicationForWindows",
-        "properties": {
-          "context": "Azure policy",
-          "guestConfiguration": {
-            "name": "NotInstalledApplicationForWindows",
-            "version": "1.*",
-            "contentUri": "https://thisisfake/pacakge",
-            "contentHash": "123contenthash",
-            "assignmentType": "ApplyAndAutoCorrect",
-            "configurationParameter": [
-              {
-                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
-                "value": "NotePad,sql"
-              }
-            ]
-          }
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2022-01-25
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows?api-version=2022-01-25
-
-      {
-        "location": "westcentralus",
-        "name": "NotInstalledApplicationForWindows",
-        "properties": {
-          "context": "Azure policy",
-          "guestConfiguration": {
-            "name": "NotInstalledApplicationForWindows",
-            "version": "1.*",
-            "contentUri": "https://thisisfake/pacakge",
-            "contentHash": "123contenthash",
-            "assignmentType": "ApplyAndAutoCorrect",
-            "configurationParameter": [
-              {
-                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
-                "value": "NotePad,sql"
-              }
-            ]
-          }
-        }
-      }
-
+      GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2022-01-25
       ```
 
       # [Go](#tab/Go)
@@ -632,45 +567,25 @@ examples:
       	"context"
       	"log"
 
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationHCRPAssignment.json
-      func ExampleHCRPAssignmentsClient_CreateOrUpdate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/getVMSSGuestConfigurationAssignment.json
+      func ExampleAssignmentsVMSSClient_Get() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armguestconfiguration.NewHCRPAssignmentsClient("mySubscriptionId", cred, nil)
+      	client, err := armguestconfiguration.NewAssignmentsVMSSClient("mySubscriptionId", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.CreateOrUpdate(ctx,
-      		"NotInstalledApplicationForWindows",
+      	res, err := client.Get(ctx,
       		"myResourceGroupName",
-      		"myMachineName",
-      		armguestconfiguration.Assignment{
-      			Name:     to.Ptr("NotInstalledApplicationForWindows"),
-      			Location: to.Ptr("westcentralus"),
-      			Properties: &armguestconfiguration.AssignmentProperties{
-      				Context: to.Ptr("Azure policy"),
-      				GuestConfiguration: &armguestconfiguration.Navigation{
-      					Name:           to.Ptr("NotInstalledApplicationForWindows"),
-      					AssignmentType: to.Ptr(armguestconfiguration.AssignmentTypeApplyAndAutoCorrect),
-      					ConfigurationParameter: []*armguestconfiguration.ConfigurationParameter{
-      						{
-      							Name:  to.Ptr("[InstalledApplication]NotInstalledApplicationResource1;Name"),
-      							Value: to.Ptr("NotePad,sql"),
-      						}},
-      					ContentHash: to.Ptr("123contenthash"),
-      					ContentURI:  to.Ptr("https://thisisfake/pacakge"),
-      					Version:     to.Ptr("1.*"),
-      				},
-      			},
-      		},
+      		"myVMSSName",
+      		"SecureProtocol",
       		nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
@@ -682,62 +597,30 @@ examples:
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv1.0.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
-  - statusCode: "201"
-    body: >-
-      {
-        "location": "westcentralus",
-        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows",
-        "name": "NotInstalledApplicationForWindows",
-        "properties": {
-          "complianceStatus": "Pending",
-          "assignmentHash": "abcdr453g",
-          "latestReportId": "a2a64e5d-a1a9-4344-a866-fb9e1541f723",
-          "lastComplianceStatusChecked": null,
-          "context": "Azure policy",
-          "guestConfiguration": {
-            "kind": null,
-            "name": "NotInstalledApplicationForWindows",
-            "version": "1.0.0.3",
-            "contentUri": null,
-            "contentHash": null,
-            "contentType": null,
-            "configurationParameter": [
-              {
-                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
-                "value": "NotePad,sql"
-              }
-            ]
-          },
-          "provisioningState": "Succeeded"
-        }
-      }
   - statusCode: "200"
     body: >-
       {
-        "location": "westcentralus",
-        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows",
-        "name": "NotInstalledApplicationForWindows",
+        "location": "centraluseuap",
+        "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol",
+        "name": "AuditSecureProtocol",
         "properties": {
-          "complianceStatus": "Pending",
-          "assignmentHash": "abcdr453g",
-          "latestReportId": "a2a64e5d-a1a9-4344-a866-fb9e1541f723",
-          "lastComplianceStatusChecked": null,
-          "context": "Azure policy",
+          "complianceStatus": "Compliant",
+          "assignmentHash": "E0D8941DD713F284284561648C00C18FA76C8602943C7CD38AFD73B56AE4C35F.E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+          "latestReportId": null,
+          "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+          "context": null,
           "guestConfiguration": {
             "kind": null,
-            "name": "NotInstalledApplicationForWindows",
+            "name": "AuditSecureProtocol",
             "version": "1.0.0.3",
-            "contentUri": null,
-            "contentHash": null,
-            "contentType": null,
-            "configurationParameter": [
-              {
-                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
-                "value": "NotePad,sql"
-              }
-            ]
+            "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol/AuditSecureProtocol_1.0.0.3.zip",
+            "contentHash": "content hash",
+            "configurationParameter": [],
+            "configurationSetting": null
           },
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "resourceType": "VMSS",
+          "vmssVMList": null
         }
       }
 security:
@@ -751,5 +634,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Guest Configuration service - Creates an association between a ARC machine and guest configuration
+    Learn more about Guest Configuration service - Get information about a guest configuration assignment for VMSS
 errorCodes: []
