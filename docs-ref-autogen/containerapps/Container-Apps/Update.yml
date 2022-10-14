@@ -37,6 +37,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Ok.
+  types:
+  - uid: ContainerApp
 - name: 202 Accepted
   description: Patch operation is in progress.
 - name: Other Status Codes
@@ -194,15 +198,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: DefaultErrorResponse
-  description: App Service error response.
-  kind: object
-  properties:
-  - name: error
-    isReadyOnly: true
-    description: Error model.
-    types:
-    - uid: Error
 - name: ContainerApp
   description: Container App.
   kind: object
@@ -281,6 +276,15 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ManagedServiceIdentityType
   description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
@@ -506,6 +510,25 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: ContainerAppProvisioningState
+  description: Provisioning state of the Container App.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
 - name: Error
   description: Error model.
   kind: object
@@ -533,25 +556,6 @@ definitions:
   - name: innererror
     isReadyOnly: true
     description: More information to debug error.
-    types:
-    - uid: string
-- name: ContainerAppProvisioningState
-  description: Provisioning state of the Container App.
-  kind: enum
-  properties:
-  - name: InProgress
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Deleting
     types:
     - uid: string
 - name: IngressTransportMethod
@@ -1404,6 +1408,98 @@ examples:
     headers:
     - name: azure-asyncoperation
       value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.App/locations/eastus/containerappOperationResults/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-03-01
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0",
+        "name": "testcontainerApp0",
+        "type": "Microsoft.App/containerApps",
+        "location": "East US",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "managedEnvironmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
+          "latestRevisionFqdn": "testcontainerApp0-pjxhsye.demokube-t24clv0g.eastus.containerApps.k4apps.io",
+          "configuration": {
+            "ingress": {
+              "fqdn": "testcontainerApp0.demokube-t24clv0g.eastus.containerApps.k4apps.io",
+              "external": true,
+              "targetPort": 3000,
+              "transport": "auto",
+              "customDomains": [
+                {
+                  "name": "www.my-name.com",
+                  "bindingType": "SniEnabled",
+                  "certificateId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-name-dot-com"
+                },
+                {
+                  "name": "www.my-other-name.com",
+                  "bindingType": "SniEnabled",
+                  "certificateId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-other-name-dot-com"
+                }
+              ],
+              "traffic": [
+                {
+                  "weight": 80,
+                  "revisionName": "testcontainerApp0-ab1234"
+                },
+                {
+                  "weight": 20,
+                  "revisionName": "testcontainerApp0-ab4321",
+                  "label": "staging"
+                }
+              ]
+            },
+            "dapr": {
+              "enabled": true,
+              "appPort": 3000,
+              "appProtocol": "http"
+            }
+          },
+          "template": {
+            "containers": [
+              {
+                "image": "repo/testcontainerApp0:v4",
+                "name": "testcontainerApp0",
+                "resources": {
+                  "cpu": 0.2,
+                  "memory": "100Mi"
+                },
+                "probes": [
+                  {
+                    "type": "Liveness",
+                    "httpGet": {
+                      "path": "/health",
+                      "port": 8080,
+                      "httpHeaders": [
+                        {
+                          "name": "Custom-Header",
+                          "value": "Awesome"
+                        }
+                      ]
+                    },
+                    "initialDelaySeconds": 3,
+                    "periodSeconds": 3
+                  }
+                ]
+              }
+            ],
+            "scale": {
+              "minReplicas": 1,
+              "maxReplicas": 5,
+              "rules": [
+                {
+                  "name": "httpscalingrule",
+                  "http": {
+                    "metadata": {
+                      "concurrentRequests": "50"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
