@@ -3,16 +3,14 @@ uid: management.azure.com.notificationhubs.namespaces.regeneratekeys
 name: Regenerate Keys
 service: Notification Hubs
 groupName: Namespaces
-apiVersion: 2016-03-01
+apiVersion: 2017-04-01
 summary: Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys?api-version=2016-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -91,7 +89,138 @@ definitions:
     description: Name of the key that has to be regenerated for the Namespace/Notification Hub Authorization Rule. The value can be Primary Key/Secondary Key.
     types:
     - uid: string
-examples: []
+examples:
+- name: NameSpaceAuthorizationRuleRegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns/AuthorizationRules/RootManageSharedAccessKey/regenerateKeys?api-version=2017-04-01
+    body: >-
+      {
+        "policyKey": "PrimaryKey"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns/AuthorizationRules/RootManageSharedAccessKey/regenerateKeys?api-version=2017-04-01
+
+      {
+        "policyKey": "PrimaryKey"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.notificationhubs.models.PolicykeyResource;
+
+      /** Samples for Namespaces RegenerateKeys. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceAuthorizationRuleRegenrateKey.json
+           */
+          /**
+           * Sample code: NameSpaceAuthorizationRuleRegenerateKey.
+           *
+           * @param manager Entry point to NotificationHubsManager.
+           */
+          public static void nameSpaceAuthorizationRuleRegenerateKey(
+              com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
+              manager
+                  .namespaces()
+                  .regenerateKeysWithResponse(
+                      "5ktrial",
+                      "nh-sdk-ns",
+                      "RootManageSharedAccessKey",
+                      new PolicykeyResource().withPolicyKey("PrimaryKey"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-notificationhubs_1.0.0-beta.3/sdk/notificationhubs/azure-resourcemanager-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnotificationhubs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceAuthorizationRuleRegenrateKey.json
+      func ExampleNamespacesClient_RegenerateKeys() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnotificationhubs.NewNamespacesClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.RegenerateKeys(ctx,
+      		"5ktrial",
+      		"nh-sdk-ns",
+      		"RootManageSharedAccessKey",
+      		armnotificationhubs.PolicykeyResource{
+      			PolicyKey: to.Ptr("PrimaryKey"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnotificationhubs%2Farmnotificationhubs%2Fv1.0.0/sdk/resourcemanager/notificationhubs/armnotificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
+       *
+       * @summary Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceAuthorizationRuleRegenrateKey.json
+       */
+      async function nameSpaceAuthorizationRuleRegenerateKey() {
+        const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+        const resourceGroupName = "5ktrial";
+        const namespaceName = "nh-sdk-ns";
+        const authorizationRuleName = "RootManageSharedAccessKey";
+        const parameters = { policyKey: "PrimaryKey" };
+        const credential = new DefaultAzureCredential();
+        const client = new NotificationHubsManagementClient(credential, subscriptionId);
+        const result = await client.namespaces.regenerateKeys(
+          resourceGroupName,
+          namespaceName,
+          authorizationRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      nameSpaceAuthorizationRuleRegenerateKey().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryConnectionString": "Endpoint=sb://nh-sdk-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=############################################",
+        "secondaryConnectionString": "Endpoint=sb://nh-sdk-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=############################################",
+        "primaryKey": "############################################",
+        "secondaryKey": "############################################",
+        "keyName": "RootManageSharedAccessKey"
+      }
 security:
 - name: azure_auth
   type: oauth2
