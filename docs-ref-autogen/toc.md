@@ -7274,6 +7274,9 @@
 ## Organization Operations
 ### [Overview](confluent/Organization-Operations.yml)
 ### [List](confluent/Organization-Operations/List.yml)
+## Validations
+### [Overview](confluent/Validations.yml)
+### [Validate Organization](confluent/Validations/Validate-Organization.yml)
 # Consumption
 ## [Overview](../docs-ref-conceptual/consumption/index.md)
 ## Aggregated Cost

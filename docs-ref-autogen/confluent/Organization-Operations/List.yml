@@ -3,14 +3,14 @@ uid: management.azure.com.confluent.organizationoperations.list
 name: List
 service: Confluent
 groupName: Organization Operations
-apiVersion: 2020-03-01
+apiVersion: 2021-12-01
 summary: List all operations provided by Microsoft.Confluent.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2020-03-01
+- content: GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2021-12-01
 uriParameters:
 - name: api-version
   in: query
@@ -39,7 +39,6 @@ definitions:
     - uid: OperationResult
       isArray: true
   - name: nextLink
-    isReadyOnly: true
     description: URL to get the next set of operation list results if there are any.
     types:
     - uid: string
@@ -116,13 +115,51 @@ definitions:
 examples:
 - name: OrganizationOperations_List
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2020-03-01
+    uri: GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2021-12-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2020-03-01
+      GET https://management.azure.com/providers/Microsoft.Confluent/operations?api-version=2021-12-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armconfluent_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/confluent/armconfluent"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/confluent/resource-manager/Microsoft.Confluent/stable/2021-12-01/examples/OrganizationOperations_List.json
+      func ExampleOrganizationOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconfluent.NewOrganizationOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconfluent%2Farmconfluent%2Fv1.0.0/sdk/resourcemanager/confluent/armconfluent/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

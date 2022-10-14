@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.confluent.organization.create
-name: Create
+uid: management.azure.com.confluent.validations.validateorganization
+name: Validate Organization
 service: Confluent
-groupName: Organization
+groupName: Validations
 apiVersion: 2021-12-01
-summary: Create Organization resource
+summary: Organization Validate proxy resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}?api-version=2021-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,10 +39,6 @@ uriParameters:
 responses:
 - name: 200 OK
   description: Success
-  types:
-  - uid: OrganizationResource
-- name: 201 Created
-  description: Created
   types:
   - uid: OrganizationResource
 - name: Other Status Codes
@@ -333,9 +329,9 @@ definitions:
     - uid: ErrorResponseBody
       isArray: true
 examples:
-- name: Organization_Create
+- name: Validations_ValidateOrganizations
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/organizations/myOrganization?api-version=2021-12-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/validations/myOrganization/orgvalidate?api-version=2021-12-01
     body: >-
       {
         "properties": {
@@ -349,7 +345,7 @@ examples:
           "userDetail": {
             "firstName": "string",
             "lastName": "string",
-            "emailAddress": "contoso@microsoft.com"
+            "emailAddress": "abc@microsoft.com"
           }
         },
         "tags": {
@@ -360,7 +356,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/organizations/myOrganization?api-version=2021-12-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/validations/myOrganization/orgvalidate?api-version=2021-12-01
 
       {
         "properties": {
@@ -374,7 +370,7 @@ examples:
           "userDetail": {
             "firstName": "string",
             "lastName": "string",
-            "emailAddress": "contoso@microsoft.com"
+            "emailAddress": "abc@microsoft.com"
           }
         },
         "tags": {
@@ -398,21 +394,21 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/confluent/armconfluent"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/confluent/resource-manager/Microsoft.Confluent/stable/2021-12-01/examples/Organization_Create.json
-      func ExampleOrganizationClient_BeginCreate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/confluent/resource-manager/Microsoft.Confluent/stable/2021-12-01/examples/Validations_ValidateOrganizations.json
+      func ExampleValidationsClient_ValidateOrganization() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armconfluent.NewOrganizationClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	client, err := armconfluent.NewValidationsClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginCreate(ctx,
+      	res, err := client.ValidateOrganization(ctx,
       		"myResourceGroup",
       		"myOrganization",
-      		&armconfluent.OrganizationClientBeginCreateOptions{Body: &armconfluent.OrganizationResource{
+      		armconfluent.OrganizationResource{
       			Location: to.Ptr("West US"),
       			Properties: &armconfluent.OrganizationResourceProperties{
       				OfferDetail: &armconfluent.OfferDetail{
@@ -423,7 +419,7 @@ examples:
       					TermUnit:    to.Ptr("string"),
       				},
       				UserDetail: &armconfluent.UserDetail{
-      					EmailAddress: to.Ptr("contoso@microsoft.com"),
+      					EmailAddress: to.Ptr("abc@microsoft.com"),
       					FirstName:    to.Ptr("string"),
       					LastName:     to.Ptr("string"),
       				},
@@ -432,13 +428,9 @@ examples:
       				"Environment": to.Ptr("Dev"),
       			},
       		},
-      		})
+      		nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
       	}
       	// TODO: use response item
       	_ = res
@@ -453,14 +445,6 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/organizations/myOrganization",
         "name": "myOrganization",
         "type": "Microsoft.Confluent/organizations",
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "User",
-          "createdAt": "2020-05-09T14:28:47.284Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2020-05-09T14:28:47.284Z"
-        },
         "properties": {
           "createdTime": "2020-05-09T14:28:47.284Z",
           "provisioningState": "Succeeded",
@@ -477,37 +461,7 @@ examples:
           "userDetail": {
             "firstName": "string",
             "lastName": "string",
-            "emailAddress": "contoso@microsoft.com"
-          }
-        },
-        "tags": {
-          "Environment": "Dev"
-        },
-        "location": "West US"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Confluent/organizations/myOrganization",
-        "name": "myOrganization",
-        "type": "Microsoft.Confluent/organizations",
-        "properties": {
-          "createdTime": "2020-05-09T14:28:47.284Z",
-          "provisioningState": "Accepted",
-          "organizationId": "string",
-          "ssoUrl": "string",
-          "offerDetail": {
-            "publisherId": "string",
-            "id": "string",
-            "planId": "string",
-            "planName": "string",
-            "termUnit": "string",
-            "status": "Started"
-          },
-          "userDetail": {
-            "firstName": "string",
-            "lastName": "string",
-            "emailAddress": "contoso@microsoft.com"
+            "emailAddress": "abc@microsoft.com"
           }
         },
         "tags": {
@@ -526,5 +480,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Confluent service - Create Organization resource
+    Learn more about Confluent service - Organization Validate proxy resource
 errorCodes: []
