@@ -6752,6 +6752,7 @@
 ## [Authentication](../docs-ref-conceptual/communication/authentication.md)
 ## [Common Headers](../docs-ref-conceptual/communication/headers.md)
 ## [Error Codes](../docs-ref-conceptual/communication/errorcodes.md)
+## [Repeatability of Requests](../docs-ref-conceptual/communication/repeatable-requests.md)
 ## Reference
 ### Communication Identity
 #### [Overview](communication/Communication-Identity.yml)
