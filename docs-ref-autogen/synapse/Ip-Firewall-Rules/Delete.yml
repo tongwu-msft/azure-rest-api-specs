@@ -45,7 +45,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: object
+  - uid: IpFirewallRuleInfo
 - name: 204 No Content
   description: NoContent
 - name: 202 Accepted
@@ -56,6 +56,38 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: IpFirewallRuleInfo
+  description: IP firewall rule
+  kind: object
+  properties:
+  - name: properties.endIpAddress
+    description: The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Resource provisioning state
+    types:
+    - uid: ProvisioningState
+  - name: properties.startIpAddress
+    description: The start IP address of the firewall rule. Must be IPv4 format
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -64,6 +96,25 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: ProvisioningState
+  description: Resource provisioning state
+  kind: enum
+  properties:
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: DeleteError
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -220,8 +271,6 @@ examples:
         "id": "/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/firewallRules/ExampleIpFirewallRule",
         "type": "Microsoft.Synapse/workspaces/firewallRules",
         "name": "ExampleIpFirewallRule",
-        "location": "West US 2",
-        "tags": {},
         "properties": {
           "startIpAddress": "10.0.0.0",
           "endIpAddress": "10.0.0.254",
