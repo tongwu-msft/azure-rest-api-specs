@@ -3,25 +3,25 @@ uid: management.azure.com.mariadb.servers.get
 name: Get
 service: MariaDB
 groupName: Servers
-apiVersion: 2018-06-01-preview
+apiVersion: 2018-06-01
 summary: Gets information about a server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: serverName
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -41,16 +41,16 @@ responses:
   description: OK
   types:
   - uid: Server
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: Server
   description: Represents a server.
   kind: object
   properties:
-  - name: identity
-    description: The Azure Active Directory identity of the server.
-    types:
-    - uid: ResourceIdentity
   - name: sku
     description: The SKU (pricing tier) of the server.
     types:
@@ -99,6 +99,16 @@ definitions:
     description: The maximum number of replicas that a master server can have.
     types:
     - uid: integer
+  - name: properties.publicNetworkAccess
+    description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccessEnum
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a server
+    types:
+    - uid: ServerPrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -126,26 +136,16 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ResourceIdentity
-  description: Azure Active Directory identity configuration for a resource.
+- name: CloudError
+  description: An error response from the Batch service.
   kind: object
   properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The Azure Active Directory principal id.
+  - name: error
+    description: "Error Response  \nError message"
     types:
-    - uid: string
-  - name: type
-    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
-    types:
-    - uid: IdentityType
-  - name: tenantId
-    isReadyOnly: true
-    description: The Azure Active Directory tenant id.
-    types:
-    - uid: string
+    - uid: ErrorResponse
 - name: Sku
-  description: Billing information related properties of a server.
+  description: The SKU (pricing tier) of the server.
   kind: object
   properties:
   - name: name
@@ -169,7 +169,7 @@ definitions:
     types:
     - uid: string
 - name: ServerVersion
-  description: The version of a server.
+  description: Server version.
   kind: enum
   properties:
   - name: "10.2"
@@ -218,7 +218,7 @@ definitions:
     types:
     - uid: string
 - name: StorageProfile
-  description: Storage Profile properties of a server
+  description: Storage profile of a server.
   kind: object
   properties:
   - name: backupRetentionDays
@@ -237,13 +237,61 @@ definitions:
     description: Enable Storage Auto Grow.
     types:
     - uid: StorageAutogrow
-- name: IdentityType
-  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+- name: PublicNetworkAccessEnum
+  description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
   kind: enum
   properties:
-  - name: SystemAssigned
+  - name: Enabled
     types:
     - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ServerPrivateEndpointConnection
+  description: List of private endpoint connections on a server
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id of the private endpoint connection.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: ServerPrivateEndpointConnectionProperties
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: SkuTier
   description: The tier of the particular SKU, e.g. Basic.
   kind: enum
@@ -277,24 +325,183 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: ServerPrivateEndpointConnectionProperties
+  description: Private endpoint connection properties
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection state of the private endpoint connection.
+    types:
+    - uid: ServerPrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointProvisioningState
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: PrivateEndpointProperty
+  description: Private endpoint which the connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ServerPrivateLinkServiceConnectionStateProperty
+  description: Connection state of the private endpoint connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: PrivateLinkServiceConnectionStateStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The actions required for private link service connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateActionsRequire
+- name: PrivateEndpointProvisioningState
+  description: State of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Approving
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Dropping
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Rejecting
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateActionsRequire
+  description: The actions required for private link service connection.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: ServerGet
   request:
-    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01-preview
+      GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerGet.json
+      func ExampleServersClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewServersClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"testrg",
+      		"mariadbtestsvc4",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets information about a server.
+       *
+       * @summary Gets information about a server.
+       * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerGet.json
+       */
+      async function serverGet() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "mariadbtestsvc4";
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const result = await client.servers.get(resourceGroupName, serverName);
+        console.log(result);
+      }
+
+      serverGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "sku": {
-          "name": "GP_Gen5_2",
+          "name": "GP_Gen4_2",
           "tier": "GeneralPurpose",
-          "family": "Gen5",
+          "family": "Gen4",
           "capacity": 2
         },
         "properties": {
@@ -306,12 +513,30 @@ examples:
           },
           "version": "10.3",
           "sslEnforcement": "Enabled",
+          "minimalTlsVersion": "TLS1_0",
           "userVisibleState": "Ready",
           "fullyQualifiedDomainName": "mariadbtestsvc4.mariadb.database.azure.com",
           "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
           "replicationRole": "None",
           "masterServerId": "",
-          "replicaCapacity": 5
+          "replicaCapacity": 5,
+          "publicNetworkAccess": "Enabled",
+          "privateEndpointConnections": [
+            {
+              "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4/privateEndpointConnections/private-endpoint-name-00000000-1111-2222-3333-444444444444",
+              "properties": {
+                "provisioningState": "Ready",
+                "privateEndpoint": {
+                  "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/Default-Network/providers/Microsoft.Network/privateEndpoints/private-endpoint-name"
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Auto-approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ]
         },
         "location": "westus",
         "tags": {

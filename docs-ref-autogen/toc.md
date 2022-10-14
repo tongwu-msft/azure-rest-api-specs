@@ -14150,6 +14150,10 @@
 ### [Update](maps-management/Private-Atlases/Update.yml)
 # MariaDB
 ## [Overview](../docs-ref-conceptual/mariadb/index.md)
+## Advisors
+### [Overview](MariaDB/Advisors.yml)
+### [Get](MariaDB/Advisors/Get.yml)
+### [List By Server](MariaDB/Advisors/List-By-Server.yml)
 ## Check Name Availability
 ### [Overview](MariaDB/Check-Name-Availability.yml)
 ### [Execute](MariaDB/Check-Name-Availability/Execute.yml)
@@ -14158,6 +14162,9 @@
 ### [Create Or Update](MariaDB/Configurations/Create-Or-Update.yml)
 ### [Get](MariaDB/Configurations/Get.yml)
 ### [List By Server](MariaDB/Configurations/List-By-Server.yml)
+## Create Recommended Action Session
+### [Overview](MariaDB/Create-Recommended-Action-Session.yml)
+### [Create Recommended Action Session](MariaDB/Create-Recommended-Action-Session/Create-Recommended-Action-Session.yml)
 ## Databases
 ### [Overview](MariaDB/Databases.yml)
 ### [Create Or Update](MariaDB/Databases/Create-Or-Update.yml)
@@ -14173,18 +14180,46 @@
 ## Location Based Performance Tier
 ### [Overview](MariaDB/Location-Based-Performance-Tier.yml)
 ### [List](MariaDB/Location-Based-Performance-Tier/List.yml)
+## Location Based Recommended Action Sessions Operation Status
+### [Overview](MariaDB/Location-Based-Recommended-Action-Sessions-Operation-Status.yml)
+### [Get](MariaDB/Location-Based-Recommended-Action-Sessions-Operation-Status/Get.yml)
+## Location Based Recommended Action Sessions Result
+### [Overview](MariaDB/Location-Based-Recommended-Action-Sessions-Result.yml)
+### [List](MariaDB/Location-Based-Recommended-Action-Sessions-Result/List.yml)
 ## Log Files
 ### [Overview](MariaDB/Log-Files.yml)
 ### [List By Server](MariaDB/Log-Files/List-By-Server.yml)
 ## Operations
 ### [Overview](MariaDB/Operations.yml)
 ### [List](MariaDB/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](MariaDB/Private-Endpoint-Connections.yml)
+### [Create Or Update](MariaDB/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](MariaDB/Private-Endpoint-Connections/Delete.yml)
+### [Get](MariaDB/Private-Endpoint-Connections/Get.yml)
+### [List By Server](MariaDB/Private-Endpoint-Connections/List-By-Server.yml)
+### [Update Tags](MariaDB/Private-Endpoint-Connections/Update-Tags.yml)
+## Private Link Resources
+### [Overview](MariaDB/Private-Link-Resources.yml)
+### [Get](MariaDB/Private-Link-Resources/Get.yml)
+### [List By Server](MariaDB/Private-Link-Resources/List-By-Server.yml)
+## Query Texts
+### [Overview](MariaDB/Query-Texts.yml)
+### [Get](MariaDB/Query-Texts/Get.yml)
+### [List By Server](MariaDB/Query-Texts/List-By-Server.yml)
+## Recommended Actions
+### [Overview](MariaDB/Recommended-Actions.yml)
+### [Get](MariaDB/Recommended-Actions/Get.yml)
+### [List By Server](MariaDB/Recommended-Actions/List-By-Server.yml)
 ## Recoverable Servers
 ### [Overview](MariaDB/Recoverable-Servers.yml)
 ### [Get](MariaDB/Recoverable-Servers/Get.yml)
 ## Replicas
 ### [Overview](MariaDB/Replicas.yml)
 ### [List By Server](MariaDB/Replicas/List-By-Server.yml)
+## Reset Query Performance Insight Data
+### [Overview](MariaDB/Reset-Query-Performance-Insight-Data.yml)
+### [Reset Query Performance Insight Data](MariaDB/Reset-Query-Performance-Insight-Data/Reset-Query-Performance-Insight-Data.yml)
 ## Server Based Performance Tier
 ### [Overview](MariaDB/Server-Based-Performance-Tier.yml)
 ### [List](MariaDB/Server-Based-Performance-Tier/List.yml)
@@ -14205,12 +14240,22 @@
 ### [List By Resource Group](MariaDB/Servers/List-By-Resource-Group.yml)
 ### [Restart](MariaDB/Servers/Restart.yml)
 ### [Update](MariaDB/Servers/Update.yml)
+### [Start](MariaDB/Servers/Start.yml)
+### [Stop](MariaDB/Servers/Stop.yml)
+## Top Query Statistics
+### [Overview](MariaDB/Top-Query-Statistics.yml)
+### [Get](MariaDB/Top-Query-Statistics/Get.yml)
+### [List By Server](MariaDB/Top-Query-Statistics/List-By-Server.yml)
 ## Virtual Network Rules
 ### [Overview](MariaDB/Virtual-Network-Rules.yml)
 ### [Create Or Update](MariaDB/Virtual-Network-Rules/Create-Or-Update.yml)
 ### [Delete](MariaDB/Virtual-Network-Rules/Delete.yml)
 ### [Get](MariaDB/Virtual-Network-Rules/Get.yml)
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
+## Wait Statistics
+### [Overview](MariaDB/Wait-Statistics.yml)
+### [Get](MariaDB/Wait-Statistics/Get.yml)
+### [List By Server](MariaDB/Wait-Statistics/List-By-Server.yml)
 # Marketplace Catalog
 ## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
 ## 2022-02-02
