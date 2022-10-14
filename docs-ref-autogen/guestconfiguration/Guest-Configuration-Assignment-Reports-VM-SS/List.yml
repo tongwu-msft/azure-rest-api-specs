@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.guestconfiguration.guestconfigurationassignmentreports.list
+uid: management.azure.com.guestconfiguration.guestconfigurationassignmentreportsvmss.list
 name: List
 service: Guest Configuration
-groupName: Guest Configuration Assignment Reports
+groupName: Guest Configuration Assignment Reports VM SS
 apiVersion: 2022-01-25
-summary: List all reports for the guest configuration assignment, latest report first.
+summary: List all reports for the VMSS guest configuration assignment, latest report first.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports?api-version=2022-01-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}/reports?api-version=2022-01-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,13 +25,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-- name: vmName
+- name: vmssName
   in: path
   isRequired: true
-  description: The name of the virtual machine.
+  description: The name of the virtual machine scale set.
   types:
   - uid: string
-- name: guestConfigurationAssignmentName
+- name: name
   in: path
   isRequired: true
   description: The guest configuration assignment name.
@@ -278,13 +278,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List all guest configuration assignments for a virtual machine
+- name: List all reports for the VMSS guest configuration assignment with latest report first
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2022-01-25
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2022-01-25
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2022-01-25
+      GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2022-01-25
       ```
 
       # [Go](#tab/Go)
@@ -299,27 +299,31 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listAllGuestConfigurationAssignmentReports.json
-      func ExampleAssignmentReportsClient_List() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listAllVMSSGuestConfigurationAssignmentReports.json
+      func ExampleAssignmentReportsVMSSClient_NewListPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armguestconfiguration.NewAssignmentReportsClient("mySubscriptionid", cred, nil)
+      	client, err := armguestconfiguration.NewAssignmentReportsVMSSClient("mySubscriptionid", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.List(ctx,
-      		"myResourceGroupName",
+      	pager := client.NewListPager("myResourceGroupName",
+      		"myVMSSName",
       		"AuditSecureProtocol",
-      		"myVMName",
       		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
       	}
-      	// TODO: use response item
-      	_ = res
       }
 
       ```
@@ -330,7 +334,7 @@ examples:
       {
         "value": [
           {
-            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
             "name": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
             "properties": {
               "complianceStatus": "Compliant",
@@ -342,7 +346,7 @@ examples:
               },
               "reportId": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
               "vm": {
-                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
+                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/virtualMachines/1",
                 "uuid": "vmuuid"
               },
               "details": null,
@@ -351,7 +355,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/41ee2caf-48f9-4999-a793-82ec7c6beb2c",
+            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/41ee2caf-48f9-4999-a793-82ec7c6beb2c",
             "name": "41ee2caf-48f9-4999-a793-82ec7c6beb2c",
             "properties": {
               "complianceStatus": "Compliant",
@@ -363,7 +367,7 @@ examples:
               },
               "reportId": "41ee2caf-48f9-4999-a793-82ec7c6beb2c",
               "vm": {
-                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
+                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachineScaleSets/myVMSSName/virtualMachines/1",
                 "uuid": "vmuuid"
               },
               "details": null,
@@ -384,5 +388,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Guest Configuration service - List all reports for the guest configuration assignment, latest report first.
+    Learn more about Guest Configuration service - List all reports for the VMSS guest configuration assignment, latest report first.
 errorCodes: []

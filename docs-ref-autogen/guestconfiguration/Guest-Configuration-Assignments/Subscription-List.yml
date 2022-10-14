@@ -3,14 +3,14 @@ uid: management.azure.com.guestconfiguration.guestconfigurationassignments.subsc
 name: Subscription List
 service: Guest Configuration
 groupName: Guest Configuration Assignments
-apiVersion: 2020-06-25
+apiVersion: 2022-01-25
 summary: List all guest configuration assignments for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2020-06-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,6 +62,11 @@ definitions:
     description: Properties of the Guest configuration assignment.
     types:
     - uid: GuestConfigurationAssignmentProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: id
     isReadyOnly: true
     description: ARM resource id of the guest configuration assignment.
@@ -124,16 +129,6 @@ definitions:
     description: 'parameter hash for the guest configuration assignment. '
     types:
     - uid: string
-  - name: resourceType
-    isReadyOnly: true
-    description: Type of the resource - VMSS / VM
-    types:
-    - uid: string
-  - name: vmssVMList
-    description: The list of VM Compliance data for VMSS
-    types:
-    - uid: VMSSVMInfo
-      isArray: true
   - name: latestAssignmentReport
     description: Last reported guest configuration assignment report.
     types:
@@ -152,6 +147,44 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: provisioningState
+  - name: resourceType
+    isReadyOnly: true
+    description: Type of the resource - VMSS / VM
+    types:
+    - uid: string
+  - name: vmssVMList
+    description: The list of VM Compliance data for VMSS
+    types:
+    - uid: VMSSVMInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: GuestConfigurationNavigation
   description: Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
   kind: object
@@ -180,6 +213,11 @@ definitions:
     description: Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
     types:
     - uid: assignmentType
+  - name: assignmentSource
+    isReadyOnly: true
+    description: Specifies the origin of the configuration.
+    types:
+    - uid: string
   - name: contentType
     isReadyOnly: true
     description: Specifies the content type of the configuration. Possible values could be Builtin or Custom.
@@ -196,6 +234,7 @@ definitions:
     - uid: ConfigurationParameter
       isArray: true
   - name: configurationSetting
+    isReadyOnly: true
     description: The configuration setting for the guest configuration.
     types:
     - uid: ConfigurationSetting
@@ -210,35 +249,6 @@ definitions:
     types:
     - uid: string
   - name: Pending
-    types:
-    - uid: string
-- name: VMSSVMInfo
-  description: Information about VMSS VM
-  kind: object
-  properties:
-  - name: vmId
-    isReadyOnly: true
-    description: UUID of the VM.
-    types:
-    - uid: string
-  - name: vmResourceId
-    isReadyOnly: true
-    description: Azure resource Id of the VM.
-    types:
-    - uid: string
-  - name: complianceStatus
-    isReadyOnly: true
-    description: A value indicating compliance status of the machine for the assigned guest configuration.
-    types:
-    - uid: complianceStatus
-  - name: latestReportId
-    isReadyOnly: true
-    description: 'Id of the latest report for the guest configuration assignment. '
-    types:
-    - uid: string
-  - name: lastComplianceChecked
-    isReadyOnly: true
-    description: Date and time when last compliance status was checked.
     types:
     - uid: string
 - name: AssignmentReport
@@ -303,6 +313,51 @@ definitions:
   - name: Created
     types:
     - uid: string
+- name: VMSSVMInfo
+  description: Information about VMSS VM
+  kind: object
+  properties:
+  - name: vmId
+    isReadyOnly: true
+    description: UUID of the VM.
+    types:
+    - uid: string
+  - name: vmResourceId
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: latestReportId
+    isReadyOnly: true
+    description: 'Id of the latest report for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: lastComplianceChecked
+    isReadyOnly: true
+    description: Date and time when last compliance status was checked.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: kind
   description: Kind of the guest configuration. For example:DSC
   kind: enum
@@ -343,27 +398,33 @@ definitions:
   kind: object
   properties:
   - name: configurationMode
+    isReadyOnly: true
     description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
     types:
     - uid: configurationMode
   - name: allowModuleOverwrite
+    isReadyOnly: true
     description: If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false
     types:
     - uid: boolean
   - name: actionAfterReboot
+    isReadyOnly: true
     description: Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration
     types:
     - uid: actionAfterReboot
   - name: refreshFrequencyMins
+    isReadyOnly: true
     description: The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30.
     types:
     - uid: number
     defaultValue: 30
   - name: rebootIfNeeded
+    isReadyOnly: true
     description: Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module.
     types:
     - uid: boolean
   - name: configurationModeFrequencyMins
+    isReadyOnly: true
     description: How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15.
     types:
     - uid: number
@@ -483,11 +544,11 @@ definitions:
 examples:
 - name: List all guest configuration assignments for a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2020-06-25
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/mySubscriptionId/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2020-06-25
+      GET https://management.azure.com/subscriptions/mySubscriptionId/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2022-01-25
       ```
 
       # [Go](#tab/Go)
@@ -502,25 +563,22 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2020-06-25/examples/listSubGuestConfigurationAssignments.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listSubGuestConfigurationAssignments.json
       func ExampleAssignmentsClient_NewSubscriptionListPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armguestconfiguration.NewAssignmentsClient("<subscription-id>", cred, nil)
+      	client, err := armguestconfiguration.NewAssignmentsClient("mySubscriptionId", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
       	pager := client.NewSubscriptionListPager(nil)
       	for pager.More() {
       		nextResult, err := pager.NextPage(ctx)
       		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
-      			return
       		}
       		for _, v := range nextResult.Value {
       			// TODO: use page item
@@ -530,7 +588,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv0.4.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv1.0.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
