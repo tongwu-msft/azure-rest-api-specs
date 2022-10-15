@@ -4,7 +4,7 @@ description: Learn about the API versions of the Azure role-based access control
 author: rolyon
 ms.author: rolyon
 ms.manager: amycolannino
-ms.date: 09/15/2022
+ms.date: 10/17/2022
 ms.topic: reference
 ms.service: role-based-access-control
 ms.devlang: rest-api
