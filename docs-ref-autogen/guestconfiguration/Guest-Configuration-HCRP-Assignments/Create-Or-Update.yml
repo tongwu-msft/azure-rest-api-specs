@@ -3,14 +3,14 @@ uid: management.azure.com.guestconfiguration.guestconfigurationhcrpassignments.c
 name: Create Or Update
 service: Guest Configuration
 groupName: Guest Configuration HCRP Assignments
-apiVersion: 2020-06-25
+apiVersion: 2022-01-25
 summary: Creates an association between a ARC machine and guest configuration
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2020-06-25
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2022-01-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -109,16 +109,6 @@ definitions:
     description: 'parameter hash for the guest configuration assignment. '
     types:
     - uid: string
-  - name: resourceType
-    isReadyOnly: true
-    description: Type of the resource - VMSS / VM
-    types:
-    - uid: string
-  - name: vmssVMList
-    description: The list of VM Compliance data for VMSS
-    types:
-    - uid: VMSSVMInfo
-      isArray: true
   - name: latestAssignmentReport
     description: Last reported guest configuration assignment report.
     types:
@@ -137,6 +127,44 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: provisioningState
+  - name: resourceType
+    isReadyOnly: true
+    description: Type of the resource - VMSS / VM
+    types:
+    - uid: string
+  - name: vmssVMList
+    description: The list of VM Compliance data for VMSS
+    types:
+    - uid: VMSSVMInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: GuestConfigurationAssignment
   description: Guest configuration assignment is an association between a machine and guest configuration.
   kind: object
@@ -145,6 +173,11 @@ definitions:
     description: Properties of the Guest configuration assignment.
     types:
     - uid: GuestConfigurationAssignmentProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: id
     isReadyOnly: true
     description: ARM resource id of the guest configuration assignment.
@@ -199,6 +232,11 @@ definitions:
     description: Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
     types:
     - uid: assignmentType
+  - name: assignmentSource
+    isReadyOnly: true
+    description: Specifies the origin of the configuration.
+    types:
+    - uid: string
   - name: contentType
     isReadyOnly: true
     description: Specifies the content type of the configuration. Possible values could be Builtin or Custom.
@@ -215,6 +253,7 @@ definitions:
     - uid: ConfigurationParameter
       isArray: true
   - name: configurationSetting
+    isReadyOnly: true
     description: The configuration setting for the guest configuration.
     types:
     - uid: ConfigurationSetting
@@ -229,35 +268,6 @@ definitions:
     types:
     - uid: string
   - name: Pending
-    types:
-    - uid: string
-- name: VMSSVMInfo
-  description: Information about VMSS VM
-  kind: object
-  properties:
-  - name: vmId
-    isReadyOnly: true
-    description: UUID of the VM.
-    types:
-    - uid: string
-  - name: vmResourceId
-    isReadyOnly: true
-    description: Azure resource Id of the VM.
-    types:
-    - uid: string
-  - name: complianceStatus
-    isReadyOnly: true
-    description: A value indicating compliance status of the machine for the assigned guest configuration.
-    types:
-    - uid: complianceStatus
-  - name: latestReportId
-    isReadyOnly: true
-    description: 'Id of the latest report for the guest configuration assignment. '
-    types:
-    - uid: string
-  - name: lastComplianceChecked
-    isReadyOnly: true
-    description: Date and time when last compliance status was checked.
     types:
     - uid: string
 - name: AssignmentReport
@@ -322,6 +332,51 @@ definitions:
   - name: Created
     types:
     - uid: string
+- name: VMSSVMInfo
+  description: Information about VMSS VM
+  kind: object
+  properties:
+  - name: vmId
+    isReadyOnly: true
+    description: UUID of the VM.
+    types:
+    - uid: string
+  - name: vmResourceId
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: latestReportId
+    isReadyOnly: true
+    description: 'Id of the latest report for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: lastComplianceChecked
+    isReadyOnly: true
+    description: Date and time when last compliance status was checked.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: Error
   kind: object
   properties:
@@ -373,27 +428,33 @@ definitions:
   kind: object
   properties:
   - name: configurationMode
+    isReadyOnly: true
     description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
     types:
     - uid: configurationMode
   - name: allowModuleOverwrite
+    isReadyOnly: true
     description: If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false
     types:
     - uid: boolean
   - name: actionAfterReboot
+    isReadyOnly: true
     description: Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration
     types:
     - uid: actionAfterReboot
   - name: refreshFrequencyMins
+    isReadyOnly: true
     description: The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30.
     types:
     - uid: number
     defaultValue: 30
   - name: rebootIfNeeded
+    isReadyOnly: true
     description: Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module.
     types:
     - uid: boolean
   - name: configurationModeFrequencyMins
+    isReadyOnly: true
     description: How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15.
     types:
     - uid: number
@@ -513,22 +574,22 @@ definitions:
 examples:
 - name: Create or update guest configuration assignment
   request:
-    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication?api-version=2020-06-25
+    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows?api-version=2022-01-25
     body: >-
       {
         "location": "westcentralus",
-        "name": "WhitelistedApplication",
+        "name": "NotInstalledApplicationForWindows",
         "properties": {
           "context": "Azure policy",
           "guestConfiguration": {
-            "name": "WhitelistedApplication",
+            "name": "NotInstalledApplicationForWindows",
             "version": "1.*",
             "contentUri": "https://thisisfake/pacakge",
             "contentHash": "123contenthash",
             "assignmentType": "ApplyAndAutoCorrect",
             "configurationParameter": [
               {
-                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
                 "value": "NotePad,sql"
               }
             ]
@@ -538,22 +599,22 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication?api-version=2020-06-25
+      PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows?api-version=2022-01-25
 
       {
         "location": "westcentralus",
-        "name": "WhitelistedApplication",
+        "name": "NotInstalledApplicationForWindows",
         "properties": {
           "context": "Azure policy",
           "guestConfiguration": {
-            "name": "WhitelistedApplication",
+            "name": "NotInstalledApplicationForWindows",
             "version": "1.*",
             "contentUri": "https://thisisfake/pacakge",
             "contentHash": "123contenthash",
             "assignmentType": "ApplyAndAutoCorrect",
             "configurationParameter": [
               {
-                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
                 "value": "NotePad,sql"
               }
             ]
@@ -576,78 +637,73 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2020-06-25/examples/createOrUpdateGuestConfigurationHCRPAssignment.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationHCRPAssignment.json
       func ExampleHCRPAssignmentsClient_CreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armguestconfiguration.NewHCRPAssignmentsClient("<subscription-id>", cred, nil)
+      	client, err := armguestconfiguration.NewHCRPAssignmentsClient("mySubscriptionId", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
       	res, err := client.CreateOrUpdate(ctx,
-      		"<guest-configuration-assignment-name>",
-      		"<resource-group-name>",
-      		"<machine-name>",
+      		"NotInstalledApplicationForWindows",
+      		"myResourceGroupName",
+      		"myMachineName",
       		armguestconfiguration.Assignment{
-      			Name:     to.Ptr("<name>"),
-      			Location: to.Ptr("<location>"),
+      			Name:     to.Ptr("NotInstalledApplicationForWindows"),
+      			Location: to.Ptr("westcentralus"),
       			Properties: &armguestconfiguration.AssignmentProperties{
-      				Context: to.Ptr("<context>"),
+      				Context: to.Ptr("Azure policy"),
       				GuestConfiguration: &armguestconfiguration.Navigation{
-      					Name:           to.Ptr("<name>"),
+      					Name:           to.Ptr("NotInstalledApplicationForWindows"),
       					AssignmentType: to.Ptr(armguestconfiguration.AssignmentTypeApplyAndAutoCorrect),
       					ConfigurationParameter: []*armguestconfiguration.ConfigurationParameter{
       						{
-      							Name:  to.Ptr("<name>"),
-      							Value: to.Ptr("<value>"),
+      							Name:  to.Ptr("[InstalledApplication]NotInstalledApplicationResource1;Name"),
+      							Value: to.Ptr("NotePad,sql"),
       						}},
-      					ContentHash: to.Ptr("<content-hash>"),
-      					ContentURI:  to.Ptr("<content-uri>"),
-      					Version:     to.Ptr("<version>"),
+      					ContentHash: to.Ptr("123contenthash"),
+      					ContentURI:  to.Ptr("https://thisisfake/pacakge"),
+      					Version:     to.Ptr("1.*"),
       				},
       			},
       		},
       		nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      		return
       	}
       	// TODO: use response item
       	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv0.4.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fguestconfiguration%2Farmguestconfiguration%2Fv1.0.0/sdk/resourcemanager/guestconfiguration/armguestconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
       {
         "location": "westcentralus",
-        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication",
-        "name": "WhitelistedApplication",
+        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows",
+        "name": "NotInstalledApplicationForWindows",
         "properties": {
           "complianceStatus": "Pending",
           "assignmentHash": "abcdr453g",
           "latestReportId": "a2a64e5d-a1a9-4344-a866-fb9e1541f723",
           "lastComplianceStatusChecked": null,
           "context": "Azure policy",
-          "resourceType": null,
-          "vmssVMList": null,
           "guestConfiguration": {
             "kind": null,
-            "name": "WhitelistedApplication",
+            "name": "NotInstalledApplicationForWindows",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
             "contentType": null,
             "configurationParameter": [
               {
-                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
                 "value": "NotePad,sql"
               }
             ]
@@ -659,26 +715,24 @@ examples:
     body: >-
       {
         "location": "westcentralus",
-        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication",
-        "name": "WhitelistedApplication",
+        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/HybridRP.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/NotInstalledApplicationForWindows",
+        "name": "NotInstalledApplicationForWindows",
         "properties": {
           "complianceStatus": "Pending",
           "assignmentHash": "abcdr453g",
           "latestReportId": "a2a64e5d-a1a9-4344-a866-fb9e1541f723",
           "lastComplianceStatusChecked": null,
           "context": "Azure policy",
-          "resourceType": null,
-          "vmssVMList": null,
           "guestConfiguration": {
             "kind": null,
-            "name": "WhitelistedApplication",
+            "name": "NotInstalledApplicationForWindows",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
             "contentType": null,
             "configurationParameter": [
               {
-                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "name": "[InstalledApplication]NotInstalledApplicationResource1;Name",
                 "value": "NotePad,sql"
               }
             ]

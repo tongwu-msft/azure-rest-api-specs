@@ -3,25 +3,25 @@ uid: management.azure.com.mariadb.serversecurityalertpolicies.get
 name: Get
 service: MariaDB
 groupName: Server Security Alert Policies
-apiVersion: 2018-06-01-preview
+apiVersion: 2018-06-01
 summary: Get a server's security alert policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/securityAlertPolicies/Default?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/securityAlertPolicies/Default?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: serverName
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -120,13 +120,80 @@ definitions:
 examples:
 - name: Get a server's threat detection policy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01-preview
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforMariaDB/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2018-06-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmariadb_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsGet.json
+      func ExampleServerSecurityAlertPoliciesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmariadb.NewServerSecurityAlertPoliciesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"securityalert-4799",
+      		"securityalert-6440",
+      		armmariadb.SecurityAlertPolicyNameDefault,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmariadb%2Farmmariadb%2Fv1.0.0/sdk/resourcemanager/mariadb/armmariadb/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get a server's security alert policy.
+       *
+       * @summary Get a server's security alert policy.
+       * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsGet.json
+       */
+      async function getAServerThreatDetectionPolicy() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "securityalert-4799";
+        const serverName = "securityalert-6440";
+        const securityAlertPolicyName = "Default";
+        const credential = new DefaultAzureCredential();
+        const client = new MariaDBManagementClient(credential, subscriptionId);
+        const result = await client.serverSecurityAlertPolicies.get(
+          resourceGroupName,
+          serverName,
+          securityAlertPolicyName
+        );
+        console.log(result);
+      }
+
+      getAServerThreatDetectionPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mariadb_2.0.1/sdk/mariadb/arm-mariadb/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -147,15 +214,7 @@ examples:
           "storageEndpoint": "https://mystorage.blob.core.windows.net"
         }
       }
-security:
-- name: azure_auth
-  type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
 metadata:
   description: >
     Learn more about MariaDB service - Get a server's security alert policy.

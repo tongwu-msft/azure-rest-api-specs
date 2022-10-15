@@ -3,14 +3,14 @@ uid: management.azure.com.hybridcompute.machineextensions.get
 name: Get
 service: Hybrid Compute
 groupName: Machine Extensions
-apiVersion: 2022-05-10-preview
+apiVersion: 2022-08-11-preview
 summary: The operation to get the extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}?api-version=2022-05-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}?api-version=2022-08-11-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,15 +57,47 @@ definitions:
   description: Describes a Machine Extension.
   kind: object
   properties:
-  - name: properties
-    description: Describes Machine Extension Properties.
+  - name: properties.forceUpdateTag
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
     types:
-    - uid: MachineExtensionProperties
-  - name: systemData
+    - uid: string
+  - name: properties.publisher
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: properties.type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: properties.typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: properties.enableAutomaticUpgrade
+    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
+    types:
+    - uid: boolean
+  - name: properties.autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: properties.settings
+    description: Json formatted public settings for the extension.
+    types:
+    - {}
+  - name: properties.protectedSettings
+    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+    types:
+    - {}
+  - name: properties.provisioningState
     isReadyOnly: true
-    description: The system meta data relating to this resource.
+    description: The provisioning state, which only appears in the response.
     types:
-    - uid: systemData
+    - uid: string
+  - name: properties.instanceView
+    description: The machine extension instance view.
+    types:
+    - uid: MachineExtensionInstanceView
   - name: tags
     description: Resource tags.
     types:
@@ -93,6 +125,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -101,16 +138,12 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: MachineExtensionProperties
-  description: Describes the properties of a Machine Extension.
+- name: MachineExtensionInstanceView
+  description: Describes the Machine Extension Instance View.
   kind: object
   properties:
-  - name: forceUpdateTag
-    description: How the extension handler should be forced to update even if the extension configuration has not changed.
-    types:
-    - uid: string
-  - name: publisher
-    description: The name of the extension handler publisher.
+  - name: name
+    description: The machine extension name.
     types:
     - uid: string
   - name: type
@@ -121,31 +154,10 @@ definitions:
     description: Specifies the version of the script handler.
     types:
     - uid: string
-  - name: enableAutomaticUpgrade
-    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
+  - name: status
+    description: Instance view status.
     types:
-    - uid: boolean
-  - name: autoUpgradeMinorVersion
-    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
-    types:
-    - uid: boolean
-  - name: settings
-    description: Json formatted public settings for the extension.
-    types:
-    - {}
-  - name: protectedSettings
-    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
-    types:
-    - {}
-  - name: provisioningState
-    isReadyOnly: true
-    description: The provisioning state, which only appears in the response.
-    types:
-    - uid: string
-  - name: instanceView
-    description: The machine extension instance view.
-    types:
-    - uid: MachineExtensionInstanceView
+    - uid: Status
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -205,26 +217,30 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: MachineExtensionInstanceView
-  description: Describes the Machine Extension Instance View.
+- name: Status
+  description: Instance view status.
   kind: object
   properties:
-  - name: name
-    description: The machine extension name.
+  - name: code
+    description: The status code.
     types:
     - uid: string
-  - name: type
-    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
     types:
     - uid: string
-  - name: typeHandlerVersion
-    description: Specifies the version of the script handler.
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
     types:
     - uid: string
-  - name: status
-    description: Instance view status.
+  - name: time
+    description: The time of the status.
     types:
-    - uid: Status
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -255,30 +271,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: Status
-  description: Instance view status.
-  kind: object
-  properties:
-  - name: code
-    description: The status code.
-    types:
-    - uid: string
-  - name: level
-    description: The level code.
-    types:
-    - uid: StatusLevelTypes
-  - name: displayStatus
-    description: The short localizable label for the status.
-    types:
-    - uid: string
-  - name: message
-    description: The detailed status message, including for alerts and error messages.
-    types:
-    - uid: string
-  - name: time
-    description: The time of the status.
-    types:
-    - uid: string
 - name: StatusLevelTypes
   description: The level code.
   kind: enum
@@ -295,11 +287,11 @@ definitions:
 examples:
 - name: GET Machine Extension
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-05-10-preview
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-08-11-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-05-10-preview
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-08-11-preview
       ```
 
   responses:

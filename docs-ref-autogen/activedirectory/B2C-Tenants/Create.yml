@@ -3,14 +3,14 @@ uid: management.azure.com.activedirectory.b2ctenants.create
 name: Create
 service: Azure AD B2C
 groupName: B2C Tenants
-apiVersion: 2019-01-01-preview
+apiVersion: 2021-04-01
 summary: Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2019-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The initial domain name of the B2C tenant.
+  description: The initial domain name of the Azure AD B2C tenant.
   types:
   - uid: string
 - name: api-version
@@ -38,11 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The expected resource type once successfully created from the async request.
-  types:
-  - uid: B2CTenantResource
-- name: 201 Created
-  description: OK. The expected resource type once successfully created from the async request.
+  description: OK - Response of the URL in Location header if the async operation is successful. Resource will be created.
   types:
   - uid: B2CTenantResource
 - name: 202 Accepted
@@ -51,7 +47,7 @@ responses:
     value: string
   - name: Retry-After
     value: string
-  description: Tenant create request accepted. The Location header indicates the URL/location in which to check to get the async status of the operation.
+  description: Azure AD B2C tenant create request accepted. The Location header indicates the URL/location in which to check to get the async status of the operation.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -62,15 +58,9 @@ requestBody:
   - name: location
     in: body
     isRequired: true
-    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia' (preview). Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
+    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
     types:
     - uid: string
-  - name: properties
-    in: body
-    isRequired: true
-    description: ''
-    types:
-    - uid: Properties
   - name: sku
     in: body
     isRequired: true
@@ -86,19 +76,18 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-requestHeader: []
-definitions:
-- name: Properties
-  kind: object
-  properties:
-  - name: createTenantProperties.displayName
-    description: The display name of the B2C tenant.
+  - name: properties.createTenantProperties.displayName
+    in: body
+    description: The display name of the Azure AD B2C tenant.
     types:
     - uid: string
-  - name: createTenantProperties.countryCode
+  - name: properties.createTenantProperties.countryCode
+    in: body
     description: Country code of Azure tenant (e.g. 'US'). Refer to [aka.ms/B2CDataResidency](https://aka.ms/B2CDataResidency) to see valid country codes and corresponding data residency locations. If you do not see a country code in an valid data residency location, choose one from the list.
     types:
     - uid: string
+requestHeader: []
+definitions:
 - name: B2CResourceSKU
   description: SKU properties of the Azure AD B2C tenant. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cBilling).
   kind: object
@@ -125,16 +114,16 @@ definitions:
     - uid: B2CResourceSKU
   - name: id
     isReadyOnly: true
-    description: An identifier that represents the B2C tenant resource.
+    description: An identifier that represents the Azure AD B2C tenant resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the B2C tenant resource.
+    description: The name of the Azure AD B2C tenant resource.
     types:
     - uid: string
   - name: location
-    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia' (preview). Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
+    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
     types:
     - uid: string
   - name: tags
@@ -145,12 +134,17 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.billingConfig
     description: The billing configuration for the tenant.
     types:
     - uid: BillingConfig
   - name: properties.tenantId
-    description: An identifier of the B2C tenant.
+    description: An identifier of the Azure AD B2C tenant.
     types:
     - uid: string
 - name: CloudError
@@ -166,13 +160,9 @@ definitions:
   kind: object
   properties:
   - name: location
-    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia' (preview). Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
+    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
     types:
     - uid: string
-  - name: properties
-    description: ''
-    types:
-    - uid: Properties
   - name: sku
     description: SKU properties of the Azure AD B2C tenant. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cBilling).
     types:
@@ -185,6 +175,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.createTenantProperties.displayName
+    description: The display name of the Azure AD B2C tenant.
+    types:
+    - uid: string
+  - name: properties.createTenantProperties.countryCode
+    description: Country code of Azure tenant (e.g. 'US'). Refer to [aka.ms/B2CDataResidency](https://aka.ms/B2CDataResidency) to see valid country codes and corresponding data residency locations. If you do not see a country code in an valid data residency location, choose one from the list.
+    types:
+    - uid: string
 - name: B2CResourceSKUName
   description: The name of the SKU for the tenant.
   kind: enum
@@ -215,6 +213,34 @@ definitions:
   properties:
   - name: Microsoft.AzureActiveDirectory/b2cDirectories
     description: The resource type for Azure AD B2C tenant resource.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: BillingConfig
@@ -261,6 +287,22 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: BillingType
   description: The type of billing. Will be MAU for all new customers. If 'Auths', it can be updated to 'MAU'. Cannot be changed if value is 'MAU'. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cbilling).
   kind: enum
@@ -290,7 +332,7 @@ definitions:
 examples:
 - name: Create tenant
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
     body: >-
       {
         "location": "United States",
@@ -308,7 +350,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
 
       {
         "location": "United States",
@@ -326,6 +368,42 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ExternalIdentitiesConfigurationClient } = require("@azure/arm-azureadexternalidentities");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
+       *
+       * @summary Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
+       * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/createTenant.json
+       */
+      async function createTenant() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "contosoResourceGroup";
+        const resourceName = "contoso.onmicrosoft.com";
+        const createTenantRequestBody = {
+          countryCode: "US",
+          displayName: "Contoso",
+          location: "United States",
+          sku: { name: "Standard", tier: "A0" },
+        };
+        const options = { createTenantRequestBody };
+        const credential = new DefaultAzureCredential();
+        const client = new ExternalIdentitiesConfigurationClient(credential, subscriptionId);
+        const result = await client.b2CTenants.beginCreateAndWait(
+          resourceGroupName,
+          resourceName,
+          options
+        );
+        console.log(result);
+      }
+
+      createTenant().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azureadexternalidentities_1.0.2/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -337,26 +415,8 @@ examples:
         },
         "properties": {
           "billingConfig": {
-            "billingType": "MAU"
-          },
-          "tenantId": "00000000-0000-0000-0000-000000000000"
-        },
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com",
-        "name": "contoso.onmicrosoft.com",
-        "location": "United States",
-        "tags": null
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "type": "Microsoft.AzureActiveDirectory/b2cDirectories",
-        "sku": {
-          "name": "Standard",
-          "tier": "A0"
-        },
-        "properties": {
-          "billingConfig": {
-            "billingType": "MAU"
+            "billingType": "MAU",
+            "effectiveStartDateUtc": "1/1/0001 12:00:00 AM"
           },
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },

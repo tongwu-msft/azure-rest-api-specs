@@ -259,6 +259,107 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.devcenter.models.Catalog;
+      import com.azure.resourcemanager.devcenter.models.GitCatalog;
+
+      /** Samples for Catalogs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Catalogs_Patch.json
+           */
+          /**
+           * Sample code: Catalogs_Update.
+           *
+           * @param manager Entry point to DevCenterManager.
+           */
+          public static void catalogsUpdate(com.azure.resourcemanager.devcenter.DevCenterManager manager) {
+              Catalog resource =
+                  manager.catalogs().getWithResponse("rg1", "Contoso", "{catalogName}", Context.NONE).getValue();
+              resource.update().withGitHub(new GitCatalog().withPath("/environments")).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-devcenter_1.0.0-beta.2/sdk/devcenter/azure-resourcemanager-devcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Catalogs_Patch.json
+      func ExampleCatalogsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewCatalogsClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx, "rg1", "Contoso", "{catalogName}", armdevcenter.CatalogUpdate{
+      		Properties: &armdevcenter.CatalogUpdateProperties{
+      			GitHub: &armdevcenter.GitCatalog{
+      				Path: to.Ptr("/environments"),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.2.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevCenterClient } = require("@azure/arm-devcenter");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Partially updates a catalog.
+       *
+       * @summary Partially updates a catalog.
+       * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Catalogs_Patch.json
+       */
+      async function catalogsUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "rg1";
+        const devCenterName = "Contoso";
+        const catalogName = "{catalogName}";
+        const body = { gitHub: { path: "/environments" } };
+        const credential = new DefaultAzureCredential();
+        const client = new DevCenterClient(credential, subscriptionId);
+        const result = await client.catalogs.beginUpdateAndWait(
+          resourceGroupName,
+          devCenterName,
+          catalogName,
+          body
+        );
+        console.log(result);
+      }
+
+      catalogsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devcenter_1.0.0-beta.2/sdk/devcenter/arm-devcenter/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

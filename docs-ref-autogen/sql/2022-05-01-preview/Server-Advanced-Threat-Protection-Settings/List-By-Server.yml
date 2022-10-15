@@ -1,0 +1,218 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-05-01-preview.serveradvancedthreatprotectionsettings.listbyserver
+name: List By Server
+service: SQL Database
+groupName: Server Advanced Threat Protection Settings
+apiVersion: 2022-05-01-preview
+summary: Get a list of the server's Advanced Threat Protection states.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of server's Advanced Threat Protection states.
+  types:
+  - uid: LogicalServerAdvancedThreatProtectionListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 AdvancedThreatProtectionInsufficientDiskSpace - Insufficient disk space to save the Advanced Threat Protection settings metadata in the database
+
+     * 400 UpdateNotAllowedOnServerContainingPausedDWDatabase - Setting the server Advanced Threat Protection settings is not allowed on a server with a paused Data Warehouse database
+
+     * 400 InvalidServerAdvancedThreatProtectionCreateRequest - The create server Advanced Threat Protection request does not exist or has no properties object
+
+     * 400 AdvancedThreatProtectionInvalidUserSuppliedParameter - An invalid parameter value was provided by the client
+
+     * 400 UpsertServerAdvancedThreatProtectionFailed - An error has occurred while saving the Advanced Threat Protection settings, please try again later
+
+     * 400 UpsertServerAdvancedThreatProtectionFailed - An error has occurred while saving the Advanced Threat Protection settings, please try again later
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 UpsertServerAdvancedThreatProtectionFailed - An error has occurred while saving the Advanced Threat Protection settings, please try again later
+
+     * 409 ServerAdvancedThreatProtectionInProgress - Setting the server Advanced Threat Protection settings is already in progress
+
+     * 409 UpsertServerAdvancedThreatProtectionFailed - An error has occurred while saving the Advanced Threat Protection settings, please try again later
+
+     * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
+
+     * 500 UpsertServerAdvancedThreatProtectionFailed - An error has occurred while saving the Advanced Threat Protection settings, please try again later
+
+     * 500 GetServerAdvancedThreatProtectionFailed - Failed to get the Advanced Threat Protection settings
+requestHeader: []
+definitions:
+- name: LogicalServerAdvancedThreatProtectionListResult
+  description: A list of the server's Advanced Threat Protection configurations.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ServerAdvancedThreatProtection
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ServerAdvancedThreatProtection
+  description: A server Advanced Threat Protection.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: SystemData of AdvancedThreatProtectionResource.
+    types:
+    - uid: systemData
+  - name: properties.state
+    description: Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server.
+    types:
+    - uid: AdvancedThreatProtectionState
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Specifies the UTC creation time of the policy.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: AdvancedThreatProtectionState
+  description: Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server.
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: List the server's Advanced Threat Protection settings.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/threatprotection-4799/providers/Microsoft.Sql/servers/threatprotection-6440/advancedThreatProtectionSettings?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/threatprotection-4799/providers/Microsoft.Sql/servers/threatprotection-6440/advancedThreatProtectionSettings?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/threatprotection-4799/providers/Microsoft.Sql/servers/threatprotection-6440/advancedThreatProtectionSettings",
+            "name": "Default",
+            "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "User",
+              "createdAt": "2022-04-03T04:41:33.937Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2022-04-03T04:41:33.937Z"
+            },
+            "properties": {
+              "state": "Disabled",
+              "creationTime": "2022-04-03T04:41:33.937Z"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Get a list of the server's Advanced Threat Protection states.
+errorCodes: []

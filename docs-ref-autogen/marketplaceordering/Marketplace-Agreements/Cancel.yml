@@ -3,14 +3,14 @@ uid: management.azure.com.marketplaceordering.marketplaceagreements.cancel
 name: Cancel
 service: Marketplace Ordering
 groupName: Marketplace Agreements
-apiVersion: 2015-06-01
+apiVersion: 2021-01-01
 summary: Cancel marketplace terms.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/cancel?api-version=2015-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/cancel?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,45 +46,58 @@ responses:
 - name: 200 OK
   description: OK. The request was successfully processed and the terms were rejected.
   types:
-  - uid: OldAgreementTerms
-- name: Other Status Codes
-  description: Unsupported Media Type
-  types:
-  - uid: UnsupportedMediaTypeErrorResponse
+  - uid: AgreementTerms
 - name: Other Status Codes
   description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OldAgreementTerms
+- name: AgreementTerms
   description: Terms properties for provided Publisher/Offer/Plan tuple
   kind: object
   properties:
-  - name: properties.id
-    description: A unique identifier of the agreement.
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
     types:
-    - uid: string
+    - uid: systemData
   - name: properties.publisher
     description: Publisher identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.offer
+  - name: properties.product
     description: Offer identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.signDate
-    description: Date and time in UTC of when the terms were accepted. This is empty if state is cancelled.
+  - name: properties.plan
+    description: Plan identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.cancelDate
-    description: Date and time in UTC of when the terms were cancelled. This is empty if state is active.
+  - name: properties.licenseTextLink
+    description: Link to HTML with Microsoft and Publisher terms.
     types:
     - uid: string
-  - name: properties.state
-    description: Whether the agreement is active or cancelled
+  - name: properties.privacyPolicyLink
+    description: Link to the privacy policy of the publisher.
     types:
-    - uid: state
+    - uid: string
+  - name: properties.marketplaceTermsLink
+    description: Link to HTML with Azure Marketplace terms.
+    types:
+    - uid: string
+  - name: properties.retrieveDatetime
+    description: Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
+    types:
+    - uid: string
+  - name: properties.signature
+    description: Terms signature.
+    types:
+    - uid: string
+  - name: properties.accepted
+    description: If any version of the terms have been accepted, otherwise false.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -100,14 +113,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: UnsupportedMediaTypeErrorResponse
-  description: Error response that indicates the media type in the request is unsupported.
-  kind: object
-  properties:
-  - name: Message
-    description: The details of the error.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -116,14 +121,32 @@ definitions:
     description: The details of the error.
     types:
     - uid: Error
-- name: state
-  description: Whether the agreement is active or cancelled
-  kind: enum
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
   properties:
-  - name: Active
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: Canceled
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: Error
@@ -140,16 +163,117 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: SetMarketplaceTerms
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/agreements/pubid/offers/offid/plans/planid/cancel?api-version=2015-06-01
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/agreements/pubid/offers/offid/plans/planid/cancel?api-version=2021-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/agreements/pubid/offers/offid/plans/planid/cancel?api-version=2015-06-01
+      POST https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/agreements/pubid/offers/offid/plans/planid/cancel?api-version=2021-01-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for MarketplaceAgreements Cancel. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/CancelMarketplaceTerms.json
+           */
+          /**
+           * Sample code: SetMarketplaceTerms.
+           *
+           * @param manager Entry point to MarketplaceOrderingManager.
+           */
+          public static void setMarketplaceTerms(
+              com.azure.resourcemanager.marketplaceordering.MarketplaceOrderingManager manager) {
+              manager.marketplaceAgreements().cancelWithResponse("pubid", "offid", "planid", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-marketplaceordering_1.0.0-beta.2/sdk/marketplaceordering/azure-resourcemanager-marketplaceordering/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmarketplaceordering_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/marketplaceordering/armmarketplaceordering"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/CancelMarketplaceTerms.json
+      func ExampleMarketplaceAgreementsClient_Cancel() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmarketplaceordering.NewMarketplaceAgreementsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Cancel(ctx,
+      		"pubid",
+      		"offid",
+      		"planid",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmarketplaceordering%2Farmmarketplaceordering%2Fv1.0.0/sdk/resourcemanager/marketplaceordering/armmarketplaceordering/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MarketplaceOrderingAgreements } = require("@azure/arm-marketplaceordering");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Cancel marketplace terms.
+       *
+       * @summary Cancel marketplace terms.
+       * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/CancelMarketplaceTerms.json
+       */
+      async function setMarketplaceTerms() {
+        const subscriptionId = "subid";
+        const publisherId = "pubid";
+        const offerId = "offid";
+        const planId = "planid";
+        const credential = new DefaultAzureCredential();
+        const client = new MarketplaceOrderingAgreements(credential, subscriptionId);
+        const result = await client.marketplaceAgreements.cancel(publisherId, offerId, planId);
+        console.log(result);
+      }
+
+      setMarketplaceTerms().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-marketplaceordering_3.1.0/sdk/marketplaceordering/arm-marketplaceordering/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -158,18 +282,16 @@ examples:
         "name": "planid",
         "type": "Microsoft.MarketplaceOrdering/offertypes",
         "properties": {
-          "id": "11111111-1111-1111-1111-111111111111",
           "publisher": "pubid",
-          "offer": "offid",
-          "signDate": "2017-08-15T11:33:07.12132Z",
-          "cancelDate": "2017-08-16T11:33:07.12132Z",
-          "state": "Canceled"
+          "product": "offid",
+          "plan": "planid",
+          "licenseTextLink": "test.licenseLink",
+          "privacyPolicyLink": "test.privacyPolicyLink",
+          "marketplaceTermsLink": "test.marketplaceTermsLink",
+          "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
+          "signature": "ASDFSDAFWEFASDGWERLWER",
+          "accepted": false
         }
-      }
-  - statusCode: "415"
-    body: >-
-      {
-        "Message": "media type unsupported"
       }
 security:
 - name: azure_auth

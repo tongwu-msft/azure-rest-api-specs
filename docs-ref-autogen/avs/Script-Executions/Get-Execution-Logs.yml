@@ -3,14 +3,14 @@ uid: management.azure.com.avs.scriptexecutions.getexecutionlogs
 name: Get Execution Logs
 service: AVS
 groupName: Script Executions
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Return the logs for a script execution resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}/getExecutionLogs?api-version=2021-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}/getExecutionLogs?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -201,6 +201,9 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -304,7 +307,7 @@ definitions:
 examples:
 - name: ScriptExecutions_GetExecutionLogs
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer/getExecutionLogs?api-version=2021-12-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer/getExecutionLogs?api-version=2022-05-01
     body: >-
       [
         "Information",
@@ -315,7 +318,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer/getExecutionLogs?api-version=2021-12-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer/getExecutionLogs?api-version=2022-05-01
 
       [
         "Information",
@@ -326,124 +329,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.avs.models.ScriptOutputStreamType;
-      import java.util.Arrays;
-
-      /** Samples for ScriptExecutions GetExecutionLogs. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptExecutions_GetExecutionLogs.json
-           */
-          /**
-           * Sample code: ScriptExecutions_GetExecutionLogs.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void scriptExecutionsGetExecutionLogs(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .scriptExecutions()
-                  .getExecutionLogsWithResponse(
-                      "group1",
-                      "cloud1",
-                      "addSsoServer",
-                      Arrays
-                          .asList(
-                              ScriptOutputStreamType.INFORMATION,
-                              ScriptOutputStreamType.fromString("Warnings"),
-                              ScriptOutputStreamType.fromString("Errors"),
-                              ScriptOutputStreamType.OUTPUT),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptExecutions_GetExecutionLogs.json
-      func ExampleScriptExecutionsClient_GetExecutionLogs() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewScriptExecutionsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.GetExecutionLogs(ctx,
-      		"group1",
-      		"cloud1",
-      		"addSsoServer",
-      		&armavs.ScriptExecutionsClientGetExecutionLogsOptions{ScriptOutputStreamType: []*armavs.ScriptOutputStreamType{
-      			to.Ptr(armavs.ScriptOutputStreamTypeInformation),
-      			to.Ptr(armavs.ScriptOutputStreamType("Warnings")),
-      			to.Ptr(armavs.ScriptOutputStreamType("Errors")),
-      			to.Ptr(armavs.ScriptOutputStreamTypeOutput)},
-      		})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Return the logs for a script execution resource
-       *
-       * @summary Return the logs for a script execution resource
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptExecutions_GetExecutionLogs.json
-       */
-      async function scriptExecutionsGetExecutionLogs() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const scriptExecutionName = "addSsoServer";
-        const scriptOutputStreamType = ["Information", "Warnings", "Errors", "Output"];
-        const options = {
-          scriptOutputStreamType,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.scriptExecutions.getExecutionLogs(
-          resourceGroupName,
-          privateCloudName,
-          scriptExecutionName,
-          options
-        );
-        console.log(result);
-      }
-
-      scriptExecutionsGetExecutionLogs().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.1/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer",
         "name": "addSsoServer",
         "properties": {
           "timeout": "P0Y0M0D0H060M0S",

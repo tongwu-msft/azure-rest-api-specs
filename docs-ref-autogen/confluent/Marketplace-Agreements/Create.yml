@@ -3,14 +3,14 @@ uid: management.azure.com.confluent.marketplaceagreements.create
 name: Create
 service: Confluent
 groupName: Marketplace Agreements
-apiVersion: 2020-03-01
-summary: Accept marketplace terms.
+apiVersion: 2021-12-01
+summary: Create Confluent Marketplace agreement in the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default?api-version=2020-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,25 +78,58 @@ requestBody:
     - uid: boolean
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ConfluentAgreementResource
-  description: Confluent Agreements Resource.
+  description: Agreement Terms definition
   kind: object
   properties:
   - name: id
     isReadyOnly: true
-    description: ARM id of the resource.
+    description: The ARM id of the resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the agreement.
+    description: The name of the agreement.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.
+    description: The type of the agreement.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource
+    types:
+    - uid: systemData
   - name: properties.publisher
     description: Publisher identifier string.
     types:
@@ -138,6 +171,22 @@ definitions:
     description: "ErrorResponseBody  \nResponse body of Error"
     types:
     - uid: ErrorResponseBody
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ErrorResponseBody
   description: ErrorResponseBody
   kind: object
@@ -166,13 +215,47 @@ definitions:
 examples:
 - name: MarketplaceAgreements_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Confluent/agreements/default?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Confluent/agreements/default?api-version=2021-12-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Confluent/agreements/default?api-version=2020-03-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Confluent/agreements/default?api-version=2021-12-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armconfluent_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/confluent/armconfluent"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/confluent/resource-manager/Microsoft.Confluent/stable/2021-12-01/examples/MarketplaceAgreements_Create.json
+      func ExampleMarketplaceAgreementsClient_Create() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconfluent.NewMarketplaceAgreementsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Create(ctx,
+      		&armconfluent.MarketplaceAgreementsClientCreateOptions{Body: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconfluent%2Farmconfluent%2Fv1.0.0/sdk/resourcemanager/confluent/armconfluent/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -180,6 +263,14 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Confluent/agreements/default",
         "name": "default",
         "type": "Microsoft.Confluent/agreements",
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-05-09T14:28:47.284Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-05-09T14:28:47.284Z"
+        },
         "properties": {
           "publisher": "pubid1",
           "product": "offid1",
@@ -202,5 +293,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Confluent service - Accept marketplace terms.
+    Learn more about Confluent service - Create Confluent Marketplace agreement in the subscription.
 errorCodes: []

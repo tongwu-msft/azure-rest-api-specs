@@ -277,6 +277,123 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.devcenter.models.EnableStatus;
+      import com.azure.resourcemanager.devcenter.models.ScheduledFrequency;
+      import com.azure.resourcemanager.devcenter.models.ScheduledType;
+
+      /** Samples for Schedules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Schedules_CreateDailyShutdownPoolSchedule.json
+           */
+          /**
+           * Sample code: Schedules_CreateDailyShutdownPoolSchedule.
+           *
+           * @param manager Entry point to DevCenterManager.
+           */
+          public static void schedulesCreateDailyShutdownPoolSchedule(
+              com.azure.resourcemanager.devcenter.DevCenterManager manager) {
+              manager
+                  .schedules()
+                  .define("autoShutdown")
+                  .withExistingPool("rg1", "DevProject", "DevPool")
+                  .withTypePropertiesType(ScheduledType.STOP_DEV_BOX)
+                  .withFrequency(ScheduledFrequency.DAILY)
+                  .withTime("17:30")
+                  .withTimeZone("America/Los_Angeles")
+                  .withState(EnableStatus.ENABLED)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-devcenter_1.0.0-beta.2/sdk/devcenter/azure-resourcemanager-devcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Schedules_CreateDailyShutdownPoolSchedule.json
+      func ExampleSchedulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewSchedulesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "DevProject", "DevPool", "autoShutdown", armdevcenter.Schedule{
+      		Properties: &armdevcenter.ScheduleProperties{
+      			Type:      to.Ptr(armdevcenter.ScheduledTypeStopDevBox),
+      			Frequency: to.Ptr(armdevcenter.ScheduledFrequencyDaily),
+      			State:     to.Ptr(armdevcenter.EnableStatusEnabled),
+      			Time:      to.Ptr("17:30"),
+      			TimeZone:  to.Ptr("America/Los_Angeles"),
+      		},
+      	}, &armdevcenter.SchedulesClientBeginCreateOrUpdateOptions{Top: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.2.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevCenterClient } = require("@azure/arm-devcenter");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Schedule.
+       *
+       * @summary Creates or updates a Schedule.
+       * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Schedules_CreateDailyShutdownPoolSchedule.json
+       */
+      async function schedulesCreateDailyShutdownPoolSchedule() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "rg1";
+        const projectName = "DevProject";
+        const poolName = "DevPool";
+        const scheduleName = "autoShutdown";
+        const body = {
+          typePropertiesType: "StopDevBox",
+          frequency: "Daily",
+          state: "Enabled",
+          time: "17:30",
+          timeZone: "America/Los_Angeles",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevCenterClient(credential, subscriptionId);
+        const result = await client.schedules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          projectName,
+          poolName,
+          scheduleName,
+          body
+        );
+        console.log(result);
+      }
+
+      schedulesCreateDailyShutdownPoolSchedule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devcenter_1.0.0-beta.2/sdk/devcenter/arm-devcenter/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

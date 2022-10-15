@@ -3,16 +3,14 @@ uid: management.azure.com.notificationhubs.namespaces.createorupdate
 name: Create Or Update
 service: Notification Hubs
 groupName: Namespaces
-apiVersion: 2016-03-01
+apiVersion: 2017-04-01
 summary: Creates/Updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}?api-version=2016-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,11 +37,11 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
+- name: 200 OK
   description: Namespace is Create/Update
   types:
   - uid: NamespaceResource
-- name: 200 OK
+- name: 201 Created
   description: Namespace is Create/Update
   types:
   - uid: NamespaceResource
@@ -75,6 +73,11 @@ requestBody:
     description: The time the namespace was created.
     types:
     - uid: string
+  - name: properties.updatedAt
+    in: body
+    description: The time the namespace was updated.
+    types:
+    - uid: string
   - name: properties.serviceBusEndpoint
     in: body
     description: Endpoint you can use to perform NotificationHub operations.
@@ -100,6 +103,11 @@ requestBody:
     description: Whether or not the namespace is set as Critical.
     types:
     - uid: boolean
+  - name: properties.dataCenter
+    in: body
+    description: Data center for the namespace
+    types:
+    - uid: string
   - name: properties.namespaceType
     in: body
     description: The namespace type.
@@ -167,12 +175,21 @@ definitions:
     description: 'Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe'
     types:
     - uid: string
+  - name: properties.metricId
+    isReadyOnly: true
+    description: Identifier for Azure Insights metrics
+    types:
+    - uid: string
   - name: properties.status
     description: Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting
     types:
     - uid: string
   - name: properties.createdAt
     description: The time the namespace was created.
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    description: The time the namespace was updated.
     types:
     - uid: string
   - name: properties.serviceBusEndpoint
@@ -195,6 +212,10 @@ definitions:
     description: Whether or not the namespace is set as Critical.
     types:
     - uid: boolean
+  - name: properties.dataCenter
+    description: Data center for the namespace
+    types:
+    - uid: string
   - name: properties.namespaceType
     description: The namespace type.
     types:
@@ -246,12 +267,21 @@ definitions:
     description: 'Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe'
     types:
     - uid: string
+  - name: properties.metricId
+    isReadyOnly: true
+    description: Identifier for Azure Insights metrics
+    types:
+    - uid: string
   - name: properties.status
     description: Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting
     types:
     - uid: string
   - name: properties.createdAt
     description: The time the namespace was created.
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    description: The time the namespace was updated.
     types:
     - uid: string
   - name: properties.serviceBusEndpoint
@@ -274,6 +304,10 @@ definitions:
     description: Whether or not the namespace is set as Critical.
     types:
     - uid: boolean
+  - name: properties.dataCenter
+    description: Data center for the namespace
+    types:
+    - uid: string
   - name: properties.namespaceType
     description: The namespace type.
     types:
@@ -332,7 +366,212 @@ definitions:
   - name: NotificationHub
     types:
     - uid: string
-examples: []
+examples:
+- name: NameSpaceCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns?api-version=2017-04-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces/nh-sdk-ns?api-version=2017-04-01
+
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.notificationhubs.models.Sku;
+      import com.azure.resourcemanager.notificationhubs.models.SkuName;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Namespaces CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCreate.json
+           */
+          /**
+           * Sample code: NameSpaceCreate.
+           *
+           * @param manager Entry point to NotificationHubsManager.
+           */
+          public static void nameSpaceCreate(com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
+              manager
+                  .namespaces()
+                  .define("nh-sdk-ns")
+                  .withLocation("South Central US")
+                  .withExistingResourceGroup("5ktrial")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withSku(new Sku().withName(SkuName.STANDARD).withTier("Standard"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-notificationhubs_1.0.0-beta.3/sdk/notificationhubs/azure-resourcemanager-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnotificationhubs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCreate.json
+      func ExampleNamespacesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnotificationhubs.NewNamespacesClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"5ktrial",
+      		"nh-sdk-ns",
+      		armnotificationhubs.NamespaceCreateOrUpdateParameters{
+      			Location: to.Ptr("South Central US"),
+      			SKU: &armnotificationhubs.SKU{
+      				Name: to.Ptr(armnotificationhubs.SKUNameStandard),
+      				Tier: to.Ptr("Standard"),
+      			},
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnotificationhubs%2Farmnotificationhubs%2Fv1.0.0/sdk/resourcemanager/notificationhubs/armnotificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates/Updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+       *
+       * @summary Creates/Updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceCreate.json
+       */
+      async function nameSpaceCreate() {
+        const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+        const resourceGroupName = "5ktrial";
+        const namespaceName = "nh-sdk-ns";
+        const parameters = {
+          location: "South Central US",
+          sku: { name: "Standard", tier: "Standard" },
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NotificationHubsManagementClient(credential, subscriptionId);
+        const result = await client.namespaces.createOrUpdate(
+          resourceGroupName,
+          namespaceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      nameSpaceCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/ArunMonocle/providers/Microsoft.NotificationHubs/namespaces/sdk-Namespace-2924",
+        "name": "sdk-Namespace-2924",
+        "type": "Microsoft.NotificationHubs/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Created",
+          "metricId": "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40:sdk-namespace-2924",
+          "createdAt": "2017-05-25T22:26:36.76Z",
+          "updatedAt": "2017-05-25T22:26:36.76Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/ArunMonocle/providers/Microsoft.NotificationHubs/namespaces/sdk-Namespace-2924",
+        "name": "sdk-Namespace-2924",
+        "type": "Microsoft.NotificationHubs/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Created",
+          "metricId": "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40:sdk-namespace-2924",
+          "createdAt": "2017-05-25T22:26:36.76Z",
+          "updatedAt": "2017-05-25T22:26:36.76Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

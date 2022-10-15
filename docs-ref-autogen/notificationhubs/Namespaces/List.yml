@@ -3,16 +3,14 @@ uid: management.azure.com.notificationhubs.namespaces.list
 name: List
 service: Notification Hubs
 groupName: Namespaces
-apiVersion: 2016-03-01
+apiVersion: 2017-04-01
 summary: Lists the available namespaces within a resourceGroup.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces?api-version=2016-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,12 +66,21 @@ definitions:
     description: 'Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe'
     types:
     - uid: string
+  - name: properties.metricId
+    isReadyOnly: true
+    description: Identifier for Azure Insights metrics
+    types:
+    - uid: string
   - name: properties.status
     description: Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting
     types:
     - uid: string
   - name: properties.createdAt
     description: The time the namespace was created.
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    description: The time the namespace was updated.
     types:
     - uid: string
   - name: properties.serviceBusEndpoint
@@ -96,6 +103,10 @@ definitions:
     description: Whether or not the namespace is set as Critical.
     types:
     - uid: boolean
+  - name: properties.dataCenter
+    description: Data center for the namespace
+    types:
+    - uid: string
   - name: properties.namespaceType
     description: The namespace type.
     types:
@@ -178,7 +189,132 @@ definitions:
   - name: Standard
     types:
     - uid: string
-examples: []
+examples:
+- name: NameSpaceListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces?api-version=2017-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/5ktrial/providers/Microsoft.NotificationHubs/namespaces?api-version=2017-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Namespaces ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceListByResourceGroup.json
+           */
+          /**
+           * Sample code: NameSpaceListByResourceGroup.
+           *
+           * @param manager Entry point to NotificationHubsManager.
+           */
+          public static void nameSpaceListByResourceGroup(
+              com.azure.resourcemanager.notificationhubs.NotificationHubsManager manager) {
+              manager.namespaces().listByResourceGroup("5ktrial", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-notificationhubs_1.0.0-beta.3/sdk/notificationhubs/azure-resourcemanager-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnotificationhubs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/notificationhubs/armnotificationhubs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceListByResourceGroup.json
+      func ExampleNamespacesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnotificationhubs.NewNamespacesClient("29cfa613-cbbc-4512-b1d6-1b3a92c7fa40", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("5ktrial",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnotificationhubs%2Farmnotificationhubs%2Fv1.0.0/sdk/resourcemanager/notificationhubs/armnotificationhubs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the available namespaces within a resourceGroup.
+       *
+       * @summary Lists the available namespaces within a resourceGroup.
+       * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceListByResourceGroup.json
+       */
+      async function nameSpaceListByResourceGroup() {
+        const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+        const resourceGroupName = "5ktrial";
+        const credential = new DefaultAzureCredential();
+        const client = new NotificationHubsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.namespaces.list(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      nameSpaceListByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-notificationhubs_2.0.1/sdk/notificationhubs/arm-notificationhubs/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "id": "/subscriptions/29cfa613-cbbc-4512-b1d6-1b3a92c7fa40/resourceGroups/ArunMonocle/providers/Microsoft.NotificationHubs/namespaces/sdk-Namespace-2924",
+            "name": "sdk-Namespace-2924",
+            "type": "Microsoft.NotificationHubs/Namespaces",
+            "location": "South Central US",
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "metricId": "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40:sdk-namespace-2924",
+              "createdAt": "2017-05-25T22:26:36.76Z",
+              "updatedAt": "2017-05-25T22:26:59.35Z",
+              "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

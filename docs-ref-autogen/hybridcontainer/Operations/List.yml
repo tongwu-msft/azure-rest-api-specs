@@ -1,0 +1,248 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hybridcontainer.operations.list
+name: List
+service: Hybrid Container Service
+groupName: Operations
+apiVersion: 2022-05-01-preview
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.HybridContainerService/operations?api-version=2022-05-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Describe the result of a successful operation.
+  types:
+  - uid: ResourceProviderOperationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ResourceProviderOperationList
+  description: Results of the request to list operations.
+  kind: object
+  properties:
+  - name: value
+    description: Results of the request to list operations.
+    types:
+    - uid: ResourceProviderOperation
+      isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ResourceProviderOperation
+  description: Results of the request to list operations.
+  kind: object
+  properties:
+  - name: isDataAction
+    description: Indicates whether the operation applies to data-plane.
+    types:
+    - uid: string
+  - name: name
+    description: Operation name, in format of {provider}/{resource}/{operation}
+    types:
+    - uid: string
+  - name: display
+    description: Display metadata associated with the operation.
+    types:
+    - uid: Display
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Display
+  description: Display metadata associated with the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: The resource provider.
+    types:
+    - uid: string
+  - name: resource
+    description: Resource on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: 'Type of operation: get, read, delete, etc.'
+    types:
+    - uid: string
+  - name: description
+    description: Description of this operation.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ListOperations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.HybridContainerService/operations?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.HybridContainerService/operations?api-version=2022-05-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListOperations.json
+           */
+          /**
+           * Sample code: ListOperations.
+           *
+           * @param manager Entry point to HybridContainerServiceManager.
+           */
+          public static void listOperations(
+              com.azure.resourcemanager.hybridcontainerservice.HybridContainerServiceManager manager) {
+              manager.operations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hybridcontainerservice_1.0.0-beta.1/sdk/hybridcontainerservice/azure-resourcemanager-hybridcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhybridcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListOperations.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhybridcontainerservice.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhybridcontainerservice%2Farmhybridcontainerservice%2Fv0.1.1/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.HybridContainerService/provisionedClusters/Read",
+            "display": {
+              "provider": "Microsoft.HybridContainerService",
+              "resource": "provisionedClusters",
+              "operation": "Gets/List provisionedClusters resources",
+              "description": "Read provisionedClusters"
+            }
+          },
+          {
+            "name": "Microsoft.HybridContainerService/provisionedClusters/Write",
+            "display": {
+              "provider": "Microsoft.HybridContainerService",
+              "resource": "provisionedClusters",
+              "operation": "Create/update provisionedClusters resources",
+              "description": "Writes provisionedClusters"
+            }
+          },
+          {
+            "name": "Microsoft.HybridContainerService/provisionedClusters/Delete",
+            "display": {
+              "provider": "Microsoft.HybridContainerService",
+              "resource": "provisionedClusters",
+              "operation": "Deletes provisionedClusters resource",
+              "description": "Deletes provisionedClusters"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Hybrid Container Service service
+errorCodes: []

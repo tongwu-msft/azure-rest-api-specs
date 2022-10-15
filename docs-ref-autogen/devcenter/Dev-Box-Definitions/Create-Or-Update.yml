@@ -367,6 +367,127 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.devcenter.models.ImageReference;
+      import com.azure.resourcemanager.devcenter.models.Sku;
+
+      /** Samples for DevBoxDefinitions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_Create.json
+           */
+          /**
+           * Sample code: DevBoxDefinitions_Create.
+           *
+           * @param manager Entry point to DevCenterManager.
+           */
+          public static void devBoxDefinitionsCreate(com.azure.resourcemanager.devcenter.DevCenterManager manager) {
+              manager
+                  .devBoxDefinitions()
+                  .define("WebDevBox")
+                  .withRegion("centralus")
+                  .withExistingDevcenter("rg1", "Contoso")
+                  .withImageReference(
+                      new ImageReference()
+                          .withId(
+                              "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/version/1.0.0"))
+                  .withSku(new Sku().withName("Preview"))
+                  .withOsStorageType("SSD_1024")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-devcenter_1.0.0-beta.2/sdk/devcenter/azure-resourcemanager-devcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_Create.json
+      func ExampleDevBoxDefinitionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewDevBoxDefinitionsClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "Contoso", "WebDevBox", armdevcenter.DevBoxDefinition{
+      		Location: to.Ptr("centralus"),
+      		Properties: &armdevcenter.DevBoxDefinitionProperties{
+      			ImageReference: &armdevcenter.ImageReference{
+      				ID: to.Ptr("/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/version/1.0.0"),
+      			},
+      			OSStorageType: to.Ptr("SSD_1024"),
+      			SKU: &armdevcenter.SKU{
+      				Name: to.Ptr("Preview"),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.2.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevCenterClient } = require("@azure/arm-devcenter");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Dev Box definition.
+       *
+       * @summary Creates or updates a Dev Box definition.
+       * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_Create.json
+       */
+      async function devBoxDefinitionsCreate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "rg1";
+        const devCenterName = "Contoso";
+        const devBoxDefinitionName = "WebDevBox";
+        const body = {
+          imageReference: {
+            id: "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/version/1.0.0",
+          },
+          location: "centralus",
+          osStorageType: "SSD_1024",
+          sku: { name: "Preview" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevCenterClient(credential, subscriptionId);
+        const result = await client.devBoxDefinitions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          devCenterName,
+          devBoxDefinitionName,
+          body
+        );
+        console.log(result);
+      }
+
+      devBoxDefinitionsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devcenter_1.0.0-beta.2/sdk/devcenter/arm-devcenter/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
