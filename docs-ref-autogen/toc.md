@@ -2524,7 +2524,7 @@
 ### [List All](application-gateway/Web-Application-Firewall-Policies/List-All.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
-## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
+## [Data Access](/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Components
 #### [Overview](application-insights/Components.yml)
@@ -13032,7 +13032,7 @@
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
 ## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
-## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
+## [Data Access](/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/Available-Service-Tiers.yml)
