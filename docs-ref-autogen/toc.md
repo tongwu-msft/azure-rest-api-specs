@@ -2586,6 +2586,14 @@
 ### Classic Administrators
 #### [Overview](authorization/Classic-Administrators.yml)
 #### [List](authorization/Classic-Administrators/List.yml)
+### Deny Assignments
+#### [Overview](authorization/Deny-Assignments.yml)
+#### [Get](authorization/Deny-Assignments/Get.yml)
+#### [Get By Id](authorization/Deny-Assignments/Get-By-Id.yml)
+#### [List](authorization/Deny-Assignments/List.yml)
+#### [List For Resource](authorization/Deny-Assignments/List-For-Resource.yml)
+#### [List For Resource Group](authorization/Deny-Assignments/List-For-Resource-Group.yml)
+#### [List For Scope](authorization/Deny-Assignments/List-For-Scope.yml)
 ### Eligible Child Resources
 #### [Overview](authorization/Eligible-Child-Resources.yml)
 #### [Get](authorization/Eligible-Child-Resources/Get.yml)
@@ -2638,10 +2646,10 @@
 #### [Delete By Id](authorization/Role-Assignments/Delete-By-Id.yml)
 #### [Get](authorization/Role-Assignments/Get.yml)
 #### [Get By Id](authorization/Role-Assignments/Get-By-Id.yml)
-#### [List](authorization/Role-Assignments/List.yml)
 #### [List For Resource](authorization/Role-Assignments/List-For-Resource.yml)
 #### [List For Resource Group](authorization/Role-Assignments/List-For-Resource-Group.yml)
 #### [List For Scope](authorization/Role-Assignments/List-For-Scope.yml)
+#### [List For Subscription](authorization/Role-Assignments/List-For-Subscription.yml)
 ### Role Definitions
 #### [Overview](authorization/Role-Definitions.yml)
 #### [Create Or Update](authorization/Role-Definitions/Create-Or-Update.yml)

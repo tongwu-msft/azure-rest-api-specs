@@ -3,16 +3,16 @@ uid: management.azure.com.authorization.roledefinitions.getbyid
 name: Get By Id
 service: Authorization
 groupName: Role Definitions
-apiVersion: 2015-07-01
+apiVersion: 2022-04-01
 summary: Gets a role definition by ID.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{roleDefinitionId}?api-version=2015-07-01
+- content: GET https://management.azure.com/{roleId}?disambiguation_dummy&api-version=2022-04-01
 uriParameters:
-- name: roleDefinitionId
+- name: roleId
   in: path
   isRequired: true
   skipUrlEncoding: true
@@ -99,6 +99,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: dataActions
+    description: Allowed Data actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: Denied Data actions.
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -147,40 +157,46 @@ definitions:
 examples:
 - name: Get role definition by ID
   request:
-    uri: GET https://management.azure.com/roleDefinitionId?api-version=2015-07-01
+    uri: GET https://management.azure.com/roleDefinitionId?disambiguation_dummy&api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/roleDefinitionId?api-version=2015-07-01
+      GET https://management.azure.com/roleDefinitionId?disambiguation_dummy&api-version=2022-04-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
+      # [Go](#tab/Go)
+      ``` go
+      package armauthorization_test
 
-      /** Samples for RoleDefinitions GetById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleDefinitionById.json
-           */
-          /**
-           * Sample code: Get role definition by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getRoleDefinitionByID(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleDefinitions()
-                  .getByIdWithResponse("roleDefinitionId", Context.NONE);
-          }
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetRoleDefinitionById.json
+      func ExampleRoleDefinitionsClient_GetByID() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armauthorization.NewRoleDefinitionsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetByID(ctx, "roleDefinitionId", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -197,7 +213,11 @@ examples:
               "actions": [
                 "action"
               ],
-              "notActions": []
+              "notActions": [],
+              "dataActions": [
+                "dataAction"
+              ],
+              "notDataActions": []
             }
           ]
         },

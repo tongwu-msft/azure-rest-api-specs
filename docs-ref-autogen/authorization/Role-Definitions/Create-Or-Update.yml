@@ -3,14 +3,14 @@ uid: management.azure.com.authorization.roledefinitions.createorupdate
 name: Create Or Update
 service: Authorization
 groupName: Role Definitions
-apiVersion: 2015-07-01
+apiVersion: 2022-04-01
 summary: Creates or updates a role definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}?api-version=2015-07-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}?api-version=2022-04-01
 uriParameters:
 - name: scope
   in: path
@@ -83,6 +83,16 @@ definitions:
       isArray: true
   - name: notActions
     description: Denied actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: dataActions
+    description: Allowed Data actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: Denied Data actions.
     types:
     - uid: string
       isArray: true
@@ -183,45 +193,17 @@ definitions:
 examples:
 - name: Create role definition
   request:
-    uri: PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
+    uri: PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2022-04-01
     body: '{}'
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
+      PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2022-04-01
 
       {}
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.authorization.fluent.models.RoleDefinitionInner;
-
-      /** Samples for RoleDefinitions CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleDefinition.json
-           */
-          /**
-           * Sample code: Create role definition.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createRoleDefinition(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleDefinitions()
-                  .createOrUpdateWithResponse("scope", "roleDefinitionId", new RoleDefinitionInner(), Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armauthorization_test
@@ -231,10 +213,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleDefinition.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/PutRoleDefinition.json
       func ExampleRoleDefinitionsClient_CreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -245,18 +227,14 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	_, err = client.CreateOrUpdate(ctx,
-      		"scope",
-      		"roleDefinitionId",
-      		armauthorization.RoleDefinition{},
-      		nil)
+      	_, err = client.CreateOrUpdate(ctx, "scope", "roleDefinitionId", armauthorization.RoleDefinition{}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv1.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -273,7 +251,11 @@ examples:
               "actions": [
                 "action"
               ],
-              "notActions": []
+              "notActions": [],
+              "dataActions": [
+                "dataAction"
+              ],
+              "notDataActions": []
             }
           ]
         },

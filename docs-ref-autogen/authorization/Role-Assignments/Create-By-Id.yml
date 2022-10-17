@@ -3,20 +3,20 @@ uid: management.azure.com.authorization.roleassignments.createbyid
 name: Create By Id
 service: Authorization
 groupName: Role Assignments
-apiVersion: 2015-07-01
-summary: Creates a role assignment by ID.
+apiVersion: 2022-04-01
+summary: Create or update a role assignment by ID.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{roleAssignmentId}?api-version=2015-07-01
+- content: PUT https://management.azure.com/{roleAssignmentId}?api-version=2022-04-01
 uriParameters:
 - name: roleAssignmentId
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: 'The fully qualified ID of the role assignment, including the scope, resource name and resource type. Use the format, /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.'
+  description: 'The fully qualified ID of the role assignment including scope, resource name, and resource type. Format: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>'
   types:
   - uid: string
 - name: api-version
@@ -27,7 +27,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Created - Returns the role assignment.
+  description: Returns the role assignment.
+  types:
+  - uid: RoleAssignment
+- name: 200 OK
+  description: Returns the role assignment.
   types:
   - uid: RoleAssignment
 - name: Other Status Codes
@@ -37,26 +41,45 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties
+  - name: properties.roleDefinitionId
     in: body
     isRequired: true
-    description: Role assignment properties.
+    description: The role definition ID.
     types:
-    - uid: RoleAssignmentProperties
+    - uid: string
+  - name: properties.principalId
+    in: body
+    isRequired: true
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    in: body
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+  - name: properties.description
+    in: body
+    description: Description of role assignment
+    types:
+    - uid: string
+  - name: properties.condition
+    in: body
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    in: body
+    description: Version of the condition. Currently the only accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.delegatedManagedIdentityResourceId
+    in: body
+    description: Id of the delegated managed identity resource
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: RoleAssignmentProperties
-  description: Role assignment properties.
-  kind: object
-  properties:
-  - name: roleDefinitionId
-    description: The role definition ID used in the role assignment.
-    types:
-    - uid: string
-  - name: principalId
-    description: The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
-    types:
-    - uid: string
 - name: RoleAssignment
   description: Role Assignments
   kind: object
@@ -76,10 +99,60 @@ definitions:
     description: The role assignment type.
     types:
     - uid: string
-  - name: properties
-    description: Role assignment properties.
+  - name: properties.scope
+    isReadyOnly: true
+    description: The role assignment scope.
     types:
-    - uid: RoleAssignmentPropertiesWithScope
+    - uid: string
+  - name: properties.roleDefinitionId
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: properties.principalId
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+    defaultValue: User
+  - name: properties.description
+    description: Description of role assignment
+    types:
+    - uid: string
+  - name: properties.condition
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    description: Version of the condition. Currently the only accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Time it was created
+    types:
+    - uid: string
+  - name: properties.updatedOn
+    isReadyOnly: true
+    description: Time it was updated
+    types:
+    - uid: string
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Id of the user who created the assignment
+    types:
+    - uid: string
+  - name: properties.updatedBy
+    isReadyOnly: true
+    description: Id of the user who updated the assignment
+    types:
+    - uid: string
+  - name: properties.delegatedManagedIdentityResourceId
+    description: Id of the delegated managed identity resource
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -92,24 +165,77 @@ definitions:
   description: Role assignment create parameters.
   kind: object
   properties:
-  - name: properties
-    description: Role assignment properties.
-    types:
-    - uid: RoleAssignmentProperties
-- name: RoleAssignmentPropertiesWithScope
-  description: Role assignment properties with scope.
-  kind: object
-  properties:
-  - name: scope
+  - name: properties.scope
+    isReadyOnly: true
     description: The role assignment scope.
     types:
     - uid: string
-  - name: roleDefinitionId
+  - name: properties.roleDefinitionId
     description: The role definition ID.
     types:
     - uid: string
-  - name: principalId
+  - name: properties.principalId
     description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+    defaultValue: User
+  - name: properties.description
+    description: Description of role assignment
+    types:
+    - uid: string
+  - name: properties.condition
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    description: Version of the condition. Currently the only accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Time it was created
+    types:
+    - uid: string
+  - name: properties.updatedOn
+    isReadyOnly: true
+    description: Time it was updated
+    types:
+    - uid: string
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Id of the user who created the assignment
+    types:
+    - uid: string
+  - name: properties.updatedBy
+    isReadyOnly: true
+    description: Id of the user who updated the assignment
+    types:
+    - uid: string
+  - name: properties.delegatedManagedIdentityResourceId
+    description: Id of the delegated managed identity resource
+    types:
+    - uid: string
+- name: PrincipalType
+  description: The principal type of the assigned principal ID.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+  - name: ServicePrincipal
+    types:
+    - uid: string
+  - name: ForeignGroup
+    types:
+    - uid: string
+  - name: Device
     types:
     - uid: string
 - name: ErrorDetail
@@ -158,79 +284,98 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Create role assignment by ID
+- name: Create or update role assignment by ID
   request:
-    uri: PUT https://management.azure.com/roleAssignmentId?api-version=2015-07-01
+    uri: PUT https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
     body: >-
       {
         "properties": {
-          "roleDefinitionId": "/subscriptions/4004a9fd-d58e-48dc-aeb2-4a4aec58606f/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772",
-          "principalId": "d93a38bc-d029-4160-bfb0-fbda779ac214"
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+          "principalType": "User"
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/roleAssignmentId?api-version=2015-07-01
+      PUT https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
 
       {
         "properties": {
-          "roleDefinitionId": "/subscriptions/4004a9fd-d58e-48dc-aeb2-4a4aec58606f/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772",
-          "principalId": "d93a38bc-d029-4160-bfb0-fbda779ac214"
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+          "principalType": "User"
         }
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.authorization.models.RoleAssignmentCreateParameters;
-      import com.azure.resourcemanager.authorization.models.RoleAssignmentProperties;
+      # [Go](#tab/Go)
+      ``` go
+      package armauthorization_test
 
-      /** Samples for RoleAssignments CreateById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleAssignmentById.json
-           */
-          /**
-           * Sample code: Create role assignment by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createRoleAssignmentByID(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleAssignments()
-                  .createByIdWithResponse(
-                      "roleAssignmentId",
-                      new RoleAssignmentCreateParameters()
-                          .withProperties(
-                              new RoleAssignmentProperties()
-                                  .withRoleDefinitionId(
-                                      "/subscriptions/4004a9fd-d58e-48dc-aeb2-4a4aec58606f/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772")
-                                  .withPrincipalId("d93a38bc-d029-4160-bfb0-fbda779ac214")),
-                      Context.NONE);
-          }
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_CreateById.json
+      func ExampleRoleAssignmentsClient_CreateByID() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armauthorization.NewRoleAssignmentsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateByID(ctx, "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747", armauthorization.RoleAssignmentCreateParameters{
+      		Properties: &armauthorization.RoleAssignmentProperties{
+      			PrincipalID:      to.Ptr("ce2ce14e-85d7-4629-bdbc-454d0519d987"),
+      			PrincipalType:    to.Ptr(armauthorization.PrincipalTypeUser),
+      			RoleDefinitionID: to.Ptr("/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
       {
         "properties": {
-          "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
-          "principalId": "Pid",
-          "scope": "/subscriptions/subId/resourcegroups/rgname"
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+          "principalType": "User",
+          "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
         },
-        "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+        "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
         "type": "Microsoft.Authorization/roleAssignments",
-        "name": "roleassignmentId"
+        "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+          "principalType": "User",
+          "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
+        },
+        "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
+        "type": "Microsoft.Authorization/roleAssignments",
+        "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
       }
 security:
 - name: azure_auth
@@ -243,5 +388,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Authorization service - Creates a role assignment by ID.
+    Learn more about Authorization service - Create or update a role assignment by ID.
 errorCodes: []
