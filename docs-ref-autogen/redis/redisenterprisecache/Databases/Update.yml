@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redisenterprisecache.databases.update
 name: Update
 service: Redis Cache
 groupName: Databases
-apiVersion: 2021-03-01
+apiVersion: 2022-01-01
 summary: Updates a database
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2021-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,6 +87,11 @@ requestBody:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    in: body
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
 requestHeader: []
 definitions:
 - name: Persistence
@@ -118,7 +123,7 @@ definitions:
     types:
     - uid: string
   - name: args
-    description: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
+    description: Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'.
     types:
     - uid: string
   - name: version
@@ -126,6 +131,19 @@ definitions:
     description: The version of the module, e.g. '1.0'.
     types:
     - uid: string
+- name: GeoReplication
+  description: Optional set of properties to configure geo replication for this database.
+  kind: object
+  properties:
+  - name: groupNickname
+    description: Name for the group of linked database resources
+    types:
+    - uid: string
+  - name: linkedDatabases
+    description: List of database resources to link with this database
+    types:
+    - uid: LinkedDatabase
+      isArray: true
 - name: Database
   description: Describes a database on the RedisEnterprise cluster
   kind: object
@@ -165,6 +183,10 @@ definitions:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -227,6 +249,10 @@ definitions:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
 - name: AofFrequency
   description: Sets the frequency at which data is written to disk.
   kind: enum
@@ -250,6 +276,19 @@ definitions:
   - name: 12h
     types:
     - uid: string
+- name: LinkedDatabase
+  description: Linked Database
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of a database resource to link with this database.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of the link between the database resources.
+    types:
+    - uid: LinkState
 - name: Protocol
   description: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted.
   kind: enum
@@ -391,6 +430,25 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: LinkState
+  description: State of the link between the database resources.
+  kind: enum
+  properties:
+  - name: Linked
+    types:
+    - uid: string
+  - name: Linking
+    types:
+    - uid: string
+  - name: Unlinking
+    types:
+    - uid: string
+  - name: LinkFailed
+    types:
+    - uid: string
+  - name: UnlinkFailed
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -408,7 +466,7 @@ definitions:
 examples:
 - name: RedisEnterpriseDatabasesUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -423,7 +481,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
 
       {
         "properties": {
@@ -438,6 +496,127 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redisenterprise.models.Database;
+      import com.azure.resourcemanager.redisenterprise.models.EvictionPolicy;
+      import com.azure.resourcemanager.redisenterprise.models.Persistence;
+      import com.azure.resourcemanager.redisenterprise.models.Protocol;
+      import com.azure.resourcemanager.redisenterprise.models.RdbFrequency;
+
+      /** Samples for Databases Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesUpdate.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesUpdate.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesUpdate(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              Database resource = manager.databases().getWithResponse("rg1", "cache1", "default", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withClientProtocol(Protocol.ENCRYPTED)
+                  .withEvictionPolicy(EvictionPolicy.ALL_KEYS_LRU)
+                  .withPersistence(new Persistence().withRdbEnabled(true).withRdbFrequency(RdbFrequency.ONE_TWOH))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredisenterprise_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesUpdate.json
+      func ExampleDatabasesClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredisenterprise.NewDatabasesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"rg1",
+      		"cache1",
+      		"default",
+      		armredisenterprise.DatabaseUpdate{
+      			Properties: &armredisenterprise.DatabaseProperties{
+      				ClientProtocol: to.Ptr(armredisenterprise.ProtocolEncrypted),
+      				EvictionPolicy: to.Ptr(armredisenterprise.EvictionPolicyAllKeysLRU),
+      				Persistence: &armredisenterprise.Persistence{
+      					RdbEnabled:   to.Ptr(true),
+      					RdbFrequency: to.Ptr(armredisenterprise.RdbFrequencyTwelveH),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredisenterprise%2Farmredisenterprise%2Fv1.0.0/sdk/resourcemanager/redisenterprise/armredisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a database
+       *
+       * @summary Updates a database
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesUpdate.json
+       */
+      async function redisEnterpriseDatabasesUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const parameters = {
+          clientProtocol: "Encrypted",
+          evictionPolicy: "AllKeysLRU",
+          persistence: { rdbEnabled: true, rdbFrequency: "12h" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginUpdateAndWait(
+          resourceGroupName,
+          clusterName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

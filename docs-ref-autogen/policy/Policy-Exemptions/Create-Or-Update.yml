@@ -3,14 +3,14 @@ uid: management.azure.com.policy.policyexemptions.createorupdate
 name: Create Or Update
 service: Policy
 groupName: Policy Exemptions
-apiVersion: 2020-07-01-preview
+apiVersion: 2022-07-01-preview
 summary: " This operation creates or updates a policy exemption with the given scope and name. Policy exemptions apply to all resources contained within their scope. For example, when you create a policy exemption at resource group scope for a policy assignment at the same or above level, the exemption exempts to all applicable resources in the resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}?api-version=2020-07-01-preview
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}?api-version=2022-07-01-preview
 uriParameters:
 - name: scope
   in: path
@@ -85,6 +85,17 @@ requestBody:
     description: The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
+  - name: properties.resourceSelectors
+    in: body
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.assignmentScopeValidation
+    in: body
+    description: The option whether validate the exemption is at or under the assignment scope.
+    types:
+    - uid: AssignmentScopeValidation
 requestHeader: []
 definitions:
 - name: systemData
@@ -115,6 +126,19 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: PolicyExemption
   description: The policy exemption.
   kind: object
@@ -168,6 +192,16 @@ definitions:
     description: The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.assignmentScopeValidation
+    description: The option whether validate the exemption is at or under the assignment scope.
+    types:
+    - uid: AssignmentScopeValidation
+    defaultValue: Default
 - name: CloudError
   description: An error response from a policy operation.
   kind: object
@@ -192,6 +226,24 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
 - name: exemptionCategory
   description: The policy exemption category. Possible values are Waiver and Mitigated.
   kind: enum
@@ -202,6 +254,18 @@ definitions:
     - uid: string
   - name: Mitigated
     description: This category of exemptions usually means the mitigation actions have been applied to the scope.
+    types:
+    - uid: string
+- name: AssignmentScopeValidation
+  description: The option whether validate the exemption is at or under the assignment scope.
+  kind: enum
+  properties:
+  - name: Default
+    description: This option will validate the exemption is at or under the assignment scope.
+    types:
+    - uid: string
+  - name: DoNotValidate
+    description: This option will bypass the validation the exemption scope is at or under the policy assignment scope.
     types:
     - uid: string
 - name: ErrorResponse
@@ -235,6 +299,26 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -252,7 +336,7 @@ definitions:
 examples:
 - name: Create or update a policy exemption
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2020-07-01-preview
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
     body: >-
       {
         "properties": {
@@ -271,7 +355,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2020-07-01-preview
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
 
       {
         "properties": {
@@ -290,144 +374,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.serializer.SerializerFactory;
-      import com.azure.core.util.Context;
-      import com.azure.core.util.serializer.SerializerEncoding;
-      import com.azure.resourcemanager.resources.fluent.models.PolicyExemptionInner;
-      import com.azure.resourcemanager.resources.models.ExemptionCategory;
-      import java.io.IOException;
-      import java.util.Arrays;
-
-      /** Samples for PolicyExemptions CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/createOrUpdatePolicyExemption.json
-           */
-          /**
-           * Sample code: Create or update a policy exemption.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdateAPolicyExemption(com.azure.resourcemanager.AzureResourceManager azure)
-              throws IOException {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyExemptions()
-                  .createOrUpdateWithResponse(
-                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster",
-                      "DemoExpensiveVM",
-                      new PolicyExemptionInner()
-                          .withPolicyAssignmentId(
-                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement")
-                          .withPolicyDefinitionReferenceIds(Arrays.asList("Limit_Skus"))
-                          .withExemptionCategory(ExemptionCategory.WAIVER)
-                          .withDisplayName("Exempt demo cluster")
-                          .withDescription("Exempt demo cluster from limit sku")
-                          .withMetadata(
-                              SerializerFactory
-                                  .createDefaultManagementSerializerAdapter()
-                                  .deserialize(
-                                      "{\"reason\":\"Temporary exemption for a expensive VM demo\"}",
-                                      Object.class,
-                                      SerializerEncoding.JSON)),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/createOrUpdatePolicyExemption.json
-      func ExampleExemptionsClient_CreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armpolicy.NewExemptionsClient("<subscription-id>", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.CreateOrUpdate(ctx,
-      		"subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster",
-      		"DemoExpensiveVM",
-      		armpolicy.Exemption{
-      			Properties: &armpolicy.ExemptionProperties{
-      				Description:       to.Ptr("Exempt demo cluster from limit sku"),
-      				DisplayName:       to.Ptr("Exempt demo cluster"),
-      				ExemptionCategory: to.Ptr(armpolicy.ExemptionCategoryWaiver),
-      				Metadata: map[string]interface{}{
-      					"reason": "Temporary exemption for a expensive VM demo",
-      				},
-      				PolicyAssignmentID: to.Ptr("/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement"),
-      				PolicyDefinitionReferenceIDs: []*string{
-      					to.Ptr("Limit_Skus")},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to  This operation creates or updates a policy exemption with the given scope and name. Policy exemptions apply to all resources contained within their scope. For example, when you create a policy exemption at resource group scope for a policy assignment at the same or above level, the exemption exempts to all applicable resources in the resource group.
-       *
-       * @summary  This operation creates or updates a policy exemption with the given scope and name. Policy exemptions apply to all resources contained within their scope. For example, when you create a policy exemption at resource group scope for a policy assignment at the same or above level, the exemption exempts to all applicable resources in the resource group.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/createOrUpdatePolicyExemption.json
-       */
-      async function createOrUpdateAPolicyExemption() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster";
-        const policyExemptionName = "DemoExpensiveVM";
-        const parameters = {
-          description: "Exempt demo cluster from limit sku",
-          displayName: "Exempt demo cluster",
-          exemptionCategory: "Waiver",
-          metadata: { reason: "Temporary exemption for a expensive VM demo" },
-          policyAssignmentId:
-            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
-          policyDefinitionReferenceIds: ["Limit_Skus"],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyExemptions.createOrUpdate(
-          scope,
-          policyExemptionName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createOrUpdateAPolicyExemption().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -483,10 +429,165 @@ examples:
         "type": "Microsoft.Authorization/policyExemptions",
         "name": "DemoExpensiveVM"
       }
+- name: Create or update a policy exemption with resource selectors
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
+    body: >-
+      {
+        "properties": {
+          "policyAssignmentId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+          "policyDefinitionReferenceIds": [
+            "Limit_Skus"
+          ],
+          "exemptionCategory": "Waiver",
+          "displayName": "Exempt demo cluster",
+          "description": "Exempt demo cluster from limit sku",
+          "metadata": {
+            "reason": "Temporary exemption for a expensive VM demo"
+          },
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
+
+      {
+        "properties": {
+          "policyAssignmentId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+          "policyDefinitionReferenceIds": [
+            "Limit_Skus"
+          ],
+          "exemptionCategory": "Waiver",
+          "displayName": "Exempt demo cluster",
+          "description": "Exempt demo cluster from limit sku",
+          "metadata": {
+            "reason": "Temporary exemption for a expensive VM demo"
+          },
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "policyAssignmentId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+          "policyDefinitionReferenceIds": [
+            "Limit_Skus"
+          ],
+          "exemptionCategory": "Waiver",
+          "displayName": "Exempt demo cluster",
+          "description": "Exempt demo cluster from limit sku",
+          "metadata": {
+            "reason": "Temporary exemption for a expensive VM demo"
+          },
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-07-01T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-07-01T01:01:01.1075056Z"
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM",
+        "type": "Microsoft.Authorization/policyExemptions",
+        "name": "DemoExpensiveVM"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "policyAssignmentId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+          "policyDefinitionReferenceIds": [
+            "Limit_Skus"
+          ],
+          "exemptionCategory": "Waiver",
+          "displayName": "Exempt demo cluster",
+          "description": "Exempt demo cluster from limit sku",
+          "metadata": {
+            "reason": "Temporary exemption for a expensive VM demo"
+          },
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-07-01T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-07-01T02:01:01.1075056Z"
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM",
+        "type": "Microsoft.Authorization/policyExemptions",
+        "name": "DemoExpensiveVM"
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

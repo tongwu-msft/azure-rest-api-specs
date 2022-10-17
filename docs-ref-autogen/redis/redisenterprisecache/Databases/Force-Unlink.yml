@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.redis.redisenterprisecache.databases.export
-name: Export
+uid: management.azure.com.redis.redisenterprisecache.databases.forceunlink
+name: Force Unlink
 service: Redis Cache
 groupName: Databases
 apiVersion: 2022-01-01
-summary: Exports a database file from target database.
+summary: Forcibly removes the link to the specified database resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,9 +44,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Export operation succeeded.
+  description: Force unlink operation succeeded. The unlinked database must be deleted before it can be recreated and linked again.
 - name: 202 Accepted
-  description: Export operation successfully enqueued; follow the Location header to poll for final outcome.
+  description: Force unlink operation successfully enqueued; follow the Azure-AsyncOperation header to poll for final outcome.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -54,12 +54,13 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: sasUri
+  - name: ids
     in: body
     isRequired: true
-    description: SAS URI for the target directory to export to
+    description: The resource IDs of the database resources to be unlinked.
     types:
     - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -70,14 +71,15 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: ExportClusterParameters
-  description: Export an RDB file into a target database
+- name: ForceUnlinkParameters
+  description: Forcibly unlink another database from this database.
   kind: object
   properties:
-  - name: sasUri
-    description: SAS URI for the target directory to export to
+  - name: ids
+    description: The resource IDs of the database resources to be unlinked.
     types:
     - uid: string
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -124,20 +126,24 @@ definitions:
     types:
     - uid: object
 examples:
-- name: RedisEnterpriseDatabasesExport
+- name: How to unlink a database during a regional outage
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/export?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/forceUnlink?api-version=2022-01-01
     body: >-
       {
-        "sasUri": "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters"
+        "ids": [
+          "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+        ]
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/export?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/forceUnlink?api-version=2022-01-01
 
       {
-        "sasUri": "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters"
+        "ids": [
+          "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+        ]
       }
 
       ```
@@ -145,28 +151,32 @@ examples:
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
-      import com.azure.resourcemanager.redisenterprise.models.ExportClusterParameters;
+      import com.azure.resourcemanager.redisenterprise.models.ForceUnlinkParameters;
+      import java.util.Arrays;
 
-      /** Samples for Databases Export. */
+      /** Samples for Databases ForceUnlink. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesExport.json
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesForceUnlink.json
            */
           /**
-           * Sample code: RedisEnterpriseDatabasesExport.
+           * Sample code: How to unlink a database during a regional outage.
            *
            * @param manager Entry point to RedisEnterpriseManager.
            */
-          public static void redisEnterpriseDatabasesExport(
+          public static void howToUnlinkADatabaseDuringARegionalOutage(
               com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
               manager
                   .databases()
-                  .export(
+                  .forceUnlink(
                       "rg1",
                       "cache1",
                       "default",
-                      new ExportClusterParameters()
-                          .withSasUri("https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters"),
+                      new ForceUnlinkParameters()
+                          .withIds(
+                              Arrays
+                                  .asList(
+                                      "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default")),
                       Context.NONE);
           }
       }
@@ -186,8 +196,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesExport.json
-      func ExampleDatabasesClient_BeginExport() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesForceUnlink.json
+      func ExampleDatabasesClient_BeginForceUnlink() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -197,12 +207,13 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginExport(ctx,
+      	poller, err := client.BeginForceUnlink(ctx,
       		"rg1",
       		"cache1",
       		"default",
-      		armredisenterprise.ExportClusterParameters{
-      			SasURI: to.Ptr("https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters"),
+      		armredisenterprise.ForceUnlinkParameters{
+      			IDs: []*string{
+      				to.Ptr("/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default")},
       		},
       		nil)
       	if err != nil {
@@ -222,22 +233,24 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Exports a database file from target database.
+       * This sample demonstrates how to Forcibly removes the link to the specified database resource.
        *
-       * @summary Exports a database file from target database.
-       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesExport.json
+       * @summary Forcibly removes the link to the specified database resource.
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesForceUnlink.json
        */
-      async function redisEnterpriseDatabasesExport() {
+      async function howToUnlinkADatabaseDuringARegionalOutage() {
         const subscriptionId = "subid";
         const resourceGroupName = "rg1";
         const clusterName = "cache1";
         const databaseName = "default";
         const parameters = {
-          sasUri: "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters",
+          ids: [
+            "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default",
+          ],
         };
         const credential = new DefaultAzureCredential();
         const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-        const result = await client.databases.beginExportAndWait(
+        const result = await client.databases.beginForceUnlinkAndWait(
           resourceGroupName,
           clusterName,
           databaseName,
@@ -246,7 +259,7 @@ examples:
         console.log(result);
       }
 
-      redisEnterpriseDatabasesExport().catch(console.error);
+      howToUnlinkADatabaseDuringARegionalOutage().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
@@ -256,8 +269,6 @@ examples:
     headers:
     - name: Azure-AsyncOperation
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationStatus...
-    - name: Location
-      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
 security:
 - name: azure_auth
   type: oauth2
@@ -269,5 +280,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Redis Cache service - Exports a database file from target database.
+    Learn more about Redis Cache service - Forcibly removes the link to the specified database resource.
 errorCodes: []

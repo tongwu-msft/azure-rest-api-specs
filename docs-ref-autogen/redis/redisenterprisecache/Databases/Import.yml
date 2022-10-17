@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redisenterprisecache.databases.import
 name: Import
 service: Redis Cache
 groupName: Databases
-apiVersion: 2021-03-01
-summary: Imports a database file to target database.
+apiVersion: 2022-01-01
+summary: Imports database files to target database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import?api-version=2021-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,12 +54,13 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: sasUri
+  - name: sasUris
     in: body
     isRequired: true
-    description: SAS URI for the target blob to import from
+    description: SAS URIs for the target blobs to import from
     types:
     - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -71,13 +72,14 @@ definitions:
     types:
     - uid: ErrorDetail
 - name: ImportClusterParameters
-  description: Import an RDB file into a target database
+  description: Import RDB files into a target database
   kind: object
   properties:
-  - name: sasUri
-    description: SAS URI for the target blob to import from
+  - name: sasUris
+    description: SAS URIs for the target blobs to import from
     types:
     - uid: string
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -126,22 +128,146 @@ definitions:
 examples:
 - name: RedisEnterpriseDatabasesImport
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/import?api-version=2021-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/import?api-version=2022-01-01
     body: >-
       {
-        "sasUri": "https://contosostorage.blob.core.window.net/urltoBlobFile?sasKeyParameters"
+        "sasUris": [
+          "https://contosostorage.blob.core.window.net/urltoBlobFile1?sasKeyParameters",
+          "https://contosostorage.blob.core.window.net/urltoBlobFile2?sasKeyParameters"
+        ]
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/import?api-version=2021-03-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/import?api-version=2022-01-01
 
       {
-        "sasUri": "https://contosostorage.blob.core.window.net/urltoBlobFile?sasKeyParameters"
+        "sasUris": [
+          "https://contosostorage.blob.core.window.net/urltoBlobFile1?sasKeyParameters",
+          "https://contosostorage.blob.core.window.net/urltoBlobFile2?sasKeyParameters"
+        ]
       }
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redisenterprise.models.ImportClusterParameters;
+      import java.util.Arrays;
+
+      /** Samples for Databases ImportMethod. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesImport.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesImport.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesImport(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              manager
+                  .databases()
+                  .importMethod(
+                      "rg1",
+                      "cache1",
+                      "default",
+                      new ImportClusterParameters()
+                          .withSasUris(
+                              Arrays
+                                  .asList(
+                                      "https://contosostorage.blob.core.window.net/urltoBlobFile1?sasKeyParameters",
+                                      "https://contosostorage.blob.core.window.net/urltoBlobFile2?sasKeyParameters")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredisenterprise_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesImport.json
+      func ExampleDatabasesClient_BeginImport() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredisenterprise.NewDatabasesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginImport(ctx,
+      		"rg1",
+      		"cache1",
+      		"default",
+      		armredisenterprise.ImportClusterParameters{
+      			SasUris: []*string{
+      				to.Ptr("https://contosostorage.blob.core.window.net/urltoBlobFile1?sasKeyParameters"),
+      				to.Ptr("https://contosostorage.blob.core.window.net/urltoBlobFile2?sasKeyParameters")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredisenterprise%2Farmredisenterprise%2Fv1.0.0/sdk/resourcemanager/redisenterprise/armredisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Imports database files to target database.
+       *
+       * @summary Imports database files to target database.
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesImport.json
+       */
+      async function redisEnterpriseDatabasesImport() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const parameters = {
+          sasUris: [
+            "https://contosostorage.blob.core.window.net/urltoBlobFile1?sasKeyParameters",
+            "https://contosostorage.blob.core.window.net/urltoBlobFile2?sasKeyParameters",
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginImportAndWait(
+          resourceGroupName,
+          clusterName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesImport().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -161,5 +287,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Redis Cache service - Imports a database file to target database.
+    Learn more about Redis Cache service - Imports database files to target database.
 errorCodes: []

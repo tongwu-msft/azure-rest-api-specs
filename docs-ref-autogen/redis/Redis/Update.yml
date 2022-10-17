@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.update
 name: Update
 service: Redis Cache
 groupName: Redis
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: Update an existing Redis cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2021-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,6 +39,10 @@ uriParameters:
 responses:
 - name: 200 OK
   description: The existing redis cache was successfully updated. Check provisioningState to see detailed status.
+  types:
+  - uid: RedisResource
+- name: 202 Accepted
+  description: The existing redis cache was successfully updated. Check Azure-AsyncOperation headers to poll detailed status.
   types:
   - uid: RedisResource
 - name: Other Status Codes
@@ -74,7 +78,7 @@ requestBody:
     - uid: RedisConfiguration
   - name: properties.redisVersion
     in: body
-    description: "Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in a PUT/PATCH request. Supported versions: 4.0, 6.0."
+    description: "Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'."
     types:
     - uid: string
   - name: properties.enableNonSslPort
@@ -169,7 +173,7 @@ definitions:
     types:
     - uid: string
   - name: rdb-backup-frequency
-    description: Specifies the frequency for creating rdb backup
+    description: 'Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440)'
     types:
     - uid: string
   - name: rdb-backup-max-snapshot-count
@@ -219,7 +223,6 @@ definitions:
     types:
     - uid: string
   - name: preferred-data-persistence-auth-method
-    isReadyOnly: true
     description: Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
     types:
     - uid: string
@@ -332,7 +335,7 @@ definitions:
     types:
     - uid: RedisConfiguration
   - name: redisVersion
-    description: "Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in a PUT/PATCH request. Supported versions: 4.0, 6.0."
+    description: "Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'."
     types:
     - uid: string
   - name: enableNonSslPort
@@ -402,7 +405,7 @@ definitions:
     types:
     - uid: RedisConfiguration
   - name: properties.redisVersion
-    description: "Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in a PUT/PATCH request. Supported versions: 4.0, 6.0."
+    description: "Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'."
     types:
     - uid: string
   - name: properties.enableNonSslPort
@@ -746,7 +749,7 @@ definitions:
 examples:
 - name: RedisCacheUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2021-06-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2022-06-01
     body: >-
       {
         "properties": {
@@ -757,7 +760,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2021-06-01
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2022-06-01
 
       {
         "properties": {
@@ -768,111 +771,64 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.redis.models.RedisUpdateParameters;
-
-      /** Samples for Redis Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
-           */
-          /**
-           * Sample code: RedisCacheUpdate.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void redisCacheUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .redisCaches()
-                  .manager()
-                  .serviceClient()
-                  .getRedis()
-                  .updateWithResponse(
-                      "rg1",
-                      "cache1",
-                      new RedisUpdateParameters().withEnableNonSslPort(true).withReplicasPerPrimary(2),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armredis_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
-      func ExampleClient_Update() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armredis.NewClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Update(ctx,
-      		"rg1",
-      		"cache1",
-      		armredis.UpdateParameters{
-      			Properties: &armredis.UpdateProperties{
-      				EnableNonSSLPort:   to.Ptr(true),
-      				ReplicasPerPrimary: to.Ptr[int32](2),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { RedisManagementClient } = require("@azure/arm-rediscache");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Update an existing Redis cache.
-       *
-       * @summary Update an existing Redis cache.
-       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
-       */
-      async function redisCacheUpdate() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const name = "cache1";
-        const parameters = {
-          enableNonSslPort: true,
-          replicasPerPrimary: 2,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new RedisManagementClient(credential, subscriptionId);
-        const result = await client.redis.update(resourceGroupName, name, parameters);
-        console.log(result);
-      }
-
-      redisCacheUpdate().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+        "location": "West US",
+        "name": "cache1",
+        "type": "Microsoft.Cache/Redis",
+        "tags": {},
+        "properties": {
+          "accessKeys": {
+            "primaryKey": "<primaryKey>",
+            "secondaryKey": "<secondaryKey>"
+          },
+          "provisioningState": "Succeeded",
+          "redisVersion": "3.0",
+          "sku": {
+            "name": "Premium",
+            "family": "P",
+            "capacity": 1
+          },
+          "enableNonSslPort": true,
+          "replicasPerMaster": 2,
+          "replicasPerPrimary": 2,
+          "redisConfiguration": {
+            "maxclients": "1000",
+            "maxmemory-reserved": "50",
+            "maxmemory-delta": "50"
+          },
+          "hostName": "cache1.redis.cache.windows.net",
+          "port": 6379,
+          "sslPort": 6380,
+          "instances": [
+            {
+              "sslPort": 15000,
+              "nonSslPort": 13000,
+              "isMaster": true,
+              "isPrimary": true
+            },
+            {
+              "sslPort": 15001,
+              "nonSslPort": 13001,
+              "isMaster": false,
+              "isPrimary": false
+            },
+            {
+              "sslPort": 15002,
+              "nonSslPort": 13002,
+              "isMaster": false,
+              "isPrimary": false
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",

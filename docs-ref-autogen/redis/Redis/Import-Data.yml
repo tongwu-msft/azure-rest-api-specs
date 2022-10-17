@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.importdata
 name: Import Data
 service: Redis Cache
 groupName: Redis
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: Import data into Redis cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/import?api-version=2021-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/import?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,6 +62,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: preferred-data-archive-auth-method
+    in: body
+    description: Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -85,6 +90,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: preferred-data-archive-auth-method
+    description: Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -133,7 +142,7 @@ definitions:
 examples:
 - name: RedisCacheImport
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/import?api-version=2021-06-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/import?api-version=2022-06-01
     body: >-
       {
         "format": "RDB",
@@ -144,7 +153,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/import?api-version=2021-06-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/import?api-version=2022-06-01
 
       {
         "format": "RDB",
@@ -155,113 +164,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.redis.models.ImportRdbParameters;
-      import java.util.Arrays;
-
-      /** Samples for Redis ImportData. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheImport.json
-           */
-          /**
-           * Sample code: RedisCacheImport.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void redisCacheImport(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .redisCaches()
-                  .manager()
-                  .serviceClient()
-                  .getRedis()
-                  .importData(
-                      "rg1",
-                      "cache1",
-                      new ImportRdbParameters()
-                          .withFormat("RDB")
-                          .withFiles(Arrays.asList("http://fileuris.contoso.com/pathtofile1")),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armredis_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheImport.json
-      func ExampleClient_BeginImportData() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armredis.NewClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginImportData(ctx,
-      		"rg1",
-      		"cache1",
-      		armredis.ImportRDBParameters{
-      			Format: to.Ptr("RDB"),
-      			Files: []*string{
-      				to.Ptr("http://fileuris.contoso.com/pathtofile1")},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	_, err = poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { RedisManagementClient } = require("@azure/arm-rediscache");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Import data into Redis cache.
-       *
-       * @summary Import data into Redis cache.
-       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheImport.json
-       */
-      async function redisCacheImport() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const name = "cache1";
-        const parameters = {
-          format: "RDB",
-          files: ["http://fileuris.contoso.com/pathtofile1"],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new RedisManagementClient(credential, subscriptionId);
-        const result = await client.redis.beginImportDataAndWait(resourceGroupName, name, parameters);
-        console.log(result);
-      }
-
-      redisCacheImport().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

@@ -3,14 +3,14 @@ uid: management.azure.com.policy.policyassignments.deletebyid
 name: Delete By Id
 service: Policy
 groupName: Policy Assignments
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: "Deletes a policy assignment.  \nThis operation deletes the policy with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid formats for {scope} are: '/providers/Microsoft.Management/managementGroups/{managementGroup}' (management group), '/subscriptions/{subscriptionId}' (subscription), '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' (resource group), or '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}' (resource)."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/{policyAssignmentId}?api-version=2021-06-01
+- content: DELETE https://management.azure.com/{policyAssignmentId}?api-version=2022-06-01
 uriParameters:
 - name: policyAssignmentId
   in: path
@@ -114,6 +114,16 @@ definitions:
     types:
     - uid: NonComplianceMessage
       isArray: true
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 - name: CloudError
   description: An error response from a policy operation.
   kind: object
@@ -204,6 +214,36 @@ definitions:
     description: The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment.
     types:
     - uid: string
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
+- name: Override
+  description: The policy property value override.
+  kind: object
+  properties:
+  - name: kind
+    description: The override kind.
+    types:
+    - uid: OverrideKind
+  - name: value
+    description: The value to override the policy property.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -275,6 +315,32 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
+- name: OverrideKind
+  description: The override kind.
+  kind: enum
+  properties:
+  - name: policyEffect
+    description: It will override the policy effect type.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -289,100 +355,36 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 examples:
 - name: Delete a policy assignment by ID
   request:
-    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+      DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PolicyAssignments DeleteById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignmentById.json
-           */
-          /**
-           * Sample code: Delete a policy assignment by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void deleteAPolicyAssignmentByID(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .deleteByIdWithResponse(
-                      "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignmentById.json
-      func ExamplePolicyAssignmentsClient_DeleteByID() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client := armpolicy.NewPolicyAssignmentsClient("<subscription-id>", cred, nil)
-      	res, err := client.DeleteByID(ctx,
-      		"<policy-assignment-id>",
-      		nil)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	log.Printf("PolicyAssignment.ID: %s\n", *res.ID)
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.1.1/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to This operation deletes the policy with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid formats for {scope} are: '/providers/Microsoft.Management/managementGroups/{managementGroup}' (management group), '/subscriptions/{subscriptionId}' (subscription), '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' (resource group), or '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}' (resource).
-       *
-       * @summary This operation deletes the policy with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid formats for {scope} are: '/providers/Microsoft.Management/managementGroups/{managementGroup}' (management group), '/subscriptions/{subscriptionId}' (subscription), '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' (resource group), or '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}' (resource).
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignmentById.json
-       */
-      async function deleteAPolicyAssignmentById() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const policyAssignmentId =
-          "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyAssignments.deleteById(policyAssignmentId);
-        console.log(result);
-      }
-
-      deleteAPolicyAssignmentById().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -412,7 +414,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

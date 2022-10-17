@@ -3,14 +3,14 @@ uid: management.azure.com.policy.policyassignments.update
 name: Update
 service: Policy
 groupName: Policy Assignments
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: " This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2021-06-01
+- content: PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2022-06-01
 uriParameters:
 - name: scope
   in: path
@@ -53,6 +53,18 @@ requestBody:
     description: The managed identity associated with the policy assignment.
     types:
     - uid: Identity
+  - name: properties.resourceSelectors
+    in: body
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    in: body
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 requestHeader: []
 definitions:
 - name: Identity
@@ -77,6 +89,36 @@ definitions:
     description: "The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
+- name: Override
+  description: The policy property value override.
+  kind: object
+  properties:
+  - name: kind
+    description: The override kind.
+    types:
+    - uid: OverrideKind
+  - name: value
+    description: The value to override the policy property.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: PolicyAssignment
   description: The policy assignment.
   kind: object
@@ -153,6 +195,16 @@ definitions:
     types:
     - uid: NonComplianceMessage
       isArray: true
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 - name: CloudError
   description: An error response from a policy operation.
   kind: object
@@ -162,6 +214,7 @@ definitions:
     types:
     - uid: ErrorResponse
 - name: PolicyAssignmentUpdate
+  description: The policy assignment for Patch request.
   kind: object
   properties:
   - name: location
@@ -172,6 +225,16 @@ definitions:
     description: The managed identity associated with the policy assignment.
     types:
     - uid: Identity
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 - name: ResourceIdentityType
   description: The identity type. This is the only required field when adding a system or user assigned identity to a resource.
   kind: enum
@@ -196,6 +259,32 @@ definitions:
     description: ''
     types:
     - uid: ''
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
+- name: OverrideKind
+  description: The override kind.
+  kind: enum
+  properties:
+  - name: policyEffect
+    description: It will override the policy effect type.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -287,6 +376,26 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -320,7 +429,7 @@ definitions:
 examples:
 - name: Update a policy assignment with a system assigned identity
   request:
-    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2022-06-01
     body: >-
       {
         "location": "eastus",
@@ -331,7 +440,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2022-06-01
 
       {
         "location": "eastus",
@@ -342,127 +451,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.resources.models.Identity;
-      import com.azure.resourcemanager.resources.models.PolicyAssignmentUpdate;
-      import com.azure.resourcemanager.resources.models.ResourceIdentityType;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for PolicyAssignments Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithIdentity.json
-           */
-          /**
-           * Sample code: Update a policy assignment with a system assigned identity.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void updateAPolicyAssignmentWithASystemAssignedIdentity(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .updateWithResponse(
-                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
-                      "EnforceNaming",
-                      new PolicyAssignmentUpdate()
-                          .withLocation("eastus")
-                          .withIdentity(new Identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED)),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithIdentity.json
-      func ExampleAssignmentsClient_Update() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armpolicy.NewAssignmentsClient("<subscription-id>", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Update(ctx,
-      		"subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
-      		"EnforceNaming",
-      		armpolicy.AssignmentUpdate{
-      			Identity: &armpolicy.Identity{
-      				Type: to.Ptr(armpolicy.ResourceIdentityTypeSystemAssigned),
-      			},
-      			Location: to.Ptr("eastus"),
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
-       *
-       * @summary  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithIdentity.json
-       */
-      async function updateAPolicyAssignmentWithASystemAssignedIdentity() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-        const policyAssignmentName = "EnforceNaming";
-        const parameters = {
-          identity: { type: "SystemAssigned" },
-          location: "eastus",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyAssignments.update(scope, policyAssignmentName, parameters);
-        console.log(result);
-      }
-
-      updateAPolicyAssignmentWithASystemAssignedIdentity().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -498,7 +486,7 @@ examples:
       }
 - name: Update a policy assignment with a user assigned identity
   request:
-    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2022-06-01
     body: >-
       {
         "location": "eastus",
@@ -512,7 +500,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2022-06-01
 
       {
         "location": "eastus",
@@ -526,97 +514,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.resources.models.Identity;
-      import com.azure.resourcemanager.resources.models.IdentityUserAssignedIdentitiesValue;
-      import com.azure.resourcemanager.resources.models.PolicyAssignmentUpdate;
-      import com.azure.resourcemanager.resources.models.ResourceIdentityType;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for PolicyAssignments Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithUserAssignedIdentity.json
-           */
-          /**
-           * Sample code: Update a policy assignment with a user assigned identity.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void updateAPolicyAssignmentWithAUserAssignedIdentity(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .updateWithResponse(
-                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
-                      "EnforceNaming",
-                      new PolicyAssignmentUpdate()
-                          .withLocation("eastus")
-                          .withIdentity(
-                              new Identity()
-                                  .withType(ResourceIdentityType.USER_ASSIGNED)
-                                  .withUserAssignedIdentities(
-                                      mapOf(
-                                          "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/testResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
-                                          new IdentityUserAssignedIdentitiesValue()))),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
-       *
-       * @summary  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithUserAssignedIdentity.json
-       */
-      async function updateAPolicyAssignmentWithAUserAssignedIdentity() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-        const policyAssignmentName = "EnforceNaming";
-        const parameters = {
-          identity: {
-            type: "UserAssigned",
-            userAssignedIdentities: {
-              "/subscriptions/ae640e6bBa3e42569d622993eecfa6f2/resourceGroups/testResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
-                {},
-            },
-          },
-          location: "eastus",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyAssignments.update(scope, policyAssignmentName, parameters);
-        console.log(result);
-      }
-
-      updateAPolicyAssignmentWithAUserAssignedIdentity().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -654,10 +551,175 @@ examples:
         "type": "Microsoft.Authorization/policyAssignments",
         "name": "EnforceNaming"
       }
+- name: Update a policy assignment with resource selectors
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement?api-version=2022-06-01
+    body: >-
+      {
+        "properties": {
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement?api-version=2022-06-01
+
+      {
+        "properties": {
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Limit the resource location and resource SKU",
+          "description": "Limit the resource location and resource SKU",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/CostManagement",
+          "notScopes": [],
+          "enforcementMode": "Default",
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "CostManagement"
+      }
+- name: Update a policy assignment with overrides
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement?api-version=2022-06-01
+    body: >-
+      {
+        "properties": {
+          "overrides": [
+            {
+              "kind": "policyEffect",
+              "value": "Audit",
+              "selectors": [
+                {
+                  "kind": "policyDefinitionReferenceId",
+                  "in": [
+                    "Limit_Skus",
+                    "Limit_Locations"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement?api-version=2022-06-01
+
+      {
+        "properties": {
+          "overrides": [
+            {
+              "kind": "policyEffect",
+              "value": "Audit",
+              "selectors": [
+                {
+                  "kind": "policyDefinitionReferenceId",
+                  "in": [
+                    "Limit_Skus",
+                    "Limit_Locations"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Limit the resource location and resource SKU",
+          "description": "Limit the resource location and resource SKU",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/CostManagement",
+          "notScopes": [],
+          "enforcementMode": "Default",
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+          "overrides": [
+            {
+              "kind": "policyEffect",
+              "value": "Audit",
+              "selectors": [
+                {
+                  "kind": "policyDefinitionReferenceId",
+                  "in": [
+                    "Limit_Skus",
+                    "Limit_Locations"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "CostManagement"
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

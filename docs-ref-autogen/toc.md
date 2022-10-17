@@ -4524,7 +4524,6 @@
 ## Generate
 ### [Overview](videoindexer/Generate.yml)
 ### [Access Token](videoindexer/Generate/Access-Token.yml)
-### [Restricted Viewer Access Token](videoindexer/Generate/Restricted-Viewer-Access-Token.yml)
 ## Operations
 ### [Overview](videoindexer/Operations.yml)
 ### [List](videoindexer/Operations/List.yml)
@@ -15479,6 +15478,7 @@
 ### [List For Management Group](policy/Policy-Exemptions/List-For-Management-Group.yml)
 ### [List For Resource](policy/Policy-Exemptions/List-For-Resource.yml)
 ### [List For Resource Group](policy/Policy-Exemptions/List-For-Resource-Group.yml)
+### [Update](policy/Policy-Exemptions/Update.yml)
 ## Policy Metadata
 ### [Overview](policy/Policy-Metadata.yml)
 ### [Get Resource](policy/Policy-Metadata/Get-Resource.yml)
@@ -16528,6 +16528,7 @@
 #### [Create](redis/redisenterprisecache/Databases/Create.yml)
 #### [Delete](redis/redisenterprisecache/Databases/Delete.yml)
 #### [Export](redis/redisenterprisecache/Databases/Export.yml)
+#### [Force Unlink](redis/redisenterprisecache/Databases/Force-Unlink.yml)
 #### [Get](redis/redisenterprisecache/Databases/Get.yml)
 #### [Import](redis/redisenterprisecache/Databases/Import.yml)
 #### [List By Cluster](redis/redisenterprisecache/Databases/List-By-Cluster.yml)

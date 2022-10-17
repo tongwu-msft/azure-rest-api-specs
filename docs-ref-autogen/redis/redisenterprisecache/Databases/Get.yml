@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redisenterprisecache.databases.get
 name: Get
 service: Redis Cache
 groupName: Databases
-apiVersion: 2021-03-01
+apiVersion: 2022-01-01
 summary: Gets information about a database in a RedisEnterprise cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -92,6 +92,10 @@ definitions:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -254,7 +258,7 @@ definitions:
     types:
     - uid: string
   - name: args
-    description: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
+    description: Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'.
     types:
     - uid: string
   - name: version
@@ -262,6 +266,19 @@ definitions:
     description: The version of the module, e.g. '1.0'.
     types:
     - uid: string
+- name: GeoReplication
+  description: Optional set of properties to configure geo replication for this database.
+  kind: object
+  properties:
+  - name: groupNickname
+    description: Name for the group of linked database resources
+    types:
+    - uid: string
+  - name: linkedDatabases
+    description: List of database resources to link with this database
+    types:
+    - uid: LinkedDatabase
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -316,6 +333,19 @@ definitions:
   - name: 12h
     types:
     - uid: string
+- name: LinkedDatabase
+  description: Linked Database
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of a database resource to link with this database.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of the link between the database resources.
+    types:
+    - uid: LinkState
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -330,16 +360,120 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: LinkState
+  description: State of the link between the database resources.
+  kind: enum
+  properties:
+  - name: Linked
+    types:
+    - uid: string
+  - name: Linking
+    types:
+    - uid: string
+  - name: Unlinking
+    types:
+    - uid: string
+  - name: LinkFailed
+    types:
+    - uid: string
+  - name: UnlinkFailed
+    types:
+    - uid: string
 examples:
 - name: RedisEnterpriseDatabasesGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Databases Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesGet.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesGet.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesGet(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              manager.databases().getWithResponse("rg1", "cache1", "default", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredisenterprise_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesGet.json
+      func ExampleDatabasesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredisenterprise.NewDatabasesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"rg1",
+      		"cache1",
+      		"default",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredisenterprise%2Farmredisenterprise%2Fv1.0.0/sdk/resourcemanager/redisenterprise/armredisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets information about a database in a RedisEnterprise cluster.
+       *
+       * @summary Gets information about a database in a RedisEnterprise cluster.
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesGet.json
+       */
+      async function redisEnterpriseDatabasesGet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.get(resourceGroupName, clusterName, databaseName);
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

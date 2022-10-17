@@ -3,15 +3,15 @@ uid: management.azure.com.policy.policyexemptions.list
 name: List
 service: Policy
 groupName: Policy Exemptions
-apiVersion: 2020-07-01-preview
+apiVersion: 2022-07-01-preview
 summary: "Retrieves all policy exemptions that apply to a subscription.  \nThis operation retrieves the list of all policy exemptions associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions?api-version=2020-07-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions?$filter={$filter}&api-version=2020-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions?api-version=2022-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions?$filter={$filter}&api-version=2022-07-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -117,6 +117,16 @@ definitions:
     description: The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.assignmentScopeValidation
+    description: The option whether validate the exemption is at or under the assignment scope.
+    types:
+    - uid: AssignmentScopeValidation
+    defaultValue: Default
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -188,6 +198,31 @@ definitions:
     description: This category of exemptions usually means the mitigation actions have been applied to the scope.
     types:
     - uid: string
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
+- name: AssignmentScopeValidation
+  description: The option whether validate the exemption is at or under the assignment scope.
+  kind: enum
+  properties:
+  - name: Default
+    description: This option will validate the exemption is at or under the assignment scope.
+    types:
+    - uid: string
+  - name: DoNotValidate
+    description: This option will bypass the validation the exemption scope is at or under the policy assignment scope.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -218,105 +253,54 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 examples:
 - name: List policy exemptions that apply to a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2020-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2022-07-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2020-07-01-preview
+      GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2022-07-01-preview
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PolicyExemptions List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForSubscription.json
-           */
-          /**
-           * Sample code: List policy exemptions that apply to a subscription.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listPolicyExemptionsThatApplyToASubscription(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.genericResources().manager().policyClient().getPolicyExemptions().list("atScope()", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForSubscription.json
-      func ExampleExemptionsClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armpolicy.NewExemptionsClient("ae640e6b-ba3e-4256-9d62-2993eecfa6f2", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager(&armpolicy.ExemptionsClientListOptions{Filter: to.Ptr("atScope()")})
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to This operation retrieves the list of all policy exemptions associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription.
-       *
-       * @summary This operation retrieves the list of all policy exemptions associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForSubscription.json
-       */
-      async function listPolicyExemptionsThatApplyToASubscription() {
-        const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
-        const filter = "atScope()";
-        const options = { filter };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.policyExemptions.list(options)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      listPolicyExemptionsThatApplyToASubscription().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -374,7 +358,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

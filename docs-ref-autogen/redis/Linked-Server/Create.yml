@@ -3,14 +3,14 @@ uid: management.azure.com.redis.linkedserver.create
 name: Create
 service: Redis Cache
 groupName: Linked Server
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: Adds a linked server to the Redis cache (requires Premium SKU).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}?api-version=2021-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -114,6 +114,16 @@ definitions:
     description: Role of the linked server.
     types:
     - uid: ReplicationRole
+  - name: properties.geoReplicatedPrimaryHostName
+    isReadyOnly: true
+    description: The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+    types:
+    - uid: string
+  - name: properties.primaryHostName
+    isReadyOnly: true
+    description: The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -138,6 +148,16 @@ definitions:
     description: Role of the linked server.
     types:
     - uid: ReplicationRole
+  - name: properties.geoReplicatedPrimaryHostName
+    isReadyOnly: true
+    description: The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+    types:
+    - uid: string
+  - name: properties.primaryHostName
+    isReadyOnly: true
+    description: The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+    types:
+    - uid: string
 - name: ReplicationRole
   description: Role of the linked server.
   kind: enum
@@ -196,7 +216,7 @@ definitions:
 examples:
 - name: LinkedServer_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/linkedServers/cache2?api-version=2021-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/linkedServers/cache2?api-version=2022-06-01
     body: >-
       {
         "properties": {
@@ -208,7 +228,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/linkedServers/cache2?api-version=2021-06-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/linkedServers/cache2?api-version=2022-06-01
 
       {
         "properties": {
@@ -220,129 +240,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.redis.models.RedisLinkedServerCreateParameters;
-      import com.azure.resourcemanager.redis.models.ReplicationRole;
-
-      /** Samples for LinkedServer Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheLinkedServer_Create.json
-           */
-          /**
-           * Sample code: LinkedServer_Create.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void linkedServerCreate(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .redisCaches()
-                  .manager()
-                  .serviceClient()
-                  .getLinkedServers()
-                  .create(
-                      "rg1",
-                      "cache1",
-                      "cache2",
-                      new RedisLinkedServerCreateParameters()
-                          .withLinkedRedisCacheId(
-                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2")
-                          .withLinkedRedisCacheLocation("West US")
-                          .withServerRole(ReplicationRole.SECONDARY),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armredis_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheLinkedServer_Create.json
-      func ExampleLinkedServerClient_BeginCreate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armredis.NewLinkedServerClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreate(ctx,
-      		"rg1",
-      		"cache1",
-      		"cache2",
-      		armredis.LinkedServerCreateParameters{
-      			Properties: &armredis.LinkedServerCreateProperties{
-      				LinkedRedisCacheID:       to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2"),
-      				LinkedRedisCacheLocation: to.Ptr("West US"),
-      				ServerRole:               to.Ptr(armredis.ReplicationRoleSecondary),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { RedisManagementClient } = require("@azure/arm-rediscache");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Adds a linked server to the Redis cache (requires Premium SKU).
-       *
-       * @summary Adds a linked server to the Redis cache (requires Premium SKU).
-       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheLinkedServer_Create.json
-       */
-      async function linkedServerCreate() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const name = "cache1";
-        const linkedServerName = "cache2";
-        const parameters = {
-          linkedRedisCacheId:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
-          linkedRedisCacheLocation: "West US",
-          serverRole: "Secondary",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new RedisManagementClient(credential, subscriptionId);
-        const result = await client.linkedServer.beginCreateAndWait(
-          resourceGroupName,
-          name,
-          linkedServerName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      linkedServerCreate().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -353,6 +250,8 @@ examples:
         "properties": {
           "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
           "linkedRedisCacheLocation": "West US",
+          "geoReplicatedPrimaryHostName": "cache2.geo.redis.cache.windows.net",
+          "primaryHostName": "cache1.redis.cache.windows.net",
           "provisioningState": "Creating",
           "serverRole": "Secondary"
         }
@@ -366,6 +265,8 @@ examples:
         "properties": {
           "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
           "linkedRedisCacheLocation": "West US",
+          "geoReplicatedPrimaryHostName": "cache2.geo.redis.cache.windows.net",
+          "primaryHostName": "cache1.redis.cache.windows.net",
           "provisioningState": "Creating",
           "serverRole": "Secondary"
         }

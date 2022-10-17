@@ -3,15 +3,15 @@ uid: management.azure.com.policy.policyassignments.listformanagementgroup
 name: List For Management Group
 service: Policy
 groupName: Policy Assignments
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: "Retrieves all policy assignments that apply to a management group.  \nThis operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments?api-version=2021-06-01
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&$top={$top}&api-version=2021-06-01
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments?api-version=2022-06-01
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&$top={$top}&api-version=2022-06-01
   isOptional: true
 uriParameters:
 - name: managementGroupId
@@ -145,6 +145,16 @@ definitions:
     types:
     - uid: NonComplianceMessage
       isArray: true
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -258,6 +268,36 @@ definitions:
     description: The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment.
     types:
     - uid: string
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
+- name: Override
+  description: The policy property value override.
+  kind: object
+  properties:
+  - name: kind
+    description: The override kind.
+    types:
+    - uid: OverrideKind
+  - name: value
+    description: The value to override the policy property.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -312,119 +352,62 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
+- name: OverrideKind
+  description: The override kind.
+  kind: enum
+  properties:
+  - name: policyEffect
+    description: It will override the policy effect type.
+    types:
+    - uid: string
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 examples:
 - name: List policy assignments that apply to a management group
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/TestManagementGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2021-06-01
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/TestManagementGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2022-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.Management/managementGroups/TestManagementGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2021-06-01
+      GET https://management.azure.com/providers/Microsoft.Management/managementGroups/TestManagementGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2022-06-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PolicyAssignments ListForManagementGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/listPolicyAssignmentsForManagementGroup.json
-           */
-          /**
-           * Sample code: List policy assignments that apply to a management group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listPolicyAssignmentsThatApplyToAManagementGroup(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .listForManagementGroup("TestManagementGroup", "atScope()", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/listPolicyAssignmentsForManagementGroup.json
-      func ExampleAssignmentsClient_NewListForManagementGroupPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armpolicy.NewAssignmentsClient("<subscription-id>", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListForManagementGroupPager("TestManagementGroup",
-      		&armpolicy.AssignmentsClientListForManagementGroupOptions{Filter: to.Ptr("atScope()"),
-      			Top: nil,
-      		})
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to This operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group.
-       *
-       * @summary This operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/listPolicyAssignmentsForManagementGroup.json
-       */
-      async function listPolicyAssignmentsThatApplyToAManagementGroup() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const managementGroupId = "TestManagementGroup";
-        const filter = "atScope()";
-        const options = {
-          filter,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.policyAssignments.listForManagementGroup(
-          managementGroupId,
-          options
-        )) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      listPolicyAssignmentsThatApplyToAManagementGroup().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -473,7 +456,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

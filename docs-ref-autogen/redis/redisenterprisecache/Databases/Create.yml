@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redisenterprisecache.databases.create
 name: Create
 service: Redis Cache
 groupName: Databases
-apiVersion: 2021-03-01
+apiVersion: 2022-01-01
 summary: Creates a database
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,11 @@ requestBody:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    in: body
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
 requestHeader: []
 definitions:
 - name: Persistence
@@ -120,7 +125,7 @@ definitions:
     types:
     - uid: string
   - name: args
-    description: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
+    description: Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'.
     types:
     - uid: string
   - name: version
@@ -128,6 +133,19 @@ definitions:
     description: The version of the module, e.g. '1.0'.
     types:
     - uid: string
+- name: GeoReplication
+  description: Optional set of properties to configure geo replication for this database.
+  kind: object
+  properties:
+  - name: groupNickname
+    description: Name for the group of linked database resources
+    types:
+    - uid: string
+  - name: linkedDatabases
+    description: List of database resources to link with this database
+    types:
+    - uid: LinkedDatabase
+      isArray: true
 - name: Database
   description: Describes a database on the RedisEnterprise cluster
   kind: object
@@ -167,6 +185,10 @@ definitions:
     types:
     - uid: Module
       isArray: true
+  - name: properties.geoReplication
+    description: Optional set of properties to configure geo replication for this database.
+    types:
+    - uid: GeoReplication
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -213,6 +235,19 @@ definitions:
   - name: 12h
     types:
     - uid: string
+- name: LinkedDatabase
+  description: Linked Database
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of a database resource to link with this database.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of the link between the database resources.
+    types:
+    - uid: LinkState
 - name: Protocol
   description: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted.
   kind: enum
@@ -354,6 +389,25 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: LinkState
+  description: State of the link between the database resources.
+  kind: enum
+  properties:
+  - name: Linked
+    types:
+    - uid: string
+  - name: Linking
+    types:
+    - uid: string
+  - name: Unlinking
+    types:
+    - uid: string
+  - name: LinkFailed
+    types:
+    - uid: string
+  - name: UnlinkFailed
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -371,7 +425,7 @@ definitions:
 examples:
 - name: RedisEnterpriseDatabasesCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -401,7 +455,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
 
       {
         "properties": {
@@ -431,6 +485,158 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.redisenterprise.models.AofFrequency;
+      import com.azure.resourcemanager.redisenterprise.models.ClusteringPolicy;
+      import com.azure.resourcemanager.redisenterprise.models.EvictionPolicy;
+      import com.azure.resourcemanager.redisenterprise.models.Module;
+      import com.azure.resourcemanager.redisenterprise.models.Persistence;
+      import com.azure.resourcemanager.redisenterprise.models.Protocol;
+      import java.util.Arrays;
+
+      /** Samples for Databases Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesCreate.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesCreate.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesCreate(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              manager
+                  .databases()
+                  .define("default")
+                  .withExistingRedisEnterprise("rg1", "cache1")
+                  .withClientProtocol(Protocol.ENCRYPTED)
+                  .withPort(10000)
+                  .withClusteringPolicy(ClusteringPolicy.ENTERPRISE_CLUSTER)
+                  .withEvictionPolicy(EvictionPolicy.ALL_KEYS_LRU)
+                  .withPersistence(new Persistence().withAofEnabled(true).withAofFrequency(AofFrequency.ONES))
+                  .withModules(
+                      Arrays
+                          .asList(
+                              new Module().withName("RedisBloom").withArgs("ERROR_RATE 0.00 INITIAL_SIZE 400"),
+                              new Module().withName("RedisTimeSeries").withArgs("RETENTION_POLICY 20"),
+                              new Module().withName("RediSearch")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredisenterprise_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesCreate.json
+      func ExampleDatabasesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredisenterprise.NewDatabasesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"rg1",
+      		"cache1",
+      		"default",
+      		armredisenterprise.Database{
+      			Properties: &armredisenterprise.DatabaseProperties{
+      				ClientProtocol:   to.Ptr(armredisenterprise.ProtocolEncrypted),
+      				ClusteringPolicy: to.Ptr(armredisenterprise.ClusteringPolicyEnterpriseCluster),
+      				EvictionPolicy:   to.Ptr(armredisenterprise.EvictionPolicyAllKeysLRU),
+      				Modules: []*armredisenterprise.Module{
+      					{
+      						Name: to.Ptr("RedisBloom"),
+      						Args: to.Ptr("ERROR_RATE 0.00 INITIAL_SIZE 400"),
+      					},
+      					{
+      						Name: to.Ptr("RedisTimeSeries"),
+      						Args: to.Ptr("RETENTION_POLICY 20"),
+      					},
+      					{
+      						Name: to.Ptr("RediSearch"),
+      					}},
+      				Persistence: &armredisenterprise.Persistence{
+      					AofEnabled:   to.Ptr(true),
+      					AofFrequency: to.Ptr(armredisenterprise.AofFrequencyOneS),
+      				},
+      				Port: to.Ptr[int32](10000),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredisenterprise%2Farmredisenterprise%2Fv1.0.0/sdk/resourcemanager/redisenterprise/armredisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a database
+       *
+       * @summary Creates a database
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesCreate.json
+       */
+      async function redisEnterpriseDatabasesCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const parameters = {
+          clientProtocol: "Encrypted",
+          clusteringPolicy: "EnterpriseCluster",
+          evictionPolicy: "AllKeysLRU",
+          modules: [
+            { name: "RedisBloom", args: "ERROR_RATE 0.00 INITIAL_SIZE 400" },
+            { name: "RedisTimeSeries", args: "RETENTION_POLICY 20" },
+            { name: "RediSearch" },
+          ],
+          persistence: { aofEnabled: true, aofFrequency: "1s" },
+          port: 10000,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginCreateAndWait(
+          resourceGroupName,
+          clusterName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -502,6 +708,208 @@ examples:
               "version": "1.0.0"
             }
           ]
+        }
+      }
+- name: RedisEnterpriseDatabasesCreate With Active Geo Replication
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
+    body: >-
+      {
+        "properties": {
+          "clientProtocol": "Encrypted",
+          "clusteringPolicy": "EnterpriseCluster",
+          "evictionPolicy": "NoEviction",
+          "port": 10000,
+          "geoReplication": {
+            "groupNickname": "groupName",
+            "linkedDatabases": [
+              {
+                "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default"
+              },
+              {
+                "id": "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+              }
+            ]
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2022-01-01
+
+      {
+        "properties": {
+          "clientProtocol": "Encrypted",
+          "clusteringPolicy": "EnterpriseCluster",
+          "evictionPolicy": "NoEviction",
+          "port": 10000,
+          "geoReplication": {
+            "groupNickname": "groupName",
+            "linkedDatabases": [
+              {
+                "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default"
+              },
+              {
+                "id": "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.redisenterprise.models.ClusteringPolicy;
+      import com.azure.resourcemanager.redisenterprise.models.DatabasePropertiesGeoReplication;
+      import com.azure.resourcemanager.redisenterprise.models.EvictionPolicy;
+      import com.azure.resourcemanager.redisenterprise.models.LinkedDatabase;
+      import com.azure.resourcemanager.redisenterprise.models.Protocol;
+      import java.util.Arrays;
+
+      /** Samples for Databases Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesCreate With Active Geo Replication.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesCreateWithActiveGeoReplication(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              manager
+                  .databases()
+                  .define("default")
+                  .withExistingRedisEnterprise("rg1", "cache1")
+                  .withClientProtocol(Protocol.ENCRYPTED)
+                  .withPort(10000)
+                  .withClusteringPolicy(ClusteringPolicy.ENTERPRISE_CLUSTER)
+                  .withEvictionPolicy(EvictionPolicy.NO_EVICTION)
+                  .withGeoReplication(
+                      new DatabasePropertiesGeoReplication()
+                          .withGroupNickname("groupName")
+                          .withLinkedDatabases(
+                              Arrays
+                                  .asList(
+                                      new LinkedDatabase()
+                                          .withId(
+                                              "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default"),
+                                      new LinkedDatabase()
+                                          .withId(
+                                              "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a database
+       *
+       * @summary Creates a database
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
+       */
+      async function redisEnterpriseDatabasesCreateWithActiveGeoReplication() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const parameters = {
+          clientProtocol: "Encrypted",
+          clusteringPolicy: "EnterpriseCluster",
+          evictionPolicy: "NoEviction",
+          geoReplication: {
+            groupNickname: "groupName",
+            linkedDatabases: [
+              {
+                id: "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default",
+              },
+              {
+                id: "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default",
+              },
+            ],
+          },
+          port: 10000,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginCreateAndWait(
+          resourceGroupName,
+          clusterName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesCreateWithActiveGeoReplication().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default",
+        "name": "cache1/default",
+        "type": "Microsoft.Cache/redisEnterprise/databases",
+        "properties": {
+          "provisioningState": "Updating",
+          "resourceState": "Updating",
+          "clientProtocol": "Encrypted",
+          "clusteringPolicy": "EnterpriseCluster",
+          "evictionPolicy": "NoEviction",
+          "port": 10000,
+          "geoReplication": {
+            "groupNickname": "groupName",
+            "linkedDatabases": [
+              {
+                "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default",
+                "state": "Linking"
+              },
+              {
+                "id": "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default",
+                "state": "Linking"
+              }
+            ]
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/db1",
+        "name": "cache1/db1",
+        "type": "Microsoft.Cache/redisEnterprise/databases",
+        "properties": {
+          "provisioningState": "Creating",
+          "resourceState": "Creating",
+          "clientProtocol": "Plaintext",
+          "clusteringPolicy": "EnterpriseCluster",
+          "evictionPolicy": "NoEviction",
+          "port": 10000,
+          "geoReplication": {
+            "groupNickname": "groupName",
+            "linkedDatabases": [
+              {
+                "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default",
+                "state": "Linking"
+              },
+              {
+                "id": "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default",
+                "state": "Linking"
+              }
+            ]
+          }
         }
       }
 security:

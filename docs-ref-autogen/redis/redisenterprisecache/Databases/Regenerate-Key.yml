@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redisenterprisecache.databases.regeneratekey
 name: Regenerate Key
 service: Redis Cache
 groupName: Databases
-apiVersion: 2021-03-01
+apiVersion: 2022-01-01
 summary: Regenerates the RedisEnterprise database's access keys.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey?api-version=2021-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -152,7 +152,7 @@ definitions:
 examples:
 - name: RedisEnterpriseDatabasesRegenerateKey
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/regenerateKey?api-version=2021-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/regenerateKey?api-version=2022-01-01
     body: >-
       {
         "keyType": "Primary"
@@ -160,7 +160,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/regenerateKey?api-version=2021-03-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/regenerateKey?api-version=2022-01-01
 
       {
         "keyType": "Primary"
@@ -168,6 +168,114 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redisenterprise.models.AccessKeyType;
+      import com.azure.resourcemanager.redisenterprise.models.RegenerateKeyParameters;
+
+      /** Samples for Databases RegenerateKey. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesRegenerateKey.json
+           */
+          /**
+           * Sample code: RedisEnterpriseDatabasesRegenerateKey.
+           *
+           * @param manager Entry point to RedisEnterpriseManager.
+           */
+          public static void redisEnterpriseDatabasesRegenerateKey(
+              com.azure.resourcemanager.redisenterprise.RedisEnterpriseManager manager) {
+              manager
+                  .databases()
+                  .regenerateKey(
+                      "rg1",
+                      "cache1",
+                      "default",
+                      new RegenerateKeyParameters().withKeyType(AccessKeyType.PRIMARY),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-redisenterprise_1.1.0-beta.1/sdk/redisenterprise/azure-resourcemanager-redisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredisenterprise_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesRegenerateKey.json
+      func ExampleDatabasesClient_BeginRegenerateKey() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredisenterprise.NewDatabasesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRegenerateKey(ctx,
+      		"rg1",
+      		"cache1",
+      		"default",
+      		armredisenterprise.RegenerateKeyParameters{
+      			KeyType: to.Ptr(armredisenterprise.AccessKeyTypePrimary),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredisenterprise%2Farmredisenterprise%2Fv1.0.0/sdk/resourcemanager/redisenterprise/armredisenterprise/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Regenerates the RedisEnterprise database's access keys.
+       *
+       * @summary Regenerates the RedisEnterprise database's access keys.
+       * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2022-01-01/examples/RedisEnterpriseDatabasesRegenerateKey.json
+       */
+      async function redisEnterpriseDatabasesRegenerateKey() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cache1";
+        const databaseName = "default";
+        const parameters = { keyType: "Primary" };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginRegenerateKeyAndWait(
+          resourceGroupName,
+          clusterName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      redisEnterpriseDatabasesRegenerateKey().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-redisenterprisecache_2.1.0/sdk/redisenterprise/arm-redisenterprisecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

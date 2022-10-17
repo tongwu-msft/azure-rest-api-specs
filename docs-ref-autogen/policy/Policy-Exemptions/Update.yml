@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.policy.policyexemptions.get
-name: Get
+uid: management.azure.com.policy.policyexemptions.update
+name: Update
 service: Policy
 groupName: Policy Exemptions
 apiVersion: 2022-07-01-preview
-summary: "Retrieves a policy exemption.  \nThis operation retrieves a single policy exemption, given its name and the scope it was created at."
+summary: " This operation updates a policy exemption with the given scope and name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}?api-version=2022-07-01-preview
+- content: PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}?api-version=2022-07-01-preview
 uriParameters:
 - name: scope
   in: path
@@ -40,8 +40,35 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.resourceSelectors
+    in: body
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.assignmentScopeValidation
+    in: body
+    description: The option whether validate the exemption is at or under the assignment scope.
+    types:
+    - uid: AssignmentScopeValidation
 requestHeader: []
 definitions:
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: PolicyExemption
   description: The policy exemption.
   kind: object
@@ -113,6 +140,38 @@ definitions:
     description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
+- name: PolicyExemptionUpdate
+  description: The policy exemption for Patch request.
+  kind: object
+  properties:
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.assignmentScopeValidation
+    description: The option whether validate the exemption is at or under the assignment scope.
+    types:
+    - uid: AssignmentScopeValidation
+    defaultValue: Default
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -153,19 +212,6 @@ definitions:
     description: This category of exemptions usually means the mitigation actions have been applied to the scope.
     types:
     - uid: string
-- name: ResourceSelector
-  description: The resource selector to filter policies by resource properties.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource selector.
-    types:
-    - uid: string
-  - name: selectors
-    description: The list of the selector expressions.
-    types:
-    - uid: Selector
-      isArray: true
 - name: AssignmentScopeValidation
   description: The option whether validate the exemption is at or under the assignment scope.
   kind: enum
@@ -209,54 +255,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
-- name: Selector
-  description: The selector expression.
-  kind: object
-  properties:
-  - name: kind
-    description: The selector kind.
-    types:
-    - uid: SelectorKind
-  - name: in
-    description: The list of values to filter in.
-    types:
-    - uid: string
-      isArray: true
-  - name: notIn
-    description: The list of values to filter out.
-    types:
-    - uid: string
-      isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: SelectorKind
   description: The selector kind.
   kind: enum
@@ -277,51 +275,85 @@ definitions:
     description: The selector kind to filter policies by the policy definition reference ID.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: Retrieve a policy exemption
+- name: Update a policy exemption with resource selectors
   request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
-    codeTab: |+
-      # [HTTP](#tab/HTTP)
-      ``` http
-      GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
-      ```
-
-  responses:
-  - statusCode: "200"
+    uri: PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
     body: >-
       {
         "properties": {
-          "policyAssignmentId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
-          "policyDefinitionReferenceIds": [
-            "Limit_Skus"
-          ],
-          "exemptionCategory": "Waiver",
-          "displayName": "Exempt demo cluster",
-          "description": "Exempt demo cluster from limit sku",
-          "metadata": {
-            "reason": "Temporary exemption for a expensive VM demo"
-          }
-        },
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "User",
-          "createdAt": "2020-07-01T01:01:01.1075056Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2020-07-01T02:01:01.1075056Z"
-        },
-        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM",
-        "type": "Microsoft.Authorization/policyExemptions",
-        "name": "DemoExpensiveVM"
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
-- name: Retrieve a policy exemption with resource selectors
-  request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
+      PATCH https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster/providers/Microsoft.Authorization/policyExemptions/DemoExpensiveVM?api-version=2022-07-01-preview
+
+      {
+        "properties": {
+          "assignmentScopeValidation": "Default",
+          "resourceSelectors": [
+            {
+              "name": "SDPRegions",
+              "selectors": [
+                {
+                  "kind": "resourceLocation",
+                  "in": [
+                    "eastus2euap",
+                    "centraluseuap"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
       ```
 
   responses:
@@ -378,7 +410,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Retrieves a policy exemption.
-
-    This operation retrieves a single policy exemption, given its name and the scope it was created at.
+    Learn more about Policy service - This operation updates a policy exemption with the given scope and name.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.policy.policyassignments.createbyid
 name: Create By Id
 service: Policy
 groupName: Policy Assignments
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: "Creates or updates a policy assignment.  \nThis operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2021-06-01
+- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2022-06-01
 uriParameters:
 - name: policyAssignmentId
   in: path
@@ -93,6 +93,18 @@ requestBody:
     types:
     - uid: NonComplianceMessage
       isArray: true
+  - name: properties.resourceSelectors
+    in: body
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    in: body
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 requestHeader: []
 definitions:
 - name: Identity
@@ -165,6 +177,36 @@ definitions:
     description: The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment.
     types:
     - uid: string
+- name: ResourceSelector
+  description: The resource selector to filter policies by resource properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource selector.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
+- name: Override
+  description: The policy property value override.
+  kind: object
+  properties:
+  - name: kind
+    description: The override kind.
+    types:
+    - uid: OverrideKind
+  - name: value
+    description: The value to override the policy property.
+    types:
+    - uid: string
+  - name: selectors
+    description: The list of the selector expressions.
+    types:
+    - uid: Selector
+      isArray: true
 - name: PolicyAssignment
   description: The policy assignment.
   kind: object
@@ -241,6 +283,16 @@ definitions:
     types:
     - uid: NonComplianceMessage
       isArray: true
+  - name: properties.resourceSelectors
+    description: The resource selector list to filter policies by resource properties.
+    types:
+    - uid: ResourceSelector
+      isArray: true
+  - name: properties.overrides
+    description: The policy property value override.
+    types:
+    - uid: Override
+      isArray: true
 - name: CloudError
   description: An error response from a policy operation.
   kind: object
@@ -289,6 +341,32 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: Selector
+  description: The selector expression.
+  kind: object
+  properties:
+  - name: kind
+    description: The selector kind.
+    types:
+    - uid: SelectorKind
+  - name: in
+    description: The list of values to filter in.
+    types:
+    - uid: string
+      isArray: true
+  - name: notIn
+    description: The list of values to filter out.
+    types:
+    - uid: string
+      isArray: true
+- name: OverrideKind
+  description: The override kind.
+  kind: enum
+  properties:
+  - name: policyEffect
+    description: It will override the policy effect type.
+    types:
+    - uid: string
 - name: enforcementMode
   description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
   kind: enum
@@ -332,6 +410,26 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: SelectorKind
+  description: The selector kind.
+  kind: enum
+  properties:
+  - name: resourceLocation
+    description: The selector kind to filter policies by the resource location.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The selector kind to filter policies by the resource type.
+    types:
+    - uid: string
+  - name: resourceWithoutLocation
+    description: The selector kind to filter policies by the resource without location.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The selector kind to filter policies by the policy definition reference ID.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -349,7 +447,7 @@ definitions:
 examples:
 - name: Create or update policy assignment by ID
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
     body: >-
       {
         "properties": {
@@ -373,7 +471,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
 
       {
         "properties": {
@@ -397,162 +495,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.serializer.SerializerFactory;
-      import com.azure.core.util.Context;
-      import com.azure.core.util.serializer.SerializerEncoding;
-      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
-      import com.azure.resourcemanager.resources.models.EnforcementMode;
-      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
-      import java.io.IOException;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for PolicyAssignments CreateById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentById.json
-           */
-          /**
-           * Sample code: Create or update policy assignment by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdatePolicyAssignmentByID(com.azure.resourcemanager.AzureResourceManager azure)
-              throws IOException {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .createByIdWithResponse(
-                      "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
-                      new PolicyAssignmentInner()
-                          .withDisplayName("Enforce storage account SKU")
-                          .withPolicyDefinitionId(
-                              "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1")
-                          .withParameters(
-                              mapOf(
-                                  "listOfAllowedSKUs",
-                                  new ParameterValuesValue()
-                                      .withValue(
-                                          SerializerFactory
-                                              .createDefaultManagementSerializerAdapter()
-                                              .deserialize(
-                                                  "[\"Standard_GRS\",\"Standard_LRS\"]",
-                                                  Object.class,
-                                                  SerializerEncoding.JSON))))
-                          .withDescription("Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created")
-                          .withMetadata(
-                              SerializerFactory
-                                  .createDefaultManagementSerializerAdapter()
-                                  .deserialize("{\"assignedBy\":\"Cheapskate Boss\"}", Object.class, SerializerEncoding.JSON))
-                          .withEnforcementMode(EnforcementMode.DEFAULT),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armpolicy_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-      )
-
-      // x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentById.json
-      func ExamplePolicyAssignmentsClient_CreateByID() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client := armpolicy.NewPolicyAssignmentsClient("<subscription-id>", cred, nil)
-      	res, err := client.CreateByID(ctx,
-      		"<policy-assignment-id>",
-      		armpolicy.PolicyAssignment{
-      			Properties: &armpolicy.PolicyAssignmentProperties{
-      				Description:     to.StringPtr("<description>"),
-      				DisplayName:     to.StringPtr("<display-name>"),
-      				EnforcementMode: armpolicy.EnforcementModeDefault.ToPtr(),
-      				Metadata: map[string]interface{}{
-      					"assignedBy": "Cheapskate Boss",
-      				},
-      				Parameters: map[string]*armpolicy.ParameterValuesValue{
-      					"listOfAllowedSKUs": {
-      						Value: map[string]interface{}{
-      							"0": "Standard_GRS",
-      							"1": "Standard_LRS",
-      						},
-      					},
-      				},
-      				PolicyDefinitionID: to.StringPtr("<policy-definition-id>"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	log.Printf("PolicyAssignment.ID: %s\n", *res.ID)
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.1.1/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-       *
-       * @summary This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentById.json
-       */
-      async function createOrUpdatePolicyAssignmentById() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const policyAssignmentId =
-          "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
-        const parameters = {
-          description: "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
-          displayName: "Enforce storage account SKU",
-          enforcementMode: "Default",
-          metadata: { assignedBy: "Cheapskate Boss" },
-          parameters: {
-            listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
-          },
-          policyDefinitionId:
-            "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyAssignments.createById(policyAssignmentId, parameters);
-        console.log(result);
-      }
-
-      createOrUpdatePolicyAssignmentById().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -581,7 +523,7 @@ examples:
       }
 - name: Create or update policy assignment with a managed identity by ID
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
     body: >-
       {
         "identity": {
@@ -609,7 +551,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2021-06-01
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2022-06-01
 
       {
         "identity": {
@@ -637,117 +579,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.serializer.SerializerFactory;
-      import com.azure.core.util.Context;
-      import com.azure.core.util.serializer.SerializerEncoding;
-      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
-      import com.azure.resourcemanager.resources.models.EnforcementMode;
-      import com.azure.resourcemanager.resources.models.Identity;
-      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
-      import com.azure.resourcemanager.resources.models.ResourceIdentityType;
-      import java.io.IOException;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for PolicyAssignments CreateById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentityById.json
-           */
-          /**
-           * Sample code: Create or update policy assignment with a managed identity by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdatePolicyAssignmentWithAManagedIdentityByID(
-              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
-              azure
-                  .genericResources()
-                  .manager()
-                  .policyClient()
-                  .getPolicyAssignments()
-                  .createByIdWithResponse(
-                      "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
-                      new PolicyAssignmentInner()
-                          .withLocation("eastus")
-                          .withIdentity(new Identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED))
-                          .withDisplayName("Enforce storage account SKU")
-                          .withPolicyDefinitionId(
-                              "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1")
-                          .withParameters(
-                              mapOf(
-                                  "listOfAllowedSKUs",
-                                  new ParameterValuesValue()
-                                      .withValue(
-                                          SerializerFactory
-                                              .createDefaultManagementSerializerAdapter()
-                                              .deserialize(
-                                                  "[\"Standard_GRS\",\"Standard_LRS\"]",
-                                                  Object.class,
-                                                  SerializerEncoding.JSON))))
-                          .withDescription("Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created")
-                          .withMetadata(
-                              SerializerFactory
-                                  .createDefaultManagementSerializerAdapter()
-                                  .deserialize("{\"assignedBy\":\"Cheapskate Boss\"}", Object.class, SerializerEncoding.JSON))
-                          .withEnforcementMode(EnforcementMode.DEFAULT),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { PolicyClient } = require("@azure/arm-policy");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-       *
-       * @summary This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentityById.json
-       */
-      async function createOrUpdatePolicyAssignmentWithAManagedIdentityById() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const policyAssignmentId =
-          "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
-        const parameters = {
-          description: "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
-          displayName: "Enforce storage account SKU",
-          enforcementMode: "Default",
-          identity: { type: "SystemAssigned" },
-          location: "eastus",
-          metadata: { assignedBy: "Cheapskate Boss" },
-          parameters: {
-            listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
-          },
-          policyDefinitionId:
-            "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new PolicyClient(credential, subscriptionId);
-        const result = await client.policyAssignments.createById(policyAssignmentId, parameters);
-        console.log(result);
-      }
-
-      createOrUpdatePolicyAssignmentWithAManagedIdentityById().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -783,7 +614,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

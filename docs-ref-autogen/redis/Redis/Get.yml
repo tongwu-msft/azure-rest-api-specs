@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.get
 name: Get
 service: Redis Cache
 groupName: Redis
-apiVersion: 2021-06-01
+apiVersion: 2022-06-01
 summary: Gets a Redis cache (resource description).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -147,7 +147,7 @@ definitions:
     types:
     - uid: RedisConfiguration
   - name: redisVersion
-    description: "Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in a PUT/PATCH request. Supported versions: 4.0, 6.0."
+    description: "Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'."
     types:
     - uid: string
   - name: enableNonSslPort
@@ -372,7 +372,7 @@ definitions:
     types:
     - uid: string
   - name: rdb-backup-frequency
-    description: Specifies the frequency for creating rdb backup
+    description: 'Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440)'
     types:
     - uid: string
   - name: rdb-backup-max-snapshot-count
@@ -422,7 +422,6 @@ definitions:
     types:
     - uid: string
   - name: preferred-data-persistence-auth-method
-    isReadyOnly: true
     description: Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
     types:
     - uid: string
@@ -613,100 +612,13 @@ definitions:
 examples:
 - name: RedisCacheGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2021-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2022-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2021-06-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2022-06-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Redis GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheGet.json
-           */
-          /**
-           * Sample code: RedisCacheGet.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void redisCacheGet(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .redisCaches()
-                  .manager()
-                  .serviceClient()
-                  .getRedis()
-                  .getByResourceGroupWithResponse("rg1", "cache1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armredis_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheGet.json
-      func ExampleClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armredis.NewClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx,
-      		"rg1",
-      		"cache1",
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { RedisManagementClient } = require("@azure/arm-rediscache");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets a Redis cache (resource description).
-       *
-       * @summary Gets a Redis cache (resource description).
-       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheGet.json
-       */
-      async function redisCacheGet() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const name = "cache1";
-        const credential = new DefaultAzureCredential();
-        const client = new RedisManagementClient(credential, subscriptionId);
-        const result = await client.redis.get(resourceGroupName, name);
-        console.log(result);
-      }
-
-      redisCacheGet().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
