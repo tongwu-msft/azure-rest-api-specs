@@ -3,20 +3,22 @@ uid: management.azure.com.authorization.roleassignments.deletebyid
 name: Delete By Id
 service: Authorization
 groupName: Role Assignments
-apiVersion: 2015-07-01
-summary: Deletes a role assignment.
+apiVersion: 2022-04-01
+summary: Delete a role assignment by ID.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/{roleAssignmentId}?api-version=2015-07-01
+- content: DELETE https://management.azure.com/{roleAssignmentId}?api-version=2022-04-01
+- content: DELETE https://management.azure.com/{roleAssignmentId}?api-version=2022-04-01&tenantId={tenantId}
+  isOptional: true
 uriParameters:
 - name: roleAssignmentId
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: 'The fully qualified ID of the role assignment, including the scope, resource name and resource type. Use the format, /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/{subId}/resourcegroups/{rgname}//providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}.'
+  description: 'The fully qualified ID of the role assignment including scope, resource name, and resource type. Format: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>'
   types:
   - uid: string
 - name: api-version
@@ -25,9 +27,14 @@ uriParameters:
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: tenantId
+  in: query
+  description: Tenant ID for cross-tenant request
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the role assignment.
+  description: Returns the deleted role assignment.
   types:
   - uid: RoleAssignment
 - name: 204 No Content
@@ -57,10 +64,60 @@ definitions:
     description: The role assignment type.
     types:
     - uid: string
-  - name: properties
-    description: Role assignment properties.
+  - name: properties.scope
+    isReadyOnly: true
+    description: The role assignment scope.
     types:
-    - uid: RoleAssignmentPropertiesWithScope
+    - uid: string
+  - name: properties.roleDefinitionId
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: properties.principalId
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+    defaultValue: User
+  - name: properties.description
+    description: Description of role assignment
+    types:
+    - uid: string
+  - name: properties.condition
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    description: Version of the condition. Currently the only accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Time it was created
+    types:
+    - uid: string
+  - name: properties.updatedOn
+    isReadyOnly: true
+    description: Time it was updated
+    types:
+    - uid: string
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Id of the user who created the assignment
+    types:
+    - uid: string
+  - name: properties.updatedBy
+    isReadyOnly: true
+    description: Id of the user who updated the assignment
+    types:
+    - uid: string
+  - name: properties.delegatedManagedIdentityResourceId
+    description: Id of the delegated managed identity resource
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -69,20 +126,23 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: RoleAssignmentPropertiesWithScope
-  description: Role assignment properties with scope.
-  kind: object
+- name: PrincipalType
+  description: The principal type of the assigned principal ID.
+  kind: enum
   properties:
-  - name: scope
-    description: The role assignment scope.
+  - name: User
     types:
     - uid: string
-  - name: roleDefinitionId
-    description: The role definition ID.
+  - name: Group
     types:
     - uid: string
-  - name: principalId
-    description: The principal ID.
+  - name: ServicePrincipal
+    types:
+    - uid: string
+  - name: ForeignGroup
+    types:
+    - uid: string
+  - name: Device
     types:
     - uid: string
 - name: ErrorDetail
@@ -133,52 +193,59 @@ definitions:
 examples:
 - name: Delete role assignment by ID
   request:
-    uri: DELETE https://management.azure.com/roleAssignmentId?api-version=2015-07-01
+    uri: DELETE https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/roleAssignmentId?api-version=2015-07-01
+      DELETE https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
+      # [Go](#tab/Go)
+      ``` go
+      package armauthorization_test
 
-      /** Samples for RoleAssignments DeleteById. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/DeleteRoleAssignmentById.json
-           */
-          /**
-           * Sample code: Delete role assignment by ID.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void deleteRoleAssignmentByID(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleAssignments()
-                  .deleteByIdWithResponse("roleAssignmentId", Context.NONE);
-          }
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_DeleteById.json
+      func ExampleRoleAssignmentsClient_DeleteByID() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armauthorization.NewRoleAssignmentsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.DeleteByID(ctx, "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747", &armauthorization.RoleAssignmentsClientDeleteByIDOptions{TenantID: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
-          "principalId": "Pid",
-          "scope": "/subscriptions/subId/resourcegroups/rgname"
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+          "principalType": "User",
+          "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
         },
-        "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+        "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
         "type": "Microsoft.Authorization/roleAssignments",
-        "name": "roleassignmentId"
+        "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
       }
   - statusCode: "204"
 security:
@@ -192,5 +259,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Authorization service - Deletes a role assignment.
+    Learn more about Authorization service - Delete a role assignment by ID.
 errorCodes: []

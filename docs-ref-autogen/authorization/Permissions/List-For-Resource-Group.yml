@@ -3,14 +3,14 @@ uid: management.azure.com.authorization.permissions.listforresourcegroup
 name: List For Resource Group
 service: Authorization
 groupName: Permissions
-apiVersion: 2015-07-01
+apiVersion: 2022-04-01
 summary: Gets all permissions the caller has for a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Authorization/permissions?api-version=2015-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Authorization/permissions?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -76,6 +76,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: dataActions
+    description: Allowed Data actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: Denied Data actions.
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -124,40 +134,13 @@ definitions:
 examples:
 - name: List permissions for resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subID/resourcegroups/rgname/providers/Microsoft.Authorization/permissions?api-version=2015-07-01
+    uri: GET https://management.azure.com/subscriptions/subID/resourcegroups/rgname/providers/Microsoft.Authorization/permissions?api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subID/resourcegroups/rgname/providers/Microsoft.Authorization/permissions?api-version=2015-07-01
+      GET https://management.azure.com/subscriptions/subID/resourcegroups/rgname/providers/Microsoft.Authorization/permissions?api-version=2022-04-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Permissions ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetPermissions.json
-           */
-          /**
-           * Sample code: List permissions for resource group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listPermissionsForResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getPermissions()
-                  .listByResourceGroup("rgname", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armauthorization_test
@@ -167,10 +150,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetPermissions.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetPermissions.json
       func ExamplePermissionsClient_NewListForResourceGroupPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -181,8 +164,7 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	pager := client.NewListForResourceGroupPager("rgname",
-      		nil)
+      	pager := client.NewListForResourceGroupPager("rgname", nil)
       	for pager.More() {
       		nextResult, err := pager.NextPage(ctx)
       		if err != nil {
@@ -196,7 +178,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv1.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -204,7 +186,9 @@ examples:
         "value": [
           {
             "actions": [],
-            "notActions": []
+            "notActions": [],
+            "dataActions": [],
+            "notDataActions": []
           }
         ],
         "nextLink": "nextlink"

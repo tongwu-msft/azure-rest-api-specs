@@ -3,14 +3,14 @@ uid: management.azure.com.authorization.roledefinitions.get
 name: Get
 service: Authorization
 groupName: Role Definitions
-apiVersion: 2015-07-01
+apiVersion: 2022-04-01
 summary: Get role definition by name (GUID).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}?api-version=2015-07-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}?api-version=2022-04-01
 uriParameters:
 - name: scope
   in: path
@@ -105,6 +105,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: dataActions
+    description: Allowed Data actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: Denied Data actions.
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -153,40 +163,13 @@ definitions:
 examples:
 - name: Get role definition by name
   request:
-    uri: GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
+    uri: GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
+      GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2022-04-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for RoleDefinitions Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleDefinitionByName.json
-           */
-          /**
-           * Sample code: Get role definition by name.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getRoleDefinitionByName(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleDefinitions()
-                  .getWithResponse("scope", "roleDefinitionId", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armauthorization_test
@@ -196,10 +179,10 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleDefinitionByName.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetRoleDefinitionByName.json
       func ExampleRoleDefinitionsClient_Get() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -210,10 +193,7 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.Get(ctx,
-      		"scope",
-      		"roleDefinitionId",
-      		nil)
+      	res, err := client.Get(ctx, "scope", "roleDefinitionId", nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -222,7 +202,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv1.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -239,7 +219,11 @@ examples:
               "actions": [
                 "action"
               ],
-              "notActions": []
+              "notActions": [],
+              "dataActions": [
+                "dataAction"
+              ],
+              "notDataActions": []
             }
           ]
         },

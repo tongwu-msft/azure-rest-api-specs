@@ -1,37 +1,34 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.authorization.roleassignments.delete
-name: Delete
+uid: management.azure.com.authorization.roleassignments.listforsubscription
+name: List For Subscription
 service: Authorization
 groupName: Role Assignments
 apiVersion: 2022-04-01
-summary: Delete a role assignment by scope and name.
+summary: List all role assignments that apply to a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2022-04-01
-- content: DELETE https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2022-04-01&tenantId={tenantId}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01&$filter={$filter}&tenantId={tenantId}
   isOptional: true
 uriParameters:
-- name: scope
+- name: subscriptionId
   in: path
   isRequired: true
-  skipUrlEncoding: true
-  description: "The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'"
-  types:
-  - uid: string
-- name: roleAssignmentName
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: The name of the role assignment. It can be any valid GUID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
   types:
   - uid: string
 - name: tenantId
@@ -41,17 +38,37 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Returns the deleted role assignment.
+  description: Returns an array of role assignments.
   types:
-  - uid: RoleAssignment
-- name: 204 No Content
-  description: Role assignment was already deleted or does not exist.
+  - uid: RoleAssignmentListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: RoleAssignmentListResult
+  description: Role assignment list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: Role assignment list.
+    types:
+    - uid: RoleAssignment
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The skipToken to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: RoleAssignment
   description: Role Assignments
   kind: object
@@ -125,33 +142,6 @@ definitions:
     description: Id of the delegated managed identity resource
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response
-  kind: object
-  properties:
-  - name: error
-    description: The error object.
-    types:
-    - uid: ErrorDetail
-- name: PrincipalType
-  description: The principal type of the assigned principal ID.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Group
-    types:
-    - uid: string
-  - name: ServicePrincipal
-    types:
-    - uid: string
-  - name: ForeignGroup
-    types:
-    - uid: string
-  - name: Device
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -183,6 +173,25 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: PrincipalType
+  description: The principal type of the assigned principal ID.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+  - name: ServicePrincipal
+    types:
+    - uid: string
+  - name: ForeignGroup
+    types:
+    - uid: string
+  - name: Device
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -198,13 +207,13 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Delete role assignment
+- name: List role assignments for subscription
   request:
-    uri: DELETE https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
+    uri: GET https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747?api-version=2022-04-01
+      GET https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
       ```
 
       # [Go](#tab/Go)
@@ -219,23 +228,30 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_Delete.json
-      func ExampleRoleAssignmentsClient_Delete() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForSubscription.json
+      func ExampleRoleAssignmentsClient_NewListForSubscriptionPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armauthorization.NewRoleAssignmentsClient("<subscription-id>", cred, nil)
+      	client, err := armauthorization.NewRoleAssignmentsClient("a925f2f7-5c63-4b7b-8799-25a5f97bc3b2", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.Delete(ctx, "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2", "b0f43c54-e787-4862-89b1-a653fa9cf747", &armauthorization.RoleAssignmentsClientDeleteOptions{TenantID: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
+      	pager := client.NewListForSubscriptionPager(&armauthorization.RoleAssignmentsClientListForSubscriptionOptions{Filter: nil,
+      		TenantID: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
       	}
-      	// TODO: use response item
-      	_ = res
       }
 
       ```
@@ -244,17 +260,20 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
-          "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
-          "principalType": "User",
-          "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
-        },
-        "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
-        "type": "Microsoft.Authorization/roleAssignments",
-        "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
+        "value": [
+          {
+            "properties": {
+              "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+              "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+              "principalType": "User",
+              "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
+            },
+            "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
+          }
+        ]
       }
-  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -266,5 +285,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Authorization service - Delete a role assignment by scope and name.
+    Learn more about Authorization service - List all role assignments that apply to a subscription.
 errorCodes: []

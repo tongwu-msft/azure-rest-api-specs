@@ -3,15 +3,15 @@ uid: management.azure.com.authorization.roleassignments.listforresource
 name: List For Resource
 service: Authorization
 groupName: Role Assignments
-apiVersion: 2015-07-01
-summary: Gets role assignments for a resource.
+apiVersion: 2022-04-01
+summary: List all role assignments that apply to a resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments?api-version=2015-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments?$filter={$filter}&api-version=2015-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01&$filter={$filter}&tenantId={tenantId}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -29,32 +29,22 @@ uriParameters:
 - name: resourceProviderNamespace
   in: path
   isRequired: true
-  description: The namespace of the resource provider.
-  types:
-  - uid: string
-- name: parentResourcePath
-  in: path
-  isRequired: true
   skipUrlEncoding: true
-  description: The parent resource identity.
+  description: The namespace of the resource provider.
   types:
   - uid: string
 - name: resourceType
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The resource type of the resource.
+  description: The resource type name. For example the type name of a web app is 'sites' (from Microsoft.Web/sites).
   types:
   - uid: string
 - name: resourceName
   in: path
   isRequired: true
-  description: The name of the resource to get role assignments for.
-  types:
-  - uid: string
-- name: $filter
-  in: query
-  description: The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+  skipUrlEncoding: true
+  description: The resource name.
   types:
   - uid: string
 - name: api-version
@@ -63,9 +53,19 @@ uriParameters:
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+  types:
+  - uid: string
+- name: tenantId
+  in: query
+  description: Tenant ID for cross-tenant request
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns an array of role assignments.
+  description: Returns an array of role assignments.
   types:
   - uid: RoleAssignmentListResult
 - name: Other Status Codes
@@ -84,7 +84,8 @@ definitions:
     - uid: RoleAssignment
       isArray: true
   - name: nextLink
-    description: The URL to use for getting the next set of results.
+    isReadyOnly: true
+    description: The skipToken to use for getting the next set of results.
     types:
     - uid: string
 - name: ErrorResponse
@@ -114,10 +115,60 @@ definitions:
     description: The role assignment type.
     types:
     - uid: string
-  - name: properties
-    description: Role assignment properties.
+  - name: properties.scope
+    isReadyOnly: true
+    description: The role assignment scope.
     types:
-    - uid: RoleAssignmentPropertiesWithScope
+    - uid: string
+  - name: properties.roleDefinitionId
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: properties.principalId
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+    defaultValue: User
+  - name: properties.description
+    description: Description of role assignment
+    types:
+    - uid: string
+  - name: properties.condition
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    description: Version of the condition. Currently the only accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Time it was created
+    types:
+    - uid: string
+  - name: properties.updatedOn
+    isReadyOnly: true
+    description: Time it was updated
+    types:
+    - uid: string
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Id of the user who created the assignment
+    types:
+    - uid: string
+  - name: properties.updatedBy
+    isReadyOnly: true
+    description: Id of the user who updated the assignment
+    types:
+    - uid: string
+  - name: properties.delegatedManagedIdentityResourceId
+    description: Id of the delegated managed identity resource
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -149,20 +200,23 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: RoleAssignmentPropertiesWithScope
-  description: Role assignment properties with scope.
-  kind: object
+- name: PrincipalType
+  description: The principal type of the assigned principal ID.
+  kind: enum
   properties:
-  - name: scope
-    description: The role assignment scope.
+  - name: User
     types:
     - uid: string
-  - name: roleDefinitionId
-    description: The role definition ID.
+  - name: Group
     types:
     - uid: string
-  - name: principalId
-    description: The principal ID.
+  - name: ServicePrincipal
+    types:
+    - uid: string
+  - name: ForeignGroup
+    types:
+    - uid: string
+  - name: Device
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -180,49 +234,15 @@ definitions:
     types:
     - uid: object
 examples:
-- name: List role assignments for resource
+- name: List role assignments for a resource
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourcegroups/rgname/providers/resourceProviderNamespace/parentResourcePath/resourceType/resourceName/providers/Microsoft.Authorization/roleAssignments?api-version=2015-07-01
+    uri: GET https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subId/resourcegroups/rgname/providers/resourceProviderNamespace/parentResourcePath/resourceType/resourceName/providers/Microsoft.Authorization/roleAssignments?api-version=2015-07-01
+      GET https://management.azure.com/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for RoleAssignments ListForResource. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleAssignmentsForResource.json
-           */
-          /**
-           * Sample code: List role assignments for resource.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listRoleAssignmentsForResource(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .accessManagement()
-                  .roleAssignments()
-                  .manager()
-                  .roleServiceClient()
-                  .getRoleAssignments()
-                  .listForResource(
-                      "rgname",
-                      "resourceProviderNamespace",
-                      "parentResourcePath",
-                      "resourceType",
-                      "resourceName",
-                      null,
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armauthorization_test
@@ -232,26 +252,23 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleAssignmentsForResource.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForResource.json
       func ExampleRoleAssignmentsClient_NewListForResourcePager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armauthorization.NewRoleAssignmentsClient("subId", cred, nil)
+      	client, err := armauthorization.NewRoleAssignmentsClient("a925f2f7-5c63-4b7b-8799-25a5f97bc3b2", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	pager := client.NewListForResourcePager("rgname",
-      		"resourceProviderNamespace",
-      		"parentResourcePath",
-      		"resourceType",
-      		"resourceName",
-      		&armauthorization.RoleAssignmentsClientListForResourceOptions{Filter: nil})
+      	pager := client.NewListForResourcePager("testrg", "Microsoft.DocumentDb", "databaseAccounts", "test-db-account", &armauthorization.RoleAssignmentsClientListForResourceOptions{Filter: nil,
+      		TenantID: nil,
+      	})
       	for pager.More() {
       		nextResult, err := pager.NextPage(ctx)
       		if err != nil {
@@ -265,7 +282,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv1.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv2.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -273,13 +290,36 @@ examples:
         "value": [
           {
             "properties": {
-              "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
-              "principalId": "Pid",
-              "scope": "/subscriptions/subId/resourcegroups/rgname"
+              "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+              "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+              "principalType": "User",
+              "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2"
             },
-            "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+            "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747",
             "type": "Microsoft.Authorization/roleAssignments",
-            "name": "raId"
+            "name": "b0f43c54-e787-4862-89b1-a653fa9cf747"
+          },
+          {
+            "properties": {
+              "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+              "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+              "principalType": "User",
+              "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg"
+            },
+            "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.Authorization/roleAssignments/96786e4b-dede-4c2e-8736-8ab911987f08",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "96786e4b-dede-4c2e-8736-8ab911987f08"
+          },
+          {
+            "properties": {
+              "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/0b5fe924-9a61-425c-96af-cfe6e287ca2d",
+              "principalId": "ce2ce14e-85d7-4629-bdbc-454d0519d987",
+              "principalType": "User",
+              "scope": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account"
+            },
+            "id": "/subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account/providers/Microsoft.Authorization/roleAssignments/05c5a614-a7d6-4502-b150-c2fb455033ff",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "05c5a614-a7d6-4502-b150-c2fb455033ff"
           }
         ]
       }
@@ -294,5 +334,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Authorization service - Gets role assignments for a resource.
+    Learn more about Authorization service - List all role assignments that apply to a resource.
 errorCodes: []
