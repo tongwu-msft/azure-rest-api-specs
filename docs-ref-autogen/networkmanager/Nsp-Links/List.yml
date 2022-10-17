@@ -1,0 +1,266 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.nsplinks.list
+name: List
+service: Network Manager
+groupName: Nsp Links
+apiVersion: 2021-02-01-preview
+summary: Lists the NSP Link resources in the specified network security perimeter.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links?api-version=2021-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links?api-version=2021-02-01-preview&$top={$top}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkSecurityPerimeterName
+  in: path
+  isRequired: true
+  description: The name of the network security perimeter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: An optional query parameter which specifies the maximum number of records to be returned by the server.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns the list of NSP link resources.
+  types:
+  - uid: NspLinkListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: NspLinkListResult
+  description: Result of the request to list NSP link resources. Contains a list of NSP link resources and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: Gets a page of NSP Link resources.
+    types:
+    - uid: NspLink
+      isArray: true
+  - name: nextLink
+    description: Gets the URL to get the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: NspLink
+  description: The network security perimeter link resource
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NSP Link resource.
+    types:
+    - uid: nspProvisioningState
+  - name: properties.autoApprovedRemotePerimeterResourceId
+    description: Perimeter ARM Id for the remote NSP with which the link gets created in Auto-approval mode. It should be used when the NSP admin have Microsoft.Network/networkSecurityPerimeters/linkPerimeter/action permission on the remote NSP resource.
+    types:
+    - uid: string
+  - name: properties.remotePerimeterGuid
+    isReadyOnly: true
+    description: Remote NSP Guid with which the link gets created.
+    types:
+    - uid: string
+  - name: properties.localInboundProfiles
+    description: Local Inbound profile names to which Inbound is allowed. Use ['*'] to allow inbound to all profiles. It's default value is ['*'].
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.localOutboundProfiles
+    isReadyOnly: true
+    description: Local Outbound profile names from which Outbound is allowed. In current version, it is readonly property and it's value is set to ['*'] to allow outbound from all profiles. In later version, user will be able to modify it.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.remoteInboundProfiles
+    description: Remote Inbound profile names to which Inbound is allowed. Use ['*'] to allow inbound to all profiles. This property can only be updated in auto-approval mode. It's default value is ['*'].
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.remoteOutboundProfiles
+    isReadyOnly: true
+    description: Remote Outbound profile names from which Outbound is allowed. In current version, it is readonly property and it's value is set to ['*'] to allow outbound from all profiles. In later version, user will be able to modify it.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.description
+    description: A message passed to the owner of the remote NSP link resource with this connection request. In case of Auto-approved flow, it is default to 'Auto Approved'. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The NSP link state.
+    types:
+    - uid: nspLinkStatus
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: nspProvisioningState
+  description: The provisioning state of the scope assignment resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: nspLinkStatus
+  description: The NSP link state.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: NspLinkList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/links?api-version=2021-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/links?api-version=2021-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "link1",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/links/link1",
+            "type": "Microsoft.Network/networkSecurityPerimeters/links",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "autoApprovedRemotePerimeterResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp2",
+              "remotePerimeterGuid": "guid",
+              "localInboundProfiles": [
+                "*"
+              ],
+              "localOutboundProfiles": [
+                "*"
+              ],
+              "remoteInboundProfiles": [
+                "*"
+              ],
+              "remoteOutboundProfiles": [
+                "*"
+              ],
+              "description": "Auto Approved",
+              "status": "Approved"
+            }
+          }
+        ],
+        "nextLink": "{baseurl}/subscriptions/subId/resourceGroup/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/links?api-version=2021-02-01-preview&$skipToken=10"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Network Manager service - Lists the NSP Link resources in the specified network security perimeter.
+errorCodes: []

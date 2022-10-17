@@ -15179,6 +15179,23 @@
 ### [Delete](networkmanager/Nsp-Associations/Delete.yml)
 ### [Get](networkmanager/Nsp-Associations/Get.yml)
 ### [List](networkmanager/Nsp-Associations/List.yml)
+## Nsp Link Reconcile
+### [Overview](networkmanager/Nsp-Link-Reconcile.yml)
+### [Post](networkmanager/Nsp-Link-Reconcile/Post.yml)
+## Nsp Link Reference Reconcile
+### [Overview](networkmanager/Nsp-Link-Reference-Reconcile.yml)
+### [Post](networkmanager/Nsp-Link-Reference-Reconcile/Post.yml)
+## Nsp Link References
+### [Overview](networkmanager/Nsp-Link-References.yml)
+### [Delete](networkmanager/Nsp-Link-References/Delete.yml)
+### [Get](networkmanager/Nsp-Link-References/Get.yml)
+### [List](networkmanager/Nsp-Link-References/List.yml)
+## Nsp Links
+### [Overview](networkmanager/Nsp-Links.yml)
+### [Create Or Update](networkmanager/Nsp-Links/Create-Or-Update.yml)
+### [Delete](networkmanager/Nsp-Links/Delete.yml)
+### [Get](networkmanager/Nsp-Links/Get.yml)
+### [List](networkmanager/Nsp-Links/List.yml)
 ## Nsp Profiles
 ### [Overview](networkmanager/Nsp-Profiles.yml)
 ### [Create Or Update](networkmanager/Nsp-Profiles/Create-Or-Update.yml)
