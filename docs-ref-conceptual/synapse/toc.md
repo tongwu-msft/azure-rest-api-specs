@@ -1,1 +1,1 @@
-# [Spark pool limits](concurrency-limits-spark-pools.md)
+# [Concurrency Limits for Synapse Spark](concurrency-limits-spark-pools.md)
