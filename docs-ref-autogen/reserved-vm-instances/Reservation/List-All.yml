@@ -1,89 +1,93 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.reserved-vm-instances.reservation.update
-name: Update
+uid: management.azure.com.reserved-vm-instances.reservation.listall
+name: List All
 service: Reserved VM Instances
 groupName: Reservation
 apiVersion: 2022-03-01
-summary: "Updates a `Reservation`.  \nUpdates the applied scopes of the `Reservation`."
+summary: List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}?api-version=2022-03-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservations?api-version=2022-03-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservations?api-version=2022-03-01&$filter={$filter}&$orderby={$orderby}&refreshSummary={refreshSummary}&$skiptoken={$skiptoken}&selectedState={selectedState}&take={take}
+  isOptional: true
 uriParameters:
-- name: reservationOrderId
-  in: path
-  isRequired: true
-  description: Order Id of the reservation
-  types:
-  - uid: string
-- name: reservationId
-  in: path
-  isRequired: true
-  description: Id of the Reservation Item
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: Supported version.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState}
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: May be used to sort order by reservation properties.
+  types:
+  - uid: string
+- name: refreshSummary
+  in: query
+  description: To indicate whether to refresh the roll up counts of the reservations group by provisioning states
+  types:
+  - uid: string
+- name: $skiptoken
+  in: query
+  description: The number of reservations to skip from the list before returning results
+  types:
+  - uid: number
+- name: selectedState
+  in: query
+  description: The selected provisioning state
+  types:
+  - uid: string
+- name: take
+  in: query
+  description: To number of reservations to return
+  types:
+  - uid: number
 responses:
 - name: 200 OK
-  description: Returns the updated `Reservation`.
+  description: OK. The request has succeeded.
   types:
-  - uid: ReservationResponse
-- name: 202 Accepted
-  description: The request is accepted and is being processed
+  - uid: ReservationsListResult
 - name: Other Status Codes
-  description: Unexpected error
+  description: Error response describing why the operation failed.
   types:
-  - uid: Error
-requestBody:
-- name: default
-  parameters:
-  - name: properties.appliedScopeType
-    in: body
-    description: Type of the Applied Scope.
-    types:
-    - uid: AppliedScopeType
-  - name: properties.appliedScopes
-    in: body
-    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.instanceFlexibility
-    in: body
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
-  - name: properties.name
-    in: body
-    description: Name of the Reservation
-    types:
-    - uid: string
-  - name: properties.renew
-    in: body
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
-  - name: properties.renewProperties
-    in: body
-    description: ''
-    types:
-    - uid: RenewProperties
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: RenewProperties
+- name: ReservationsListResult
+  description: The list of reservations and summary of roll out count of reservations in each state.
   kind: object
   properties:
-  - name: purchaseProperties
-    description: ''
+  - name: value
+    isReadyOnly: true
+    description: The list of reservations.
     types:
-    - uid: PurchaseRequest
+    - uid: ReservationResponse
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+  - name: summary
+    description: The roll out count summary of the reservations
+    types:
+    - uid: ReservationSummary
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
 - name: ReservationResponse
   description: The definition of the reservation.
   kind: object
@@ -128,95 +132,64 @@ definitions:
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
-- name: Error
+- name: ReservationSummary
+  description: The roll up count summary of reservations in each state
   kind: object
   properties:
-  - name: error
-    description: ''
+  - name: succeededCount
+    isReadyOnly: true
+    description: The number of reservation in Succeeded state
     types:
-    - uid: ExtendedErrorInfo
-- name: Patch
+    - uid: number
+  - name: failedCount
+    isReadyOnly: true
+    description: The number of reservation in Failed state
+    types:
+    - uid: number
+  - name: expiringCount
+    isReadyOnly: true
+    description: The number of reservation in Expiring state
+    types:
+    - uid: number
+  - name: expiredCount
+    isReadyOnly: true
+    description: The number of reservation in Expired state
+    types:
+    - uid: number
+  - name: pendingCount
+    isReadyOnly: true
+    description: The number of reservation in Pending state
+    types:
+    - uid: number
+  - name: cancelledCount
+    isReadyOnly: true
+    description: The number of reservation in Cancelled state
+    types:
+    - uid: number
+  - name: processingCount
+    isReadyOnly: true
+    description: The number of reservation in Processing state
+    types:
+    - uid: number
+- name: ErrorDetails
+  description: The details of the error.
   kind: object
   properties:
-  - name: properties.appliedScopeType
-    description: Type of the Applied Scope.
-    types:
-    - uid: AppliedScopeType
-  - name: properties.appliedScopes
-    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
+  - name: code
+    isReadyOnly: true
+    description: Error code.
     types:
     - uid: string
-      isArray: true
-  - name: properties.instanceFlexibility
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
-  - name: properties.name
-    description: Name of the Reservation
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-  - name: properties.renew
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
-    defaultValue: false
-  - name: properties.renewProperties
-    description: ''
-    types:
-    - uid: RenewProperties
-- name: PurchaseRequest
-  kind: object
-  properties:
-  - name: sku
-    description: ''
-    types:
-    - uid: SkuName
-  - name: location
-    description: The Azure Region where the reserved resource lives.
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
     types:
     - uid: string
-  - name: properties.reservedResourceType
-    description: The type of the resource that is being reserved.
-    types:
-    - uid: ReservedResourceType
-  - name: properties.billingScopeId
-    description: Subscription that will be charged for purchasing Reservation
-    types:
-    - uid: string
-  - name: properties.term
-    description: Represent the term of Reservation.
-    types:
-    - uid: ReservationTerm
-  - name: properties.billingPlan
-    description: Represent the billing plans.
-    types:
-    - uid: ReservationBillingPlan
-  - name: properties.quantity
-    description: Quantity of the SKUs that are part of the Reservation.
-    types:
-    - uid: integer
-  - name: properties.displayName
-    description: Friendly name of the Reservation
-    types:
-    - uid: string
-  - name: properties.appliedScopeType
-    description: Type of the Applied Scope.
-    types:
-    - uid: AppliedScopeType
-  - name: properties.appliedScopes
-    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.renew
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
-    defaultValue: false
-  - name: properties.reservedResourceProperties
-    description: Properties specific to each reserved resource type. Not required if not applicable.
-    types:
-    - uid: ReservedResourceProperties
 - name: SkuName
   kind: object
   properties:
@@ -399,37 +372,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ExtendedErrorInfo
-  kind: object
-  properties:
-  - name: code
-    description: ''
-    types:
-    - uid: ErrorResponseCode
-  - name: message
-    description: ''
-    types:
-    - uid: string
-- name: AppliedScopeType
-  description: Type of the Applied Scope.
-  kind: enum
-  properties:
-  - name: Single
-    types:
-    - uid: string
-  - name: Shared
-    types:
-    - uid: string
-- name: InstanceFlexibility
-  description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-  kind: enum
-  properties:
-  - name: On
-    types:
-    - uid: string
-  - name: Off
-    types:
-    - uid: string
 - name: ReservedResourceType
   description: The type of the resource that is being reserved.
   kind: enum
@@ -512,37 +454,26 @@ definitions:
   - name: VirtualMachineSoftware
     types:
     - uid: string
-- name: ReservationTerm
-  description: Represent the term of Reservation.
+- name: InstanceFlexibility
+  description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
   kind: enum
   properties:
-  - name: P1Y
+  - name: On
     types:
     - uid: string
-  - name: P3Y
+  - name: Off
     types:
     - uid: string
-  - name: P5Y
-    types:
-    - uid: string
-- name: ReservationBillingPlan
-  description: Represent the billing plans.
+- name: AppliedScopeType
+  description: Type of the Applied Scope.
   kind: enum
   properties:
-  - name: Upfront
+  - name: Single
     types:
     - uid: string
-  - name: Monthly
+  - name: Shared
     types:
     - uid: string
-- name: ReservedResourceProperties
-  description: Properties specific to each reserved resource type. Not required if not applicable.
-  kind: object
-  properties:
-  - name: instanceFlexibility
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
 - name: ProvisioningState
   description: Represent the current state of the Reservation.
   kind: enum
@@ -595,6 +526,16 @@ definitions:
     - uid: ReservationStatusCode
   - name: message
     description: The message giving detailed information about the status code.
+    types:
+    - uid: string
+- name: ReservationBillingPlan
+  description: Represent the billing plans.
+  kind: enum
+  properties:
+  - name: Upfront
+    types:
+    - uid: string
+  - name: Monthly
     types:
     - uid: string
 - name: ReservationSplitProperties
@@ -662,6 +603,19 @@ definitions:
     description: Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included.
     types:
     - uid: BillingCurrencyTotal
+- name: ReservationTerm
+  description: Represent the term of Reservation.
+  kind: enum
+  properties:
+  - name: P1Y
+    types:
+    - uid: string
+  - name: P3Y
+    types:
+    - uid: string
+  - name: P5Y
+    types:
+    - uid: string
 - name: Utilization
   description: Reservation utilization
   kind: object
@@ -690,183 +644,6 @@ definitions:
     types:
     - uid: string
   - name: Key
-    types:
-    - uid: string
-- name: ErrorResponseCode
-  kind: enum
-  properties:
-  - name: NotSpecified
-    types:
-    - uid: string
-  - name: InternalServerError
-    types:
-    - uid: string
-  - name: ServerTimeout
-    types:
-    - uid: string
-  - name: AuthorizationFailed
-    types:
-    - uid: string
-  - name: BadRequest
-    types:
-    - uid: string
-  - name: ClientCertificateThumbprintNotSet
-    types:
-    - uid: string
-  - name: InvalidRequestContent
-    types:
-    - uid: string
-  - name: OperationFailed
-    types:
-    - uid: string
-  - name: HttpMethodNotSupported
-    types:
-    - uid: string
-  - name: InvalidRequestUri
-    types:
-    - uid: string
-  - name: MissingTenantId
-    types:
-    - uid: string
-  - name: InvalidTenantId
-    types:
-    - uid: string
-  - name: InvalidReservationOrderId
-    types:
-    - uid: string
-  - name: InvalidReservationId
-    types:
-    - uid: string
-  - name: ReservationIdNotInReservationOrder
-    types:
-    - uid: string
-  - name: ReservationOrderNotFound
-    types:
-    - uid: string
-  - name: InvalidSubscriptionId
-    types:
-    - uid: string
-  - name: InvalidAccessToken
-    types:
-    - uid: string
-  - name: InvalidLocationId
-    types:
-    - uid: string
-  - name: UnauthenticatedRequestsThrottled
-    types:
-    - uid: string
-  - name: InvalidHealthCheckType
-    types:
-    - uid: string
-  - name: Forbidden
-    types:
-    - uid: string
-  - name: BillingScopeIdCannotBeChanged
-    types:
-    - uid: string
-  - name: AppliedScopesNotAssociatedWithCommerceAccount
-    types:
-    - uid: string
-  - name: PatchValuesSameAsExisting
-    types:
-    - uid: string
-  - name: RoleAssignmentCreationFailed
-    types:
-    - uid: string
-  - name: ReservationOrderCreationFailed
-    types:
-    - uid: string
-  - name: ReservationOrderNotEnabled
-    types:
-    - uid: string
-  - name: CapacityUpdateScopesFailed
-    types:
-    - uid: string
-  - name: UnsupportedReservationTerm
-    types:
-    - uid: string
-  - name: ReservationOrderIdAlreadyExists
-    types:
-    - uid: string
-  - name: RiskCheckFailed
-    types:
-    - uid: string
-  - name: CreateQuoteFailed
-    types:
-    - uid: string
-  - name: ActivateQuoteFailed
-    types:
-    - uid: string
-  - name: NonsupportedAccountId
-    types:
-    - uid: string
-  - name: PaymentInstrumentNotFound
-    types:
-    - uid: string
-  - name: MissingAppliedScopesForSingle
-    types:
-    - uid: string
-  - name: NoValidReservationsToReRate
-    types:
-    - uid: string
-  - name: ReRateOnlyAllowedForEA
-    types:
-    - uid: string
-  - name: OperationCannotBePerformedInCurrentState
-    types:
-    - uid: string
-  - name: InvalidSingleAppliedScopesCount
-    types:
-    - uid: string
-  - name: InvalidFulfillmentRequestParameters
-    types:
-    - uid: string
-  - name: NotSupportedCountry
-    types:
-    - uid: string
-  - name: InvalidRefundQuantity
-    types:
-    - uid: string
-  - name: PurchaseError
-    types:
-    - uid: string
-  - name: BillingCustomerInputError
-    types:
-    - uid: string
-  - name: BillingPaymentInstrumentSoftError
-    types:
-    - uid: string
-  - name: BillingPaymentInstrumentHardError
-    types:
-    - uid: string
-  - name: BillingTransientError
-    types:
-    - uid: string
-  - name: BillingError
-    types:
-    - uid: string
-  - name: FulfillmentConfigurationError
-    types:
-    - uid: string
-  - name: FulfillmentOutOfStockError
-    types:
-    - uid: string
-  - name: FulfillmentTransientError
-    types:
-    - uid: string
-  - name: FulfillmentError
-    types:
-    - uid: string
-  - name: CalculatePriceFailed
-    types:
-    - uid: string
-  - name: AppliedScopesSameAsExisting
-    types:
-    - uid: string
-  - name: SelfServiceRefundNotSupported
-    types:
-    - uid: string
-  - name: RefundLimitExceeded
     types:
     - uid: string
 - name: ReservationStatusCode
@@ -902,6 +679,59 @@ definitions:
   - name: Succeeded
     types:
     - uid: string
+- name: PurchaseRequest
+  kind: object
+  properties:
+  - name: sku
+    description: ''
+    types:
+    - uid: SkuName
+  - name: location
+    description: The Azure Region where the reserved resource lives.
+    types:
+    - uid: string
+  - name: properties.reservedResourceType
+    description: The type of the resource that is being reserved.
+    types:
+    - uid: ReservedResourceType
+  - name: properties.billingScopeId
+    description: Subscription that will be charged for purchasing Reservation
+    types:
+    - uid: string
+  - name: properties.term
+    description: Represent the term of Reservation.
+    types:
+    - uid: ReservationTerm
+  - name: properties.billingPlan
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
+  - name: properties.quantity
+    description: Quantity of the SKUs that are part of the Reservation.
+    types:
+    - uid: integer
+  - name: properties.displayName
+    description: Friendly name of the Reservation
+    types:
+    - uid: string
+  - name: properties.appliedScopeType
+    description: Type of the Applied Scope.
+    types:
+    - uid: AppliedScopeType
+  - name: properties.appliedScopes
+    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.renew
+    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: properties.reservedResourceProperties
+    description: Properties specific to each reserved resource type. Not required if not applicable.
+    types:
+    - uid: ReservedResourceProperties
 - name: PricingCurrencyTotal
   description: Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry.
   kind: object
@@ -950,29 +780,22 @@ definitions:
     description: The aggregate value unit
     types:
     - uid: string
+- name: ReservedResourceProperties
+  description: Properties specific to each reserved resource type. Not required if not applicable.
+  kind: object
+  properties:
+  - name: instanceFlexibility
+    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+    types:
+    - uid: InstanceFlexibility
 examples:
-- name: PatchReservation
+- name: Catalog
   request:
-    uri: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc?api-version=2022-03-01
-    body: >-
-      {
-        "properties": {
-          "appliedScopeType": "Shared",
-          "instanceFlexibility": "Off"
-        }
-      }
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservations?api-version=2022-03-01&$filter=(properties%2farchived+eq+false)&$orderby=properties/displayName asc&$skiptoken=50&take=1
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc?api-version=2022-03-01
-
-      {
-        "properties": {
-          "appliedScopeType": "Shared",
-          "instanceFlexibility": "Off"
-        }
-      }
-
+      GET https://management.azure.com/providers/Microsoft.Capacity/reservations?api-version=2022-03-01&$filter=(properties%2farchived+eq+false)&$orderby=properties/displayName asc&$skiptoken=50&take=1
       ```
 
       # [Go](#tab/Go)
@@ -988,8 +811,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/UpdateReservation.json
-      func ExampleReservationClient_BeginUpdate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetReservations.json
+      func ExampleReservationClient_NewListAllPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -999,21 +822,23 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginUpdate(ctx, "276e7ae4-84d0-4da6-ab4b-d6b94f3557da", "6ef59113-3482-40da-8d79-787f823e34bc", armreservations.Patch{
-      		Properties: &armreservations.PatchProperties{
-      			AppliedScopeType:    to.Ptr(armreservations.AppliedScopeTypeShared),
-      			InstanceFlexibility: to.Ptr(armreservations.InstanceFlexibilityOff),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
+      	pager := client.NewListAllPager(&armreservations.ReservationClientListAllOptions{Filter: to.Ptr("(properties%2farchived+eq+false)"),
+      		Orderby:        to.Ptr("properties/displayName asc"),
+      		RefreshSummary: nil,
+      		Skiptoken:      to.Ptr[float32](50),
+      		SelectedState:  nil,
+      		Take:           to.Ptr[float32](1),
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
       	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
       }
 
       ```
@@ -1024,29 +849,32 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Updates the applied scopes of the `Reservation`.
+       * This sample demonstrates how to List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
        *
-       * @summary Updates the applied scopes of the `Reservation`.
-       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/UpdateReservation.json
+       * @summary List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetReservations.json
        */
-      async function patchReservation() {
-        const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
-        const reservationId = "6ef59113-3482-40da-8d79-787f823e34bc";
-        const parameters = {
-          appliedScopeType: "Shared",
-          instanceFlexibility: "Off",
+      async function catalog() {
+        const filter = "(properties%2farchived+eq+false)";
+        const orderby = "properties/displayName asc";
+        const skiptoken = 50;
+        const take = 1;
+        const options = {
+          filter,
+          orderby,
+          skiptoken,
+          take,
         };
         const credential = new DefaultAzureCredential();
         const client = new AzureReservationAPI(credential);
-        const result = await client.reservation.beginUpdateAndWait(
-          reservationOrderId,
-          reservationId,
-          parameters
-        );
-        console.log(result);
+        const resArray = new Array();
+        for await (let item of client.reservation.listAll(options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
       }
 
-      patchReservation().catch(console.error);
+      catalog().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
@@ -1054,41 +882,71 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "sku": {
-          "name": "Standard_DS1_v2"
-        },
-        "id": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc",
-        "type": "Microsoft.Capacity/reservationOrders/reservations",
-        "name": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da/6ef59113-3482-40da-8d79-787f823e34bc",
-        "etag": 4,
-        "location": "eastus",
-        "properties": {
-          "appliedScopeType": "Shared",
-          "renew": false,
-          "billingScopeId": "/subscriptions/19376483-64b8-49e4-a931-d5248828720a",
-          "quantity": 3,
-          "provisioningState": "Succeeded",
-          "expiryDate": "2018-09-22",
-          "displayName": "cabri_test",
-          "billingPlan": "Monthly",
-          "effectiveDateTime": "2017-09-22T23:57:48.1891638Z",
-          "lastUpdatedDateTime": "2017-09-22T23:57:54.3768768Z",
-          "reservedResourceType": "VirtualMachines",
-          "instanceFlexibility": "Off",
-          "skuDescription": "D1 v2",
-          "mergeProperties": {
-            "mergeSources": [
-              "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7",
-              "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de"
-            ]
+        "value": [
+          {
+            "id": "/providers/microsoft.capacity/reservationOrders/00000000-0000-0000-0000-000000000001/reservations/00000000-0000-0000-0000-000000000000",
+            "name": "00000000-0000-0000-0000-000000000001/00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Capacity/reservationOrders/reservations",
+            "location": "westus",
+            "sku": {
+              "name": "Standard_D1"
+            },
+            "properties": {
+              "appliedScopes": null,
+              "appliedScopeType": "Shared",
+              "displayName": "VM_RI_07-21-2020_12-06",
+              "displayProvisioningState": "Succeeded",
+              "effectiveDateTime": "2017-09-22T22:46:32.7632798Z",
+              "expiryDate": "2023-07-21",
+              "provisioningState": "Succeeded",
+              "provisioningSubState": null,
+              "purchaseDate": "2021-04-22",
+              "quantity": 2,
+              "renew": false,
+              "renewSource": "/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000002/reservations/00000000-0000-0000-0000-000000000003",
+              "reservedResourceType": "VirtualMachines",
+              "skuDescription": null,
+              "term": "P3Y",
+              "userFriendlyAppliedScopeType": "Shared",
+              "userFriendlyRenewState": "Off",
+              "utilization": {
+                "trend": "UP",
+                "aggregates": [
+                  {
+                    "grain": 1,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  },
+                  {
+                    "grain": 7,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  },
+                  {
+                    "grain": 30,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  }
+                ]
+              }
+            }
           }
-        }
+        ],
+        "summary": {
+          "succeededCount": 1,
+          "failedCount": 0,
+          "expiringCount": 0,
+          "expiredCount": 0,
+          "pendingCount": 0,
+          "cancelledCount": 0
+        },
+        "nextLink": null
       }
-  - statusCode: "202"
 security: []
 metadata:
   description: >
-    Learn more about Reserved VM Instances service - Updates a Reservation.
-
-    Updates the applied scopes of the Reservation.
+    List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
 errorCodes: []

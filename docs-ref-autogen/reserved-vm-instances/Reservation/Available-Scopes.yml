@@ -3,7 +3,7 @@ uid: management.azure.com.reserved-vm-instances.reservation.availablescopes
 name: Available Scopes
 service: Reserved VM Instances
 groupName: Reservation
-apiVersion: 2019-04-01
+apiVersion: 2022-03-01
 summary: >
   Get Available Scopes for `Reservation`.
 consumes:
@@ -11,7 +11,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/availableScopes?api-version=2019-04-01
+- content: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/availableScopes?api-version=2022-03-01
 uriParameters:
 - name: reservationOrderId
   in: path
@@ -28,14 +28,14 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version for this document is 2019-04-01
+  description: Supported version.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: List of `Subscription`s created after the filter.
   types:
-  - uid: Properties
+  - uid: AvailableScopeProperties
 - name: Other Status Codes
   description: Unexpected error
   types:
@@ -45,21 +45,21 @@ requestBody:
   parameters:
   - name: properties
     in: body
-    description: List of scopes for which availability should be checked
+    description: Available scope request properties
     types:
     - uid: AvailableScopeRequestProperties
 requestHeader: []
 definitions:
 - name: AvailableScopeRequestProperties
-  description: List of scopes for which availability should be checked
+  description: Available scope request properties
   kind: object
   properties:
   - name: scopes
-    description: Scopes to be checked for availability
+    description: ''
     types:
     - uid: string
       isArray: true
-- name: Properties
+- name: AvailableScopeProperties
   kind: object
   properties:
   - name: properties
@@ -74,10 +74,11 @@ definitions:
     types:
     - uid: ExtendedErrorInfo
 - name: AvailableScopeRequest
+  description: Available scope
   kind: object
   properties:
   - name: properties
-    description: List of scopes for which availability should be checked
+    description: Available scope request properties
     types:
     - uid: AvailableScopeRequestProperties
 - name: SubscriptionScopeProperties
@@ -110,10 +111,6 @@ definitions:
     description: ''
     types:
     - uid: boolean
-  - name: reason
-    description: ''
-    types:
-    - uid: string
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -282,10 +279,19 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
 examples:
 - name: AvailableScopes
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/356e7ae4-84d0-4da6-ab4b-d6b94f3557da/availableScopes?api-version=2019-04-01
+    uri: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/356e7ae4-84d0-4da6-ab4b-d6b94f3557da/availableScopes?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -297,7 +303,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/356e7ae4-84d0-4da6-ab4b-d6b94f3557da/availableScopes?api-version=2019-04-01
+      POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/356e7ae4-84d0-4da6-ab4b-d6b94f3557da/availableScopes?api-version=2022-03-01
 
       {
         "properties": {
@@ -309,6 +315,84 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetAvailableScope.json
+      func ExampleReservationClient_BeginAvailableScopes() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewReservationClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginAvailableScopes(ctx, "276e7ae4-84d0-4da6-ab4b-d6b94f3557da", "356e7ae4-84d0-4da6-ab4b-d6b94f3557da", armreservations.AvailableScopeRequest{
+      		Properties: &armreservations.AvailableScopeRequestProperties{
+      			Scopes: []*string{
+      				to.Ptr("/subscriptions/efc7c997-7700-4a74-b731-55aec16c15e9")},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get Available Scopes for `Reservation`.
+
+       *
+       * @summary Get Available Scopes for `Reservation`.
+
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetAvailableScope.json
+       */
+      async function availableScopes() {
+        const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
+        const reservationId = "356e7ae4-84d0-4da6-ab4b-d6b94f3557da";
+        const body = {
+          properties: {
+            scopes: ["/subscriptions/efc7c997-7700-4a74-b731-55aec16c15e9"],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.reservation.beginAvailableScopesAndWait(
+          reservationOrderId,
+          reservationId,
+          body
+        );
+        console.log(result);
+      }
+
+      availableScopes().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

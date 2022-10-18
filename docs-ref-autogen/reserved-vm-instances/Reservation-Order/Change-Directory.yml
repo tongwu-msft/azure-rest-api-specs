@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.reserved-vm-instances.getappliedreservationlist.getappliedreservationlist
-name: Get Applied Reservation List
+uid: management.azure.com.reserved-vm-instances.reservationorder.changedirectory
+name: Change Directory
 service: Reserved VM Instances
-groupName: Get Applied Reservation List
+groupName: Reservation Order
 apiVersion: 2022-03-01
-summary: "Get list of applicable `Reservation`s.  \nGet applicable `Reservation`s that are applied to this subscription or a resource group under this subscription."
+summary: "Change directory of `ReservationOrder`.  \nChange directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant id"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations?api-version=2022-03-01
+- content: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/changeDirectory?api-version=2022-03-01
 uriParameters:
-- name: subscriptionId
+- name: reservationOrderId
   in: path
   isRequired: true
-  description: Id of the subscription
+  description: Order Id of the reservation
   types:
   - uid: string
 - name: api-version
@@ -26,37 +26,36 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Applicable `Reservation`s.
+  description: List of `Reservation`s created after the change directory operation.
   types:
-  - uid: AppliedReservations
+  - uid: ChangeDirectoryResponse
 - name: Other Status Codes
   description: Unexpected error
   types:
   - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: destinationTenantId
+    in: body
+    description: Tenant id GUID that reservation order is to be transferred to
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: AppliedReservations
+- name: ChangeDirectoryResponse
+  description: Change directory response
   kind: object
   properties:
-  - name: id
-    isReadyOnly: true
-    description: Identifier of the applied reservations
+  - name: reservationOrder
+    description: Change directory result for reservation order or reservation
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Name of resource
+    - uid: ChangeDirectoryResult
+  - name: reservations
+    description: Change directory result for reservation order or reservation
     types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Type of resource. "Microsoft.Capacity/AppliedReservations"
-    types:
-    - uid: string
-  - name: properties.reservationOrderIds
-    description: ''
-    types:
-    - uid: AppliedReservationList
+    - uid: ChangeDirectoryResult
+      isArray: true
 - name: Error
   kind: object
   properties:
@@ -64,16 +63,31 @@ definitions:
     description: ''
     types:
     - uid: ExtendedErrorInfo
-- name: AppliedReservationList
+- name: ChangeDirectoryRequest
   kind: object
   properties:
-  - name: value
-    description: Reservation resource Id. "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}"
+  - name: destinationTenantId
+    description: Tenant id GUID that reservation order is to be transferred to
     types:
     - uid: string
-      isArray: true
-  - name: nextLink
-    description: Url to get the next page of reservations
+- name: ChangeDirectoryResult
+  description: Change directory result for reservation order or reservation
+  kind: object
+  properties:
+  - name: id
+    description: Identifier of the reservation order or reservation
+    types:
+    - uid: string
+  - name: name
+    description: Name of the reservation order or reservation
+    types:
+    - uid: string
+  - name: isSucceeded
+    description: True if change directory operation succeeded on this reservation order or reservation
+    types:
+    - uid: boolean
+  - name: error
+    description: Error reason if operation failed. Null otherwise
     types:
     - uid: string
 - name: ExtendedErrorInfo
@@ -265,13 +279,22 @@ definitions:
     types:
     - uid: string
 examples:
-- name: AppliedReservationList
+- name: ChangeDirectory
   request:
-    uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/appliedReservations?api-version=2022-03-01
+    uri: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/a075419f-44cc-497f-b68a-14ee811d48b9/changeDirectory?api-version=2022-03-01
+    body: >-
+      {
+        "destinationTenantId": "906655ea-30be-4587-9d12-b50e077b0f32"
+      }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/appliedReservations?api-version=2022-03-01
+      POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/a075419f-44cc-497f-b68a-14ee811d48b9/changeDirectory?api-version=2022-03-01
+
+      {
+        "destinationTenantId": "906655ea-30be-4587-9d12-b50e077b0f32"
+      }
+
       ```
 
       # [Go](#tab/Go)
@@ -282,22 +305,25 @@ examples:
       	"context"
       	"log"
 
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetAppliedReservations.json
-      func ExampleAzureReservationAPIClient_GetAppliedReservationList() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/ChangeDirectoryReservationOrder.json
+      func ExampleReservationOrderClient_ChangeDirectory() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armreservations.NewAzureReservationAPIClient(cred, nil)
+      	client, err := armreservations.NewReservationOrderClient(cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.GetAppliedReservationList(ctx, "23bc208b-083f-4901-ae85-4f98c0c3b4b6", nil)
+      	res, err := client.ChangeDirectory(ctx, "a075419f-44cc-497f-b68a-14ee811d48b9", armreservations.ChangeDirectoryRequest{
+      		DestinationTenantID: to.Ptr("906655ea-30be-4587-9d12-b50e077b0f32"),
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -313,20 +339,23 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Get applicable `Reservation`s that are applied to this subscription or a resource group under this subscription.
+       * This sample demonstrates how to Change directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant id
        *
-       * @summary Get applicable `Reservation`s that are applied to this subscription or a resource group under this subscription.
-       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetAppliedReservations.json
+       * @summary Change directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant id
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/ChangeDirectoryReservationOrder.json
        */
-      async function appliedReservationList() {
-        const subscriptionId = "23bc208b-083f-4901-ae85-4f98c0c3b4b6";
+      async function changeDirectory() {
+        const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
+        const body = {
+          destinationTenantId: "906655ea-30be-4587-9d12-b50e077b0f32",
+        };
         const credential = new DefaultAzureCredential();
         const client = new AzureReservationAPI(credential);
-        const result = await client.getAppliedReservationList(subscriptionId);
+        const result = await client.reservationOrder.changeDirectory(reservationOrderId, body);
         console.log(result);
       }
 
-      appliedReservationList().catch(console.error);
+      changeDirectory().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
@@ -334,33 +363,25 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/microsoft.capacity/AppliedReservations/default",
-        "type": "Microsoft.Capacity/AppliedReservations",
-        "name": "default",
-        "properties": {
-          "reservationOrderIds": {
-            "value": [
-              "/providers/Microsoft.Capacity/reservationorders/e1eccf0b-2db4-4e84-97e7-98b50e9d46f7",
-              "/providers/Microsoft.Capacity/reservationorders/741a32eb-6158-4cee-9642-a0243ae79fac",
-              "/providers/Microsoft.Capacity/reservationorders/e061223d-fcff-4d10-bd49-56a740cfb96a",
-              "/providers/Microsoft.Capacity/reservationorders/2eeb7234-970e-4663-b60b-85241b515901",
-              "/providers/Microsoft.Capacity/reservationorders/9db2f4c5-b1c5-42a8-bd79-ee56cdde2c7f",
-              "/providers/Microsoft.Capacity/reservationorders/5da7a877-6d6e-44af-8880-ed3f533bf928",
-              "/providers/Microsoft.Capacity/reservationorders/f65b0d0a-f945-4105-821c-d00bc8bacde8",
-              "/providers/Microsoft.Capacity/reservationorders/51304124-e477-4b07-b9fa-03b05c8b924b",
-              "/providers/Microsoft.Capacity/reservationorders/f5409b98-8a42-4dc6-be0a-cc59bef4d0db",
-              "/providers/Microsoft.Capacity/reservationorders/a495550a-80a4-46f8-8843-34d4df46f9a6",
-              "/providers/Microsoft.Capacity/reservationorders/1a966e18-c272-4ce1-a0c2-d4e1039023c3",
-              "/providers/Microsoft.Capacity/reservationorders/939310b4-f9de-4645-9569-ab5b6cfe958e",
-              "/providers/Microsoft.Capacity/reservationorders/4193a889-7c3b-44dc-8b7b-bfd7aad6c723"
-            ]
+        "reservationOrder": {
+          "id": "a075419f-44cc-497f-b68a-14ee811d48b9",
+          "name": "VM_RI_10-02-2020_15-21",
+          "isSucceeded": true,
+          "error": "error string"
+        },
+        "reservations": [
+          {
+            "id": "1f14354c-dc12-4c8d-8090-6f295a3a34aa",
+            "name": "VM_RI_10-02-2020_15-21",
+            "isSucceeded": true,
+            "error": "error string"
           }
-        }
+        ]
       }
 security: []
 metadata:
   description: >
-    Get list of applicable Reservations.
+    Change directory of ReservationOrder.
 
-    Get applicable Reservations that are applied to this subscription or a resource group under this subscription.
+    Change directory (tenant) of ReservationOrder and all Reservation under it to specified tenant id
 errorCodes: []

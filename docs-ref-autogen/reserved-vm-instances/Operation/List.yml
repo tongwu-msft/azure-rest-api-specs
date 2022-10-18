@@ -3,19 +3,19 @@ uid: management.azure.com.reserved-vm-instances.operation.list
 name: List
 service: Reserved VM Instances
 groupName: Operation
-apiVersion: 2019-04-01
+apiVersion: 2022-03-01
 summary: "Get operations.  \nList all the operations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2019-04-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2022-03-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version for this document is 2019-04-01
+  description: Supported version.
   types:
   - uid: string
 responses:
@@ -52,15 +52,19 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: ''
+    description: Name of the operation
     types:
     - uid: string
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
+    types:
+    - uid: boolean
   - name: display
-    description: ''
+    description: Display of the operation
     types:
     - uid: OperationDisplay
   - name: origin
-    description: ''
+    description: Origin of the operation
     types:
     - uid: string
 - name: ExtendedErrorInfo
@@ -261,16 +265,88 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
 examples:
 - name: GetOperations
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2019-04-01
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2022-03-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2019-04-01
+      GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2022-03-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetOperations.json
+      func ExampleOperationClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewOperationClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List all the operations.
+       *
+       * @summary List all the operations.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetOperations.json
+       */
+      async function getOperations() {
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const resArray = new Array();
+        for await (let item of client.operation.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getOperations().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

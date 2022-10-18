@@ -1,0 +1,923 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.reserved-vm-instances.calculateexchange.post
+name: Post
+service: Reserved VM Instances
+groupName: Calculate Exchange
+apiVersion: 2022-03-01
+summary: "Calculates the refund amounts and price of the new purchases.  \nCalculates price for exchanging `Reservations` if there are no policy errors."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Capacity/calculateExchange?api-version=2022-03-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Supported version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request is completed.
+  types:
+  - uid: CalculateExchangeOperationResultResponse
+- name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: The request is accepted and is being processed.
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Calculate exchange request properties
+    types:
+    - uid: CalculateExchangeRequestProperties
+requestHeader: []
+definitions:
+- name: CalculateExchangeRequestProperties
+  description: Calculate exchange request properties
+  kind: object
+  properties:
+  - name: reservationsToPurchase
+    description: List of reservations that are being purchased in this exchange.
+    types:
+    - uid: PurchaseRequest
+      isArray: true
+  - name: reservationsToExchange
+    description: List of reservations that are being returned in this exchange.
+    types:
+    - uid: ReservationToReturn
+      isArray: true
+- name: CalculateExchangeOperationResultResponse
+  description: CalculateExchange operation result
+  kind: object
+  properties:
+  - name: id
+    description: It should match what is used to GET the operation result.
+    types:
+    - uid: string
+  - name: name
+    description: It must match the last segment of the id field, and will typically be a GUID / system generated value.
+    types:
+    - uid: string
+  - name: status
+    description: Status of the operation.
+    types:
+    - uid: CalculateExchangeOperationResultStatus
+  - name: properties
+    description: CalculateExchange response properties
+    types:
+    - uid: CalculateExchangeResponseProperties
+  - name: error
+    description: Required if status == failed or status == canceled.
+    types:
+    - uid: OperationResultError
+- name: Error
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ExtendedErrorInfo
+- name: CalculateExchangeRequest
+  description: Calculate exchange request
+  kind: object
+  properties:
+  - name: properties
+    description: Calculate exchange request properties
+    types:
+    - uid: CalculateExchangeRequestProperties
+- name: PurchaseRequest
+  kind: object
+  properties:
+  - name: sku
+    description: ''
+    types:
+    - uid: SkuName
+  - name: location
+    description: The Azure Region where the reserved resource lives.
+    types:
+    - uid: string
+  - name: properties.reservedResourceType
+    description: The type of the resource that is being reserved.
+    types:
+    - uid: ReservedResourceType
+  - name: properties.billingScopeId
+    description: Subscription that will be charged for purchasing Reservation
+    types:
+    - uid: string
+  - name: properties.term
+    description: Represent the term of Reservation.
+    types:
+    - uid: ReservationTerm
+  - name: properties.billingPlan
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
+  - name: properties.quantity
+    description: Quantity of the SKUs that are part of the Reservation.
+    types:
+    - uid: integer
+  - name: properties.displayName
+    description: Friendly name of the Reservation
+    types:
+    - uid: string
+  - name: properties.appliedScopeType
+    description: Type of the Applied Scope.
+    types:
+    - uid: AppliedScopeType
+  - name: properties.appliedScopes
+    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.renew
+    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: properties.reservedResourceProperties
+    description: Properties specific to each reserved resource type. Not required if not applicable.
+    types:
+    - uid: ReservedResourceProperties
+- name: ReservationToReturn
+  description: Reservation to return
+  kind: object
+  properties:
+  - name: reservationId
+    description: Fully qualified identifier of the Reservation being returned
+    types:
+    - uid: string
+  - name: quantity
+    description: Quantity to be returned. Must be greater than zero.
+    types:
+    - uid: integer
+- name: CalculateExchangeOperationResultStatus
+  description: Status of the operation.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+- name: CalculateExchangeResponseProperties
+  description: CalculateExchange response properties
+  kind: object
+  properties:
+  - name: sessionId
+    description: Exchange session identifier
+    types:
+    - uid: string
+  - name: netPayable
+    description: ''
+    types:
+    - uid: Price
+  - name: refundsTotal
+    description: ''
+    types:
+    - uid: Price
+  - name: purchasesTotal
+    description: ''
+    types:
+    - uid: Price
+  - name: reservationsToPurchase
+    description: Details of the reservations being purchased
+    types:
+    - uid: ReservationToPurchaseCalculateExchange
+      isArray: true
+  - name: reservationsToExchange
+    description: Details of the reservations being returned
+    types:
+    - uid: ReservationToExchange
+      isArray: true
+  - name: policyResult
+    description: Exchange policy errors
+    types:
+    - uid: ExchangePolicyErrors
+- name: OperationResultError
+  description: Required if status == failed or status == canceled.
+  kind: object
+  properties:
+  - name: code
+    description: Required if status == failed or status == cancelled. If status == failed, provide an invariant error code used for error troubleshooting, aggregation, and analysis.
+    types:
+    - uid: string
+  - name: message
+    description: Required if status == failed. Localized. If status == failed, provide an actionable error message indicating what error occurred, and what the user can do to address the issue.
+    types:
+    - uid: string
+- name: ExtendedErrorInfo
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: ErrorResponseCode
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: SkuName
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+- name: ReservedResourceType
+  description: The type of the resource that is being reserved.
+  kind: enum
+  properties:
+  - name: VirtualMachines
+    types:
+    - uid: string
+  - name: SqlDatabases
+    types:
+    - uid: string
+  - name: SuseLinux
+    types:
+    - uid: string
+  - name: CosmosDb
+    types:
+    - uid: string
+  - name: RedHat
+    types:
+    - uid: string
+  - name: SqlDataWarehouse
+    types:
+    - uid: string
+  - name: VMwareCloudSimple
+    types:
+    - uid: string
+  - name: RedHatOsa
+    types:
+    - uid: string
+  - name: Databricks
+    types:
+    - uid: string
+  - name: AppService
+    types:
+    - uid: string
+  - name: ManagedDisk
+    types:
+    - uid: string
+  - name: BlockBlob
+    types:
+    - uid: string
+  - name: RedisCache
+    types:
+    - uid: string
+  - name: AzureDataExplorer
+    types:
+    - uid: string
+  - name: MySql
+    types:
+    - uid: string
+  - name: MariaDb
+    types:
+    - uid: string
+  - name: PostgreSql
+    types:
+    - uid: string
+  - name: DedicatedHost
+    types:
+    - uid: string
+  - name: SapHana
+    types:
+    - uid: string
+  - name: SqlAzureHybridBenefit
+    types:
+    - uid: string
+  - name: AVS
+    types:
+    - uid: string
+  - name: DataFactory
+    types:
+    - uid: string
+  - name: NetAppStorage
+    types:
+    - uid: string
+  - name: AzureFiles
+    types:
+    - uid: string
+  - name: SqlEdge
+    types:
+    - uid: string
+  - name: VirtualMachineSoftware
+    types:
+    - uid: string
+- name: ReservationTerm
+  description: Represent the term of Reservation.
+  kind: enum
+  properties:
+  - name: P1Y
+    types:
+    - uid: string
+  - name: P3Y
+    types:
+    - uid: string
+  - name: P5Y
+    types:
+    - uid: string
+- name: ReservationBillingPlan
+  description: Represent the billing plans.
+  kind: enum
+  properties:
+  - name: Upfront
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+- name: AppliedScopeType
+  description: Type of the Applied Scope.
+  kind: enum
+  properties:
+  - name: Single
+    types:
+    - uid: string
+  - name: Shared
+    types:
+    - uid: string
+- name: ReservedResourceProperties
+  description: Properties specific to each reserved resource type. Not required if not applicable.
+  kind: object
+  properties:
+  - name: instanceFlexibility
+    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+    types:
+    - uid: InstanceFlexibility
+- name: Price
+  kind: object
+  properties:
+  - name: currencyCode
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
+    types:
+    - uid: string
+  - name: amount
+    description: ''
+    types:
+    - uid: number
+- name: ReservationToPurchaseCalculateExchange
+  description: Reservation purchase details
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: PurchaseRequest
+  - name: billingCurrencyTotal
+    description: ''
+    types:
+    - uid: Price
+- name: ReservationToExchange
+  description: Reservation refund details
+  kind: object
+  properties:
+  - name: reservationId
+    description: Fully qualified id of the Reservation being returned.
+    types:
+    - uid: string
+  - name: quantity
+    description: Quantity to be returned
+    types:
+    - uid: integer
+  - name: billingRefundAmount
+    description: ''
+    types:
+    - uid: Price
+  - name: billingInformation
+    description: billing information
+    types:
+    - uid: BillingInformation
+- name: ExchangePolicyErrors
+  description: Exchange policy errors
+  kind: object
+  properties:
+  - name: policyErrors
+    description: Exchange Policy errors
+    types:
+    - uid: ExchangePolicyError
+      isArray: true
+- name: ErrorResponseCode
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServerTimeout
+    types:
+    - uid: string
+  - name: AuthorizationFailed
+    types:
+    - uid: string
+  - name: BadRequest
+    types:
+    - uid: string
+  - name: ClientCertificateThumbprintNotSet
+    types:
+    - uid: string
+  - name: InvalidRequestContent
+    types:
+    - uid: string
+  - name: OperationFailed
+    types:
+    - uid: string
+  - name: HttpMethodNotSupported
+    types:
+    - uid: string
+  - name: InvalidRequestUri
+    types:
+    - uid: string
+  - name: MissingTenantId
+    types:
+    - uid: string
+  - name: InvalidTenantId
+    types:
+    - uid: string
+  - name: InvalidReservationOrderId
+    types:
+    - uid: string
+  - name: InvalidReservationId
+    types:
+    - uid: string
+  - name: ReservationIdNotInReservationOrder
+    types:
+    - uid: string
+  - name: ReservationOrderNotFound
+    types:
+    - uid: string
+  - name: InvalidSubscriptionId
+    types:
+    - uid: string
+  - name: InvalidAccessToken
+    types:
+    - uid: string
+  - name: InvalidLocationId
+    types:
+    - uid: string
+  - name: UnauthenticatedRequestsThrottled
+    types:
+    - uid: string
+  - name: InvalidHealthCheckType
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: BillingScopeIdCannotBeChanged
+    types:
+    - uid: string
+  - name: AppliedScopesNotAssociatedWithCommerceAccount
+    types:
+    - uid: string
+  - name: PatchValuesSameAsExisting
+    types:
+    - uid: string
+  - name: RoleAssignmentCreationFailed
+    types:
+    - uid: string
+  - name: ReservationOrderCreationFailed
+    types:
+    - uid: string
+  - name: ReservationOrderNotEnabled
+    types:
+    - uid: string
+  - name: CapacityUpdateScopesFailed
+    types:
+    - uid: string
+  - name: UnsupportedReservationTerm
+    types:
+    - uid: string
+  - name: ReservationOrderIdAlreadyExists
+    types:
+    - uid: string
+  - name: RiskCheckFailed
+    types:
+    - uid: string
+  - name: CreateQuoteFailed
+    types:
+    - uid: string
+  - name: ActivateQuoteFailed
+    types:
+    - uid: string
+  - name: NonsupportedAccountId
+    types:
+    - uid: string
+  - name: PaymentInstrumentNotFound
+    types:
+    - uid: string
+  - name: MissingAppliedScopesForSingle
+    types:
+    - uid: string
+  - name: NoValidReservationsToReRate
+    types:
+    - uid: string
+  - name: ReRateOnlyAllowedForEA
+    types:
+    - uid: string
+  - name: OperationCannotBePerformedInCurrentState
+    types:
+    - uid: string
+  - name: InvalidSingleAppliedScopesCount
+    types:
+    - uid: string
+  - name: InvalidFulfillmentRequestParameters
+    types:
+    - uid: string
+  - name: NotSupportedCountry
+    types:
+    - uid: string
+  - name: InvalidRefundQuantity
+    types:
+    - uid: string
+  - name: PurchaseError
+    types:
+    - uid: string
+  - name: BillingCustomerInputError
+    types:
+    - uid: string
+  - name: BillingPaymentInstrumentSoftError
+    types:
+    - uid: string
+  - name: BillingPaymentInstrumentHardError
+    types:
+    - uid: string
+  - name: BillingTransientError
+    types:
+    - uid: string
+  - name: BillingError
+    types:
+    - uid: string
+  - name: FulfillmentConfigurationError
+    types:
+    - uid: string
+  - name: FulfillmentOutOfStockError
+    types:
+    - uid: string
+  - name: FulfillmentTransientError
+    types:
+    - uid: string
+  - name: FulfillmentError
+    types:
+    - uid: string
+  - name: CalculatePriceFailed
+    types:
+    - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
+- name: InstanceFlexibility
+  description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+  kind: enum
+  properties:
+  - name: On
+    types:
+    - uid: string
+  - name: Off
+    types:
+    - uid: string
+- name: BillingInformation
+  description: billing information
+  kind: object
+  properties:
+  - name: billingCurrencyTotalPaidAmount
+    description: ''
+    types:
+    - uid: Price
+  - name: billingCurrencyProratedAmount
+    description: ''
+    types:
+    - uid: Price
+  - name: billingCurrencyRemainingCommitmentAmount
+    description: ''
+    types:
+    - uid: Price
+- name: ExchangePolicyError
+  description: error details
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: CalculateExchange
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Capacity/calculateExchange?api-version=2022-03-01
+    body: >-
+      {
+        "properties": {
+          "reservationsToPurchase": [
+            {
+              "sku": {
+                "name": "Standard_B1ls"
+              },
+              "location": "westus",
+              "properties": {
+                "reservedResourceType": "VirtualMachines",
+                "billingScopeId": "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
+                "term": "P1Y",
+                "billingPlan": "Upfront",
+                "quantity": 1,
+                "displayName": "testDisplayName",
+                "appliedScopeType": "Shared",
+                "appliedScopes": null,
+                "renew": false,
+                "reservedResourceProperties": {
+                  "instanceFlexibility": "On"
+                }
+              }
+            }
+          ],
+          "reservationsToExchange": [
+            {
+              "reservationId": "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Capacity/calculateExchange?api-version=2022-03-01
+
+      {
+        "properties": {
+          "reservationsToPurchase": [
+            {
+              "sku": {
+                "name": "Standard_B1ls"
+              },
+              "location": "westus",
+              "properties": {
+                "reservedResourceType": "VirtualMachines",
+                "billingScopeId": "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
+                "term": "P1Y",
+                "billingPlan": "Upfront",
+                "quantity": 1,
+                "displayName": "testDisplayName",
+                "appliedScopeType": "Shared",
+                "appliedScopes": null,
+                "renew": false,
+                "reservedResourceProperties": {
+                  "instanceFlexibility": "On"
+                }
+              }
+            }
+          ],
+          "reservationsToExchange": [
+            {
+              "reservationId": "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/CalculateExchange.json
+      func ExampleCalculateExchangeClient_BeginPost() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewCalculateExchangeClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPost(ctx, armreservations.CalculateExchangeRequest{
+      		Properties: &armreservations.CalculateExchangeRequestProperties{
+      			ReservationsToExchange: []*armreservations.ReservationToReturn{
+      				{
+      					Quantity:      to.Ptr[int32](1),
+      					ReservationID: to.Ptr("/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6"),
+      				}},
+      			ReservationsToPurchase: []*armreservations.PurchaseRequest{
+      				{
+      					Location: to.Ptr("westus"),
+      					Properties: &armreservations.PurchaseRequestProperties{
+      						AppliedScopeType: to.Ptr(armreservations.AppliedScopeTypeShared),
+      						BillingPlan:      to.Ptr(armreservations.ReservationBillingPlanUpfront),
+      						BillingScopeID:   to.Ptr("/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83"),
+      						DisplayName:      to.Ptr("testDisplayName"),
+      						Quantity:         to.Ptr[int32](1),
+      						Renew:            to.Ptr(false),
+      						ReservedResourceProperties: &armreservations.PurchaseRequestPropertiesReservedResourceProperties{
+      							InstanceFlexibility: to.Ptr(armreservations.InstanceFlexibilityOn),
+      						},
+      						ReservedResourceType: to.Ptr(armreservations.ReservedResourceTypeVirtualMachines),
+      						Term:                 to.Ptr(armreservations.ReservationTermP1Y),
+      					},
+      					SKU: &armreservations.SKUName{
+      						Name: to.Ptr("Standard_B1ls"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Calculates price for exchanging `Reservations` if there are no policy errors.
+
+       *
+       * @summary Calculates price for exchanging `Reservations` if there are no policy errors.
+
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/CalculateExchange.json
+       */
+      async function calculateExchange() {
+        const body = {
+          properties: {
+            reservationsToExchange: [
+              {
+                quantity: 1,
+                reservationId:
+                  "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6",
+              },
+            ],
+            reservationsToPurchase: [
+              {
+                appliedScopeType: "Shared",
+                appliedScopes: [],
+                billingPlan: "Upfront",
+                billingScopeId: "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
+                displayName: "testDisplayName",
+                location: "westus",
+                quantity: 1,
+                renew: false,
+                reservedResourceProperties: { instanceFlexibility: "On" },
+                reservedResourceType: "VirtualMachines",
+                sku: { name: "Standard_B1ls" },
+                term: "P1Y",
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.calculateExchange.beginPostAndWait(body);
+        console.log(result);
+      }
+
+      calculateExchange().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/microsoft.capacity/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188",
+        "name": "4e2ffff7-b331-4fcb-ab11-b5fa49368188",
+        "status": "Succeeded",
+        "properties": {
+          "sessionId": "66e2ac8f-439e-4345-8235-6fef07608081",
+          "netPayable": {
+            "currencyCode": "USD",
+            "amount": 15840
+          },
+          "refundsTotal": {
+            "currencyCode": "USD",
+            "amount": 3960
+          },
+          "purchasesTotal": {
+            "currencyCode": "USD",
+            "amount": 19800
+          },
+          "policyResult": {
+            "policyErrors": null
+          },
+          "reservationsToPurchase": [
+            {
+              "properties": {
+                "sku": {
+                  "name": "Standard_B1ls"
+                },
+                "location": "westus",
+                "properties": {
+                  "reservedResourceType": "VirtualMachines",
+                  "billingScopeId": "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
+                  "term": "P1Y",
+                  "billingPlan": "Upfront",
+                  "quantity": 1,
+                  "displayName": "testDisplayName",
+                  "appliedScopeType": "Shared",
+                  "appliedScopes": null,
+                  "renew": false,
+                  "reservedResourceProperties": {
+                    "instanceFlexibility": "On"
+                  }
+                }
+              },
+              "billingCurrencyTotal": {
+                "currencyCode": "USD",
+                "amount": 19800
+              }
+            }
+          ],
+          "reservationsToExchange": [
+            {
+              "reservationId": "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6",
+              "quantity": 1,
+              "billingRefundAmount": {
+                "currencyCode": "USD",
+                "amount": 3960
+              },
+              "billingInformation": {
+                "billingCurrencyTotalPaidAmount": {
+                  "currencyCode": "USD",
+                  "amount": 19800
+                },
+                "billingCurrencyProratedAmount": {
+                  "currencyCode": "USD",
+                  "amount": 15840
+                },
+                "billingCurrencyRemainingCommitmentAmount": {
+                  "currencyCode": "USD",
+                  "amount": 0
+                }
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Capacity/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
+    - name: Location
+      value: https://management.azure.com/Microsoft.Capacity/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
+    - name: Retry-After
+      value: "5"
+security: []
+metadata:
+  description: >
+    Calculates the refund amounts and price of the new purchases.
+
+    Calculates price for exchanging Reservations if there are no policy errors.
+errorCodes: []

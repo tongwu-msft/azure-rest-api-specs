@@ -3,19 +3,19 @@ uid: management.azure.com.reserved-vm-instances.reservationorder.calculate
 name: Calculate
 service: Reserved VM Instances
 groupName: Reservation Order
-apiVersion: 2019-04-01
+apiVersion: 2022-03-01
 summary: "Calculate price for a `ReservationOrder`.  \nCalculate price for placing a `ReservationOrder`."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2019-04-01
+- content: POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2022-03-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version for this document is 2019-04-01
+  description: Supported version.
   types:
   - uid: string
 responses:
@@ -45,11 +45,6 @@ requestBody:
     description: The type of the resource that is being reserved.
     types:
     - uid: ReservedResourceType
-  - name: properties.instanceFlexibility
-    in: body
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
   - name: properties.billingScopeId
     in: body
     description: Subscription that will be charged for purchasing Reservation
@@ -67,7 +62,7 @@ requestBody:
     - uid: ReservationBillingPlan
   - name: properties.quantity
     in: body
-    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
+    description: Quantity of the SKUs that are part of the Reservation.
     types:
     - uid: integer
   - name: properties.displayName
@@ -142,10 +137,6 @@ definitions:
     description: The type of the resource that is being reserved.
     types:
     - uid: ReservedResourceType
-  - name: properties.instanceFlexibility
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
   - name: properties.billingScopeId
     description: Subscription that will be charged for purchasing Reservation
     types:
@@ -159,7 +150,7 @@ definitions:
     types:
     - uid: ReservationBillingPlan
   - name: properties.quantity
-    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
+    description: Quantity of the SKUs that are part of the Reservation.
     types:
     - uid: integer
   - name: properties.displayName
@@ -202,17 +193,21 @@ definitions:
     types:
     - uid: BillingCurrencyTotal
   - name: netTotal
-    description: Net total
+    description: Net total amount in pricing currency.
     types:
     - uid: number
   - name: taxTotal
-    description: Tax total
+    description: Tax amount in pricing currency.
     types:
     - uid: number
   - name: grandTotal
-    description: Grand Total
+    description: Total amount in pricing currency.
     types:
     - uid: number
+  - name: isTaxIncluded
+    description: Whether or not tax is included in grand total
+    types:
+    - uid: boolean
   - name: isBillingPartnerManaged
     description: True if billing is managed by Microsoft Partner. Used only for CSP accounts.
     types:
@@ -313,6 +308,24 @@ definitions:
   - name: SqlAzureHybridBenefit
     types:
     - uid: string
+  - name: AVS
+    types:
+    - uid: string
+  - name: DataFactory
+    types:
+    - uid: string
+  - name: NetAppStorage
+    types:
+    - uid: string
+  - name: AzureFiles
+    types:
+    - uid: string
+  - name: SqlEdge
+    types:
+    - uid: string
+  - name: VirtualMachineSoftware
+    types:
+    - uid: string
 - name: ReservationTerm
   description: Represent the term of Reservation.
   kind: enum
@@ -321,6 +334,9 @@ definitions:
     types:
     - uid: string
   - name: P3Y
+    types:
+    - uid: string
+  - name: P5Y
     types:
     - uid: string
 - name: ReservationBillingPlan
@@ -348,7 +364,7 @@ definitions:
   kind: object
   properties:
   - name: currencyCode
-    description: ''
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
     types:
     - uid: string
   - name: amount
@@ -360,7 +376,7 @@ definitions:
   kind: object
   properties:
   - name: currencyCode
-    description: ''
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
     types:
     - uid: string
   - name: amount
@@ -567,6 +583,15 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
 - name: Price
   kind: object
   properties:
@@ -614,6 +639,9 @@ definitions:
   - name: Pending
     types:
     - uid: string
+  - name: Processing
+    types:
+    - uid: string
   - name: Active
     types:
     - uid: string
@@ -638,7 +666,7 @@ definitions:
 examples:
 - name: Purchase
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2019-04-01
+    uri: POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2022-03-01
     body: >-
       {
         "sku": {
@@ -662,7 +690,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2019-04-01
+      POST https://management.azure.com/providers/Microsoft.Capacity/calculatePrice?api-version=2022-03-01
 
       {
         "sku": {
@@ -686,6 +714,92 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/CalculateReservationOrder.json
+      func ExampleReservationOrderClient_Calculate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewReservationOrderClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Calculate(ctx, armreservations.PurchaseRequest{
+      		Location: to.Ptr("westus"),
+      		Properties: &armreservations.PurchaseRequestProperties{
+      			AppliedScopeType: to.Ptr(armreservations.AppliedScopeTypeShared),
+      			BillingPlan:      to.Ptr(armreservations.ReservationBillingPlanMonthly),
+      			BillingScopeID:   to.Ptr("/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83"),
+      			DisplayName:      to.Ptr("TestReservationOrder"),
+      			Quantity:         to.Ptr[int32](1),
+      			ReservedResourceProperties: &armreservations.PurchaseRequestPropertiesReservedResourceProperties{
+      				InstanceFlexibility: to.Ptr(armreservations.InstanceFlexibilityOn),
+      			},
+      			ReservedResourceType: to.Ptr(armreservations.ReservedResourceTypeVirtualMachines),
+      			Term:                 to.Ptr(armreservations.ReservationTermP1Y),
+      		},
+      		SKU: &armreservations.SKUName{
+      			Name: to.Ptr("standard_D1"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Calculate price for placing a `ReservationOrder`.
+       *
+       * @summary Calculate price for placing a `ReservationOrder`.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/CalculateReservationOrder.json
+       */
+      async function purchase() {
+        const body = {
+          appliedScopeType: "Shared",
+          appliedScopes: [],
+          billingPlan: "Monthly",
+          billingScopeId: "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
+          displayName: "TestReservationOrder",
+          location: "westus",
+          quantity: 1,
+          reservedResourceProperties: { instanceFlexibility: "On" },
+          reservedResourceType: "VirtualMachines",
+          sku: { name: "standard_D1" },
+          term: "P1Y",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.reservationOrder.calculate(body);
+        console.log(result);
+      }
+
+      purchase().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -695,9 +809,6 @@ examples:
             "currencyCode": "USD",
             "amount": 46
           },
-          "netTotal": 0,
-          "taxTotal": 0,
-          "grandTotal": 0,
           "reservationOrderId": "6d9cec54-7de8-abcd-9de7-80f5d634f2d2",
           "skuTitle": "Reserved VM Instance, Standard_D1, US West, 1 Year",
           "skuDescription": "standard_D1",

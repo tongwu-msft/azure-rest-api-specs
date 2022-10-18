@@ -3,19 +3,19 @@ uid: management.azure.com.reserved-vm-instances.reservationorder.list
 name: List
 service: Reserved VM Instances
 groupName: Reservation Order
-apiVersion: 2019-04-01
+apiVersion: 2022-03-01
 summary: "Get all `ReservationOrder`s.  \nList of all the `ReservationOrder`s that the user has access to in the current tenant."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2019-04-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2022-03-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version for this document is 2019-04-01
+  description: Supported version.
   types:
   - uid: string
 responses:
@@ -70,6 +70,11 @@ definitions:
     description: Type of resource. "Microsoft.Capacity/reservations"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.displayName
     description: Friendly name for user to easily identified the reservation.
     types:
@@ -91,7 +96,7 @@ definitions:
     types:
     - uid: string
   - name: properties.originalQuantity
-    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
+    description: Total Quantity of the SKUs purchased in the Reservation.
     types:
     - uid: integer
   - name: properties.term
@@ -101,7 +106,7 @@ definitions:
   - name: properties.provisioningState
     description: Current state of the reservation.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: properties.billingPlan
     description: Represent the billing plans.
     types:
@@ -111,7 +116,7 @@ definitions:
     types:
     - uid: ReservationOrderBillingPlanInformation
   - name: properties.reservations
-    description: ''
+    description: The definition of the reservation.
     types:
     - uid: ReservationResponse
       isArray: true
@@ -126,6 +131,34 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ReservationTerm
   description: Represent the term of Reservation.
   kind: enum
@@ -134,6 +167,52 @@ definitions:
     types:
     - uid: string
   - name: P3Y
+    types:
+    - uid: string
+  - name: P5Y
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Represent the current state of the Reservation.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: PendingResourceHold
+    types:
+    - uid: string
+  - name: ConfirmedResourceHold
+    types:
+    - uid: string
+  - name: PendingBilling
+    types:
+    - uid: string
+  - name: ConfirmedBilling
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: BillingFailed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Split
+    types:
+    - uid: string
+  - name: Merged
     types:
     - uid: string
 - name: ReservationBillingPlan
@@ -168,10 +247,10 @@ definitions:
     - uid: PaymentDetail
       isArray: true
 - name: ReservationResponse
+  description: The definition of the reservation.
   kind: object
   properties:
   - name: location
-    isReadyOnly: true
     description: The Azure Region where the reserved resource lives.
     types:
     - uid: string
@@ -190,18 +269,27 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: ''
+    description: 'The sku information associated to this reservation '
     types:
     - uid: SkuName
   - name: properties
-    description: ''
+    description: 'The properties associated to this reservation '
     types:
-    - uid: ReservationProperties
+    - uid: ReservationsProperties
   - name: type
     isReadyOnly: true
     description: Type of resource. "Microsoft.Capacity/reservationOrders/reservations"
     types:
     - uid: string
+  - name: kind
+    description: Resource Provider type to be reserved.
+    types:
+    - uid: Kind
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -370,6 +458,31 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: Price
   kind: object
   properties:
@@ -420,7 +533,8 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: ReservationProperties
+- name: ReservationsProperties
+  description: The properties of the reservations
   kind: object
   properties:
   - name: reservedResourceType
@@ -428,7 +542,7 @@ definitions:
     types:
     - uid: ReservedResourceType
   - name: instanceFlexibility
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+    description: Allows reservation discount to be applied across skus within the same Autofit group. Not all skus support instance size flexibility.
     types:
     - uid: InstanceFlexibility
   - name: displayName
@@ -436,22 +550,30 @@ definitions:
     types:
     - uid: string
   - name: appliedScopes
-    description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
+    description: The list of applied scopes
     types:
     - uid: string
       isArray: true
   - name: appliedScopeType
-    description: Type of the Applied Scope.
+    description: The applied scope type
     types:
     - uid: AppliedScopeType
+  - name: archived
+    description: Indicates if the reservation is archived
+    types:
+    - uid: boolean
+  - name: capabilities
+    description: Capabilities of the reservation
+    types:
+    - uid: string
   - name: quantity
-    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
+    description: Quantity of the SKUs that are part of the Reservation.
     types:
     - uid: integer
   - name: provisioningState
     description: Current state of the reservation.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: effectiveDateTime
     description: DateTime of the Reservation starting when this version is effective from.
     types:
@@ -474,13 +596,27 @@ definitions:
     types:
     - uid: string
   - name: extendedStatusInfo
-    description: ''
+    description: The message giving detailed information about the status code.
     types:
     - uid: ExtendedStatusInfo
   - name: billingPlan
-    description: Represent the billing plans.
+    description: The billing plan options available for this SKU.
     types:
     - uid: ReservationBillingPlan
+  - name: displayProvisioningState
+    isReadyOnly: true
+    description: The provisioning state of the reservation for display, e.g. Succeeded
+    types:
+    - uid: string
+  - name: provisioningSubState
+    isReadyOnly: true
+    description: The provisioning state of the reservation, e.g. Succeeded
+    types:
+    - uid: string
+  - name: purchaseDate
+    description: This is the date when the Reservation was purchased.
+    types:
+    - uid: string
   - name: splitProperties
     description: ''
     types:
@@ -522,12 +658,26 @@ definitions:
     description: Represent the term of Reservation.
     types:
     - uid: ReservationTerm
-  - name: archived
-    description: Property to determine if a reservation is archived or not
+  - name: userFriendlyAppliedScopeType
+    isReadyOnly: true
+    description: The applied scope type of the reservation for display, e.g. Shared
     types:
-    - uid: boolean
-  - name: capabilities
-    description: List the Capabilities of a reservation
+    - uid: string
+  - name: userFriendlyRenewState
+    isReadyOnly: true
+    description: The renew state of the reservation for display, e.g. On
+    types:
+    - uid: string
+  - name: utilization
+    isReadyOnly: true
+    description: Reservation utilization
+    types:
+    - uid: Utilization
+- name: Kind
+  description: Resource Provider type to be reserved.
+  kind: enum
+  properties:
+  - name: Microsoft.Compute
     types:
     - uid: string
 - name: PaymentStatus
@@ -621,6 +771,24 @@ definitions:
   - name: SqlAzureHybridBenefit
     types:
     - uid: string
+  - name: AVS
+    types:
+    - uid: string
+  - name: DataFactory
+    types:
+    - uid: string
+  - name: NetAppStorage
+    types:
+    - uid: string
+  - name: AzureFiles
+    types:
+    - uid: string
+  - name: SqlEdge
+    types:
+    - uid: string
+  - name: VirtualMachineSoftware
+    types:
+    - uid: string
 - name: InstanceFlexibility
   description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
   kind: enum
@@ -706,6 +874,20 @@ definitions:
     description: Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included.
     types:
     - uid: BillingCurrencyTotal
+- name: Utilization
+  description: Reservation utilization
+  kind: object
+  properties:
+  - name: trend
+    isReadyOnly: true
+    description: The number of days trend for a reservation
+    types:
+    - uid: string
+  - name: aggregates
+    description: The array of aggregates of a reservation's utilization
+    types:
+    - uid: ReservationUtilizationAggregates
+      isArray: true
 - name: ReservationStatusCode
   kind: enum
   properties:
@@ -713,6 +895,9 @@ definitions:
     types:
     - uid: string
   - name: Pending
+    types:
+    - uid: string
+  - name: Processing
     types:
     - uid: string
   - name: Active
@@ -751,10 +936,6 @@ definitions:
     description: The type of the resource that is being reserved.
     types:
     - uid: ReservedResourceType
-  - name: properties.instanceFlexibility
-    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
-    types:
-    - uid: InstanceFlexibility
   - name: properties.billingScopeId
     description: Subscription that will be charged for purchasing Reservation
     types:
@@ -768,7 +949,7 @@ definitions:
     types:
     - uid: ReservationBillingPlan
   - name: properties.quantity
-    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
+    description: Quantity of the SKUs that are part of the Reservation.
     types:
     - uid: integer
   - name: properties.displayName
@@ -798,7 +979,7 @@ definitions:
   kind: object
   properties:
   - name: currencyCode
-    description: ''
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
     types:
     - uid: string
   - name: amount
@@ -810,13 +991,37 @@ definitions:
   kind: object
   properties:
   - name: currencyCode
-    description: ''
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
     types:
     - uid: string
   - name: amount
     description: ''
     types:
     - uid: number
+- name: ReservationUtilizationAggregates
+  description: The aggregate values of reservation utilization
+  kind: object
+  properties:
+  - name: grain
+    isReadyOnly: true
+    description: The grain of the aggregate
+    types:
+    - uid: number
+  - name: grainUnit
+    isReadyOnly: true
+    description: The grain unit of the aggregate
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The aggregate value
+    types:
+    - uid: number
+  - name: valueUnit
+    isReadyOnly: true
+    description: The aggregate value unit
+    types:
+    - uid: string
 - name: ReservedResourceProperties
   description: Properties specific to each reserved resource type. Not required if not applicable.
   kind: object
@@ -828,13 +1033,76 @@ definitions:
 examples:
 - name: ReservationOrderList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2019-04-01
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2022-03-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2019-04-01
+      GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders?api-version=2022-03-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetReservationOrders.json
+      func ExampleReservationOrderClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewReservationOrderClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List of all the `ReservationOrder`s that the user has access to in the current tenant.
+       *
+       * @summary List of all the `ReservationOrder`s that the user has access to in the current tenant.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetReservationOrders.json
+       */
+      async function reservationOrderList() {
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const resArray = new Array();
+        for await (let item of client.reservationOrder.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationOrderList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -869,9 +1137,9 @@ examples:
             "etag": 7,
             "properties": {
               "displayName": "cabri",
+              "benefitStartTime": "2017-08-30T12:55:40.2799114Z",
               "requestDateTime": "2017-08-30T12:55:40.2799114Z",
               "createdDateTime": "2017-08-30T12:58:20.526Z",
-              "benefitStartTime": "2017-08-30T12:58:30.526Z",
               "expiryDate": "2018-08-30",
               "term": "P1Y",
               "billingPlan": "Monthly",
@@ -891,9 +1159,9 @@ examples:
             "etag": 7,
             "properties": {
               "displayName": "cabri",
+              "benefitStartTime": "2017-08-30T03:49:19.0252126Z",
               "requestDateTime": "2017-08-30T03:49:19.0252126Z",
               "createdDateTime": "2017-08-30T03:51:49.8083758Z",
-              "benefitStartTime": "2017-08-30T03:51:50.8083758Z",
               "expiryDate": "2018-08-30",
               "term": "P1Y",
               "billingPlan": "Monthly",

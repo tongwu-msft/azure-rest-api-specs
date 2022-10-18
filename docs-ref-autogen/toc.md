@@ -16606,6 +16606,15 @@
 ## [Overview](../docs-ref-conceptual/reserved-vm-instances/index.md)
 ## [Quota API](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
+### Calculate Exchange
+#### [Overview](reserved-vm-instances/Calculate-Exchange.yml)
+#### [Post](reserved-vm-instances/Calculate-Exchange/Post.yml)
+### Calculate Refund
+#### [Overview](reserved-vm-instances/Calculate-Refund.yml)
+#### [Post](reserved-vm-instances/Calculate-Refund/Post.yml)
+### Exchange
+#### [Overview](reserved-vm-instances/Exchange.yml)
+#### [Post](reserved-vm-instances/Exchange/Post.yml)
 ### Get Applied Reservation List
 #### [Overview](reserved-vm-instances/Get-Applied-Reservation-List.yml)
 #### [Get Applied Reservation List](reserved-vm-instances/Get-Applied-Reservation-List/Get-Applied-Reservation-List.yml)
@@ -16631,6 +16640,7 @@
 #### [Available Scopes](reserved-vm-instances/Reservation/Available-Scopes.yml)
 #### [Get](reserved-vm-instances/Reservation/Get.yml)
 #### [List](reserved-vm-instances/Reservation/List.yml)
+#### [List All](reserved-vm-instances/Reservation/List-All.yml)
 #### [List Revisions](reserved-vm-instances/Reservation/List-Revisions.yml)
 #### [Merge](reserved-vm-instances/Reservation/Merge.yml)
 #### [Split](reserved-vm-instances/Reservation/Split.yml)
@@ -16639,9 +16649,13 @@
 ### Reservation Order
 #### [Overview](reserved-vm-instances/Reservation-Order.yml)
 #### [Calculate](reserved-vm-instances/Reservation-Order/Calculate.yml)
+#### [Change Directory](reserved-vm-instances/Reservation-Order/Change-Directory.yml)
 #### [Get](reserved-vm-instances/Reservation-Order/Get.yml)
 #### [List](reserved-vm-instances/Reservation-Order/List.yml)
 #### [Purchase](reserved-vm-instances/Reservation-Order/Purchase.yml)
+### Return
+#### [Overview](reserved-vm-instances/Return.yml)
+#### [Post](reserved-vm-instances/Return/Post.yml)
 # Resource Health
 ## [Overview](../docs-ref-conceptual/resourcehealth/index.md)
 ## Availability Statuses

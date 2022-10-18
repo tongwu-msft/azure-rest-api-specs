@@ -3,15 +3,15 @@ uid: management.azure.com.reserved-vm-instances.getcatalog.getcatalog
 name: Get Catalog
 service: Reserved VM Instances
 groupName: Get Catalog
-apiVersion: 2019-04-01
+apiVersion: 2022-03-01
 summary: Get the regions and skus that are available for RI purchase for the specified Azure subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType={reservedResourceType}
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType={reservedResourceType}&location={location}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2022-03-01&reservedResourceType={reservedResourceType}&location={location}&publisherId={publisherId}&offerId={offerId}&planId={planId}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -23,18 +23,32 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version for this document is 2019-04-01
+  description: Supported version.
   types:
   - uid: string
 - name: reservedResourceType
   in: query
-  isRequired: true
   description: The type of the resource for which the skus should be provided.
   types:
   - uid: string
 - name: location
   in: query
   description: Filters the skus based on the location specified in this parameter. This can be an azure region or global
+  types:
+  - uid: string
+- name: publisherId
+  in: query
+  description: Publisher id used to get the third party products
+  types:
+  - uid: string
+- name: offerId
+  in: query
+  description: Offer id used to get the third party products
+  types:
+  - uid: string
+- name: planId
+  in: query
+  description: Plan id used to get the third party products
   types:
   - uid: string
 responses:
@@ -70,14 +84,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: array
-  - name: msrp
-    description: The sku's MSRP values for each term
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
   - name: terms
     isReadyOnly: true
     description: Available reservation terms for this resource
@@ -96,11 +102,32 @@ definitions:
     types:
     - uid: SkuProperty
       isArray: true
+  - name: msrp
+    isReadyOnly: true
+    description: Pricing information about the SKU
+    types:
+    - uid: Msrp
   - name: restrictions
     isReadyOnly: true
     description: ''
     types:
     - uid: SkuRestriction
+      isArray: true
+  - name: tier
+    isReadyOnly: true
+    description: The tier of this SKU
+    types:
+    - uid: string
+  - name: size
+    isReadyOnly: true
+    description: The size of this SKU
+    types:
+    - uid: string
+  - name: capabilities
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: SkuCapability
       isArray: true
 - name: Error
   kind: object
@@ -120,6 +147,14 @@ definitions:
     description: An invariant if the feature is measured by quantity.
     types:
     - uid: string
+- name: Msrp
+  description: Pricing information about the SKU
+  kind: object
+  properties:
+  - name: p1Y
+    description: Amount in pricing currency. Tax not included.
+    types:
+    - uid: Price
 - name: SkuRestriction
   kind: object
   properties:
@@ -136,6 +171,17 @@ definitions:
     description: The reason for restriction.
     types:
     - uid: string
+- name: SkuCapability
+  kind: object
+  properties:
+  - name: name
+    description: An invariant to describe the feature.
+    types:
+    - uid: string
+  - name: value
+    description: An invariant if the feature is measured by quantity.
+    types:
+    - uid: string
 - name: ExtendedErrorInfo
   kind: object
   properties:
@@ -147,6 +193,17 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: Price
+  kind: object
+  properties:
+  - name: currencyCode
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
+    types:
+    - uid: string
+  - name: amount
+    description: ''
+    types:
+    - uid: number
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -315,16 +372,90 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+  - name: AppliedScopesSameAsExisting
+    types:
+    - uid: string
+  - name: SelfServiceRefundNotSupported
+    types:
+    - uid: string
+  - name: RefundLimitExceeded
+    types:
+    - uid: string
 examples:
 - name: Catalog
   request:
-    uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType=VirtualMachines&location=eastus
+    uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/catalogs?api-version=2022-03-01&reservedResourceType=VirtualMachines&location=eastus
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType=VirtualMachines&location=eastus
+      GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/catalogs?api-version=2022-03-01&reservedResourceType=VirtualMachines&location=eastus
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetCatalog.json
+      func ExampleAzureReservationAPIClient_GetCatalog() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewAzureReservationAPIClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetCatalog(ctx, "23bc208b-083f-4901-ae85-4f98c0c3b4b6", &armreservations.AzureReservationAPIClientGetCatalogOptions{ReservedResourceType: to.Ptr("VirtualMachines"),
+      		Location:    to.Ptr("eastus"),
+      		PublisherID: nil,
+      		OfferID:     nil,
+      		PlanID:      nil,
+      	})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.1.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the regions and skus that are available for RI purchase for the specified Azure subscription.
+       *
+       * @summary Get the regions and skus that are available for RI purchase for the specified Azure subscription.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetCatalog.json
+       */
+      async function catalog() {
+        const subscriptionId = "23bc208b-083f-4901-ae85-4f98c0c3b4b6";
+        const reservedResourceType = "VirtualMachines";
+        const location = "eastus";
+        const options = { reservedResourceType, location };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.getCatalog(subscriptionId, options);
+        console.log(result);
+      }
+
+      catalog().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.2.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -336,16 +467,6 @@ examples:
             "P1Y",
             "P3Y"
           ],
-          "msrp": {
-            "p1Y": {
-              "currencyCode": "USD",
-              "amount": 1907
-            },
-            "p3Y": {
-              "currencyCode": "USD",
-              "amount": 3960
-            }
-          },
           "billingPlans": {
             "P1Y": [
               "Upfront",
