@@ -2524,7 +2524,7 @@
 ### [List All](application-gateway/Web-Application-Firewall-Policies/List-All.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
-## [Data Access](/azure/azure-monitor/logs/api/overview)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Components
 #### [Overview](application-insights/Components.yml)
@@ -4776,7 +4776,7 @@
 # Billing
 ## [Overview](../docs-ref-conceptual/billing/index.md)
 ## Enterprise
-### [Overview](/azure/billing/billing-enterprise-api)
+### [Overview](https://docs.microsoft.com/azure/billing/billing-enterprise-api)
 ### [Get balance summary](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-balance-summary.md)
 ### [Get usage detail](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-usage-detail.md)
 ### [Get marketplace store charge](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-marketplace-storecharge.md)
@@ -13039,7 +13039,7 @@
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
 ## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
-## [Data Access](/azure/azure-monitor/logs/api/overview)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/Available-Service-Tiers.yml)
