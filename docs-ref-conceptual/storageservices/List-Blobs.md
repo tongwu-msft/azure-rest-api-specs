@@ -146,7 +146,7 @@ For version 2019-12-12 and later, `List Blobs` returns the `TagCount` element fo
 
 For version 2019-12-12 and later, `List Blobs` returns the `Sealed` element for append blobs. The `Sealed` element appears only when the append blob has been sealed. These elements don't appear if the append blob isn't sealed.
 
-For version 2020-02-10 and later, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed, according to the storage account's last access time tracking policy. The element isn't returned if the storage account doesn't have this policy, or the policy is disabled. For information about setting the account's last access time tracking policy, see the [Blob Service API](/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element doesn't track the last time when the blob's metadata is accessed.
+For version 2020-02-10 and later, `List Blobs` returns the `LastAccessTime` element. The element shows when the blob's data was last accessed, according to the storage account's last access time tracking policy. The element isn't returned if the storage account doesn't have this policy, or the policy is disabled. For information about setting the account's last access time tracking policy, see the [Blob Service API](/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element doesn't track the last time when the blob's metadata is accessed.
 
 For version 2020-06-12 and later, `List Blobs` returns the `ImmutabilityPolicyUntilDate` and `ImmutabilityPolicyMode` elements, when this operation includes the `include={immutabilitypolicy}` parameter.
 
