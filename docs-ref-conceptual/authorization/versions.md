@@ -1,43 +1,55 @@
 ---
-title: Azure RBAC REST API versions | Microsoft Docs
-description: Learn about the REST API versions for Azure role-based access control (Azure RBAC).
+title: API versions of Azure RBAC REST APIs | Microsoft Docs
+description: Learn about the API versions of the Azure role-based access control (Azure RBAC) REST APIs.
 author: rolyon
 ms.author: rolyon
-ms.manager: mtillman
-ms.date: 03/19/2021
+ms.manager: amycolannino
+ms.date: 10/17/2022
 ms.topic: reference
 ms.service: role-based-access-control
 ms.devlang: rest-api
 ms.assetid: 81771ddf-44d0-42d2-b96d-5dd961a03fd2
 ---
 
-# Azure RBAC REST API versions
+# API versions of Azure RBAC REST APIs
 
-## Latest stable version: 2015-07-01
+This article lists the current and past versions of the Azure RBAC REST APIs.
 
-Latest stable version
+## Stable versions
 
+| API version | Specification | API updates |
+|-------------|---------------|-------------|
+| `2022-04-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01) | GA release of role assignment conditions<br/>[Release note](#2022-04-01) |
+| `2020-10-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01) | GA release of Privileged Identity Management resource types<br/>[Release note](#2020-10-01) |
+| `2015-07-01`| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01) | First generally available release |
 
-## Versions
+## Preview versions
 
-| Version | Description |
-| --- | --- |
-| [2020-10-01](#2020-10-01) | GA release of Privileged Identity Management resource types |
-| [2020-10-01-preview](#2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types |
-| [2020-08-01-preview](#2020-08-01-preview) | Role assignment validation |
-| [2020-07-01-preview](#2020-07-01-preview) | Search role assignments<br/>Search deny assignments |
-| [2020-04-01-preview](#2020-04-01-preview) | Role assignment with description |
-| [2020-03-01-preview](#2020-03-01-preview) | User not found bypass |
-| [2019-08-01-preview](#2019-08-01-preview) | Role assignment usage metrics |
-| [2019-04-01-preview](#2019-04-01-preview) | Delegated managed identity resource ID<br/>Tenant ID query parameter |
-| [2019-03-01-preview](#2019-03-01-preview) | Deny assignment conditions |
-| [2018-12-01-preview](#2018-12-01-preview) | Role assignment conditions |
-| [2018-09-01-preview](#2018-09-01-preview) | Role assignment service principal name not found bypass |
-| [2018-07-01-preview](#2018-07-01-preview) | Deny assignments |
-| [2018-01-01-preview](#2018-01-01-preview) | Data actions |
-| [2017-10-01-preview](#2017-10-01-preview) | Delegation |
-| [2017-09-01](#2017-09-01) | Stop rewriting management group scopes |
-| [2016-07-01](#2016-07-01) | Strict filter checks |
+Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
+
+| API version | Specification | API updates |
+|-------------|---------------|-------------|
+| `2020-10-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types<br/>[Release note](#2020-10-01-preview) |
+| `2020-08-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview) | Role assignment validation<br/>[Release note](#2020-08-01-preview) |
+| `2020-07-01-preview` | Swagger specification | Search role assignments<br/>Search deny assignments<br/>[Release note](#2020-07-01-preview) |
+| `2020-04-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-04-01-preview) | Role assignment with description<br/>[Release note](#2020-04-01-preview) |
+| `2020-03-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-03-01-preview) | User not found bypass<br/>[Release note](#2020-03-01-preview) |
+| `2019-08-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2019-08-01-preview) | Role assignment usage metrics<br/>[Release note](#2019-08-01-preview) |
+| `2019-04-01-preview` | Swagger specification | Delegated managed identity resource ID<br/>Tenant ID query parameter<br/>[Release note](#2019-04-01-preview) |
+| `2019-03-01-preview` | Swagger specification | Deny assignment conditions<br/>[Release note](#2019-03-01-preview) |
+| `2018-12-01-preview` | Swagger specification | Role assignment conditions<br/>[Release note](#2018-12-01-preview) |
+| `2018-09-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2018-09-01-preview) | Role assignment service principal name not found bypass<br/>[Release note](#2018-09-01-preview) |
+| `2018-07-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2018-07-01-preview) | Deny assignments<br/>[Release note](#2018-07-01-preview) |
+| `2018-01-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2018-01-01-preview) | Data actions<br/>[Release note](#2018-01-01-preview) |
+| `2017-10-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2017-10-01-preview) | Delegation<br/>[Release note](#2017-10-01-preview) |
+| `2017-09-01` | Swagger specification | Stop rewriting management group scopes<br/>[Release note](#2017-09-01) |
+| `2016-07-01` | Swagger specification | Strict filter checks<br/>[Release note](#2016-07-01) |
+
+## Release notes
+
+### 2022-04-01
+
+- GA release of role assignment conditions
 
 ### 2020-10-01
 
@@ -186,5 +198,5 @@ Strict filter checks
 
 ## See also
 
-- [Assign Azure roles using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-rest)
-- [List Azure role assignments using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-list-rest)
+- [Assign Azure roles using the REST API](/azure/role-based-access-control/role-assignments-rest)
+- [List Azure role assignments using the REST API](/azure/role-based-access-control/role-assignments-list-rest)
