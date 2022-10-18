@@ -175,7 +175,7 @@ For a block blob or an append blob, Blob Storage creates a committed blob of zer
   
 When you're copying from a block blob, all committed blocks and their block IDs are copied. Uncommitted blocks are not copied. At the end of the copy operation, the destination blob has the same committed block count as the source.  
   
-When you're copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have less than or equal the committed block count as the source.  
+When you're copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have fewer than or the same number of committed blocks as the source blob.  
   
 For all blob types, you can call `Get Blob` or `Get Blob Properties` on the destination blob to check the status of the copy operation. The final blob will be committed when the copy operation finishes.  
   
