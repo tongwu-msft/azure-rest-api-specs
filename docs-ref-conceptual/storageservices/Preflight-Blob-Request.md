@@ -68,7 +68,7 @@ For details about preflight request headers, see [the CORS specification](https:
 None.  
   
 ## Authorization  
-The `Preflight Blob Request` operation always runs anonymously. It does not require authorization, and it ignores credentials if they're provided. 
+The `Preflight Blob Request` operation always executes anonymously. It does not require authorization, and it ignores credentials if they're provided. 
 
 > [!NOTE]
 > If you have enabled Azure Storage analytics and are logging metrics, a call to the `Preflight Blob Request` operation is logged as `AnonymousSuccess`. For this reason, if you view metrics in the Azure portal, you'll see `AnonymousSuccess` logged for `Preflight Blob Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Blob Request` operation succeeded with a status code of 200 (OK). 
