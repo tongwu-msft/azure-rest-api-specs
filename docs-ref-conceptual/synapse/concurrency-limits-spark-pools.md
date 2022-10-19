@@ -38,6 +38,7 @@ The following table shows the maximum limits of Jobs and Cores for individual sp
 > Max Active Jobs = Jobs Running Simultaneously +  Jobs Queued
 
 
+
 ## API rate limits
 
 The following table shows the throttling limits for the spark job and session management APIs. 
@@ -69,6 +70,7 @@ The following table shows the throttling limits for the spark job and session ma
 >```
 >
 >**It is recommended to use Retry-After header value in the jobs request by providing the value in seconds.**
+>
 >This allows the job service to evaluate  based on the incoming traffic and optimizes the submitted job requests to get successfully accepted.
 
 
