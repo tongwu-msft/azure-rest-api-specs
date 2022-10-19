@@ -1,5 +1,5 @@
 ---
-title:  Concurrency Limits for Spark in Azure Synapse Analytics
+title:  Concurrency limits for Spark in Azure Synapse Analytics
 description: View the concurrency and throttling limits allocated to the various scope levels and API rate limits for Spark pools and jobs in Azure Synapse Analytics.
 services: synapse-analytics
 author: saravi
