@@ -74,3 +74,9 @@ The following table shows the throttling limits for the spark job and session ma
 >This allows the job service to evaluate  based on the incoming traffic and optimizes the submitted job requests to get successfully accepted.
 
 
+## Next steps
+- [Apache Spark in Azure Synapse Analytics](https://learn.microsoft.com/azure/synapse-analytics/spark/apache-spark-concepts) 
+
+- [Azure Synapse Analytics](../index.yml)
+
+
