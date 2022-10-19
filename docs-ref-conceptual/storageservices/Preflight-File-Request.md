@@ -72,7 +72,7 @@ For details about preflight request headers, see [the CORS specification](https:
 None.
   
 ## Authorization
-The `Preflight File Request` operation always runs anonymously. It does not require authorization, and it ignores credentials if they're provided.
+The `Preflight File Request` operation always executes anonymously. It does not require authorization, and it ignores credentials if they're provided.
 
 > [!NOTE]
 > If you have enabled Azure Storage analytics and are logging metrics, a call to the `Preflight File Request` operation is logged as `AnonymousSuccess`. For this reason, if you view metrics in the Azure portal, you'll see `AnonymousSuccess` logged for `Preflight File Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight File Request` operation succeeded with a status code of 200 (OK). 
