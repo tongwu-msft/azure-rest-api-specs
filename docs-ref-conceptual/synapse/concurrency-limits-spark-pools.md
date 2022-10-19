@@ -77,6 +77,6 @@ The following table shows the throttling limits for the spark job and session ma
 ## Next steps
 - [Apache Spark in Azure Synapse Analytics](https://learn.microsoft.com/azure/synapse-analytics/spark/apache-spark-concepts) 
 
-- [Azure Synapse Analytics](../index.yml)
+- [Azure Synapse Analytics](https://learn.microsoft.com/azure/synapse-analytics/)
 
 
