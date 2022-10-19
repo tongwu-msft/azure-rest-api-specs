@@ -7,7 +7,6 @@ manager: chrisfin
 ms.service: synapse-analytics
 ms.subservice: spark
 ms.topic: conceptual
-ms.subservice: 
 ms.date: 10/17/2022
 ms.author: saravi
 ms.reviewer: sngun
@@ -44,15 +43,15 @@ The following table shows the throttling limits for the spark job and session ma
 
 | Resource   | Metric                        | Limit (Queries per Second) | Scope         | Regions             |
 |:----------:|:-----------------------------:|:--------------------------:|:-------------:|:-------------------:|
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/get-spark-session?tabs=HTTP)        |  Get Spark Session             |  200                       | Spark Session | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/get-spark-sessions?tabs=HTTP)        |  Get Spark Session             |  200                       | Spark Pool    | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/get-spark-statement?tabs=HTTP)        |  Get Spark Statement           |  200                       | Spark Session | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/get-spark-statements?tabs=HTTP)        |  Get Multiple Spark Statements |  200                       | Spark Session | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/create-spark-session?tabs=HTTP)        |  Create Session                |  2                         | Workspace     | EastUS, EastUS2, WestUS, WestUS2, CentralUS, EastUS2EUAP, West Europe     |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-session/create-spark-session?tabs=HTTP)        |  Create Session                |  5                         | Workspace     | All other regions   |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-batch/create-spark-batch-job?tabs=HTTP)        |  Create Batch Job             |  5                         | Workspace     | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-batch/get-spark-batch-job?tabs=HTTP)        |  Get Spark Batch Job             |  200                         | Workspace     | All                 |
-| [Jobs API](https://learn.microsoft.com/rest/api/synapse/data-plane/spark-batch/get-spark-batch-jobs?tabs=HTTP)        |  Get Multiple Spark Batch Job    |  200                         | Workspace     | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/get-spark-session?tabs=HTTP)        |  Get Spark Session             |  200                       | Spark Session | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/get-spark-sessions?tabs=HTTP)        |  Get Spark Session             |  200                       | Spark Pool    | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/get-spark-statement?tabs=HTTP)        |  Get Spark Statement           |  200                       | Spark Session | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/get-spark-statements?tabs=HTTP)        |  Get Multiple Spark Statements |  200                       | Spark Session | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/create-spark-session?tabs=HTTP)        |  Create Session                |  2                         | Workspace     | EastUS, EastUS2, WestUS, WestUS2, CentralUS, EastUS2EUAP, West Europe     |
+| [Jobs API](/rest/api/synapse/data-plane/spark-session/create-spark-session?tabs=HTTP)        |  Create Session                |  5                         | Workspace     | All other regions   |
+| [Jobs API](/rest/api/synapse/data-plane/spark-batch/create-spark-batch-job?tabs=HTTP)        |  Create Batch Job             |  5                         | Workspace     | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-batch/get-spark-batch-job?tabs=HTTP)        |  Get Spark Batch Job             |  200                         | Workspace     | All                 |
+| [Jobs API](/rest/api/synapse/data-plane/spark-batch/get-spark-batch-jobs?tabs=HTTP)        |  Get Multiple Spark Batch Job    |  200                         | Workspace     | All                 |
 
 > [!NOTE]
 > The maximum requests limit for all resources and operations is 200 queries per second for all regions. 
