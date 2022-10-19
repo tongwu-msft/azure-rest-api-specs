@@ -18,7 +18,7 @@ You can use the REST API for Azure Queue Storage to manage queues and messages.
   
  [Naming queues and metadata](Naming-Queues-and-Metadata.md)  
   
- [Set timeouts for Queue Storage operations](Setting-Timeouts-for-Queue-Service-Operations.md)  
+ [Set time-outs for Queue Storage operations](Setting-Timeouts-for-Queue-Service-Operations.md)  
   
 ## See also  
  [Queue Storage REST API](Queue-Service-REST-API.md)
