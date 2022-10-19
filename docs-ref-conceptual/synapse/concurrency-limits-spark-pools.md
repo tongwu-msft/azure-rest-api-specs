@@ -58,10 +58,16 @@ The following table shows the throttling limits for the spark job and session ma
 
 
 > [!TIP]
-> If you get an error message or HTTP 429 response that reads 
-> Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by pattern {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 282 requests per 1 second(s). Please retry after 1 second(s).
+>**If you get an error message or HTTP 429 response that reads**
+
+> ```css
+_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by pattern {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 282 requests per 1 second(s). Please retry after 1 second(s)_
+>
 > Or 
-> Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 24 requests per 1 second(s). Please retry after 1 second(s).
-> It is recommended to use Retry-After header value by providing the value in seconds, which is evaluated based on the incoming traffic and optimizes the user requests to get successfully accepted on retries. 
+> ```css
+_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 24 requests per 1 second(s). Please retry after 1 second(s)_
+```
+
+It is recommended to use Retry-After header value by providing the value in seconds, which is evaluated based on the incoming traffic and optimizes the user requests to get successfully accepted on retries. 
 
 
