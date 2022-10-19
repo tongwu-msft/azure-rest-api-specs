@@ -58,16 +58,15 @@ The following table shows the throttling limits for the spark job and session ma
 > The maximum requests limit for all resources and operations is 200 queries per second for all regions. 
 
 
-> [!TIP]
+>[!TIP]
 >**If you get an error message or HTTP 429 response that reads**
 >```
 >_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by pattern {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 282 requests per 1 second(s). Please retry after 1 second(s)_
-```
->
+>```
 > Or 
 >```
 >_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 24 requests per 1 second(s). Please retry after 1 second(s)_
-```
+>```
 >It is recommended to use Retry-After header value in the api by providing the value in seconds, which is evaluated based on the incoming traffic and optimizes the submitted job requests to get successfully accepted on retries. 
 
 
