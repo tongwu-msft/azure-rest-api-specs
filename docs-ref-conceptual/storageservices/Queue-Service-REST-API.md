@@ -32,12 +32,12 @@ The REST API for Queue Storage includes these operations:
 |[Set Queue Metadata](Set-Queue-Metadata.md)|Sets user-defined metadata on the queue.|  
 |[Get Queue ACL](Get-Queue-ACL.md)|Returns details on any stored access policies specified on the queue.|  
 |[Set Queue ACL](Set-Queue-ACL.md)|Sets stored access policies for the queue that can be used with shared access signatures.|  
-|[Put Message](Put-Message.md)|Adds a message to the queue and optionally sets a visibility timeout for the message.|  
+|[Put Message](Put-Message.md)|Adds a message to the queue and optionally sets a visibility time-out for the message.|  
 |[Get Messages](Get-Messages.md)|Retrieves a message from the queue and makes it invisible to other consumers.|  
 |[Peek Messages](Peek-Messages.md)|Retrieves a message from the front of the queue, without changing the message visibility.|  
 |[Delete Message](Delete-Message2.md)|Deletes a specified message from the queue.|  
 |[Clear Messages](Clear-Messages.md)|Clears all messages from the queue.|  
-|[Update Message](Update-Message.md)|Updates the visibility timeout of a message and/or the message contents.|  
+|[Update Message](Update-Message.md)|Updates the visibility time-out of a message and/or the message contents.|  
   
 ## In this section  
 [Queue Storage concepts](Queue-Service-Concepts.md)    
