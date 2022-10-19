@@ -17,7 +17,7 @@ This section contains the following topics:
   
 - [Naming and referencing shares, directories, files, and metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md)
 - [Manage file locks](Managing-File-Locks.md)  
-- [Set timeouts for Azure Files operations](Setting-Timeouts-for-File-Service-Operations.md)
+- [Set time-outs for Azure Files operations](Setting-Timeouts-for-File-Service-Operations.md)
 - [Specify the range header for Azure Files operations](Specifying-the-Range-Header-for-File-Service-Operations.md)  
 - [Features not supported in Azure Files](Features-Not-Supported-By-the-Azure-File-Service.md)  
 - [Decide when to use Azure Blob Storage, Azure Files, or Azure managed disks](/azure/storage/common/storage-decide-blobs-files-disks)
