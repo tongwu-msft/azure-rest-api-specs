@@ -21,7 +21,7 @@ The following sections list various numerical limits for Spark Pools and APIs to
 
 The following table shows the maximum limits of Jobs and Cores for individual spark pools and workspaces. 
 
-[!IMPORTANT]
+> [!IMPORTANT]
 > The limits specified for the spark pools are irrespective of their node sizes, vCore, and memory configurations. 
 
 
