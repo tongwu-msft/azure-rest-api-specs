@@ -37,6 +37,7 @@ The following table shows the maximum limits of Jobs and Cores for individual sp
 > Maximum Active Jobs is Total Number of Jobs Submitted, which includes both Jobs Running Simultaneously and Jobs Queued.
 > Max Active Jobs = Jobs Running Simultaneously +  Jobs Queued
 
+
 ## API rate limits
 
 The following table shows the throttling limits for the spark job and session management APIs. 
@@ -60,14 +61,12 @@ The following table shows the throttling limits for the spark job and session ma
 > [!TIP]
 >**If you get an error message or HTTP 429 response that reads**
 
-> ```css
 _Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by pattern {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 282 requests per 1 second(s). Please retry after 1 second(s)_
 >
 > Or 
-> ```css
-_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 24 requests per 1 second(s). Please retry after 1 second(s)_
-```
 
-It is recommended to use Retry-After header value by providing the value in seconds, which is evaluated based on the incoming traffic and optimizes the user requests to get successfully accepted on retries. 
+_Your request has hit layered throttling rate-limit of 5 requests per 1 second(s) for requests on resource(s) identified by {subscriptionId}. {workspaceName}. {HTTP-Verb}. {operationName} - You are currently hitting at a rate of 24 requests per 1 second(s). Please retry after 1 second(s)_
+
+It is recommended to use Retry-After header value in the api by providing the value in seconds, which is evaluated based on the incoming traffic and optimizes the submitted job requests to get successfully accepted on retries. 
 
 
