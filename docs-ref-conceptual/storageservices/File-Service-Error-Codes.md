@@ -1,6 +1,6 @@
 ---
-title: File service error codes (REST API) - Azure Storage
-description: Error codes for File service operations.
+title: Azure Files error codes (REST API) - Azure Storage
+description: Get error codes for Azure Files operations.
 author: pemari-msft
 
 ms.date: 09/23/2019
@@ -9,9 +9,9 @@ ms.topic: reference
 ms.author: pemari
 ---
 
-# File service error codes
+# Azure Files error codes
 
-The error codes listed in the following table may be returned by an operation against the File service.  
+The following table lists error codes that an operation might return against the Azure Files service:  
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
@@ -37,4 +37,4 @@ The error codes listed in the following table may be returned by an operation ag
 
 ## See also  
 
- [Status and Error Codes](Status-and-Error-Codes2.md)
+ [Status and error codes](Status-and-Error-Codes2.md)

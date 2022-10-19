@@ -1,6 +1,6 @@
 ---
-title: Queue service concepts (REST API) - Azure Storage
-description: Queue service concepts.
+title: Queue Storage concepts (REST API) - Azure Storage
+description: This topic outlines concepts about the Azure Queue Storage REST API.
 author: pemari-msft
 
 ms.date: 09/30/2019
@@ -9,16 +9,16 @@ ms.topic: reference
 ms.author: pemari
 ---
 
-# Queue service concepts
+# Queue Storage concepts
 
-You can use the REST API for the Queue service to manage queues and messages.  
+You can use the REST API for Azure Queue Storage to manage queues and messages.  
   
 ## In this section  
- [Addressing Queue Service Resources](Addressing-Queue-Service-Resources.md)  
+ [Address Queue Storage resources](Addressing-Queue-Service-Resources.md)  
   
- [Naming Queues and Metadata](Naming-Queues-and-Metadata.md)  
+ [Naming queues and metadata](Naming-Queues-and-Metadata.md)  
   
- [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md)  
+ [Set time-outs for Queue Storage operations](Setting-Timeouts-for-Queue-Service-Operations.md)  
   
-## See Also  
- [Queue Service REST API](Queue-Service-REST-API.md)
+## See also  
+ [Queue Storage REST API](Queue-Service-REST-API.md)
