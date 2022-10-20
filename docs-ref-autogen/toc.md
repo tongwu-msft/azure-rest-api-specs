@@ -4552,6 +4552,18 @@
 #### [Regenerate Key](webpubsub/controlplane/Web-Pub-Sub/Regenerate-Key.yml)
 #### [Restart](webpubsub/controlplane/Web-Pub-Sub/Restart.yml)
 #### [Update](webpubsub/controlplane/Web-Pub-Sub/Update.yml)
+### Web Pub Sub Custom Certificates
+#### [Overview](webpubsub/controlplane/Web-Pub-Sub-Custom-Certificates.yml)
+#### [Create Or Update](webpubsub/controlplane/Web-Pub-Sub-Custom-Certificates/Create-Or-Update.yml)
+#### [Delete](webpubsub/controlplane/Web-Pub-Sub-Custom-Certificates/Delete.yml)
+#### [Get](webpubsub/controlplane/Web-Pub-Sub-Custom-Certificates/Get.yml)
+#### [List](webpubsub/controlplane/Web-Pub-Sub-Custom-Certificates/List.yml)
+### Web Pub Sub Custom Domains
+#### [Overview](webpubsub/controlplane/Web-Pub-Sub-Custom-Domains.yml)
+#### [Create Or Update](webpubsub/controlplane/Web-Pub-Sub-Custom-Domains/Create-Or-Update.yml)
+#### [Delete](webpubsub/controlplane/Web-Pub-Sub-Custom-Domains/Delete.yml)
+#### [Get](webpubsub/controlplane/Web-Pub-Sub-Custom-Domains/Get.yml)
+#### [List](webpubsub/controlplane/Web-Pub-Sub-Custom-Domains/List.yml)
 ### Web Pub Sub Hubs
 #### [Overview](webpubsub/controlplane/Web-Pub-Sub-Hubs.yml)
 #### [Create Or Update](webpubsub/controlplane/Web-Pub-Sub-Hubs/Create-Or-Update.yml)

@@ -3,14 +3,14 @@ uid: management.azure.com.webpubsub.controlplane.webpubsubhubs.get
 name: Get
 service: Azure Web PubSub Service
 groupName: Web Pub Sub Hubs
-apiVersion: 2021-10-01
+apiVersion: 2022-08-01-preview
 summary: Get a hub setting.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}?api-version=2022-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,6 +126,18 @@ definitions:
     types:
     - uid: EventHandler
       isArray: true
+  - name: eventListeners
+    description: >-
+      Event listener settings for forwarding your client events to listeners.
+
+      Event listener is transparent to Web PubSub clients, and it doesn't return any result to clients nor interrupt the lifetime of clients.
+
+      One event can be sent to multiple listeners, as long as it matches the filters in those listeners. The order of the array elements doesn't matter.
+
+      Maximum count of event listeners among all hubs is 10.
+    types:
+    - uid: EventListener
+      isArray: true
   - name: anonymousConnectPolicy
     description: 'The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny".'
     types:
@@ -193,14 +205,14 @@ definitions:
     description: >-
       Gets or sets the matching pattern for event names.
 
-      There are 3 kind of patterns supported:
-          1. "*", it to matches any event name
+      There are 3 kinds of patterns supported:
+          1. "*", it matches any event name
           2. Combine multiple events with ",", for example "event1,event2", it matches event "event1" and "event2"
-          3. The single event name, for example, "event1", it matches "event1"
+          3. A single event name, for example, "event1", it matches "event1"
     types:
     - uid: string
   - name: systemEvents
-    description: Gets ot sets the list of system events.
+    description: Gets or sets the list of system events.
     types:
     - uid: string
       isArray: true
@@ -208,6 +220,20 @@ definitions:
     description: Upstream auth settings. If not set, no auth is used for upstream messages.
     types:
     - uid: UpstreamAuthSettings
+- name: EventListener
+  description: A setting defines which kinds of events should be sent to which endpoint.
+  kind: object
+  properties:
+  - name: filter
+    description: A base class for event filter which determines whether an event should be sent to an event listener.
+    types:
+    - uid: EventNameFilter
+    typesTitle: EventListenerFilter
+  - name: endpoint
+    description: An endpoint specifying where Web PubSub should send events to.
+    types:
+    - uid: EventHubEndpoint
+    typesTitle: EventListenerEndpoint
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -255,74 +281,57 @@ definitions:
       It also appears in the aud (audience) claim of the issued token.
     types:
     - uid: string
+- name: EventNameFilter
+  description: Filter events by their name.
+  kind: object
+  properties:
+  - name: systemEvents
+    description: 'Gets or sets a list of system events. Supported events: "connected" and "disconnected". Blocking event "connect" is not supported because it requires a response.'
+    types:
+    - uid: string
+      isArray: true
+  - name: userEventPattern
+    description: >-
+      Gets or sets a matching pattern for event names.
+
+      There are 3 kinds of patterns supported:
+          1. "*", it matches any event name
+          2. Combine multiple events with ",", for example "event1,event2", it matches events "event1" and "event2"
+          3. A single event name, for example, "event1", it matches "event1"
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: EventName
+    typesTitle: string
+- name: EventHubEndpoint
+  description: "An Event Hub endpoint. \r\nThe managed identity of Web PubSub service must be enabled, and the identity should have the \"Azure Event Hubs Data sender\" role to access Event Hub."
+  kind: object
+  properties:
+  - name: fullyQualifiedNamespace
+    description: The fully qualified namespace name of the Event Hub resource. For example, "example.servicebus.windows.net".
+    types:
+    - uid: string
+  - name: eventHubName
+    description: The name of the Event Hub.
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: EventHub
+    typesTitle: string
 examples:
 - name: WebPubSubHubs_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2022-08-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2021-10-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2022-08-01-preview
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for WebPubSubHubs Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubHubs_Get.json
-           */
-          /**
-           * Sample code: WebPubSubHubs_Get.
-           *
-           * @param manager Entry point to WebPubSubManager.
-           */
-          public static void webPubSubHubsGet(com.azure.resourcemanager.webpubsub.WebPubSubManager manager) {
-              manager.webPubSubHubs().getWithResponse("exampleHub", "myResourceGroup", "myWebPubSubService", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-webpubsub_1.0.0-beta.2/sdk/webpubsub/azure-resourcemanager-webpubsub/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armwebpubsub_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/webpubsub/armwebpubsub"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubHubs_Get.json
-      func ExampleHubsClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armwebpubsub.NewHubsClient("00000000-0000-0000-0000-000000000000", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx,
-      		"exampleHub",
-      		"myResourceGroup",
-      		"myWebPubSubService",
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fwebpubsub%2Farmwebpubsub%2Fv1.0.0/sdk/resourcemanager/webpubsub/armwebpubsub/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -343,7 +352,25 @@ examples:
                 }
               }
             }
-          ]
+          ],
+          "eventListeners": [
+            {
+              "filter": {
+                "type": "EventName",
+                "systemEvents": [
+                  "connected",
+                  "disconnected"
+                ],
+                "userEventPattern": "*"
+              },
+              "endpoint": {
+                "type": "EventHub",
+                "fullyQualifiedNamespace": "example.servicebus.windows.net",
+                "eventHubName": "eventHubName1"
+              }
+            }
+          ],
+          "anonymousConnectPolicy": "allow"
         },
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/hubs/exampleHub",
         "name": "exampleHub",

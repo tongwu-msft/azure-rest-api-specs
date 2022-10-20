@@ -1,16 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.webpubsub.controlplane.webpubsubsharedprivatelinkresources.createorupdate
+uid: management.azure.com.webpubsub.controlplane.webpubsubcustomdomains.createorupdate
 name: Create Or Update
 service: Azure Web PubSub Service
-groupName: Web Pub Sub Shared Private Link Resources
+groupName: Web Pub Sub Custom Domains
 apiVersion: 2022-08-01-preview
-summary: Create or update a shared private link resource
+summary: Create or update a custom domain.
 consumes:
 - application/json
+- text/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2022-08-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains/{name}?api-version=2022-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +31,10 @@ uriParameters:
   description: The name of the resource.
   types:
   - uid: string
-- name: sharedPrivateLinkResourceName
+- name: name
   in: path
   isRequired: true
-  description: The name of the shared private link resource
+  description: Custom domain name.
   types:
   - uid: string
 - name: api-version
@@ -43,14 +44,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK. The response indicates the shared private link resource is updated.
-  types:
-  - uid: SharedPrivateLinkResource
 - name: 201 Created
-  description: Created. The response indicates the shared private link resource is created.
+  description: Created. The response describes the custom domain and contains a Location header to query the operation result.
   types:
-  - uid: SharedPrivateLinkResource
+  - uid: CustomDomain
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -58,23 +55,18 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.groupId
+  - name: properties.domainName
     in: body
     isRequired: true
-    description: The group id from the provider of resource the shared private link resource is for
+    description: The custom domain name.
     types:
     - uid: string
-  - name: properties.privateLinkResourceId
+  - name: properties.customCertificate
     in: body
     isRequired: true
-    description: The resource id of the resource the shared private link resource is for
+    description: Reference to a resource.
     types:
-    - uid: string
-  - name: properties.requestMessage
-    in: body
-    description: The request message for requesting approval of the shared private link resource
-    types:
-    - uid: string
+    - uid: ResourceReference
 requestHeader: []
 definitions:
 - name: systemData
@@ -105,8 +97,16 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: SharedPrivateLinkResource
-  description: Describes a Shared Private Link Resource
+- name: ResourceReference
+  description: Reference to a resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CustomDomain
+  description: A custom domain
   kind: object
   properties:
   - name: systemData
@@ -114,28 +114,19 @@ definitions:
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
-  - name: properties.groupId
-    description: The group id from the provider of resource the shared private link resource is for
-    types:
-    - uid: string
-  - name: properties.privateLinkResourceId
-    description: The resource id of the resource the shared private link resource is for
-    types:
-    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
     types:
     - uid: ProvisioningState
-  - name: properties.requestMessage
-    description: The request message for requesting approval of the shared private link resource
+  - name: properties.domainName
+    description: The custom domain name.
     types:
     - uid: string
-  - name: properties.status
-    isReadyOnly: true
-    description: Status of the shared private link resource
+  - name: properties.customCertificate
+    description: Reference to a resource.
     types:
-    - uid: SharedPrivateLinkResourceStatus
+    - uid: ResourceReference
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -206,25 +197,6 @@ definitions:
   - name: Moving
     types:
     - uid: string
-- name: SharedPrivateLinkResourceStatus
-  description: Status of the shared private link resource
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
-  - name: Timeout
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -271,47 +243,35 @@ definitions:
     types:
     - uid: object
 examples:
-- name: WebPubSubSharedPrivateLinkResources_CreateOrUpdate
+- name: WebPubSubCustomDomains_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/sharedPrivateLinkResources/upstream?api-version=2022-08-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customDomains/myDomain?api-version=2022-08-01-preview
     body: >-
       {
         "properties": {
-          "groupId": "sites",
-          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
-          "requestMessage": "Please approve"
+          "domainName": "example.com",
+          "customCertificate": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert"
+          }
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/sharedPrivateLinkResources/upstream?api-version=2022-08-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customDomains/myDomain?api-version=2022-08-01-preview
 
       {
         "properties": {
-          "groupId": "sites",
-          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
-          "requestMessage": "Please approve"
+          "domainName": "example.com",
+          "customCertificate": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert"
+          }
         }
       }
 
       ```
 
   responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "properties": {
-          "groupId": "sites",
-          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
-          "provisioningState": "Succeeded",
-          "requestMessage": "Please approve",
-          "status": "Approved"
-        },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/privateEndpointConnections/upstream",
-        "name": "upstream",
-        "type": "Microsoft.SignalRService/WebPubSub/privateEndpointConnections"
-      }
   - statusCode: "201"
     headers:
     - name: Location
@@ -321,15 +281,14 @@ examples:
     body: >-
       {
         "properties": {
-          "groupId": "sites",
-          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
           "provisioningState": "Succeeded",
-          "requestMessage": "Please approve",
-          "status": "Approved"
+          "domainName": "example.com",
+          "customCertificate": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert"
+          }
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/privateEndpointConnections/upstream",
-        "name": "upstream",
-        "type": "Microsoft.SignalRService/WebPubSub/privateEndpointConnections"
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customDomains/myDomain",
+        "name": "myDomain"
       }
 security:
 - name: azure_auth
@@ -342,5 +301,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Azure Web PubSub Service service - Create or update a shared private link resource
+    Learn more about Azure Web PubSub Service service - Create or update a custom domain.
 errorCodes: []

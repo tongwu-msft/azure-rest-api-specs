@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.webpubsub.controlplane.webpubsubprivateendpointconnections.get
+uid: management.azure.com.webpubsub.controlplane.webpubsubcustomcertificates.get
 name: Get
 service: Azure Web PubSub Service
-groupName: Web Pub Sub Private Endpoint Connections
+groupName: Web Pub Sub Custom Certificates
 apiVersion: 2022-08-01-preview
-summary: Get the specified private endpoint connection
+summary: Get a custom certificate.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-08-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}?api-version=2022-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The name of the resource.
   types:
   - uid: string
-- name: privateEndpointConnectionName
+- name: certificateName
   in: path
   isRequired: true
-  description: The name of the private endpoint connection
+  description: Custom certificate name
   types:
   - uid: string
 - name: api-version
@@ -44,17 +44,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describes a private endpoint connection.
+  description: Success. The response describe the corresponding custom certificate.
   types:
-  - uid: PrivateEndpointConnection
+  - uid: CustomCertificate
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PrivateEndpointConnection
-  description: A private endpoint connection to an azure resource
+- name: CustomCertificate
+  description: A custom certificate.
   kind: object
   properties:
   - name: systemData
@@ -67,20 +67,18 @@ definitions:
     description: Provisioning state of the resource.
     types:
     - uid: ProvisioningState
-  - name: properties.privateEndpoint
-    description: Private endpoint
-    types:
-    - uid: PrivateEndpoint
-  - name: properties.groupIds
-    isReadyOnly: true
-    description: Group IDs
+  - name: properties.keyVaultBaseUri
+    description: Base uri of the KeyVault that stores certificate.
     types:
     - uid: string
-      isArray: true
-  - name: properties.privateLinkServiceConnectionState
-    description: Connection state of the private endpoint connection
+  - name: properties.keyVaultSecretName
+    description: Certificate secret name.
     types:
-    - uid: PrivateLinkServiceConnectionState
+    - uid: string
+  - name: properties.keyVaultSecretVersion
+    description: Certificate secret version.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -163,30 +161,6 @@ definitions:
   - name: Moving
     types:
     - uid: string
-- name: PrivateEndpoint
-  description: Private endpoint
-  kind: object
-  properties:
-  - name: id
-    description: Full qualified Id of the private endpoint
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: Connection state of the private endpoint connection
-  kind: object
-  properties:
-  - name: status
-    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-    types:
-    - uid: PrivateLinkServiceConnectionStatus
-  - name: description
-    description: The reason for approval/rejection of the connection.
-    types:
-    - uid: string
-  - name: actionsRequired
-    description: A message indicating if changes on the service provider require any updates on the consumer.
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -234,22 +208,6 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: PrivateLinkServiceConnectionStatus
-  description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -265,43 +223,28 @@ definitions:
     types:
     - uid: object
 examples:
-- name: WebPubSubPrivateEndpointConnections_Get
+- name: WebPubSubCustomCertificates_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/privateEndpointConnections/mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2022-08-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customCertificates/myCert?api-version=2022-08-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/privateEndpointConnections/mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2022-08-01-preview
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customCertificates/myCert?api-version=2022-08-01-preview
       ```
 
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "User",
-          "createdAt": "2015-02-03T04:05:06Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2015-02-03T04:05:06Z"
-        },
         "properties": {
           "provisioningState": "Succeeded",
-          "privateEndpoint": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint"
-          },
-          "groupIds": [
-            "webpubsub"
-          ],
-          "privateLinkServiceConnectionState": {
-            "status": "Approved",
-            "actionsRequired": "None"
-          }
+          "keyVaultBaseUri": "https://myvault.keyvault.azure.net/",
+          "keyVaultSecretName": "mycert",
+          "keyVaultSecretVersion": "bb6a44b2743f47f68dad0d6cc9756432"
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/privateEndpointConnections/mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
-        "name": "mywebpubsubservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
-        "type": "Microsoft.SignalRService/WebPubSub/privateEndpointConnections"
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert",
+        "name": "myCert",
+        "type": "Microsoft.SignalRService/WebPubSub/customCertificates"
       }
 security:
 - name: azure_auth
@@ -314,5 +257,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Azure Web PubSub Service service - Get the specified private endpoint connection
+    Learn more about Azure Web PubSub Service service - Get a custom certificate.
 errorCodes: []

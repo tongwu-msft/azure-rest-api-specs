@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.webpubsub.controlplane.webpubsubsharedprivatelinkresources.list
+uid: management.azure.com.webpubsub.controlplane.webpubsubcustomdomains.list
 name: List
 service: Azure Web PubSub Service
-groupName: Web Pub Sub Shared Private Link Resources
+groupName: Web Pub Sub Custom Domains
 apiVersion: 2022-08-01-preview
-summary: List shared private link resources
+summary: List all custom domains.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources?api-version=2022-08-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains?api-version=2022-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,26 +38,29 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describes a list of shared private link resources.
+  description: Success. The response describes custom domains of the resource.
   types:
-  - uid: SharedPrivateLinkResourceList
+  - uid: CustomDomainList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SharedPrivateLinkResourceList
-  description: A list of shared private link resources
+- name: CustomDomainList
+  description: Custom domains list
   kind: object
   properties:
   - name: value
-    description: The list of the shared private link resources
+    description: List of custom domains that bind to this resource.
     types:
-    - uid: SharedPrivateLinkResource
+    - uid: CustomDomain
       isArray: true
   - name: nextLink
-    description: Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size.
+    description: >-
+      The URL the client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
     types:
     - uid: string
 - name: ErrorResponse
@@ -68,8 +71,8 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: SharedPrivateLinkResource
-  description: Describes a Shared Private Link Resource
+- name: CustomDomain
+  description: A custom domain
   kind: object
   properties:
   - name: systemData
@@ -77,28 +80,19 @@ definitions:
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
-  - name: properties.groupId
-    description: The group id from the provider of resource the shared private link resource is for
-    types:
-    - uid: string
-  - name: properties.privateLinkResourceId
-    description: The resource id of the resource the shared private link resource is for
-    types:
-    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
     types:
     - uid: ProvisioningState
-  - name: properties.requestMessage
-    description: The request message for requesting approval of the shared private link resource
+  - name: properties.domainName
+    description: The custom domain name.
     types:
     - uid: string
-  - name: properties.status
-    isReadyOnly: true
-    description: Status of the shared private link resource
+  - name: properties.customCertificate
+    description: Reference to a resource.
     types:
-    - uid: SharedPrivateLinkResourceStatus
+    - uid: ResourceReference
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -204,23 +198,12 @@ definitions:
   - name: Moving
     types:
     - uid: string
-- name: SharedPrivateLinkResourceStatus
-  description: Status of the shared private link resource
-  kind: enum
+- name: ResourceReference
+  description: Reference to a resource.
+  kind: object
   properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
-  - name: Timeout
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -254,13 +237,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: WebPubSubSharedPrivateLinkResources_List
+- name: WebPubSubCustomDomains_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/sharedPrivateLinkResources?api-version=2022-08-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customDomains?api-version=2022-08-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/sharedPrivateLinkResources?api-version=2022-08-01-preview
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/customDomains?api-version=2022-08-01-preview
       ```
 
   responses:
@@ -270,15 +253,14 @@ examples:
         "value": [
           {
             "properties": {
-              "groupId": "sites",
-              "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
               "provisioningState": "Succeeded",
-              "requestMessage": "Please approve",
-              "status": "Approved"
+              "domainName": "example.com",
+              "customCertificate": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert"
+              }
             },
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/privateEndpointConnections/upstream",
-            "name": "upstream",
-            "type": "Microsoft.SignalRService/WebPubSub/privateEndpointConnections"
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customDomains/myDomain",
+            "name": "myDomain"
           }
         ]
       }
@@ -293,5 +275,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Azure Web PubSub Service service - List shared private link resources
+    Learn more about Azure Web PubSub Service service - List all custom domains.
 errorCodes: []
